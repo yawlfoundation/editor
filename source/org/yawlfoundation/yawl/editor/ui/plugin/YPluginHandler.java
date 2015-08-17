@@ -18,7 +18,8 @@
 
 package org.yawlfoundation.yawl.editor.ui.plugin;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jgraph.graph.VertexView;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.actions.YAWLBaseAction;
@@ -31,7 +32,10 @@ import org.yawlfoundation.yawl.editor.ui.swing.menu.YAWLMenuBar;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Set;
 
 
 /**
@@ -42,7 +46,7 @@ public class YPluginHandler {
 
     private Set<YEditorPlugin> plugins;
     private boolean loaded;
-    private Logger _log = Logger.getLogger(YPluginHandler.class);
+    private Logger _log = LogManager.getLogger(YPluginHandler.class);
 
     private static final YPluginHandler INSTANCE = new YPluginHandler();
 

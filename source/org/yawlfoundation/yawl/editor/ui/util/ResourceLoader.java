@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.util;
 
+import org.apache.logging.log4j.LogManager;
 import org.imgscalr.Scalr;
 
 import javax.imageio.ImageIO;
@@ -75,8 +76,9 @@ public class ResourceLoader {
             in.close();
             return new ImageIcon(imageByteBuffer);
         } catch (Exception e) {
-            LogWriter.warn("Unable to load icon from file: " + imageFile + ": " +
-                            e.getMessage());
+            LogManager.getLogger(ResourceLoader.class)
+                    .warn("Unable to load icon from file: " + imageFile + ": " +
+                    e.getMessage());
             return null;
         }
     }

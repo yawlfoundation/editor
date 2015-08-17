@@ -18,9 +18,9 @@
 
 package org.yawlfoundation.yawl.editor.ui.plugin;
 
+import org.apache.logging.log4j.LogManager;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.util.FileLocations;
-import org.yawlfoundation.yawl.editor.ui.util.LogWriter;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -63,7 +63,7 @@ public class YPluginLoader extends URLClassLoader {
             return plugins;
         }
         catch (IOException e) {
-            LogWriter.error("Error loading plugins: " + e);
+            LogManager.getLogger(this.getClass()).error("Error loading plugins: ", e);
             return Collections.emptySet();
         }
     }

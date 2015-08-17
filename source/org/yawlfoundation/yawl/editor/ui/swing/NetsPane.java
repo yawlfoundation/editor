@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.swing;
 
+import org.apache.logging.log4j.LogManager;
 import org.yawlfoundation.yawl.editor.core.controlflow.YControlFlowHandlerException;
 import org.yawlfoundation.yawl.editor.core.exception.IllegalIdentifierException;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraph;
@@ -29,7 +30,6 @@ import org.yawlfoundation.yawl.editor.ui.specification.FileOperations;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.Publisher;
 import org.yawlfoundation.yawl.editor.ui.swing.net.YAWLEditorNetPanel;
 import org.yawlfoundation.yawl.editor.ui.util.FileDrop;
-import org.yawlfoundation.yawl.editor.ui.util.LogWriter;
 import org.yawlfoundation.yawl.elements.YNet;
 
 import javax.swing.*;
@@ -246,7 +246,8 @@ public class NetsPane extends JTabbedPane implements ChangeListener {
                         if (fileName.endsWith(".yawl")) {
                             FileOperations.open(fileName);
                         }
-                        else LogWriter.warn("Invalid file format dragged onto editor");
+                        else LogManager.getLogger(this.getClass())
+                                .warn("Invalid file format dragged onto editor");
                     }
                 }
         });

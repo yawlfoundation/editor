@@ -18,6 +18,8 @@
 
 package org.yawlfoundation.yawl.editor.ui.specification.io;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.yawlfoundation.yawl.editor.core.YSpecificationHandler;
 import org.yawlfoundation.yawl.editor.core.layout.YLayout;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
@@ -27,7 +29,6 @@ import org.yawlfoundation.yawl.editor.ui.specification.validation.AnalysisResult
 import org.yawlfoundation.yawl.editor.ui.specification.validation.DataTypeValidator;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.SpecificationValidator;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.ValidationResultsParser;
-import org.yawlfoundation.yawl.editor.ui.util.LogWriter;
 import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
 import org.yawlfoundation.yawl.elements.YSpecification;
 
@@ -38,6 +39,7 @@ import java.util.List;
 public class SpecificationWriter extends SwingWorker<Boolean, Void> {
 
     private final YSpecificationHandler _handler = SpecificationModel.getHandler();
+    private final Logger _log = LogManager.getLogger(this.getClass());
 
     private String _fileName;
     private boolean _successful;
@@ -72,7 +74,7 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
                 showError("The attempt to save this specification to file failed.\n\n" +
                                 "Error message: " + msg + "\n ",
                         "Save File Error");
-                LogWriter.error("Error saving specification to file.", e);
+                _log.error("Error saving specification to file.", e);
             }
         }
         return _successful;
@@ -88,7 +90,7 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
             return _handler.getSpecificationXML();
         }
         catch (Exception e) {
-            LogWriter.error("Error marshalling specification to XML.", e);
+            _log.error("Error marshalling specification to XML.", e);
             return null;
         }
     }

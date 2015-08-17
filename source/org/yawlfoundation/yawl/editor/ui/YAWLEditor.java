@@ -217,7 +217,6 @@ public class YAWLEditor extends JFrame implements FileStateListener {
     private static void startLoading() {
         splashScreen = new YSplashScreen();
         splashScreen.init();
-        LogWriter.init(FileLocations.getHomeDir());
         YRepository.getInstance().setRepositoryDir(FileLocations.getRepositoryPath());
         IconList.getInstance().load();
     }

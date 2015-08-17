@@ -18,7 +18,8 @@
 
 package org.yawlfoundation.yawl.editor.ui.resourcing.panel;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.yawlfoundation.yawl.editor.core.resourcing.TaskResourceSet;
 import org.yawlfoundation.yawl.editor.core.resourcing.YResourceHandler;
 import org.yawlfoundation.yawl.editor.ui.resourcing.ResourceDialog;
@@ -47,7 +48,7 @@ public abstract class AbstractResourceTabContent extends JPanel {
         super();
         _net = net;
         _task = task;
-        _log = Logger.getLogger(this.getClass());
+        _log = LogManager.getLogger(this.getClass());
     }
 
 

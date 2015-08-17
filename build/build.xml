@@ -103,7 +103,7 @@
     <!--
         This set ensures only those engine libraries required are included
     -->
-	<fileset id="neededEngineDeps" dir="../${engine.lib.path}"
+	<fileset id="neededEngineDeps" dir="${engine.lib.path}"
 	    	 includes="commons-codec*.jar commons-lang*.jar dom4j*.jar jaxen*.jar
 	    	           jdom*.jar log4j*.jar saxon9*.jar xercesImpl.jar"
 	    	 excludes="saxon9-jdom.jar" />
@@ -113,13 +113,13 @@
 	-->
 	<fail message="Parent-relative Engine path ${engine.lib.jar.path} not found">
 		<condition>
-			<available file="${engine.lib.jar.path}" type="file" />
+			<not><available file="${engine.lib.jar.path}" type="file" /></not>
 		</condition>
 	</fail>
     
 	<fail message="Parent-relative Engine path ${engine.lib.path} not found">
 		<condition>
-			<available file="${engine.lib.path}" type="dir" />
+			<not><available file="${engine.lib.path}" type="dir" /></not>
 		</condition>
 	</fail>
 
@@ -131,7 +131,7 @@
              classname="org.yawlfoundation.yawl.editor.ui.util.CheckSumTask">
         <classpath>
             <pathelement path="${classes.dir}"/>
-            <pathelement path="../${engine.lib.jar.path}"/>
+            <pathelement path="${engine.lib.jar.path}"/>
         </classpath>
     </taskdef>
 
@@ -179,6 +179,7 @@
                 <exclude name="taskicons/**"/>
             </fileset>
         </copy>
+        <copy file="${build.dir}/log4j2.xml" toDir="${output.dir}/lib/"/>
 
         <adjust.build.version last.build.version="${build.number}"
                               property="this.build.number"/>
@@ -187,7 +188,7 @@
     	<manifestclasspath property="manifest.cp"
     					   jarfile="${output.dir}/${ui.jar.name}">
     		<classpath>
-    			<fileset dir="${output.dir}/lib" includes="*.jar" />
+    			<fileset dir="${output.dir}/lib" includes="*.jar log4j2.xml" />
     		</classpath>
     	</manifestclasspath>
         <manifest file="${manifestFile}">
@@ -475,7 +476,7 @@
     	<copy todir="${output.dir}/lib">
     		<fileset refid="editorOnlyDeps" />
     		<fileset refid="neededEngineDeps" />
-    		<fileset file="../${engine.lib.jar.path}" />
+    		<fileset file="${engine.lib.jar.path}" />
     	</copy>
     </target>
 
@@ -610,7 +611,7 @@
             <include name="${package.base.dir}/decobar/DecoratorToolbarPlugin.java"/>
             <include name="${package.base.dir}/worklet/WorkletRulesPlugin.java"/>
             <classpath>
-            	<pathelement location="../${engine.lib.jar.path}" />
+            	<pathelement location="${engine.lib.jar.path}" />
         		<fileset refid="editorOnlyDeps" />
             	<fileset refid="neededEngineDeps" />
             </classpath>

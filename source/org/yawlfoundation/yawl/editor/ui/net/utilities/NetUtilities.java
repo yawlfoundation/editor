@@ -18,13 +18,13 @@
 
 package org.yawlfoundation.yawl.editor.ui.net.utilities;
 
+import org.apache.logging.log4j.LogManager;
 import org.yawlfoundation.yawl.editor.core.controlflow.YCompoundFlow;
 import org.yawlfoundation.yawl.editor.ui.elements.model.*;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraph;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 import org.yawlfoundation.yawl.editor.ui.net.PrettyOutputStateManager;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
-import org.yawlfoundation.yawl.editor.ui.util.LogWriter;
 import org.yawlfoundation.yawl.editor.ui.util.ResourceLoader;
 import org.yawlfoundation.yawl.elements.YCondition;
 import org.yawlfoundation.yawl.elements.YFlow;
@@ -283,7 +283,7 @@ public final class NetUtilities {
             ImageIO.write(image, "png", new File(fullFileName));
         }
         catch (IOException ioe) {
-            LogWriter.error("Could not write image", ioe);
+            LogManager.getLogger(NetUtilities.class).error("Could not write image", ioe);
         }
     }
 

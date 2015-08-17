@@ -18,12 +18,12 @@
 
 package org.yawlfoundation.yawl.editor.ui.specification.validation;
 
+import org.apache.logging.log4j.LogManager;
 import org.yawlfoundation.yawl.analyser.YAnalyser;
 import org.yawlfoundation.yawl.analyser.YAnalyserOptions;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.swing.AnalysisDialog;
 import org.yawlfoundation.yawl.editor.ui.util.FileLocations;
-import org.yawlfoundation.yawl.editor.ui.util.LogWriter;
 import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
 import org.yawlfoundation.yawl.exceptions.YSyntaxException;
 import org.yawlfoundation.yawl.util.JDOMUtil;
@@ -68,7 +68,7 @@ public class AnalysisUtil {
         catch (Exception e) {
             messageDlg.setVisible(false);
             messageDlg.dispose();
-            LogWriter.error("Error analysing specification.", e);
+            LogManager.getLogger(AnalysisUtil.class).error("Error analysing specification.", e);
             _result = "<error>"+ JDOMUtil.encodeEscapes(e.getMessage()) +"</error>";
         }
         finally {

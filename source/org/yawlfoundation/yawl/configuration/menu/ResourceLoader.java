@@ -36,7 +36,7 @@
 
 package org.yawlfoundation.yawl.configuration.menu;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import javax.swing.*;
 import java.io.BufferedInputStream;
@@ -58,7 +58,7 @@ public class ResourceLoader {
             if (in != null) in.close();
             return new ImageIcon(imageByteBuffer);
         } catch (Exception e) {
-            Logger.getLogger(ResourceLoader.class).warn(
+            LogManager.getLogger(ResourceLoader.class).warn(
                     "Unable to load icon from file: " + path + ". " + e.getMessage());
             return null;
         }
