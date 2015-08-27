@@ -509,7 +509,7 @@
             <zipfileset dir="${output.dir}" includes="${ui.jar.name}"/>
    	  	    <zipfileset dir="${output.dir}/lib" prefix="lib"/>
             <zipfileset dir="${output.dir}/plugins" prefix="plugins"/>
-            <zipfileset dir="${manual.dir}" prefix="manual"/>
+            <!--<zipfileset dir="${manual.dir}" prefix="manual"/>-->
    		</zip>
         <copy file="${output.dir}/lib/checksums.xml" todir="${deploy.dir}"/>
         <copy file="${output.dir}/${release.zip}" todir="${deploy.dir}"/>

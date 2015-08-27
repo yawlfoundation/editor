@@ -37,19 +37,16 @@
 package org.yawlfoundation.yawl.worklet.dialog;
 
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.MiniToolBar;
-import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.rdr.RdrConclusion;
 import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
-import org.yawlfoundation.yawl.worklet.support.ConclusionValidator;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.CellEditorListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * @author Michael Adams
@@ -59,15 +56,13 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
 
     private ConclusionTable table;
     private MiniToolBar toolbar;
-    private JTextArea _txtStatus;
 
 
-    public ConclusionTablePanel(JComboBox cbxType, JTextArea statusArea) {
+    public ConclusionTablePanel(JComboBox cbxType, CellEditorListener listener) {
         super();
-        _txtStatus = statusArea;
         setLayout(new BorderLayout());
         setBorder(new TitledBorder("Actions"));
-        table = new ConclusionTable(cbxType);
+        table = new ConclusionTable(cbxType, listener);
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setSize(new Dimension(600, 200));
         add(scrollPane, BorderLayout.CENTER);
@@ -87,6 +82,11 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
     }
 
 
+    public void setVisuals(boolean isValid) {
+        table.setVisuals(isValid);
+    }
+
+
     public void actionPerformed(ActionEvent event) {
         String action = event.getActionCommand();
         if (action.equals("Add")) {
@@ -95,39 +95,6 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
         else if (action.equals("Del")) {
             table.removeRow();
         }
-        else if (action.equals("Validate")) {
-            validateConclusion();
-        }
-    }
-
-
-    private void validateConclusion() {
-        java.util.List<String> errors = new ConclusionValidator().validate(
-                table.getConclusion(), getWorkletList());
-        updateStatus("==== Action Set Validation ====");
-        if (errors.isEmpty()) {
-            updateStatus("OK");
-        }
-        else for (String msg : errors) {
-            updateStatus(msg);
-        }
-    }
-
-
-    private void updateStatus(String msg) {
-        String currentText = _txtStatus.getText();
-        if (! currentText.isEmpty()) currentText += '\n';
-        _txtStatus.setText(currentText + msg);
-    }
-
-
-    private java.util.List<String> getWorkletList() {
-        try {
-            return new WorkletClient().getWorkletList();
-        }
-        catch (IOException ioe) {
-            return Collections.emptyList();
-        }
     }
 
 
@@ -135,7 +102,6 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
         toolbar = new MiniToolBar(this);
         toolbar.addButton("plus", "Add", " Add ");
         toolbar.addButton("minus", "Del", " Remove ");
-        toolbar.addButton("validate", "Validate", " Validate ");
         return toolbar;
     }
 

@@ -73,6 +73,7 @@
 package org.yawlfoundation.yawl.worklet.dialog;
 
 import javax.swing.*;
+import javax.swing.event.CellEditorListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -89,8 +90,9 @@ public abstract class ExletCellEditor extends DefaultCellEditor implements Actio
     protected JComboBox _combo;
 
 
-    public ExletCellEditor() {
+    public ExletCellEditor(CellEditorListener listener) {
         super(new JTextField());
+        addCellEditorListener(listener);
         setClickCountToStart(1);
     }
 
@@ -102,6 +104,11 @@ public abstract class ExletCellEditor extends DefaultCellEditor implements Actio
 
     public void actionPerformed(ActionEvent actionEvent) {
         fireEditingStopped();
+    }
+
+
+    public boolean stopCellEditing() {
+        return super.stopCellEditing();
     }
 
 
@@ -125,9 +132,13 @@ public abstract class ExletCellEditor extends DefaultCellEditor implements Actio
         });
 
         combo.setRenderer(new ListCellRenderer() {
+            DefaultListCellRenderer renderer = new DefaultListCellRenderer();
+
             public Component getListCellRendererComponent(JList jList, Object o,
                                                           int i, boolean b, boolean b1) {
-                return new JLabel(o.toString());
+                JLabel label = (JLabel) renderer.getListCellRendererComponent(jList, o, i, b, b1);
+                label.setText(o.toString());
+                return label;
             }
         });
 

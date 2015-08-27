@@ -67,7 +67,7 @@ public class SettingsPanel extends JPanel {
                 testClient.disconnect();
             }
             else {
-                _testReply.setText("Failed to connect to YAWL Engine with the " +
+                _testReply.setText("Failed to connect to Worklet Service with the " +
                         "parameters provided");
             }
 

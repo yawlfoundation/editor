@@ -24,6 +24,8 @@ import org.yawlfoundation.yawl.editor.ui.swing.JSingleSelectTable;
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 /**
@@ -38,6 +40,7 @@ public class DataContextTable extends JSingleSelectTable {
         setRowHeight(getRowHeight() + 5);
         setRowSelectionAllowed(true);
         setFillsViewportHeight(true);            // to allow drops on empty table
+        disableMoveOnEnter();
     }
 
 
@@ -72,4 +75,14 @@ public class DataContextTable extends JSingleSelectTable {
     }
 
 
+    private void disableMoveOnEnter() {
+        getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "Enter");
+        getActionMap().put("Enter", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                getCellEditor().stopCellEditing();
+            }
+        });
+    }
 }

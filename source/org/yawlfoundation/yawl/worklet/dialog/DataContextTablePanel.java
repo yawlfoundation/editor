@@ -24,8 +24,10 @@ import org.yawlfoundation.yawl.util.XNode;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.CellEditorListener;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.util.EventListener;
 
 /**
  * @author Michael Adams
@@ -36,7 +38,7 @@ public class DataContextTablePanel extends JPanel {
     private DataContextTable table;
 
 
-    public DataContextTablePanel(ListSelectionListener listener) {
+    public DataContextTablePanel(EventListener listener) {
         super();
         setLayout(new BorderLayout());
         setBorder(new TitledBorder("Data Context"));
@@ -58,6 +60,11 @@ public class DataContextTablePanel extends JPanel {
     }
 
 
+    public VariableRow getSelectedVariable() {
+        return table.getSelectedVariable();
+    }
+
+
     public Element getDataElement(String rootName) {
         XNode root = new XNode(rootName);
         for (VariableRow row : table.getTableModel().getVariables()) {
@@ -67,10 +74,11 @@ public class DataContextTablePanel extends JPanel {
     }
 
 
-    private DataContextTable createTable(ListSelectionListener listener) {
+    private DataContextTable createTable(EventListener listener) {
         table = new DataContextTable();
-        table.setDefaultEditor(String.class, new DataContextValueEditor());
-        table.getSelectionModel().addListSelectionListener(listener);
+        table.setDefaultEditor(String.class,
+                new DataContextValueEditor((CellEditorListener) listener));
+        table.getSelectionModel().addListSelectionListener((ListSelectionListener) listener);
         return table;
     }
 

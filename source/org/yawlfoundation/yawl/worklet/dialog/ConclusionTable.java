@@ -42,7 +42,9 @@ import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
 
 import javax.swing.*;
+import javax.swing.event.CellEditorListener;
 import javax.swing.table.TableColumn;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -53,7 +55,7 @@ public class ConclusionTable extends JSingleSelectTable {
 
     JComboBox _cbxType;  // reference to type combo - affects cell rendering
 
-    public ConclusionTable(JComboBox cbxType) {
+    public ConclusionTable(JComboBox cbxType, CellEditorListener listener) {
         super();
         _cbxType = cbxType;
         setModel(new ConclusionTableModel());
@@ -62,8 +64,8 @@ public class ConclusionTable extends JSingleSelectTable {
         setRowSelectionAllowed(true);
         setColumnSelectionAllowed(true);
         setFillsViewportHeight(true);            // to allow drops on empty table
-        getColumnModel().getColumn(1).setCellEditor(new ExletActionCellEditor());
-        getColumnModel().getColumn(2).setCellEditor(new ExletTargetCellEditor());
+        getColumnModel().getColumn(1).setCellEditor(new ExletActionCellEditor(listener));
+        getColumnModel().getColumn(2).setCellEditor(new ExletTargetCellEditor(listener));
         fixSelectorColumn();
     }
 
@@ -89,6 +91,12 @@ public class ConclusionTable extends JSingleSelectTable {
 
     public RuleType getSelectedRuleType() {
         return (RuleType) _cbxType.getSelectedItem();
+    }
+
+
+    public void setVisuals(boolean isValid) {
+        Color bg = isValid ? Color.WHITE : Color.PINK;
+        setBackground(bg);
     }
 
 

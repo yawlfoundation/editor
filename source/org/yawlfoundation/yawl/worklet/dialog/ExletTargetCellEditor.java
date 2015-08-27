@@ -42,8 +42,10 @@ import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.worklet.exception.ExletAction;
 import org.yawlfoundation.yawl.worklet.exception.ExletTarget;
 import org.yawlfoundation.yawl.worklet.model.WorkletListModel;
+import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
 
 import javax.swing.*;
+import javax.swing.event.CellEditorListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Vector;
@@ -58,7 +60,9 @@ public class ExletTargetCellEditor extends ExletCellEditor {
     private final JLabel _lblInvalid = new JLabel("invalid");
     private ExletAction _currentAction;
 
-    public ExletTargetCellEditor() { super(); }
+    public ExletTargetCellEditor(CellEditorListener listener) {
+        super(listener);
+    }
 
 
     public Object getCellEditorValue() {
@@ -112,7 +116,8 @@ public class ExletTargetCellEditor extends ExletCellEditor {
 
 
     private ExletAction getSelectedAction(JTable table) {
-        return ((ConclusionTable) table).getSelectedPrimitive().getExletAction();
+        RdrPrimitive primitive = ((ConclusionTable) table).getSelectedPrimitive();
+        return primitive != null ? primitive.getExletAction() : ExletAction.Invalid;
     }
 
 

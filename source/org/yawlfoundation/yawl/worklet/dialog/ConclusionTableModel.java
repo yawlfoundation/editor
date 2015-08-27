@@ -51,7 +51,7 @@ import java.util.List;
  */
 public class ConclusionTableModel extends AbstractTableModel {
 
-    private List<RdrPrimitive> _primitives;
+    private List<RdrPrimitive> _primitives = new ArrayList<RdrPrimitive>();
 
 
     private static final String[] COLUMN_LABELS = { "", "Action", "Target" };
@@ -59,12 +59,16 @@ public class ConclusionTableModel extends AbstractTableModel {
 
     public ConclusionTableModel() {
         super();
-        _primitives = new ArrayList<RdrPrimitive>();
     }
 
 
     public void setConclusion(List<RdrPrimitive> primitives) {
-        _primitives = primitives;
+        if (primitives != null) {
+            _primitives = primitives;
+        }
+        else {
+            _primitives.clear();
+        }
         fireTableDataChanged();
     }
 

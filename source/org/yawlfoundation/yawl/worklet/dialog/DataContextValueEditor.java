@@ -28,6 +28,7 @@ import org.yawlfoundation.yawl.util.StringUtil;
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.swing.event.CellEditorListener;
 import javax.swing.table.TableCellEditor;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -44,9 +45,10 @@ public class DataContextValueEditor extends AbstractCellEditor
     private final ValueField _valuePanel;
 
 
-    public DataContextValueEditor() {
+    public DataContextValueEditor(CellEditorListener listener) {
         super();
         _valuePanel = new ValueField(this, this);
+        addCellEditorListener(listener);
     }
 
     public Object getCellEditorValue() {

@@ -58,6 +58,7 @@ import org.yawlfoundation.yawl.worklet.exception.ExletAction;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
 
 import javax.swing.*;
+import javax.swing.event.CellEditorListener;
 import java.awt.*;
 import java.util.Collections;
 import java.util.Comparator;
@@ -69,7 +70,9 @@ import java.util.Vector;
  */
 public class ExletActionCellEditor extends ExletCellEditor {
 
-    public ExletActionCellEditor() { super(); }
+    public ExletActionCellEditor(CellEditorListener listener) {
+        super(listener);
+    }
 
 
     public Component getTableCellEditorComponent(JTable table, Object value,

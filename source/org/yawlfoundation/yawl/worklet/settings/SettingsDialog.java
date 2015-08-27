@@ -39,11 +39,11 @@ public class SettingsDialog extends JDialog implements ActionListener {
         setTitle("Worklet Service Connection Settings");
         setModal(true);
         setResizable(false);
-        setLocationByPlatform(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         add(getContent());
         setPreferredSize(new Dimension(520, 255));
         pack();
+        setLocationRelativeTo(YAWLEditor.getInstance());
     }
 
 

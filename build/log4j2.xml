@@ -12,7 +12,7 @@
         </File>
     </Appenders>
     <Loggers>
-        <Logger name="org.yawlfoundation.yawl" level="WARN">
+        <Logger name="org.yawlfoundation.yawl" level="WARN" additivity="false">
             <AppenderRef ref="FILE_YAWL"/>
             <AppenderRef ref="STDOUT"/>
         </Logger>

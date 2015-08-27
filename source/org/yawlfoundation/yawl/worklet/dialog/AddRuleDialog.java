@@ -18,7 +18,9 @@
 
 package org.yawlfoundation.yawl.worklet.dialog;
 
+import org.jdom2.Element;
 import org.yawlfoundation.yawl.editor.core.YConnector;
+import org.yawlfoundation.yawl.editor.core.controlflow.YControlFlowHandlerException;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.elements.model.AtomicTask;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLAtomicTask;
@@ -33,21 +35,22 @@ import org.yawlfoundation.yawl.elements.YNet;
 import org.yawlfoundation.yawl.elements.data.YParameter;
 import org.yawlfoundation.yawl.elements.data.YVariable;
 import org.yawlfoundation.yawl.engine.YSpecificationID;
+import org.yawlfoundation.yawl.schema.XSDType;
 import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
+import org.yawlfoundation.yawl.worklet.support.ConclusionValidator;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,7 +61,7 @@ import java.util.Vector;
  * @date 29/09/2014
  */
 public class AddRuleDialog extends JDialog
-        implements ActionListener, ItemListener, ListSelectionListener {
+        implements ActionListener, ItemListener, ListSelectionListener, CellEditorListener {
 
     private JButton _btnAdd;
     private JButton _btnClose;
@@ -77,12 +80,12 @@ public class AddRuleDialog extends JDialog
         setTitle("Add Worklet Rule for Specification: " +
                 SpecificationModel.getHandler().getID());
         setModal(true);
-        setLocationByPlatform(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         add(getContent(task));
         setPreferredSize(new Dimension(800, 540));
         setMinimumSize(new Dimension(800, 540));
         pack();
+        setLocationRelativeTo(YAWLEditor.getInstance());
     }
 
 
@@ -90,6 +93,9 @@ public class AddRuleDialog extends JDialog
         String cmd = event.getActionCommand();
         if (cmd.equals("Cancel")) {
             setVisible(false);
+        }
+        else if (cmd.equals("Clear")) {
+            clearInputs();
         }
         else if (cmd.equals("Add Rule")) {
             addRule();
@@ -101,44 +107,59 @@ public class AddRuleDialog extends JDialog
     }
 
 
+    // combo selection
     public void itemStateChanged(ItemEvent event) {
         if (event.getStateChange() == ItemEvent.SELECTED) {
+            java.util.List<VariableRow> variables = null;
             Object item = event.getItem();
 
             // if rule change
             if (item instanceof RuleType) {
                 RuleType selectedType = (RuleType) item;
                 enabledTaskCombo(selectedType);
+
                 if (selectedType.isCaseLevelType()) {
-                    _dataContextPanel.setVariables(getDataContext(null));
+                    variables = getDataContext(null);  // net level vars
                 }
-                _cbxTask.setEnabled(! selectedType.isCaseLevelType());
+                else {
+                    AtomicTask task = (AtomicTask) _cbxTask.getSelectedItem();
+                    if (task != null) {
+                        variables = getDataContext(task);
+                    }
+                }
+                updateStatus("Rule Type selection changed.");
             }
             else {    // task combo
-                _dataContextPanel.setVariables(getDataContext((AtomicTask) item));
+                variables = getDataContext((AtomicTask) item);
+                updateStatus("Task selection changed.");
             }
+            _dataContextPanel.setVariables(variables);
+            clearInputs();
         }
     }
 
 
-    // table selection
+    // data table selection
     public void valueChanged(ListSelectionEvent event) {
         if (! event.getValueIsAdjusting()) {
-            ListSelectionModel lsm = (ListSelectionModel) event.getSource();
-            VariableRow row = _dataContextPanel.getVariableAtRow(lsm.getMinSelectionIndex());
-            if (row != null) {
-                String condition = row.getName();
-                String value = row.getValue();
-                if (value != null) {
-                    if (row.getDataType().equals("string")) {
-                        value = "\"" + value + "\"";
-                    }
-                    condition += " = " + value;
-                }
-                _txtCondition.setText(condition);
-            }
+            updateCondition(_dataContextPanel.getSelectedVariable());
         }
     }
+
+
+    // data table value edit
+    public void editingStopped(ChangeEvent e) {
+        if (e.getSource() instanceof ExletCellEditor) {
+            validateConclusion();
+        }
+        else {
+            updateCondition(_dataContextPanel.getSelectedVariable());
+        }
+    }
+
+
+    // data table value edit cancel
+    public void editingCanceled(ChangeEvent e) { }
 
 
     private JPanel getContent(AtomicTask task) {
@@ -192,9 +213,9 @@ public class AddRuleDialog extends JDialog
         JPanel panel = new JPanel(new SpringLayout());
         _cbxTask = getTaskCombo(task);
         _cbxType = getTypeCombo();
-        _txtCondition = new JTextField();
         addContent(panel, "Rule Type:", _cbxType);
         _cbxTaskPrompt = addContent(panel, "Task:", _cbxTask);
+        _txtCondition = getConditionField();
         addContent(panel, "Condition:", _txtCondition);
         SpringUtil.makeCompactGrid(panel, 3, 2, 6, 6, 8, 8);
 
@@ -204,6 +225,7 @@ public class AddRuleDialog extends JDialog
 
         return panel;
     }
+
 
     private JLabel addContent(JPanel panel, String prompt, Component c) {
         JLabel label = new JLabel(prompt, JLabel.LEADING);
@@ -220,9 +242,14 @@ public class AddRuleDialog extends JDialog
         JComboBox combo = new JComboBox(RuleType.values());
 
         combo.setRenderer(new ListCellRenderer() {
+            protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
+
             public Component getListCellRendererComponent(JList jList, Object o,
                                                           int i, boolean b, boolean b1) {
-                return new JLabel(((RuleType) o).toLongString());
+                JLabel label = (JLabel) defaultRenderer.getListCellRendererComponent(
+                        jList, o, i, b, b1);
+                label.setText(((RuleType) o).toLongString());
+                return label;
             }
         });
 
@@ -241,9 +268,14 @@ public class AddRuleDialog extends JDialog
         JComboBox combo = new JComboBox(taskVector);
 
         combo.setRenderer(new ListCellRenderer() {
+            protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
+
             public Component getListCellRendererComponent(JList jList, Object o,
                                                           int i, boolean b, boolean b1) {
-                return new JLabel(((YAWLAtomicTask) o).getLabel());
+                JLabel label = (JLabel) defaultRenderer.getListCellRendererComponent(
+                        jList, o, i, b, b1);
+                label.setText(o != null ? ((YAWLAtomicTask) o).getLabel() : null);
+                return label;
             }
         });
 
@@ -255,6 +287,20 @@ public class AddRuleDialog extends JDialog
         return combo;
     }
 
+
+    private JTextField getConditionField() {
+        final JTextField field = new JTextField();
+        field.setInputVerifier(new ConditionVerifier(this));
+        field.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+                field.setBackground(Color.WHITE);
+                field.setToolTipText(null);
+            }
+        });
+        return field;
+    }
 
     private JPanel getDescriptionPanel() {
         JPanel panel = new JPanel(new BorderLayout());
@@ -269,7 +315,7 @@ public class AddRuleDialog extends JDialog
 
 
     private JPanel getConclusionPanel() {
-        _conclusionPanel = new ConclusionTablePanel(_cbxType, _txtStatus);
+        _conclusionPanel = new ConclusionTablePanel(_cbxType, this);
         return _conclusionPanel;
     }
 
@@ -278,6 +324,7 @@ public class AddRuleDialog extends JDialog
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(5,5,10,5));
         panel.add(createButton("Cancel", listener));
+        panel.add(createButton("Clear", listener));
         _btnAdd = createButton("Add Rule", listener);
         _btnAdd.setEnabled(false);
         panel.add(_btnAdd);
@@ -344,16 +391,89 @@ public class AddRuleDialog extends JDialog
     }
 
 
+    protected Element getDataElement() {
+        YSpecificationID specID = SpecificationModel.getHandler()
+                .getSpecification().getSpecificationID();
+        RuleType rule = (RuleType) _cbxType.getSelectedItem();
+        String taskID = rule.isItemLevelType() ?
+                ((AtomicTask) _cbxTask.getSelectedItem()).getID() : null;
+        return getDataElement(specID, rule, taskID);
+    }
+
+
+    protected Element getDataElement(YSpecificationID specID, RuleType rule, String taskID) {
+        String dataRootName = rule.isCaseLevelType() ? specID.getUri() : taskID;
+        return getDataElement(dataRootName);
+    }
+
+
+    protected Element getDataElement(String dataRootName) {
+        return _dataContextPanel.getDataElement(dataRootName);
+    }
+
+
+    private void updateCondition(VariableRow row) {
+        if (row != null) {
+            String condition = row.getName();
+            String value = row.getValue();
+            String dataType = row.getDataType();
+            if (value == null) {
+                if (XSDType.isNumericType(dataType)) value = "0";
+                else if (XSDType.isBooleanType(dataType)) value = "false";
+                else value = "";
+            }
+            if (dataType.equals("string")) {
+                value = "\"" + value + "\"";
+            }
+            condition += " = " + value;
+
+            _txtCondition.setText(condition);
+            _txtCondition.getInputVerifier().verify(_txtCondition);
+
+            if (row.isValidValue()) {
+                updateStatus("Variable '" + row.getName() + "' has valid value.");
+            }
+            else {
+                updateStatus("Variable '" + row.getName() +
+                        "' has invalid value for value type.");
+            }
+        }
+    }
+
+
+    private void validateConclusion() {
+        java.util.List<String> errors = new ConclusionValidator().validate(
+                _conclusionPanel.getConclusion(), getWorkletList());
+        updateStatus("==== Action Set Validation ====");
+        if (errors.isEmpty()) {
+            updateStatus("OK");
+        }
+        else for (String msg : errors) {
+            updateStatus(msg);
+        }
+        _conclusionPanel.setVisuals(errors.isEmpty());
+    }
+
+
+    private java.util.List<String> getWorkletList() {
+        try {
+            return new WorkletClient().getWorkletList();
+        }
+        catch (IOException ioe) {
+            return Collections.emptyList();
+        }
+    }
+
+
     private void addRule() {
         YSpecificationID specID = SpecificationModel.getHandler()
                 .getSpecification().getSpecificationID();
         RuleType rule = (RuleType) _cbxType.getSelectedItem();
         String taskID = rule.isItemLevelType() ?
                 ((AtomicTask) _cbxTask.getSelectedItem()).getID() : null;
-        String dataRootName = rule.isCaseLevelType() ? specID.getUri() : taskID;
         RdrNode node = new RdrNode(_txtCondition.getText(),
                 _conclusionPanel.getConclusion(),
-                _dataContextPanel.getDataElement(dataRootName));
+                getDataElement(specID, rule, taskID));
 
         WorkletClient client = new WorkletClient();
         try {
@@ -372,12 +492,20 @@ public class AddRuleDialog extends JDialog
             YAWLServiceReference service = getServiceReference();
             if (service != null) {
                 AtomicTask task = (AtomicTask) _cbxTask.getSelectedItem();
-                YDecomposition decomposition = task.getDecomposition();
+                YDecomposition decomposition = getOrCreateDecomposition(task);
                 if (decomposition != null) {
                     ((YAWLServiceGateway) decomposition).setYawlService(service);
                 }
             }
         }
+        clearInputs();
+    }
+
+
+    private void clearInputs() {
+        _txtCondition.setText(null);
+        _txtDescription.setText(null);
+        _conclusionPanel.setConclusion(null);
     }
 
 
@@ -390,6 +518,23 @@ public class AddRuleDialog extends JDialog
         }
         return null;
     }
+
+
+    private YDecomposition getOrCreateDecomposition(AtomicTask task) {
+        YDecomposition decomposition = task.getDecomposition();
+        if (decomposition == null) {
+            try {
+                decomposition = SpecificationModel.getHandler()
+                        .getControlFlowHandler().addTaskDecomposition(task.getName());
+                task.setDecomposition(decomposition);
+            }
+            catch (YControlFlowHandlerException ycfhe) {
+                //
+            }
+        }
+        return decomposition;
+    }
+
 
     private void reportError(String msg) {
         updateStatus("========== ERROR ==========");
@@ -406,7 +551,7 @@ public class AddRuleDialog extends JDialog
 
 
 
-    private void updateStatus(String msg) {
+    public void updateStatus(String msg) {
         String currentText = _txtStatus.getText();
         if (! currentText.isEmpty()) currentText += '\n';
         _txtStatus.setText(currentText + msg);
