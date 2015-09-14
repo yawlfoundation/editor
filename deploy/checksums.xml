@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
+<release>
+	<version>3.0.1</version>
+	<build>599</build>
+	<timestamp>2015-09-14 12.12.00</timestamp>
+	<files>
+		<file name="lib/automaton.jar" md5="c51399ee94634d6590e1ddb6ae253238" size="176313" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/commons-codec-1.9.jar" md5="75615356605c8128013da9e3ac62a249" size="263965" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/commons-lang-2.3.jar" md5="dcdcbb47176603907c9f79a1349193eb" size="245274" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/dom4j-1.6.1.jar" md5="4d8f51d3fe3900efc6e395be48030d6d" size="313898" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/forms_rt.jar" md5="51287d246b3465464180499e40f1dfee" size="328197" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/imgscalr-lib-4.2.jar" md5="9e6ea4327c2cb18de908255e3cb1cca6" size="226824" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/jaxen-1.1.6.jar" md5="a140517286b56eea981e188dcc3a13f6" size="231882" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/jcalendar-1.4.jar" md5="0a0863943cf89741c7a0c2721027446d" size="165052" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/jdom-2.0.5.jar" md5="302db3c65c38d3c10ef31bca76bd76b4" size="299658" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/jdom.jar" md5="adf67fc5dcf48e1593640ad7e02f6ad4" size="153115" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/jgoodies-common-1.8.1.jar" md5="7e6bc1cd169e4f78d9529af34a876f00" size="37807" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/jgoodies-looks-2.7.0.jar" md5="f6f746ee51c49a2d91e30bdfc8043443" size="400791" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/jgraph4yawl-3.0.1.jar" md5="4ae626c41fca2188c5172f63d18639b2" size="240850" timestamp="2015-08-18T18:45:08"/>
+		<file name="lib/l2fprod-common-all.jar" md5="1be2480cc16abf1d26f2c8d8fe63e270" size="457525" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/log4j-1.2-api-2.3.jar" md5="97f562c4f299dc5f5f72e66ded465416" size="36875" timestamp="2015-08-25T16:58:07"/>
+		<file name="lib/log4j-api-2.3.jar" md5="94241ab3197b95a813d896820b3f6a87" size="135903" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/log4j-core-2.3.jar" md5="110ab3e3e4f3780921e8ee5dde3373ad" size="827024" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/log4j-slf4j-impl-2.3.jar" md5="c5507f66db2c18b090b4ae2e8338244b" size="22544" timestamp="2015-08-25T16:58:07"/>
+		<file name="lib/macify-1.4.jar" md5="0e25f516b113033b2da4591161f1e117" size="11684" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/saxon9-dom.jar" md5="43b292289250700524ddd21d82e23f79" size="126167" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/saxon9-s9api.jar" md5="a6547f2d9f839978cf4c9c92ed01cf9f" size="127765" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/saxon9.jar" md5="cfb820253feef53ab606601b6435870c" size="5024396" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/servlet-api.jar" md5="8b0753b8fa779bc80c3f8db57b8b6372" size="88224" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/xercesImpl.jar" md5="da09b75b562ca9a8e9a535d2148be8e4" size="1229289" timestamp="2015-08-13T13:38:33"/>
+		<file name="lib/xmleditorkit.jar" md5="3d08ad29e38824929c5101bc61ce8816" size="72326" timestamp="2015-08-18T18:45:08"/>
+		<file name="lib/yawl-lib-3.0.1.jar" md5="9e6cb91a64c3387f9cfecc1b2df5749d" size="2476451" timestamp="2015-09-14T12:11:43"/>
+		<file name="lib/YAWLEditor-analyser-3.0.1.jar" md5="15cb6293727417e78c57d86b952797af" size="81647" timestamp="2015-08-18T18:45:07"/>
+		<file name="lib/YAWLEditor-core-3.0.1.jar" md5="8b1c4a8ffe82cabdea5b60eb0b36af69" size="176169" timestamp="2015-08-18T18:45:08"/>
+		<file name="lib/YAWLEditor-icons.jar" md5="79e9718b2713b9c70fb2bfd60dddcdfc" size="363754" timestamp="2015-08-18T18:45:08"/>
+		<file name="plugins/YAWLEditor-configuration-3.0.1.jar" md5="148962e7bdbb92f4f12472f700206f68" size="162868" timestamp="2015-08-18T18:45:13"/>
+		<file name="plugins/YAWLEditor-decobar-3.0.1.jar" md5="882afa9f04bf4c42a9b08a7592927542" size="25583" timestamp="2015-08-18T18:45:13"/>
+		<file name="YAWLEditor3.0.1.jar" md5="475c76f31bd6cd32216f3ce09b94ffe9" size="1440697" timestamp="2015-09-14T12:12:00"/>
+	</files>
+	<cleanup>
+		<file name="lib/jdom.jar"/>
+		<file name="lib/jgoodies-common-1.6.0.jar"/>
+		<file name="lib/jgoodies-looks-2.5.3.jar"/>
+		<file name="lib/jgraph4yawl-3.0.jar"/>
+		<file name="lib/log4j-1.2.16.jar"/>
+		<file name="lib/yawl-lib-3.0.jar"/>
+		<file name="lib/YAWLEditor-analyser-3.0.jar"/>
+		<file name="lib/YAWLEditor-core-3.0.jar"/>
+		<file name="plugins/YAWLEditor-configuration-3.0.jar"/>
+		<file name="plugins/YAWLEditor-decobar-3.0.jar"/>
+		<file name="YAWLEditor3.0.jar"/>
+	</cleanup>
+</release>

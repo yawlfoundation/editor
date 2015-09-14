@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
+<release>
+	<version>3.0.1</version>
+	<build>596</build>
+	<timestamp>2015-09-14 12.12.00</timestamp>
+	<files>
+		<file name="lib/automaton.jar" md5="c51399ee94634d6590e1ddb6ae253238" size="176313" timestamp="2014-08-27T11:47:34"/>
+		<file name="lib/commons-codec-1.9.jar" md5="75615356605c8128013da9e3ac62a249" size="263965" timestamp="2014-08-27T11:47:34"/>
+		<file name="lib/commons-lang-2.3.jar" md5="dcdcbb47176603907c9f79a1349193eb" size="245274" timestamp="2014-08-27T11:47:34"/>
+		<file name="lib/dom4j-1.6.1.jar" md5="4d8f51d3fe3900efc6e395be48030d6d" size="313898" timestamp="2014-08-27T11:47:34"/>
+		<file name="lib/forms_rt.jar" md5="51287d246b3465464180499e40f1dfee" size="328197" timestamp="2014-08-27T11:47:34"/>
+		<file name="lib/imgscalr-lib-4.2.jar" md5="9e6ea4327c2cb18de908255e3cb1cca6" size="226824" timestamp="2014-08-27T11:47:34"/>
+		<file name="lib/jaxen-1.1.6.jar" md5="a140517286b56eea981e188dcc3a13f6" size="231882" timestamp="2014-08-27T11:47:34"/>
+		<file name="lib/jcalendar-1.4.jar" md5="0a0863943cf89741c7a0c2721027446d" size="165052" timestamp="2014-08-27T11:47:34"/>
+		<file name="lib/jdom-2.0.5.jar" md5="302db3c65c38d3c10ef31bca76bd76b4" size="299658" timestamp="2014-08-27T11:47:34"/>
+		<file name="lib/jgoodies-common-1.8.1.jar" md5="7e6bc1cd169e4f78d9529af34a876f00" size="37807" timestamp="2015-03-20T13:18:09"/>
+		<file name="lib/jgoodies-looks-2.7.0.jar" md5="f6f746ee51c49a2d91e30bdfc8043443" size="400791" timestamp="2015-03-20T13:18:09"/>
+		<file name="lib/jgraph4yawl-3.0.1.jar" md5="02866b7920bc9f55a1c49b736f897a0b" size="238043" timestamp="2015-03-19T10:41:20"/>
+		<file name="lib/l2fprod-common-all.jar" md5="1be2480cc16abf1d26f2c8d8fe63e270" size="457525" timestamp="2014-08-27T11:47:34"/>
+		<file name="lib/log4j-1.2.16.jar" md5="4a11e911b2403bb6c6cf5e746497fe7a" size="481534" timestamp="2014-08-27T11:47:34"/>
+		<file name="lib/macify-1.4.jar" md5="0e25f516b113033b2da4591161f1e117" size="11684" timestamp="2014-08-27T11:47:34"/>
+		<file name="lib/saxon9-dom.jar" md5="43b292289250700524ddd21d82e23f79" size="126167" timestamp="2014-08-27T11:47:34"/>
+		<file name="lib/saxon9-s9api.jar" md5="a6547f2d9f839978cf4c9c92ed01cf9f" size="127765" timestamp="2014-08-27T11:47:34"/>
+		<file name="lib/saxon9.jar" md5="cfb820253feef53ab606601b6435870c" size="5024396" timestamp="2014-08-27T11:47:35"/>
+		<file name="lib/servlet-api.jar" md5="8b0753b8fa779bc80c3f8db57b8b6372" size="88224" timestamp="2014-08-27T11:47:34"/>
+		<file name="lib/xercesImpl.jar" md5="da09b75b562ca9a8e9a535d2148be8e4" size="1229289" timestamp="2014-08-27T11:47:35"/>
+		<file name="lib/xmleditorkit.jar" md5="4db2c7b7cddbff3146ab20375f966ae7" size="72154" timestamp="2014-08-27T11:47:40"/>
+		<file name="lib/yawl-lib-3.0.1.jar" md5="b29baac9a6f7c15d1e84cdd5d4de9a4b" size="2496492" timestamp="2015-06-16T11:10:15"/>
+		<file name="lib/YAWLEditor-analyser-3.0.1.jar" md5="46ed27cf4d88778a7ff42b5566ee6500" size="82281" timestamp="2015-03-19T11:12:14"/>
+		<file name="lib/YAWLEditor-core-3.0.1.jar" md5="c4a648ffb808d773a7e518b103d3e5ad" size="176169" timestamp="2015-06-10T18:28:39"/>
+		<file name="lib/YAWLEditor-icons.jar" md5="da201c5fd0898aee95572d728e20c542" size="363759" timestamp="2014-08-27T11:47:42"/>
+		<file name="plugins/YAWLEditor-configuration-3.0.1.jar" md5="2b22232745809cc299e4b1626863102b" size="162847" timestamp="2015-06-02T13:35:49"/>
+		<file name="plugins/YAWLEditor-decobar-3.0.1.jar" md5="0a5838457d2b511096367fe534c7d7f6" size="25561" timestamp="2015-06-02T16:24:38"/>
+		<file name="YAWLEditor3.0.1.jar" md5="b35730f034aeee1436407c8f558693f5" size="1443026" timestamp="2015-06-16T11:17:33"/>
+	</files>
+	<cleanup>
+    <file name="lib/jdom.jar"/>
+   	<file name="lib/jgoodies-common-1.6.0.jar"/>
+   	<file name="lib/jgoodies-looks-2.5.3.jar"/>
+   	<file name="lib/jgraph4yawl-3.0.jar"/>
+   	<file name="lib/yawl-lib-3.0.jar"/>
+   	<file name="lib/YAWLEditor-analyser-3.0.jar"/>
+   	<file name="lib/YAWLEditor-core-3.0.jar"/>
+   	<file name="plugins/YAWLEditor-configuration-3.0.jar"/>
+   	<file name="plugins/YAWLEditor-decobar-3.0.jar"/>
+   	<file name="YAWLEditor3.0.jar"/>
+    </cleanup>
+</release>
