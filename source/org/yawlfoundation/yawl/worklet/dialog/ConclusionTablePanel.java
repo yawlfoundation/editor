@@ -1,23 +1,5 @@
 /*
- * Copyright (c) 2004-2014 The YAWL Foundation. All rights reserved.
- * The YAWL Foundation is a collaboration of individuals and
- * organisations who are committed to improving workflow technology.
- *
- * This file is part of YAWL. YAWL is free software: you can
- * redistribute it and/or modify it under the terms of the GNU Lesser
- * General Public License as published by the Free Software Foundation.
- *
- * YAWL is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General
- * Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with YAWL. If not, see <http://www.gnu.org/licenses/>.
- */
-
-/*
- * Copyright (c) 2004-2014 The YAWL Foundation. All rights reserved.
+ * Copyright (c) 2004-2015 The YAWL Foundation. All rights reserved.
  * The YAWL Foundation is a collaboration of individuals and
  * organisations who are committed to improving workflow technology.
  *
@@ -39,6 +21,7 @@ package org.yawlfoundation.yawl.worklet.dialog;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.MiniToolBar;
 import org.yawlfoundation.yawl.worklet.rdr.RdrConclusion;
 import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
+import org.yawlfoundation.yawl.worklet.support.ExletValidationError;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -82,8 +65,13 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
     }
 
 
-    public void setVisuals(boolean isValid) {
-        table.setVisuals(isValid);
+    public void setVisuals(java.util.List<ExletValidationError> errors) {
+        table.setVisuals(errors);
+    }
+
+
+    public boolean hasValidContent() {
+        return table.getRowCount() > 0 && table.getBackground() != Color.PINK;
     }
 
 

@@ -63,6 +63,15 @@ public class DataContextTable extends JSingleSelectTable {
         return (DataContextTableModel) getModel();
     }
 
+
+    public boolean hasValidContent() {
+        for (VariableRow row : getVariables()) {
+            if (! row.isValidValue()) return false;
+        }
+        return true;
+    }
+
+
     public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
         JComponent component = (JComponent) super.prepareRenderer(renderer, row, col);
         if (col == 2) {    // value col

@@ -1,7 +1,5 @@
 package org.yawlfoundation.yawl.editor.ui.properties.data.validation;
 
-import dk.brics.automaton.Automaton;
-import dk.brics.automaton.RegExp;
 import dk.brics.automaton.State;
 import dk.brics.automaton.Transition;
 import org.yawlfoundation.yawl.resourcing.jsf.dynform.DynFormFieldRestriction;
@@ -225,10 +223,7 @@ public class RestrictionSampleValueGenerator {
 
 
     private String generatePatternMatch(String pattern) {
-        Automaton automaton = new RegExp(pattern).toAutomaton();
-        StringBuilder builder = new StringBuilder();
-        generatePatternMatch(builder, automaton.getInitialState(), new Random());
-        return builder.toString();
+        return new RegexValueGenerator(pattern).generate();
     }
 
 

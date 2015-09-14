@@ -74,6 +74,10 @@ public class DataContextTablePanel extends JPanel {
     }
 
 
+    public boolean hasValidContent() {
+        return table.hasValidContent();
+    }
+
     private DataContextTable createTable(EventListener listener) {
         table = new DataContextTable();
         table.setDefaultEditor(String.class,

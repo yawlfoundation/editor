@@ -40,7 +40,8 @@ import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
-import org.yawlfoundation.yawl.worklet.support.ConclusionValidator;
+import org.yawlfoundation.yawl.worklet.support.ExletValidationError;
+import org.yawlfoundation.yawl.worklet.support.ExletValidator;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -143,6 +144,7 @@ public class AddRuleDialog extends JDialog
     public void valueChanged(ListSelectionEvent event) {
         if (! event.getValueIsAdjusting()) {
             updateCondition(_dataContextPanel.getSelectedVariable());
+            validateAddButtonsEnablement();
         }
     }
 
@@ -155,12 +157,21 @@ public class AddRuleDialog extends JDialog
         else {
             updateCondition(_dataContextPanel.getSelectedVariable());
         }
+        validateAddButtonsEnablement();
     }
 
 
     // data table value edit cancel
     public void editingCanceled(ChangeEvent e) { }
 
+
+    protected void validateAddButtonsEnablement() {
+        boolean shouldEnable = _dataContextPanel.hasValidContent() &&
+                _conclusionPanel.hasValidContent() &&
+                ((ConditionVerifier) _txtCondition.getInputVerifier()).hasValidContent();
+        _btnAdd.setEnabled(shouldEnable);
+        _btnClose.setEnabled(shouldEnable);
+    }
 
     private JPanel getContent(AtomicTask task) {
         JPanel panel = new JPanel(new BorderLayout());
@@ -442,16 +453,16 @@ public class AddRuleDialog extends JDialog
 
 
     private void validateConclusion() {
-        java.util.List<String> errors = new ConclusionValidator().validate(
+        java.util.List<ExletValidationError> errors = new ExletValidator().validate(
                 _conclusionPanel.getConclusion(), getWorkletList());
         updateStatus("==== Action Set Validation ====");
         if (errors.isEmpty()) {
             updateStatus("OK");
         }
-        else for (String msg : errors) {
-            updateStatus(msg);
+        else for (ExletValidationError error : errors) {
+            updateStatus(error.getMessage());
         }
-        _conclusionPanel.setVisuals(errors.isEmpty());
+        _conclusionPanel.setVisuals(errors);
     }
 
 
@@ -506,6 +517,9 @@ public class AddRuleDialog extends JDialog
         _txtCondition.setText(null);
         _txtDescription.setText(null);
         _conclusionPanel.setConclusion(null);
+        _txtStatus.setText(null);
+        _btnAdd.setEnabled(false);
+        _btnClose.setEnabled(false);
     }
 
 

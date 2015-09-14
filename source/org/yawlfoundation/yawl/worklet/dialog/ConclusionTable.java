@@ -40,9 +40,11 @@ import org.yawlfoundation.yawl.editor.ui.swing.JSingleSelectTable;
 import org.yawlfoundation.yawl.worklet.rdr.RdrConclusion;
 import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
+import org.yawlfoundation.yawl.worklet.support.ExletValidationError;
 
 import javax.swing.*;
 import javax.swing.event.CellEditorListener;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.util.List;
@@ -54,6 +56,8 @@ import java.util.List;
 public class ConclusionTable extends JSingleSelectTable {
 
     JComboBox _cbxType;  // reference to type combo - affects cell rendering
+    java.util.List<ExletValidationError> _errList;
+
 
     public ConclusionTable(JComboBox cbxType, CellEditorListener listener) {
         super();
@@ -70,6 +74,19 @@ public class ConclusionTable extends JSingleSelectTable {
     }
 
 
+    public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
+        JComponent component = (JComponent) super.prepareRenderer(renderer, row, col);
+        if (col != 0) {    // value col
+            ExletValidationError errorRow = getError(row);
+            if (errorRow != null) {
+                component.setBackground(Color.PINK);
+                component.setToolTipText(errorRow.getMessage());
+            }
+        }
+        return component;
+    }
+
+
     public RdrConclusion getConclusion() { return getTableModel().getConclusion(); }
 
 
@@ -80,6 +97,7 @@ public class ConclusionTable extends JSingleSelectTable {
 
     public void setConclusion(List<RdrPrimitive> primitives) {
         getTableModel().setConclusion(primitives);
+        if (primitives == null) _errList = null;    // reset
         updateUI();
     }
 
@@ -94,9 +112,9 @@ public class ConclusionTable extends JSingleSelectTable {
     }
 
 
-    public void setVisuals(boolean isValid) {
-        Color bg = isValid ? Color.WHITE : Color.PINK;
-        setBackground(bg);
+    public void setVisuals(java.util.List<ExletValidationError> errors) {
+        _errList = errors;
+        invalidate();
     }
 
 
@@ -124,5 +142,13 @@ public class ConclusionTable extends JSingleSelectTable {
         column.setResizable(false);
     }
 
+
+    private ExletValidationError getError(int row) {
+        if (_errList == null) return null;
+        for (ExletValidationError error : _errList) {
+            if (error.getIndex() == row + 1) return error;
+        }
+        return null;
+    }
 
 }
