@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
+ * Upload Dialog
  * @author Michael Adams
  * @date 27/05/2014
  */
