@@ -258,7 +258,7 @@ public class UpdateDialog extends JDialog
         }
     }
 
-
+    // verify updated files against md5 in checksums.xml
     private boolean verified() {
         YAWLEditor.getStatusBar().setText("Verifying downloaded updates...");
         File targetDir = _downloader.getTargetDir();
