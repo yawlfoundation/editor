@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.repository.dialog;
 
+import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.ButtonBar;
 
 import javax.swing.*;
@@ -73,7 +74,7 @@ public class AddDialog extends JDialog implements ActionListener, CaretListener 
         setModal(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setLocationByPlatform(true);
+        setLocationRelativeTo(YAWLEditor.getInstance());
     }
 
     private JPanel getContent() {

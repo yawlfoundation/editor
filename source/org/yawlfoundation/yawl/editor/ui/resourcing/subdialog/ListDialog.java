@@ -25,7 +25,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * @author Michael Adams
@@ -42,6 +45,7 @@ public class ListDialog extends JDialog implements ActionListener, CaretListener
         add(getContent());
         setPreferredSize(new Dimension(250, 400));
         pack();
+        setLocationRelativeTo(owner);
     }
 
     public ListDialog(JDialog owner, ListModel listModel) {
@@ -84,7 +88,6 @@ public class ListDialog extends JDialog implements ActionListener, CaretListener
         setModal(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setLocationByPlatform(true);
     }
 
     private JPanel getContent() {

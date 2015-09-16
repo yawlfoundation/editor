@@ -89,7 +89,6 @@ public class MoreDialog extends JDialog {
         setModal(false);
         add(getContent(text));
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(c);
 
         addWindowStateListener(new WindowAdapter() {
             public void windowDeactivated(WindowEvent windowEvent) {
@@ -99,6 +98,7 @@ public class MoreDialog extends JDialog {
         });
 
         pack();
+        setLocationRelativeTo(c);
     }
 
 

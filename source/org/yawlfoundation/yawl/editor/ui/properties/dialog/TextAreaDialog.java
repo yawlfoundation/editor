@@ -18,6 +18,8 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.dialog;
 
+import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.BadLocationException;
@@ -43,6 +45,7 @@ public class TextAreaDialog extends PropertyDialog implements ActionListener {
         setPreferredSize(new Dimension(420, 280));
         getOKButton().setEnabled(true);
         pack();
+        setLocationRelativeTo(YAWLEditor.getInstance());
         _textArea.requestFocus();
     }
 

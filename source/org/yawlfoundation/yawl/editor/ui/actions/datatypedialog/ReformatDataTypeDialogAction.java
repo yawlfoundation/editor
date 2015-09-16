@@ -41,6 +41,6 @@ public class ReformatDataTypeDialogAction extends YAWLBaseAction {
         ValidityEditorPane pane = DataTypeDialogToolBarMenu.getEditorPane().getEditor();
         int caretPos = pane.getCaretPosition();
         pane.setText(XMLUtilities.formatXML(pane.getText(), true, false));
-        pane.setCaretPosition(caretPos);
+        pane.setCaretPosition(Math.min(caretPos, pane.getText().length() -1));
     }
 }

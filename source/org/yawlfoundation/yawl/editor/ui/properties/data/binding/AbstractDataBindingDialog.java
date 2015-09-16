@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.data.binding;
 
+import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.properties.data.MultiInstanceHandler;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.properties.data.validation.BindingTypeValidator;
@@ -63,6 +64,7 @@ public abstract class AbstractDataBindingDialog extends JDialog implements Actio
         init();
         setMinimumSize(new Dimension(426, row.isMultiInstance() ? 560 : 440));
         pack();
+        setLocationRelativeTo(YAWLEditor.getInstance());
     }
 
 
@@ -217,7 +219,6 @@ public abstract class AbstractDataBindingDialog extends JDialog implements Actio
         setModal(true);
         setResizable(true);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setLocationByPlatform(true);
     }
 
 

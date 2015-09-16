@@ -153,7 +153,6 @@ public class ExtendedAttributesDialog extends PropertyDialog
 
     private void initialise() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationByPlatform(true);
     }
 
     // setup for decomposition attributes
@@ -193,6 +192,7 @@ public class ExtendedAttributesDialog extends PropertyDialog
         setMinimumSize(new Dimension(250, 300));
         getRootPane().setDefaultButton(btnOK);
         pack();
+        setLocationRelativeTo(YAWLEditor.getInstance());
     }
 
     protected JPanel getContent() {

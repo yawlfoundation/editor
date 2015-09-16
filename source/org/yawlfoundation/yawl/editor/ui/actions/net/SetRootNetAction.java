@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.actions.net;
 
+import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationUndoManager;
@@ -47,7 +48,7 @@ public class SetRootNetAction extends YAWLExistingNetAction {
 
     public void actionPerformed(ActionEvent event) {
         RootNetDialog dialog = new RootNetDialog();
-        dialog.setLocationByPlatform(true);
+        dialog.setLocationRelativeTo(YAWLEditor.getInstance());
         dialog.setVisible(true);
     }
 }

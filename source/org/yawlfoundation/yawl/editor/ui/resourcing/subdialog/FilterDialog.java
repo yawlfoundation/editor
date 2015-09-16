@@ -60,6 +60,7 @@ public class FilterDialog extends JDialog implements ActionListener {
         add(getContent(owner));
         setPreferredSize(getDimension());
         pack();
+        setLocationRelativeTo(owner);
     }
 
 
@@ -84,7 +85,6 @@ public class FilterDialog extends JDialog implements ActionListener {
         setModal(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setLocationByPlatform(true);
     }
 
     private JPanel getContent(ResourceDialog owner) {

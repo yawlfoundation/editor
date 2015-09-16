@@ -76,12 +76,12 @@ public class PreferencesDialog extends JDialog
         _contentPanels = new ArrayList<PreferencePanel>();
         setModal(true);
         setResizable(true);
-        setLocationByPlatform(true);
         setTitle("YAWL Editor Preferences");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         add(getContent());
         setPreferredSize(new Dimension(700, 600));
         pack();
+        setLocationRelativeTo(YAWLEditor.getInstance());
     }
 
 

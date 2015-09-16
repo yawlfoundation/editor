@@ -176,7 +176,7 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
         // still no match, try on data type
         for (VariableRow netVarRow : getNetVarList()) {
              if (netVarRow.getDataType().equals(taskVarRow.getDataType())) {
-                 return netVarRow.getDataType();
+                 return netVarRow.getName();
              }
         }
 

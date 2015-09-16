@@ -19,6 +19,7 @@
 package org.yawlfoundation.yawl.editor.ui.resourcing.subdialog;
 
 import org.yawlfoundation.yawl.editor.core.resourcing.DynParam;
+import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.resourcing.ResourceDialog;
 import org.yawlfoundation.yawl.elements.YAtomicTask;
 import org.yawlfoundation.yawl.elements.data.YVariable;
@@ -53,6 +54,7 @@ public class NetParamDialog extends JDialog implements ActionListener {
         add(getContent(owner.getTask()));
         setPreferredSize(new Dimension(250, 200));
         pack();
+        setLocationRelativeTo(YAWLEditor.getInstance());
     }
 
 
@@ -99,7 +101,6 @@ public class NetParamDialog extends JDialog implements ActionListener {
         setModal(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setLocationByPlatform(true);
     }
 
     private JPanel getContent(YAtomicTask task) {

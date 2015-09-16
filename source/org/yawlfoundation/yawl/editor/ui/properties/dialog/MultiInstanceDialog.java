@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.dialog;
 
+import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLVertex;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.ButtonBar;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationUndoManager;
@@ -72,9 +73,9 @@ public class MultiInstanceDialog extends JDialog
         setModal(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setLocationByPlatform(true);
         setPreferredSize(new Dimension(630, 230));
         pack();
+        setLocationRelativeTo(YAWLEditor.getInstance());
     }
 
 

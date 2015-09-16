@@ -44,7 +44,6 @@ public class FlowConditionDialog extends JDialog implements ActionListener {
         setModal(true);
         setTitle(makeTitle(task));
         setResizable(true);
-        setLocationRelativeTo(parent);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         add(getContent(task, graph));
         this.setMinimumSize(new Dimension(420, 180));
@@ -58,6 +57,7 @@ public class FlowConditionDialog extends JDialog implements ActionListener {
         });
 
         pack();
+        setLocationRelativeTo(parent);
     }
 
 

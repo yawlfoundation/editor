@@ -62,12 +62,12 @@ public class TimerDialog extends AbstractDoneDialog implements ActionListener {
     public TimerDialog() {
         super("Set Timer", true, true);
         setContentPanel(buildPanel());
-        setLocationRelativeTo(YAWLEditor.getInstance());
         getDoneButton().setText("OK");
     }
 
     protected void makeLastAdjustments() {
         pack();
+        setLocationRelativeTo(YAWLEditor.getInstance());
         setResizable(false);
     }
 

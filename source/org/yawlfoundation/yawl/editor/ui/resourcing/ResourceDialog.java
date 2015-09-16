@@ -19,6 +19,7 @@
 package org.yawlfoundation.yawl.editor.ui.resourcing;
 
 import org.yawlfoundation.yawl.editor.core.resourcing.YResourceHandler;
+import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLTask;
 import org.yawlfoundation.yawl.editor.ui.resourcing.panel.PrimaryResourcesPanel;
 import org.yawlfoundation.yawl.editor.ui.resourcing.panel.SecondaryResourcesPanel;
@@ -61,8 +62,8 @@ public class ResourceDialog extends JDialog
         add(getContent());
         setPreferredSize(new Dimension(780, 700));
         setMinimumSize(new Dimension(630, 635));
-        setResizable(true);
         pack();
+        setLocationRelativeTo(YAWLEditor.getInstance());
     }
 
 
@@ -113,9 +114,8 @@ public class ResourceDialog extends JDialog
     private void initialise(YNet net) {
         this.net = net;
         setModal(true);
-        setResizable(false);
+        setResizable(true);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setLocationByPlatform(true);
     }
 
 

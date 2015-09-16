@@ -47,6 +47,7 @@ public class InvalidResourceReferencesDialog extends JDialog implements ActionLi
         add(getContent(invalidSet));
         pack();
         setSize(DETAILS_OFF);
+        setLocationRelativeTo(YAWLEditor.getInstance());
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -62,7 +63,6 @@ public class InvalidResourceReferencesDialog extends JDialog implements ActionLi
         setModal(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(YAWLEditor.getInstance());
     }
 
 

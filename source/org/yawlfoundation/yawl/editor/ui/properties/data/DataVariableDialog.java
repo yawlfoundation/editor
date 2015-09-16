@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.editor.ui.properties.data;
 
 import org.yawlfoundation.yawl.editor.core.data.YDataHandler;
 import org.yawlfoundation.yawl.editor.core.data.YDataHandlerException;
+import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLTask;
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.OutputBindings;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationUndoManager;
@@ -69,6 +70,7 @@ public class DataVariableDialog extends JDialog
         setPreferredSize(new Dimension(620, 290));
         setMinimumSize(new Dimension(400, 200));
         pack();
+        setLocationRelativeTo(YAWLEditor.getInstance());
     }
 
     public DataVariableDialog(YNet net, YDecomposition decomposition, YAWLTask task) {
@@ -78,6 +80,7 @@ public class DataVariableDialog extends JDialog
         setPreferredSize(new Dimension(760, 580));
         setMinimumSize(new Dimension(400, 420));
         pack();
+        setLocationRelativeTo(YAWLEditor.getInstance());
     }
 
 
@@ -233,7 +236,6 @@ public class DataVariableDialog extends JDialog
         setModal(true);
         setResizable(true);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setLocationByPlatform(true);
         this.net = net;
         String title;
         if (! (decomposition == null || task == null)) {

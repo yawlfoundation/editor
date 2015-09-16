@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.editor.ui.repository.dialog;
 
 import org.yawlfoundation.yawl.editor.core.repository.Repo;
 import org.yawlfoundation.yawl.editor.core.repository.RepoDescriptor;
+import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.ButtonBar;
 import org.yawlfoundation.yawl.editor.ui.repository.listModel.RepositoryListModel;
 
@@ -98,7 +99,7 @@ public class DescriptorListDialog extends JDialog implements ActionListener, Car
         setModal(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setLocationByPlatform(true);
+        setLocationRelativeTo(YAWLEditor.getInstance());
     }
 
 
