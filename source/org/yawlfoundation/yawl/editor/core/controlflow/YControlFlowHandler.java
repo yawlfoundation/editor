@@ -543,9 +543,10 @@ public class YControlFlowHandler {
         return _identifiers.rationaliseIfRequired(_specification);
     }
 
-    public String replaceID(String oldID, String newID) {
+    public String replaceID(String oldID, String newID) throws IllegalIdentifierException {
+        String checkedID = checkID(newID);         // will throw ex if newID invalid
         _identifiers.removeIdentifier(oldID);
-        return checkID(newID);
+        return checkedID;
     }
 
     public String checkID(String id) throws IllegalIdentifierException {

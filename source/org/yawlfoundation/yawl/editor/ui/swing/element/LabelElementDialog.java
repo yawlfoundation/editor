@@ -19,6 +19,8 @@
 package org.yawlfoundation.yawl.editor.ui.swing.element;
 
 import org.yawlfoundation.yawl.editor.core.YSpecificationHandler;
+import org.yawlfoundation.yawl.editor.core.exception.IllegalIdentifierException;
+import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.elements.model.Condition;
 import org.yawlfoundation.yawl.editor.ui.elements.model.VertexContainer;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLTask;
@@ -145,12 +147,24 @@ public class LabelElementDialog extends AbstractVertexDoneDialog {
             String validID = XMLUtilities.toValidXMLName(id);
             if (!vertex.getID().equals(validID)) {
                 YSpecificationHandler handler = SpecificationModel.getHandler();
-                validID = handler.getControlFlowHandler().replaceID(vertex.getID(), validID);
-                if (vertex instanceof YAWLTask) {
-                    handler.getResourceHandler().replaceID(vertex.getID(), validID);
+                try {
+                    validID = handler.getControlFlowHandler().replaceID(vertex.getID(), validID);
+                    if (vertex instanceof YAWLTask) {
+                        handler.getResourceHandler().replaceID(vertex.getID(), validID);
+                    }
+                    vertex.setID(validID);
                 }
-                vertex.setID(validID);
+                catch (IllegalIdentifierException iie) {
+                    JOptionPane.showMessageDialog(YAWLEditor.getInstance(),
+                            "Label updated, but failed to synch element identifier - " +
+                                    iie.getMessage(),
+                            "Element Identifier Synchronisation Failed",
+                            JOptionPane.WARNING_MESSAGE);
+                }
             }
         }
     }
+
 }
+
+

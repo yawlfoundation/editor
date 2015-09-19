@@ -214,7 +214,7 @@ public class YFlowLayout extends YLayoutNode {
         if (_labelPosition != null) node.addChild(getLabelPositionNode());
         node.addChild("lineStyle", _style.getCardinality());
         if (hasPoints()) node.addChild(getPointsNode());
-        if (_lineColor != null) node.addChild("lineColor", _lineColor.getRGB());
+        if (_lineColor != null) node.addChild("linecolor", _lineColor.getRGB());
         return node;
     }
 
