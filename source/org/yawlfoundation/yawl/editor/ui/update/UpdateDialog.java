@@ -244,11 +244,11 @@ public class UpdateDialog extends JDialog
 
 
     private void processDownloadCompleted() {
-        if (! _downloader.isCancelled()) {
-            if (_downloader.hasErrors()) {
-                showError("Failed to download updates.");
-            }
-            else if (verified()) {
+        if (_downloader.hasErrors()) {
+            showError("Failed to download updates. Please try again later.");
+        }
+        else if (! _downloader.isCancelled()) {
+            if (verified()) {
                 YAWLEditor.getStatusBar().setText(
                         "Update downloaded to " + _downloader.getTargetDir());
                 if (_restarting) restart();

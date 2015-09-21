@@ -86,7 +86,6 @@ public class FilterListPanel extends JPanel implements ActionListener {
 
     private JScrollPane createList(Vector<String> items) {
         final JList list = new JList(items);
-        list.setPreferredSize(new Dimension(175, 150));
         list.setDragEnabled(true);
         list.setEnabled(! items.isEmpty());
 
@@ -99,7 +98,9 @@ public class FilterListPanel extends JPanel implements ActionListener {
             }
         });
 
-        return new JScrollPane(list);
+        JScrollPane pane = new JScrollPane(list);
+        pane.setPreferredSize(new Dimension(175, 150));
+        return pane;
     }
 
 
