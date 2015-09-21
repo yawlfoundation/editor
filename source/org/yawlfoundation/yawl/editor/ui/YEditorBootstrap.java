@@ -1,6 +1,5 @@
 package org.yawlfoundation.yawl.editor.ui;
 
-import org.yawlfoundation.yawl.editor.core.util.FileUtil;
 import org.yawlfoundation.yawl.editor.ui.update.PostUpdateTasks;
 import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
 
@@ -19,14 +18,9 @@ public class YEditorBootstrap {
         System.setProperty("apple.laf.useScreenMenuBar", "true");
 
         // run any post upgrade tasks
-        if (FileUtil.isWindows()) {
-            if (!UserSettings.getPostUpdatesCompleted()) {
-                if (new PostUpdateTasks().go()) {
-                    UserSettings.setPostUpdatesCompleted(true);
-                }
-            }
+        if (! UserSettings.getPostUpdatesCompleted() && new PostUpdateTasks().go()) {
+            UserSettings.setPostUpdatesCompleted(true);
         }
-
 
         YAWLEditor.main(args);
     }

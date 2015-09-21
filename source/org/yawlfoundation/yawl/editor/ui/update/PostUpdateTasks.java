@@ -22,6 +22,7 @@ import org.yawlfoundation.yawl.editor.core.util.FileUtil;
 import org.yawlfoundation.yawl.editor.ui.util.BuildProperties;
 import org.yawlfoundation.yawl.editor.ui.util.FileLocations;
 import org.yawlfoundation.yawl.util.StartMenuUpdater;
+import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.util.XNode;
 
 import java.io.File;
@@ -36,7 +37,8 @@ public class PostUpdateTasks {
 
     // change this method to suit
     public boolean go() {
-        updateOSMenus(FileLocations.getHomeDir());
+        updateOSMenus();
+        fixSetEnvBat();
         return cleanup();
     }
 
@@ -71,10 +73,10 @@ public class PostUpdateTasks {
     }
 
 
-    private void updateOSMenus(String homeFolder) {
+    private void updateOSMenus() {
         if (! FileUtil.isWindows()) return;
 
-        File parentDir = new File(homeFolder).getParentFile();
+        File parentDir = getInstalledRootDir();
         String parentFolder = parentDir.getAbsolutePath();
         StartMenuUpdater smu = new StartMenuUpdater();
         smu.getSettings()
@@ -88,6 +90,22 @@ public class PostUpdateTasks {
                         File.separator + "editor32.ico");
         smu.update();
         smu.checkBatFile(parentDir);
+    }
+
+
+    private void fixSetEnvBat() {
+        if (! FileUtil.isWindows()) return;
+
+        File parentDir = getInstalledRootDir();
+        File setEnvBat = new File(parentDir, "engine/apache-tomcat-7.0.55/bin/setenv.bat");
+        String entry = "set CATALINA_OPTS=-Xms1024m -Xmx1024m -XX:NewSize=256m " +
+                "-XX:MaxNewSize=356m -XX:PermSize=256m -XX:MaxPermSize=356m\n";
+        StringUtil.stringToFile(setEnvBat, entry);
+    }
+
+
+    private File getInstalledRootDir() {
+        return new File(FileLocations.getHomeDir()).getParentFile();
     }
 
 }
