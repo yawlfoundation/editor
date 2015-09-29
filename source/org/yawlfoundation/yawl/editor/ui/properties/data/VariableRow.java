@@ -25,6 +25,7 @@ import org.yawlfoundation.yawl.elements.data.YVariable;
 import org.yawlfoundation.yawl.elements.data.external.ExternalDBGatewayFactory;
 import org.yawlfoundation.yawl.logging.YLogPredicate;
 import org.yawlfoundation.yawl.schema.XSDType;
+import org.yawlfoundation.yawl.util.StringUtil;
 
 /**
  * @author Michael Adams
@@ -38,7 +39,10 @@ public class VariableRow implements Comparable<VariableRow> {
     private String decompositionID;     // the decomposition ID of the variable's owner
     private boolean hasValidName;
     private boolean hasValidValue;
+    private boolean hasValidInputBinding = true;      // will be false if data type
+    private boolean hasValidOutputBinding = true;     // ...mismatch with source/target
     private boolean multiInstance;
+
 
     // new row added at runtime, so no starting values
     public VariableRow(int scope) {
@@ -79,16 +83,40 @@ public class VariableRow implements Comparable<VariableRow> {
 
     public boolean isMultiInstance() { return multiInstance; }
 
-    public boolean isValid() { return hasValidName && hasValidValue; }
-
-    public boolean isValidName() { return hasValidName; }
+    public boolean isValidName() {
+        return hasValidName;
+    }
 
     public boolean isValidValue() { return hasValidValue; }
+
+    public boolean isValidInputBinding() {
+        return !(isInput() || isInputOutput()) ||
+                (! StringUtil.isNullOrEmpty(getBinding()) && hasValidInputBinding);
+    }
+
+    public boolean isValidOutputBinding() {
+        return !(isOutput() || isInputOutput()) || hasValidOutputBinding;
+    }
+
+    public boolean isValid() {
+        return canBeDropped() && isValidInputBinding() && isValidOutputBinding();
+    }
+
+    public boolean canBeDropped() {
+        return hasValidName && hasValidValue;
+    }
+
+    public boolean isAdding() { return decompositionID == null; }
 
 
     public void setValidValue(boolean valid) { hasValidValue = valid; }
 
     public void setValidName(boolean valid) { hasValidName = valid; }
+
+    public void setValidInputBinding(boolean valid) { hasValidInputBinding = valid; }
+
+    public void setValidOutputBinding(boolean valid) { hasValidOutputBinding = valid; }
+
 
     public void setMultiInstance(boolean isMultiInstance) {
         multiInstance = isMultiInstance;

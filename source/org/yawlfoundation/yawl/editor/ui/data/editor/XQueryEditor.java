@@ -18,7 +18,8 @@
 
 package org.yawlfoundation.yawl.editor.ui.data.editor;
 
-import org.yawlfoundation.yawl.editor.ui.data.document.*;
+import org.yawlfoundation.yawl.editor.ui.data.document.AbstractXMLStyledDocument;
+import org.yawlfoundation.yawl.editor.ui.data.document.XQueryStyledDocument;
 import org.yawlfoundation.yawl.editor.ui.data.editorpane.ValidityEditorPane;
 
 public class XQueryEditor extends ValidityEditorPane {

@@ -19,7 +19,6 @@
 package org.yawlfoundation.yawl.editor.ui.properties.data;
 
 import com.l2fprod.common.swing.renderer.DefaultCellRenderer;
-import org.yawlfoundation.yawl.editor.ui.properties.data.binding.OutputBindings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,12 +29,12 @@ import java.awt.*;
  */
 public class VariableRowStringRenderer extends DefaultCellRenderer {
 
-    private final OutputBindings _outputBindings;
     private Font _selectorFont;
 
-    public VariableRowStringRenderer(OutputBindings outputBindings) {
-        _outputBindings = outputBindings;
-    }
+    private final Color ERROR_COLOR = Color.decode("#FF6666");
+
+    public VariableRowStringRenderer() {  }
+
 
     public Component getTableCellRendererComponent(JTable table, Object value,
                                                    boolean isSelected, boolean hasFocus,
@@ -46,11 +45,11 @@ public class VariableRowStringRenderer extends DefaultCellRenderer {
         if (column == 0) {
             if (_selectorFont == null) _selectorFont = getSelectorFont((String) value);
             if (_selectorFont != null) setFont(_selectorFont);
+            if (! (varRow.isLocal() || isAdding(varRow) || hasValidBindings(varRow))) {
+                setForeground(ERROR_COLOR);
+            }
         }
         else if (isTaskTable(table)) {
-            if (! (varRow.isLocal() || hasBinding(varRow))) {
-                setFont(getFont().deriveFont(Font.ITALIC));
-            }
             if (varRow.isMultiInstance()) {
                 setForeground(Color.BLUE);
             }
@@ -67,11 +66,11 @@ public class VariableRowStringRenderer extends DefaultCellRenderer {
                 return checkBox;
             }
             if (! varRow.isValidValue()) {
-                setForeground(Color.RED);
+                setForeground(ERROR_COLOR);
             }
         }
         else if (table.getColumnName(column).equals("Name") && ! varRow.isValidName()) {
-            setForeground(Color.RED);
+            setForeground(ERROR_COLOR);
         }
 
         return this;
@@ -90,12 +89,13 @@ public class VariableRowStringRenderer extends DefaultCellRenderer {
     }
 
 
-    private boolean hasBinding(VariableRow row) {
-        return (row.isInput() && row.getBinding() != null) ||
-               (row.isOutput() && _outputBindings.hasBinding(row.getName())) ||
-               (row.isInputOutput() && row.getBinding() != null &&
-                       _outputBindings.hasBinding(row.getName()) ||
-                       _outputBindings.getEmbeddedTarget(row.getName()) != null);
+    private boolean hasValidBindings(VariableRow row) {
+        return row.isValidInputBinding() && row.isValidOutputBinding();
+    }
+
+
+    private boolean isAdding(VariableRow row) {
+        return row.isNew() && row.getName().isEmpty();
     }
 
 

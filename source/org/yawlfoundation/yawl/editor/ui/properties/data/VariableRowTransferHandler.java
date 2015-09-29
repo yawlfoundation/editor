@@ -88,7 +88,7 @@ public class VariableRowTransferHandler extends TransferHandler {
             return false;
         }
 
-        if (! data.isValid()) {
+        if (! data.canBeDropped()) {
             return false;
         }
 
@@ -101,7 +101,7 @@ public class VariableRowTransferHandler extends TransferHandler {
         newVariableRow.setDataType(data.getDataType());
         newVariableRow.setDecompositionID(_table.getDecompositionID());
         createBinding(data, newVariableRow);
-        _table.insertRow(row, newVariableRow);
+        _table.insertDroppedRow(row, newVariableRow);
 
         Rectangle rect = _table.getCellRect(row, 0, false);
         _table.scrollRectToVisible(rect);
@@ -125,7 +125,7 @@ public class VariableRowTransferHandler extends TransferHandler {
     private boolean isValidTransferringRow(TransferSupport support) {
         try {
             VariableRow row = getTransferringRow(support);
-            return (row != null && row.isValid());
+            return (row != null && row.canBeDropped());
         }
         catch (UnsupportedFlavorException e) {
             return false;

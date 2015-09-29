@@ -18,16 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.data;
 
-import org.yawlfoundation.yawl.editor.core.data.BindingReference;
 import org.yawlfoundation.yawl.editor.core.data.YDataHandler;
-import org.yawlfoundation.yawl.editor.core.data.YDataHandlerException;
-import org.yawlfoundation.yawl.editor.ui.properties.data.binding.AbstractDataBindingDialog;
-import org.yawlfoundation.yawl.editor.ui.properties.data.binding.InputBindingDialog;
-import org.yawlfoundation.yawl.editor.ui.properties.data.binding.OutputBindingDialog;
-import org.yawlfoundation.yawl.editor.ui.properties.data.binding.references.BindingReferencesDialog;
-import org.yawlfoundation.yawl.editor.ui.properties.data.binding.view.BindingViewDialog;
-import org.yawlfoundation.yawl.editor.ui.properties.dialog.ExtendedAttributesDialog;
-import org.yawlfoundation.yawl.editor.ui.properties.dialog.LogPredicateDialog;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.MiniToolBar;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 
@@ -35,37 +26,33 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
+ * The basic, net-level variable table panel
+ *
  * @author Michael Adams
  * @date 9/08/12
  */
 public class VariableTablePanel extends JPanel
-        implements ActionListener, ListSelectionListener {
+        implements ActionListener, ListSelectionListener, TableModelListener {
 
-    private VariableTable table;
-    private final DataVariableDialog parent;
-    private MiniToolBar toolbar;
-    private final TableType tableType;
-    private boolean isEditing;
+    protected VariableTable table;
+    protected final DataVariableDialog parent;
+    protected MiniToolBar toolbar;
+    protected final TableType tableType;
+    protected boolean isEditing;
 
     // toolbar buttons
     private JButton btnUp;
     private JButton btnDown;
     private JButton btnAdd;
     private JButton btnDel;
-    private JButton btnBindingRefs;
-    private JButton btnInMapping;
-    private JButton btnOutMapping;
-    private JButton btnAutoMapping;
-    private JButton btnQuickView;
-    private JButton btnMIVar;
-    private JButton btnExAttributes;
-    private JButton btnLog;
     private StatusPanel status;
 
 
@@ -80,12 +67,21 @@ public class VariableTablePanel extends JPanel
         add(populateToolBar(), BorderLayout.SOUTH);
         add(scrollPane, BorderLayout.CENTER);
         table.getSelectionModel().addListSelectionListener(this);
-        enableButtons(true);
+        table.getModel().addTableModelListener(this);
     }
 
 
+    // table selection event
     public void valueChanged(ListSelectionEvent event) {
-        enableButtons(! isEditing());
+        if (! event.getValueIsAdjusting()) {
+            tableChanged(null);
+        }
+    }
+
+
+    // table change event
+    public void tableChanged(TableModelEvent e) {
+        enableButtons(!isEditing);
     }
 
 
@@ -109,15 +105,9 @@ public class VariableTablePanel extends JPanel
      }
 
 
-    public void showMIButton(boolean show) { btnMIVar.setVisible(show); }
-
 
     public java.util.List<String> getScopeNames() {
-        java.util.List<String> names = YDataHandler.getScopeNames();
-        if (tableType == TableType.Task && ! parent.isCompositeTask()) {
-            names.remove("Local");
-        }
-        return names;
+        return YDataHandler.getScopeNames();
     }
 
 
@@ -130,44 +120,12 @@ public class VariableTablePanel extends JPanel
         }
         else if (action.equals("Del")) {
             table.removeRow();
-            enableButtons(true);
         }
         else if (action.equals("Up")) {
             table.moveSelectedRowUp();
         }
         else if (action.equals("Down")) {
             table.moveSelectedRowDown();
-        }
-        else if (action.equals("InBinding")) {
-            showBindingDialog(YDataHandler.INPUT);
-        }
-        else if (action.equals("OutBinding")) {
-            showBindingDialog(YDataHandler.OUTPUT);
-        }
-        else if (action.equals("Autobind")) {
-            autobind();
-        }
-        else if (action.equals("View")) {
-            new BindingViewDialog(this, parent).setVisible(true);
-        }
-        else if (action.equals("MarkMI")) {
-            int row = table.getSelectedRow();
-            String error = parent.setMultiInstanceRow(table.getSelectedVariable());
-            if (error != null) showErrorStatus(error, null);
-            table.selectRow(row);
-        }
-        else if (action.equals("ExAt")) {
-            VariableRow row = table.getSelectedVariable();
-            if (row != null) {
-                new ExtendedAttributesDialog(parent, row).setVisible(true);
-                setTableChanged();                  // to flag update
-            }
-        }
-        else if (action.equals("Log")) {
-           showLogPredicateDialog();
-        }
-        else if (action.equals("BindingRefs")) {
-            showBindingReferencesDialog(table.getSelectedVariable().getName());
         }
     }
 
@@ -199,8 +157,7 @@ public class VariableTablePanel extends JPanel
         table.setDefaultEditor(String.class, stringEditor);
         VariableRowUsageRenderer usageRenderer = new VariableRowUsageRenderer();
         table.setDefaultRenderer(Integer.class, usageRenderer);
-        VariableRowStringRenderer stringRenderer =
-                new VariableRowStringRenderer(parent.getOutputBindings());
+        VariableRowStringRenderer stringRenderer = new VariableRowStringRenderer();
         table.setDefaultRenderer(String.class, stringRenderer);
         fixSelectorColumn(table);
         if (table.getRowCount() > 0) table.selectRow(0);
@@ -214,83 +171,19 @@ public class VariableTablePanel extends JPanel
         btnDel = toolbar.addButton("minus", "Del", " Remove ");
         btnUp = toolbar.addButton("arrow_up", "Up", " Move up ");
         btnDown = toolbar.addButton("arrow_down", "Down", " Move down ");
-        if (tableType == TableType.Task) {
-            btnInMapping = toolbar.addButton("inBinding", "InBinding", " Input Bindings ");
-            btnOutMapping = toolbar.addButton("outBinding", "OutBinding", " Output Bindings ");
-            btnQuickView = toolbar.addButton("view", "View", " Quick View Bindings ");
-            btnAutoMapping = toolbar.addButton("generate", "Autobind", " Smart Data Bindings ");
-            btnExAttributes = toolbar.addButton("exat", "ExAt", " Ext. Attributes ");
-            btnLog = toolbar.addButton("log", "Log", " Log Entries ");
-            btnMIVar = toolbar.addButton("miVar", "MarkMI", " Mark as MI ");
-        }
-        else {
-            btnBindingRefs = toolbar.addButton("bindingref", "BindingRefs", " Find References ");
-        }
+        return toolbar;
+    }
+
+
+    protected void addStatusBar() {
         status = new StatusPanel(parent);
         toolbar.add(status);
-        return toolbar;
     }
 
 
     public void setTableChanged() {
         table.getTableModel().setTableChanged(true);
         parent.enableApplyButton();
-    }
-
-
-    private void showBindingDialog(int scope) {
-        int selectedRow = table.getSelectedRow();
-        java.util.List<VariableRow> netVars =
-                parent.getNetTablePanel().getTable().getVariables();
-        java.util.List<VariableRow> taskVars = table.getVariables();
-        String taskID = parent.getTask().getID();
-        AbstractDataBindingDialog dialog = null;
-
-        if (scope == YDataHandler.INPUT) {
-            dialog = new InputBindingDialog(taskID, table.getSelectedVariable(),
-                    netVars, taskVars);
-        }
-        else if (scope == YDataHandler.OUTPUT) {
-            dialog = new OutputBindingDialog(taskID, table.getSelectedVariable(),
-                    netVars, taskVars, parent.getOutputBindings());
-        }
-        if (dialog != null) {
-            if (table.hasMultiInstanceRow()) {
-                dialog.setMultiInstanceHandler(parent.getMultiInstanceHandler());
-            }
-            dialog.setVisible(true);
-            if (dialog.hasChanges()) parent.enableApplyButton();
-            table.getTableModel().fireTableDataChanged();
-        }
-        table.selectRow(selectedRow);
-    }
-
-
-    private void showLogPredicateDialog() {
-        VariableRow row = table.getSelectedVariable();
-        if (row != null) {
-            LogPredicateDialog dialog = new LogPredicateDialog(row);
-            dialog.setVisible(true);
-            if (dialog.isUpdated()) {
-                row.setLogPredicate(dialog.getUpdatedPredicate());
-                setTableChanged();
-            }
-        }
-    }
-
-
-    private void showBindingReferencesDialog(String netVarName) {
-        try {
-            java.util.List<BindingReference> references =
-                    getDataHandler().getBindingReferences(parent.getNet(), netVarName);
-            new BindingReferencesDialog(parent, references, netVarName).setVisible(true);
-        }
-        catch (YDataHandlerException ydhe) {
-            JOptionPane.showMessageDialog(this,
-                    "Error: " + ydhe.getMessage(),
-                    "Get Binding References Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
     }
 
 
@@ -303,98 +196,34 @@ public class VariableTablePanel extends JPanel
 
 
     protected void enableButtons(boolean enable) {
-        VariableRow row = table.getSelectedVariable();
         boolean hasRowSelected = table.getSelectedRow() > -1;
         btnAdd.setEnabled(enable);
         btnDel.setEnabled(enable && hasRowSelected);
         btnUp.setEnabled(enable && hasRowSelected);
         btnDown.setEnabled(enable && hasRowSelected);
-        if (tableType == TableType.Task) {
-            btnInMapping.setEnabled(enable && hasRowSelected &&
-                    row != null && (row.isInput() || row.isInputOutput()));
-            btnOutMapping.setEnabled(enable && hasRowSelected &&
-                    row != null && (row.isOutput() || row.isInputOutput()));
-            btnExAttributes.setEnabled(enable && hasRowSelected);
-            btnMIVar.setEnabled(enable && shouldEnableMIButton());
-            btnAutoMapping.setEnabled(enable && shouldEnableAutoBindingButton());
-            btnQuickView.setEnabled(enable && hasRowSelected);
-            btnLog.setEnabled(enable && hasRowSelected);
-        }
-        else {
-            btnBindingRefs.setEnabled(enable && hasRowSelected);
-        }
     }
 
 
-    private boolean shouldEnableMIButton() {
-        VariableRow row = table.getSelectedVariable();
 
-        // MI button can enable if the row is already MI (to allow toggling) or
-        // there's no current MI row AND the row's data type is MI valid
-        return row != null && (row.isMultiInstance() ||
-                ( ! table.hasMultiInstanceRow() && isValidMIType(row.getDataType())));
-    }
-
-
-    private boolean shouldEnableAutoBindingButton() {
-        if (parent.getNetTablePanel().getTable().getRowCount() == 0) return false;
-        for (VariableRow row : table.getVariables()) {
-            if (! hasBinding(row)) return true;
-        }
-        return false;
-    }
-
-
-    private boolean hasBinding(VariableRow row) {
-        return (row.isInput() && row.getBinding() != null) ||
-               (row.isOutput() && parent.getOutputBindings().hasBinding(row.getName()));
-    }
-
-
-    private boolean isValidMIType(String dataType) {
-        try {
-            return getDataHandler().getMultiInstanceItemNameAndType(dataType) != null;
-        }
-        catch (YDataHandlerException ydhe) {
-            return false;
-        }
-    }
-
-
-    private YDataHandler getDataHandler() {
+    protected YDataHandler getDataHandler() {
         return SpecificationModel.getHandler().getDataHandler();
     }
 
 
-    private void autobind() {
-        boolean changed = false;
-        int selectedRow = table.getSelectedRow();
-        for (VariableRow row : table.getVariables()) {
-            if (! hasBinding(row)) {
-                changed = parent.createAutoBinding(row) || changed;
-            }
-        }
-        if (changed) table.getTableModel().fireTableDataChanged();
-        table.selectRow(selectedRow);
-    }
-
 
     protected void setEditMode(boolean editing) {
-        isEditing = editing;
-        parent.setInserting(editing);
-        enableButtons(!editing);
+        if (isEditing != editing) {
+            isEditing = editing;
+            parent.setEditing(editing, tableType);
+            enableButtons(!editing);
+            if (! editing) {
+                getTable().getTableModel().setTableChanged(true);
+            }
+        }
     }
 
 
-    protected void notifyUsageChange(int usage) {
-        if (tableType == TableType.Net) return;
 
-        VariableRow row = table.getSelectedVariable();
-        int oldUsage = row.getUsage();
-        if (oldUsage == YDataHandler.INPUT_OUTPUT || oldUsage == usage) return;
-
-        // now, old != new and old is INPUT ONLY or OUTPUT ONLY
-        parent.createBinding(row, usage);
-    }
+    protected void notifyUsageChange(int usage) {  }
 
 }

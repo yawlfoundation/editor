@@ -75,19 +75,19 @@ class AbstractBindingPanel extends JPanel {
 
     static class ComboBoxRenderer extends JLabel implements ListCellRenderer {
 
-            public Component getListCellRendererComponent(JList list, Object value,
-                    int index,  boolean isSelected, boolean cellHasFocus) {
+        DefaultListCellRenderer renderer = new DefaultListCellRenderer();
 
-                JLabel label = new JLabel(){
-                    public Dimension getPreferredSize(){
-                        return new Dimension(250, 22);       // add a bit of height
-                    }
-                };
-                label.setText(String.valueOf(value));
+        public Component getListCellRendererComponent(JList list, Object value,
+                                                      int index,  boolean isSelected,
+                                                      boolean cellHasFocus) {
 
-                return label;
-            }
+            JLabel label = (JLabel) renderer.getListCellRendererComponent(
+                    list, value, index, isSelected, cellHasFocus);
+
+            label.setPreferredSize(new Dimension(250, 22));     // add a bit of height
+            label.setText(String.valueOf(value));
+            return label;
         }
-
+    }
 
 }

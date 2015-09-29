@@ -35,10 +35,7 @@ import org.yawlfoundation.yawl.util.JDOMUtil;
 import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.util.XNode;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Michael Adams
@@ -87,32 +84,18 @@ public abstract class TypeValueBuilder {
      *                 YVariable required for dynamic forms)
      * @return the composed map of field names to fields
      */
-    protected Map<String, DynFormField> getFieldMap(Map<String, FormParameter> paramMap,
-                                                  String rootName, String schema) {
+    protected List<DynFormField> getFieldList(Map<String, FormParameter> paramMap,
+                                              String rootName, String schema) {
         String data = "<" + rootName + "/>";
         try {
             DynFormFieldAssembler fieldAssembler = new DynFormFieldAssembler(
                    schema, data, paramMap);
-            return buildFieldMap(fieldAssembler.getFieldList());
+            return fieldAssembler.getFieldList();
         }
         catch (DynFormException dfe) {
             // fall through;
         }
-        return Collections.emptyMap();
-    }
-
-
-    /**
-     * Builds a map of dynamic form fields from a list of them
-     * @param fieldList a list of dynamic form fields
-     * @return the composed map of field names to fields
-     */
-    private Map<String, DynFormField> buildFieldMap(List<DynFormField> fieldList) {
-        Map<String, DynFormField> fieldMap = new HashMap<String, DynFormField>();
-        for (DynFormField field : fieldList) {
-            fieldMap.put(field.getName(), field);
-        }
-        return fieldMap;
+        return Collections.emptyList();
     }
 
 

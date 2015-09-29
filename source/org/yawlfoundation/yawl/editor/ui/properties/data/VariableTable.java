@@ -50,6 +50,8 @@ public class VariableTable extends JSingleSelectTable {
 
     public TableType getTableType() { return tableType; }
 
+    public boolean isNetLevel() { return tableType == TableType.Net; }
+
     public String getDecompositionID() { return decompositionID; }
 
     public void setDecompositionID(String name) { decompositionID = name; }
@@ -101,7 +103,7 @@ public class VariableTable extends JSingleSelectTable {
     }
 
 
-    public void insertRow(int row, VariableRow variableRow) {
+    public void insertDroppedRow(int row, VariableRow variableRow) {
         getTableModel().insertRow(row, variableRow);
         selectRow(row);
         orderChanged = true;
@@ -145,6 +147,7 @@ public class VariableTable extends JSingleSelectTable {
 
     public void setEditable(boolean editable) {
         setColumnSelectionAllowed(editable);
+        setRowSelectionAllowed(editable);
         setCellSelectionEnabled(editable);
         getTableModel().setEditable(editable);
         if (editable) {

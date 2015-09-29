@@ -28,8 +28,8 @@ import org.yawlfoundation.yawl.resourcing.util.DataSchemaBuilder;
 import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.util.XNode;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -62,10 +62,8 @@ public class SampleValueGenerator extends TypeValueBuilder {
                 SpecificationModel.getHandler().getSchema());
         String schema = new DataSchemaBuilder(elementMap).buildSchema(
                     "data", parameter.getName(), parameter.getDataTypeName());
-        Map<String, DynFormField> fieldMap =
-                getFieldMap(getParameterMap(parameter), rootName, schema);
-        XNode root = getDataXNode(
-                new ArrayList<DynFormField>(fieldMap.values()), rootName);
+        List<DynFormField> fieldSet = getFieldList(getParameterMap(parameter), rootName, schema);
+        XNode root = getDataXNode(fieldSet, rootName);
         XNode varNode = root.getChild(parameter.getName());
         return varNode != null ? StringUtil.unwrap(varNode.toPrettyString()).trim() : null;
     }

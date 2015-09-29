@@ -42,13 +42,12 @@ import java.util.Map;
 
 /**
  * @author Michael Adams
- * @date 2/08/12
  */
 public class DataVariableDialog extends JDialog
         implements ActionListener, TableModelListener {
 
-    private VariableTablePanel netTablePanel;
-    private VariableTablePanel taskTablePanel;
+    private NetVariableTablePanel netTablePanel;
+    private TaskVariableTablePanel taskTablePanel;
     private YNet net;
     private YDecomposition decomposition;          // for task
     private YTask task;
@@ -60,7 +59,7 @@ public class DataVariableDialog extends JDialog
     private JButton btnApply;
 
     private boolean dirty;
-    private boolean isInserting;
+    private boolean isEditing;
 
 
     public DataVariableDialog(YNet net) {
@@ -72,6 +71,7 @@ public class DataVariableDialog extends JDialog
         pack();
         setLocationRelativeTo(YAWLEditor.getInstance());
     }
+
 
     public DataVariableDialog(YNet net, YDecomposition decomposition, YAWLTask task) {
         super();
@@ -101,11 +101,6 @@ public class DataVariableDialog extends JDialog
 
     public void tableChanged(TableModelEvent e) {
         dirty = true;
-        isInserting = (e.getType() == TableModelEvent.INSERT);
-        enableButtonsIfValid();
-        VariableTableModel model = (VariableTableModel) e.getSource();
-        model.setTableChanged(true);
-        getTablePanelFromTableModel(model).enableButtons(true);
     }
 
 
@@ -113,17 +108,39 @@ public class DataVariableDialog extends JDialog
 
 
     protected void enableButtonsIfValid() {
-        boolean allRowsValid = !isInserting && allRowsValid();
+        boolean allRowsValid = !isEditing && allRowsValid();
         btnApply.setEnabled(allRowsValid && dirty);
         btnOK.setEnabled(allRowsValid);
     }
 
-    protected void setInserting(boolean inserting) {
-        isInserting = inserting;
+    protected void setEditing(boolean editing, TableType tableType) {
+        isEditing = editing;
+
+        // prevent both tables being edited concurrently
+        VariableTablePanel otherPanel = tableType == TableType.Net ?
+                getTaskTablePanel() : getNetTablePanel();
+        if (otherPanel != null) {
+            otherPanel.enableButtons(! editing);
+            otherPanel.getTable().setEditable(! editing);
+        }
+        if (editing) {
+            btnApply.setEnabled(false);
+            btnOK.setEnabled(false);
+        }
+        else {
+            dirty = true;
+            enableButtonsIfValid();
+
+            // may need to enable the task auto bind button if new net var added
+            if (tableType == TableType.Net && taskTablePanel != null) {
+                taskTablePanel.enableButtons(true);
+            }
+        }
     }
 
+
     protected boolean allRowsValid() {
-        return getNetTable().allRowsValid() &&
+        return (getNetTable() == null || getNetTable().allRowsValid()) &&
                 (getTaskTable() == null || getTaskTable().allRowsValid());
     }
 
@@ -143,7 +160,9 @@ public class DataVariableDialog extends JDialog
     }
 
 
-    protected VariableTablePanel getNetTablePanel() { return netTablePanel; }
+    protected NetVariableTablePanel getNetTablePanel() { return netTablePanel; }
+
+    public TaskVariableTablePanel getTaskTablePanel() { return taskTablePanel; }
 
     public MultiInstanceHandler getMultiInstanceHandler() { return _miHandler; }
 
@@ -270,7 +289,7 @@ public class DataVariableDialog extends JDialog
     private JPanel getContentForTaskLevel() {
         createNetTablePanel();
         netTablePanel.setBorder(new TitledBorder("Net Variables"));
-        createTaskPanel();
+        createTaskTablePanel();
 
         JPanel content = new JPanel(new BorderLayout());
         content.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -279,37 +298,28 @@ public class DataVariableDialog extends JDialog
         subContent.add(taskTablePanel);
         content.add(subContent, BorderLayout.CENTER);
         content.add(createButtonBar(), BorderLayout.SOUTH);
+        taskTablePanel.setBindingIconsForSelection();
         return content;
     }
 
     private void createNetTablePanel() {
-        netTablePanel = createTablePanel(TableType.Net);
+        java.util.List<VariableRow> rows = createTableRows(TableType.Net);
+        netTablePanel = new NetVariableTablePanel(rows, net.getID(), this);
         getNetTable().getModel().addTableModelListener(this);
         getNetTable().setDragEnabled(true);
         getNetTable().setTransferHandler(
                 new VariableRowTransferHandler(getNetTable(), outputBindings));
     }
 
-    private void createTaskPanel() {
-        taskTablePanel = createTaskTablePanel(TableType.Task);
+
+    private void createTaskTablePanel() {
+        java.util.List<VariableRow> rows = createTableRows(TableType.Task);
+        taskTablePanel = new TaskVariableTablePanel(rows,
+                task.getDecompositionPrototype().getID(), this);
+        taskTablePanel.setBorder(new TitledBorder("Decomposition Variables"));
+        setupTableForDropping(getTaskTable());
+        taskTablePanel.showMIButton(task.isMultiInstance());
         getTaskTable().getModel().addTableModelListener(this);
-    }
-
-
-    private VariableTablePanel createTaskTablePanel(TableType tableType) {
-        VariableTablePanel taskPanel = createTablePanel(tableType);
-        taskPanel.setBorder(new TitledBorder(tableType.getName() + " Variables"));
-        setupTableForDropping(taskPanel.getTable());
-        taskPanel.showMIButton(tableType == TableType.Task && task.isMultiInstance());
-        return taskPanel;
-    }
-
-
-    private VariableTablePanel createTablePanel(TableType tableType) {
-        String decompositionID = tableType == TableType.Net ? net.getID() :
-                task.getDecompositionPrototype().getID();
-        return new VariableTablePanel(
-                createTableRows(tableType), tableType, decompositionID, this);
     }
 
 
@@ -327,6 +337,7 @@ public class DataVariableDialog extends JDialog
         btnApply.setEnabled(false);
         panel.add(btnApply);
         btnOK = createButton("OK");
+        btnOK.setEnabled(false);
         panel.add(btnOK);
         return panel;
     }
@@ -342,7 +353,9 @@ public class DataVariableDialog extends JDialog
     }
 
 
-    private VariableTable getNetTable() { return netTablePanel.getTable(); }
+    public VariableTable getNetTable() {
+        return netTablePanel != null ? netTablePanel.getTable() : null;
+    }
 
 
     public VariableTable getTaskTable() {
@@ -355,13 +368,6 @@ public class DataVariableDialog extends JDialog
 
     public boolean isCompositeTask() {
         return task instanceof YCompositeTask;
-    }
-
-
-    private VariableTablePanel getTablePanelFromTableModel(VariableTableModel model) {
-        if (model instanceof TaskVarTableModel) return taskTablePanel;
-        if (model instanceof NetVarTableModel) return netTablePanel;
-        return null;
     }
 
 

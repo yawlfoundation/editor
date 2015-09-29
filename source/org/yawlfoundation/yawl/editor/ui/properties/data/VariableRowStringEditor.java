@@ -20,14 +20,15 @@ package org.yawlfoundation.yawl.editor.ui.properties.data;
 
 import org.apache.xerces.util.XMLChar;
 import org.yawlfoundation.yawl.editor.core.data.YDataHandlerException;
+import org.yawlfoundation.yawl.editor.ui.properties.data.validation.DataTypeChangeValidator;
 import org.yawlfoundation.yawl.editor.ui.properties.data.validation.VariableValueDialog;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.ValueField;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.util.StringUtil;
 
 import javax.swing.*;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import javax.swing.table.TableCellEditor;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -36,27 +37,26 @@ import java.util.Vector;
 
 /**
  * @author Michael Adams
- * @date 8/08/12
  */
 public class VariableRowStringEditor extends AbstractCellEditor
-        implements TableCellEditor, ActionListener, CaretListener {
+        implements TableCellEditor, ActionListener, PopupMenuListener {
 
     private final JTextField nameField;
-    private final JComboBox dataTypeCombo;
+    private final JComboBox<String> dataTypeCombo;
     private JCheckBox checkBox;
 
     private final ValueField valuePanel;
     private VariableTablePanel tablePanel;
+    private DataTypeChangeValidator dataTypeChangeValidator;
     private String editingColumnName;
     private int editingRow;
 
 
     public VariableRowStringEditor() {
         nameField = new JTextField();
-        nameField.addCaretListener(this);
-        dataTypeCombo = new JComboBox(getDataTypeNames());
-        dataTypeCombo.addActionListener(this);
-        valuePanel = new ValueField(this, this);
+        dataTypeCombo = new JComboBox<String>(getDataTypeNames());
+        dataTypeCombo.addPopupMenuListener(this);
+        valuePanel = new ValueField(this, null);
         checkBox = new JCheckBox();
         checkBox.addActionListener(this);
     }
@@ -108,25 +108,35 @@ public class VariableRowStringEditor extends AbstractCellEditor
 
 
     public boolean stopCellEditing() {
-        isValid();
-        tablePanel.setEditMode(false);
-        return super.stopCellEditing();
+        if (isValid()) {
+            super.stopCellEditing();                    // fire stop editing event
+            tablePanel.setEditMode(false);              // ...before notifying panel
+            return true;
+        }
+        return false;
     }
 
 
     public void actionPerformed(ActionEvent actionEvent) {
+        System.out.println("string editor: action performed");
         if (actionEvent.getActionCommand().equals("ShowDialog")) {
             showValueDialog((String) getCellEditorValue());
         }
         if (isValid()) {
-            tablePanel.setEditMode(false);
-            fireEditingStopped();
+            stopCellEditing();
         }
     }
 
 
-    public void caretUpdate(CaretEvent caretEvent) {
-        tablePanel.setTableChanged();
+    // these event handlers are for the data type combo
+    public void popupMenuWillBecomeVisible(PopupMenuEvent e) { }
+
+    public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+        stopCellEditing();       // validate
+    }
+
+    public void popupMenuCanceled(PopupMenuEvent e) {
+        super.stopCellEditing();      // don't validate
     }
 
 
@@ -152,17 +162,21 @@ public class VariableRowStringEditor extends AbstractCellEditor
         if (editingColumnName.equals("Name")) {
             row.setValidName(validateName(value));
             if (! row.isValidName()) return false;
+            tablePanel.clearStatus();
             tablePanel.getVariableDialog().updateMappingsOnVarNameChange(row, value);
         }
         else if (editingColumnName.equals("Type")) {
-            row.setValidValue(true);                 // varrow will re-initialise value
+            if (dataTypeChangeValidator == null) {
+                dataTypeChangeValidator = new DataTypeChangeValidator(tablePanel);
+            }
+            dataTypeChangeValidator.validateBindings(row, value);  // value is data type
         }
         else if (editingColumnName.endsWith("Value")) {
             row.setValidValue(validateValue(value));
             if (! row.isValidValue()) return false;
+            tablePanel.clearStatus();
         }
 
-        tablePanel.clearStatus();
         return true;
     }
 
@@ -176,7 +190,7 @@ public class VariableRowStringEditor extends AbstractCellEditor
             errMsg = "Duplicate variable name";
         }
         else if (! XMLChar.isValidName(name)) {
-            errMsg = "Invalid XML name";
+            errMsg = "Invalid variable name (not XML valid)";
         }
         if (errMsg != null) {
             tablePanel.showErrorStatus(errMsg, null);

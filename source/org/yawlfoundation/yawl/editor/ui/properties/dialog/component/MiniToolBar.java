@@ -55,6 +55,10 @@ public class MiniToolBar extends JToolBar {
     }
 
 
+    public void setIcon(JButton button, String iconName) {
+        button.setIcon(getIcon(iconName));
+    }
+
     private ImageIcon getIcon(String iconName) {
         return ResourceLoader.getMiniToolIcon(iconName);
     }

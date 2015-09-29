@@ -30,7 +30,7 @@ import java.util.*;
  */
 public class BindingTypeValidator extends TypeValueBuilder {
 
-    private Map<String, DynFormField> _fieldMap;
+    private List<DynFormField> _fieldList;
     private String _dataTypeName;
     private String _rootName;
     private String _taskDecompositionID;
@@ -81,6 +81,26 @@ public class BindingTypeValidator extends TypeValueBuilder {
 
 
     /**
+     * This variant is used to re-validate mappings when a variable's data type is changed
+     *
+     * @param varList the list of net-level variables if validating a task input
+     *                binding, or the combined list of net-level & task-level output
+     *                variables if validating a task output binding
+     * @param dataTypeName the name of the target data type (the data type of the
+     *                     task-level variable for input bindings, or the data type
+     *                     of the net-level variable for output bindings)
+     * @param taskDecompositionID the task decomposition id for task output validations
+     */
+    public BindingTypeValidator(List<VariableRow> varList, String dataTypeName,
+                                String taskDecompositionID) {
+        _rootName = getNet().getRootDataElementName();
+        _dataTypeName = dataTypeName;
+        _taskDecompositionID = taskDecompositionID;
+        init(getParamMap(varList));
+    }
+
+
+    /**
      * Sets the target data type to validate against. Called by the binding dialogs when
      * a different target variable is chosen
      * @param dataType the data type of the variable being bound to
@@ -116,11 +136,11 @@ public class BindingTypeValidator extends TypeValueBuilder {
                     }
                 }
                 else {
-                    return Arrays.asList("Invalid expression (perhaps spelling?)");
+                    return Collections.singletonList("Invalid expression (perhaps spelling?)");
                 }
             }
             catch (Exception e) {
-                return Arrays.asList(e.getMessage());
+                return Collections.singletonList(e.getMessage());
             }
         }
         return Collections.emptyList();
@@ -145,13 +165,13 @@ public class BindingTypeValidator extends TypeValueBuilder {
 
             @Override
             protected Void doInBackground() throws Exception {
-                _fieldMap = getFieldMap(paramMap, _rootName, getDataSchema(paramMap));
-                _dataDocument = getDataDocument(
-                        new ArrayList<DynFormField>(_fieldMap.values()), _rootName);
+                _fieldList = getFieldList(paramMap, _rootName, getDataSchema(paramMap));
+                _dataDocument = getDataDocument(_fieldList, _rootName);
+                _initialised = true;
                 return null;
             }
 
-            protected void done() { _initialised = true; }
+            protected void done() {  }
         }.execute();
     }
 
@@ -162,7 +182,7 @@ public class BindingTypeValidator extends TypeValueBuilder {
      * @return true if this binding targets a net or task level variable
      */
     private boolean shouldValidate(String binding) {
-        return (! (binding == null || _fieldMap == null || _dataTypeName == null));
+        return (! (binding == null || _fieldList == null || _dataTypeName == null));
 
     }
 

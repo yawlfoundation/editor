@@ -25,6 +25,7 @@ import javax.swing.table.TableCellEditor;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 /**
  * @author Michael Adams
@@ -34,14 +35,14 @@ public class VariableRowUsageEditor extends AbstractCellEditor
         implements TableCellEditor, ActionListener {
 
     private final VariableTablePanel tablePanel;
-    private final JComboBox usageCombo;
+    private final JComboBox<String> usageCombo;
 
     private static final int SCOPE_COUNT = YDataHandler.getScopeNames().size();
 
 
     public VariableRowUsageEditor(VariableTablePanel panel) {
         tablePanel = panel;
-        usageCombo = new JComboBox(panel.getScopeNames().toArray());
+        usageCombo = new JComboBox<String>(new Vector<String>(panel.getScopeNames()));
         usageCombo.addActionListener(this);
     }
 
@@ -66,9 +67,8 @@ public class VariableRowUsageEditor extends AbstractCellEditor
     }
 
     public void actionPerformed(ActionEvent actionEvent) {
-        tablePanel.setEditMode(false);
+        stopCellEditing();
         tablePanel.notifyUsageChange((Integer) getCellEditorValue());
-        fireEditingStopped();
     }
 
 

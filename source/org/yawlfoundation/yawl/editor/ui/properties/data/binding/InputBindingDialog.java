@@ -18,10 +18,10 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.data.binding;
 
-import org.yawlfoundation.yawl.editor.ui.properties.data.DataUtils;
 import org.yawlfoundation.yawl.editor.ui.properties.data.MultiInstanceHandler;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.properties.data.validation.BindingTypeValidator;
+import org.yawlfoundation.yawl.util.StringUtil;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -65,6 +65,7 @@ public class InputBindingDialog extends AbstractDataBindingDialog {
         else if (action.equals("OK")) {
             VariableRow row = getCurrentRow();
             row.setBinding(formatQuery(getEditorText(), false));
+            validateBinding(row);
             if (row.isMultiInstance()) {
                 getMultiInstanceHandler().setSplitQuery(
                         formatQuery(getMIEditorText(), false));
@@ -173,6 +174,7 @@ public class InputBindingDialog extends AbstractDataBindingDialog {
         for (String varName : undoMap.keySet()) {
             VariableRow row = getTaskVariableRow(varName);
             row.setBinding(formatQuery(undoMap.get(varName), false));
+            validateBinding(row);
         }
         undoMap.clear();
     }
@@ -211,10 +213,9 @@ public class InputBindingDialog extends AbstractDataBindingDialog {
 
     // update the binding text based on the new net var selection
     private void generateBindingFromNetVar(String selectedNetVarName) {
-        VariableRow row = getNetVariableRow(selectedNetVarName);
-        if (row != null) {
-            setEditorText(DataUtils.createBinding(row));
-        }
+        VariableRow taskVarRow = getSelectedTaskVariableRow();
+        taskVarRow.setValidInputBinding(generateBinding(
+                getNetVariableRow(selectedNetVarName), taskVarRow));
     }
 
 
@@ -232,6 +233,13 @@ public class InputBindingDialog extends AbstractDataBindingDialog {
         if (row != null) {
             setEditorText(row.getStartingBinding());
         }
+    }
+
+
+    private void validateBinding(VariableRow row) {
+        String binding = row.getBinding();
+        row.setValidInputBinding(!StringUtil.isNullOrEmpty(binding) &&
+                getTypeValidator().validate(binding).isEmpty());
     }
 
 }

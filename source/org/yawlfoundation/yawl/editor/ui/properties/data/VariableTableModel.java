@@ -56,6 +56,7 @@ abstract class VariableTableModel extends AbstractTableModel {
 
     public void insertRow(int row, VariableRow variableRow) {
         variables.add(row, variableRow);
+        tableChanged = true;
         fireTableRowsInserted(row, row);
     }
 
@@ -64,11 +65,13 @@ abstract class VariableTableModel extends AbstractTableModel {
         getVariableAtRow(row).setMultiInstance(false);
         if (removed == null) removed = new ArrayList<VariableRow>();
         removed.add(variables.remove(row));
+        tableChanged = true;
         fireTableDataChanged();
     }
 
     public void swapRows(int first, int second) {
         Collections.swap(variables, first, second);
+        tableChanged = true;
         fireTableRowsUpdated(first, second);
     }
 

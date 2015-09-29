@@ -19,6 +19,7 @@
 package org.yawlfoundation.yawl.editor.ui.properties.data.binding;
 
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
+import org.yawlfoundation.yawl.editor.ui.properties.data.DataUtils;
 import org.yawlfoundation.yawl.editor.ui.properties.data.MultiInstanceHandler;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.properties.data.validation.BindingTypeValidator;
@@ -161,6 +162,23 @@ public abstract class AbstractDataBindingDialog extends JDialog implements Actio
     }
 
 
+    protected boolean generateBinding(VariableRow source, VariableRow target) {
+        if (source != null) {
+            String binding = DataUtils.createBinding(source);
+            java.util.List<String> errors = getTypeValidator().validate(binding);
+            if (errors.isEmpty()) {
+                setEditorText(binding);
+                return true;
+            }
+            else {
+                showGenerateBindingError(source, target);
+                setEditorText("");
+            }
+        }
+        return false;
+    }
+
+
     private JPanel getContent(VariableRow row) {
         JPanel content = new JPanel(new BorderLayout());
         content.setBorder(new EmptyBorder(7, 7, 0, 7));
@@ -230,6 +248,18 @@ public abstract class AbstractDataBindingDialog extends JDialog implements Actio
             }
         }
         return null;
+    }
+
+
+    private void showGenerateBindingError(VariableRow source, VariableRow target) {
+        StringBuilder s = new StringBuilder();
+        s.append("Unable to generate binding due to incompatible data types.\n");
+        s.append("\tSource variable '").append(source.getName());
+        s.append("' has data type: ").append(source.getDataType()).append(".\n");
+        s.append("\tTarget variable '").append(target.getName());
+        s.append("' has data type: ").append(target.getDataType()).append(".\n");
+        JOptionPane.showMessageDialog(this, s.toString(), "Generate Binding Error",
+                JOptionPane.ERROR_MESSAGE);
     }
 
 }

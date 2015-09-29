@@ -18,10 +18,10 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.data.binding;
 
-import org.yawlfoundation.yawl.editor.ui.properties.data.DataUtils;
 import org.yawlfoundation.yawl.editor.ui.properties.data.MultiInstanceHandler;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.properties.data.validation.BindingTypeValidator;
+import org.yawlfoundation.yawl.util.StringUtil;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -199,7 +199,8 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
                             ":" + row.getName());
                 }
                 else {
-                    setEditorText(DataUtils.createBinding(row));
+                    row.setValidOutputBinding(
+                            generateBinding(row, getSelectedNetVariableRow()));
                 }
             }
         }
@@ -281,11 +282,20 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
                         formatQuery(binding, false));
             }
             else {
-                _outputBindings.setBinding(_workingSelection.item,
-                        formatQuery(binding, false));
+                String query = formatQuery(binding, false);
+                _outputBindings.setBinding(_workingSelection.item, query);
+                validateBinding(query);
             }
         }
     }
+
+
+    private void validateBinding(String binding) {
+        VariableRow row = getCurrentRow();
+        row.setValidOutputBinding(!StringUtil.isNullOrEmpty(binding) &&
+                getTypeValidator().validate(binding).isEmpty());
+    }
+
 
 
     class WorkingSelection {
