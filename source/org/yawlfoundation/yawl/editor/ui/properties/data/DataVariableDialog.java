@@ -120,12 +120,8 @@ public class DataVariableDialog extends JDialog
         isEditing = editing;
 
         // prevent both tables being edited concurrently
-        VariableTablePanel otherPanel = tableType == TableType.Net ?
-                getTaskTablePanel() : getNetTablePanel();
-        if (otherPanel != null) {
-            otherPanel.enableButtons(! editing);
-            otherPanel.getTable().setEditable(! editing);
-        }
+        preventConcurrentEditing(tableType, editing);
+
         if (editing) {
             btnApply.setEnabled(false);
             btnOK.setEnabled(false);
@@ -460,6 +456,18 @@ public class DataVariableDialog extends JDialog
             JOptionPane.showMessageDialog(this, ydhe.getMessage(),
                     "Failed to update data", JOptionPane.ERROR_MESSAGE);
             return false;
+        }
+    }
+
+
+    // prevent both tables being edited concurrently
+    private void preventConcurrentEditing(TableType tableType, boolean editing) {
+        VariableTablePanel otherPanel = tableType == TableType.Net ?
+                getTaskTablePanel() : getNetTablePanel();
+        if (otherPanel != null) {
+            otherPanel.enableButtons(! editing);
+            otherPanel.getTable().setEditable(! editing);
+            otherPanel.getTable().setEnabled(! editing);
         }
     }
 
