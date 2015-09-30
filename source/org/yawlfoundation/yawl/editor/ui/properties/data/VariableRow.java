@@ -102,7 +102,7 @@ public class VariableRow implements Comparable<VariableRow> {
         return canBeDropped() && isValidInputBinding() && isValidOutputBinding();
     }
 
-    public boolean canBeDropped() {
+    public boolean canBeDropped() {           // i.e. this row can be drag'n'dropped
         return hasValidName && hasValidValue;
     }
 
@@ -116,6 +116,11 @@ public class VariableRow implements Comparable<VariableRow> {
     public void setValidInputBinding(boolean valid) { hasValidInputBinding = valid; }
 
     public void setValidOutputBinding(boolean valid) { hasValidOutputBinding = valid; }
+
+    public void setValidBindings() {
+        hasValidInputBinding = true;
+        hasValidInputBinding = true;
+    }
 
 
     public void setMultiInstance(boolean isMultiInstance) {

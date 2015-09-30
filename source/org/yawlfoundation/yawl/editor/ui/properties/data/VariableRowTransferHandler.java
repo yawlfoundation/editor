@@ -151,7 +151,7 @@ public class VariableRowTransferHandler extends TransferHandler {
 
 
     private boolean isTaskTable(Component component) {
-        return (((VariableTable) component).getTableModel() instanceof TaskVarTableModel);
+        return (((VariableTable) component).getTableModel() instanceof TaskVariableTableModel);
     }
 
 

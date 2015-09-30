@@ -24,6 +24,7 @@ import org.yawlfoundation.yawl.editor.ui.properties.data.binding.AbstractDataBin
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.InputBindingDialog;
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.OutputBindingDialog;
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.view.BindingViewDialog;
+import org.yawlfoundation.yawl.editor.ui.properties.data.validation.DataTypeChangeValidator;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.ExtendedAttributesDialog;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.LogPredicateDialog;
 
@@ -89,7 +90,7 @@ public class TaskVariableTablePanel extends VariableTablePanel
             showBindingDialog(YDataHandler.OUTPUT);
         }
         else if (action.equals("Autobind")) {
-            autobind();
+            autoBind();
         }
         else if (action.equals("View")) {
             new BindingViewDialog(this, parent).setVisible(true);
@@ -117,6 +118,12 @@ public class TaskVariableTablePanel extends VariableTablePanel
     public TaskVariableTablePanel copy() {
         return new TaskVariableTablePanel(table.getVariables(),
                 table.getDecompositionID(), parent);
+    }
+
+
+    public void revalidateBindingsInBackground() {
+        DataTypeChangeValidator validator = new DataTypeChangeValidator(this);
+        validator.revalidateTaskBindingsInBackground();
     }
 
 
@@ -236,12 +243,16 @@ public class TaskVariableTablePanel extends VariableTablePanel
     }
 
 
-    private void autobind() {
+    private void autoBind() {
         boolean changed = false;
         int selectedRow = table.getSelectedRow();
         for (VariableRow row : table.getVariables()) {
             if (! hasBinding(row)) {
-                changed = parent.createAutoBinding(row) || changed;
+                boolean success = parent.createAutoBinding(row);
+                if (success) {
+                    row.setValidBindings();
+                }
+                changed = success || changed;
             }
         }
         if (changed) table.getTableModel().fireTableDataChanged();

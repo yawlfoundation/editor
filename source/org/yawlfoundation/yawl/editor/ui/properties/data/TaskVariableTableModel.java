@@ -24,16 +24,28 @@ import org.yawlfoundation.yawl.editor.core.data.YDataHandler;
  * @author Michael Adams
  * @date 28/02/2014
  */
-public class TaskVarTableModel extends NetVarTableModel {
+public class TaskVariableTableModel extends NetVariableTableModel {
 
-    public TaskVarTableModel() {
+    public TaskVariableTableModel() {
         super();
     }
+
 
     public String getColumnName(int column) {
         return column == VALUE_COLUMN ? "Default Value" : super.getColumnName(column);
     }
 
+
     public void addRow() { super.addRow(YDataHandler.INPUT_OUTPUT); }
+
+
+    public boolean allRowsValid() {
+        if (getVariables() != null) {
+            for (VariableRow row : getVariables()) {
+                if (! row.isValid()) return false;
+            }
+        }
+        return true;
+    }
 
 }

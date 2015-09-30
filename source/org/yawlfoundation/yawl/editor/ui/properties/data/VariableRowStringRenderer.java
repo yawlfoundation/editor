@@ -45,7 +45,7 @@ public class VariableRowStringRenderer extends DefaultCellRenderer {
         if (column == 0) {
             if (_selectorFont == null) _selectorFont = getSelectorFont((String) value);
             if (_selectorFont != null) setFont(_selectorFont);
-            if (! (varRow.isLocal() || isAdding(varRow) || hasValidBindings(varRow))) {
+            if (isTaskTable(table) && ! (isAdding(varRow) || hasValidBindings(varRow))) {
                 setForeground(ERROR_COLOR);
             }
         }
@@ -63,6 +63,7 @@ public class VariableRowStringRenderer extends DefaultCellRenderer {
             else if (varRow.getDataType().equals("boolean")) {
                 JCheckBox checkBox = new JCheckBox();
                 checkBox.setSelected(Boolean.valueOf((String) value));
+                checkBox.setHorizontalAlignment(SwingConstants.CENTER);
                 return checkBox;
             }
             if (! varRow.isValidValue()) {
@@ -85,7 +86,7 @@ public class VariableRowStringRenderer extends DefaultCellRenderer {
 
 
     private boolean isTaskTable(JTable table) {
-        return (((VariableTable) table).getTableModel() instanceof TaskVarTableModel);
+        return (((VariableTable) table).getTableModel() instanceof TaskVariableTableModel);
     }
 
 

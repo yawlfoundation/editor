@@ -125,8 +125,7 @@ public class BindingTypeValidator extends TypeValueBuilder {
     public List<String> validate(String binding) {
         if (shouldValidate(binding)) {
             try {
-                String prepared = maskDecompositionID(substituteExternals(binding));
-                String query = evaluateQuery(prepared, _dataDocument);
+                String query = evaluateQuery(prepareBinding(binding), _dataDocument);
                 if (isValidQuery(query)) {
                     List<String> errors = getDataHandler().validate(_dataTypeName, query);
                     if (! errors.isEmpty()) {
@@ -252,7 +251,8 @@ public class BindingTypeValidator extends TypeValueBuilder {
     }
 
 
-    // return true if binding is an external data gateway, timer or cost predicate
+    // return processed binding if binding is an external data gateway, timer or
+    // cost predicate, or else returns the unchanged binding
     private String substituteExternals(String binding) {
         binding = _externalMatcher.replaceAll(binding, "");
         binding = _timerMatcher.replaceAll(binding, "false");
@@ -320,6 +320,27 @@ public class BindingTypeValidator extends TypeValueBuilder {
      */
     private boolean isValidQuery(String query) {
         return ! query.isEmpty() || _dataTypeName.equals("string");
+    }
+
+
+    private String prepareBinding(String binding) {
+
+        // if a simple boolean value, wrap it in a function
+        if (isTruthValue(binding)) {
+            return "boolean(" + binding + ")";
+        }
+
+        // process binding if managed by an external predicate evaluator
+        String prepared = substituteExternals(binding);
+
+        // prepare references to target decomposition as required
+        return maskDecompositionID(prepared);
+    }
+
+
+    private boolean isTruthValue(String value) {
+        return value != null &&
+                (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"));
     }
 
 }

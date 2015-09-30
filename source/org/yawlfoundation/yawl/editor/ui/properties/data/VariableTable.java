@@ -20,6 +20,9 @@ package org.yawlfoundation.yawl.editor.ui.properties.data;
 
 import org.yawlfoundation.yawl.editor.ui.swing.JSingleSelectTable;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 /**
@@ -35,6 +38,7 @@ public class VariableTable extends JSingleSelectTable {
     public VariableTable(TableType type) {
         super();
         consumeEnterKeyWraps();
+        consumeEscapeKey();
         tableType = type;
         setModel(type.getModel());
         setRowHeight(getRowHeight() + 5);
@@ -169,6 +173,23 @@ public class VariableTable extends JSingleSelectTable {
 
     public void updatesApplied() {
         getTableModel().updatesApplied();
+    }
+
+
+    private void consumeEscapeKey() {
+        Action escapeAction = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                if (isEditing()) {
+                    int row = getEditingRow();
+                    int col = getEditingColumn();
+                    getCellEditor(row, col).cancelCellEditing();
+                }
+            }
+        };
+
+        KeyStroke escape = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
+        getInputMap(JTable.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(escape, "ESCAPE");
+        getActionMap().put("ESCAPE", escapeAction);
     }
 
 }

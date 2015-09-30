@@ -35,14 +35,14 @@ public class VariableRowUsageEditor extends AbstractCellEditor
         implements TableCellEditor, ActionListener {
 
     private final VariableTablePanel tablePanel;
-    private final JComboBox<String> usageCombo;
+    private final JComboBox usageCombo;
 
     private static final int SCOPE_COUNT = YDataHandler.getScopeNames().size();
 
 
     public VariableRowUsageEditor(VariableTablePanel panel) {
         tablePanel = panel;
-        usageCombo = new JComboBox<String>(new Vector<String>(panel.getScopeNames()));
+        usageCombo = new JComboBox(new Vector<String>(panel.getScopeNames()));
         usageCombo.addActionListener(this);
     }
 

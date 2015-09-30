@@ -25,7 +25,7 @@ package org.yawlfoundation.yawl.editor.ui.properties.data;
 public enum TableType {
 
     Net {
-        public VariableTableModel getModel() { return new NetVarTableModel(); }
+        public VariableTableModel getModel() { return new NetVariableTableModel(); }
 
         public int getPreferredWidth() { return 600; }
 
@@ -33,7 +33,7 @@ public enum TableType {
     },
 
     Task {
-        public VariableTableModel getModel() { return new TaskVarTableModel(); }
+        public VariableTableModel getModel() { return new TaskVariableTableModel(); }
 
         public int getPreferredWidth() { return 600; }
 

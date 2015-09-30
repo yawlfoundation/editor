@@ -223,6 +223,18 @@ public class VariableTablePanel extends JPanel
     }
 
 
+    protected void cancelEdit() {
+        isEditing = false;
+        parent.setEditing(false, tableType);
+        enableButtons(true);
+
+        // if the current row has no name, it is a cancelled new row so must be removed
+        VariableRow editedRow = getTable().getSelectedVariable();
+        if (editedRow != null && editedRow.getName().isEmpty()) {
+            getTable().removeRow();
+        }
+    }
+
 
     protected void notifyUsageChange(int usage) {  }
 

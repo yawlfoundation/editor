@@ -86,7 +86,10 @@ public class DataVariableDialog extends JDialog
 
     public void actionPerformed(ActionEvent event) {
         String action = event.getActionCommand();
-        if (! action.equals("Cancel") && dirty && allRowsValid()) {
+        if (action.equals("Cancel")) {
+            cancelCellEditing();
+        }
+        else if (dirty && allRowsValid()) {
             stopCellEditing();
             if (! updateVariables()) return;                       // abort on error
             btnApply.setEnabled(false);
@@ -107,7 +110,7 @@ public class DataVariableDialog extends JDialog
     public YNet getNet() { return net; }
 
 
-    protected void enableButtonsIfValid() {
+    public void enableButtonsIfValid() {
         boolean allRowsValid = !isEditing && allRowsValid();
         btnApply.setEnabled(allRowsValid && dirty);
         btnOK.setEnabled(allRowsValid);
@@ -157,6 +160,16 @@ public class DataVariableDialog extends JDialog
 
     protected void stopCellEditing(JTable table) {
         if (table != null && table.isEditing()) table.getCellEditor().stopCellEditing();
+    }
+
+
+    protected void cancelCellEditing() {
+        cancelCellEditing(getNetTable());
+        cancelCellEditing(getTaskTable());
+    }
+
+    protected void cancelCellEditing(JTable table) {
+        if (table != null && table.isEditing()) table.getCellEditor().cancelCellEditing();
     }
 
 
@@ -298,7 +311,7 @@ public class DataVariableDialog extends JDialog
         subContent.add(taskTablePanel);
         content.add(subContent, BorderLayout.CENTER);
         content.add(createButtonBar(), BorderLayout.SOUTH);
-        taskTablePanel.setBindingIconsForSelection();
+        taskTablePanel.revalidateBindingsInBackground();
         return content;
     }
 

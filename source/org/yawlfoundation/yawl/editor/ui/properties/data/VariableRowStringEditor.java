@@ -42,7 +42,7 @@ public class VariableRowStringEditor extends AbstractCellEditor
         implements TableCellEditor, ActionListener, PopupMenuListener {
 
     private final JTextField nameField;
-    private final JComboBox<String> dataTypeCombo;
+    private final JComboBox dataTypeCombo;
     private JCheckBox checkBox;
 
     private final ValueField valuePanel;
@@ -54,7 +54,7 @@ public class VariableRowStringEditor extends AbstractCellEditor
 
     public VariableRowStringEditor() {
         nameField = new JTextField();
-        dataTypeCombo = new JComboBox<String>(getDataTypeNames());
+        dataTypeCombo = new JComboBox(getDataTypeNames());
         dataTypeCombo.addPopupMenuListener(this);
         valuePanel = new ValueField(this, null);
         checkBox = new JCheckBox();
@@ -117,8 +117,14 @@ public class VariableRowStringEditor extends AbstractCellEditor
     }
 
 
+    @Override
+    public void cancelCellEditing() {
+        super.cancelCellEditing();
+        tablePanel.cancelEdit();
+    }
+
+
     public void actionPerformed(ActionEvent actionEvent) {
-        System.out.println("string editor: action performed");
         if (actionEvent.getActionCommand().equals("ShowDialog")) {
             showValueDialog((String) getCellEditorValue());
         }

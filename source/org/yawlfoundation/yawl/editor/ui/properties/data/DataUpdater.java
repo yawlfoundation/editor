@@ -103,7 +103,7 @@ public class DataUpdater {
 
 
     private boolean isTaskTable(VariableTable table) {
-        return table.getTableModel() instanceof TaskVarTableModel;
+        return table.getTableModel() instanceof TaskVariableTableModel;
     }
 
 

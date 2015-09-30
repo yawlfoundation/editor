@@ -24,7 +24,7 @@ import org.yawlfoundation.yawl.editor.core.data.YDataHandler;
 * @author Michael Adams
 * @date 3/08/12
 */
-class NetVarTableModel extends VariableTableModel {
+class NetVariableTableModel extends VariableTableModel {
 
     private static final String[] COLUMN_LABELS =
             {"", "Name", "Type", "Scope", "Initial Value"};
@@ -38,7 +38,7 @@ class NetVarTableModel extends VariableTableModel {
     protected static final int SCOPE_COLUMN = 3;
     protected static final int VALUE_COLUMN = 4;
 
-    public NetVarTableModel() {
+    public NetVariableTableModel() {
         super();
     }
 
@@ -95,5 +95,16 @@ class NetVarTableModel extends VariableTableModel {
 
 
     public void addRow() { super.addRow(YDataHandler.LOCAL); }
+
+
+    public boolean allRowsValid() {
+        if (getVariables() != null) {
+            for (VariableRow row : getVariables()) {
+                if (! row.canBeDropped()) return false;   // i.e. invalid name and/or value
+            }
+        }
+        return true;
+    }
+
 
 }

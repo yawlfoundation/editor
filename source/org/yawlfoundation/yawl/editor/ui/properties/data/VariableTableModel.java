@@ -86,15 +86,6 @@ abstract class VariableTableModel extends AbstractTableModel {
         editable = canEdit;
     }
 
-    public boolean allRowsValid() {
-        if (variables != null) {
-            for (VariableRow row : variables) {
-                if (! row.isValid()) return false;
-            }
-        }
-        return true;
-    }
-
 
     public void updatesApplied() {
         if (removed != null) removed.clear();
@@ -141,5 +132,7 @@ abstract class VariableTableModel extends AbstractTableModel {
 
 
     public abstract void addRow();
+
+    public abstract boolean allRowsValid();
 
 }
