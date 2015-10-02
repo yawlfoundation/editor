@@ -29,10 +29,13 @@ import org.yawlfoundation.yawl.editor.ui.specification.validation.AnalysisResult
 import org.yawlfoundation.yawl.editor.ui.specification.validation.DataTypeValidator;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.SpecificationValidator;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.ValidationResultsParser;
+import org.yawlfoundation.yawl.editor.ui.util.ErrorReporter;
 import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
 import org.yawlfoundation.yawl.elements.YSpecification;
+import org.yawlfoundation.yawl.reporter.Report;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,6 +78,13 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
                                 "Error message: " + msg + "\n ",
                         "Save File Error");
                 _log.error("Error saving specification to file.", e);
+                try {
+                    ErrorReporter er = new ErrorReporter();
+                    Report report = er.prepare("Failed to save", e);
+                    report.addContent("FileName", _fileName);
+                    er.send(report);
+                }
+                catch (IOException ioe) {}
             }
         }
         return _successful;

@@ -230,7 +230,7 @@ public class FileOperations {
         String shortFileName = file.getName();
         int extnPos = shortFileName.lastIndexOf('.');
         if (extnPos > -1) shortFileName = shortFileName.substring(0, extnPos);
-        _specification.setURI(shortFileName.replace(' ', '_'));
+        _specification.setURI(shortFileName);
     }
 
     /**
