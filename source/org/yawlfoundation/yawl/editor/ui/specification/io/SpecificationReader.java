@@ -405,7 +405,7 @@ public class SpecificationReader extends SwingWorker<Boolean, Void> {
     private void showLayoutParseWarning() {
         showError(
                 "The specification loaded successfully, but the layout data is invalid.\n" +
-                "The editor will attempt a default layout.",
+                "A basic default layout will be applied.",
                 "Specification Layout Load Error",
                 JOptionPane.WARNING_MESSAGE
         );

@@ -76,7 +76,8 @@ public class NetProperties extends YPropertiesBean {
 
     public String getDescription() {
         String description = specHandler.getDescription();
-        return description.equals("No description provided") ? "" : description;
+        return description == null || description.equals("No description provided") ?
+                "" : description;
     }
 
     public void setDescription(String desc) { specHandler.setDescription(desc); }
