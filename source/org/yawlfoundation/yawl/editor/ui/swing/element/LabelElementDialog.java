@@ -144,7 +144,7 @@ public class LabelElementDialog extends AbstractVertexDoneDialog {
 
     private void updateVertexID(YAWLVertex vertex, String id) {
         if (id != null) {
-            String validID = XMLUtilities.toValidXMLName(id);
+            String validID = XMLUtilities.toValidNCName(id);
             if (!vertex.getID().equals(validID)) {
                 YSpecificationHandler handler = SpecificationModel.getHandler();
                 try {

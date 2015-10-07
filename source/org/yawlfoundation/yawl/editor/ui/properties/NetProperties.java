@@ -51,13 +51,21 @@ public class NetProperties extends YPropertiesBean {
     public String getUri() { return specHandler.getURI(); }
 
     public void setUri(String uri) {
-        if (StringUtil.isNullOrEmpty(uri)) {
-            showWarning("Invalid Specification Name", "Specification Name cannot be blank");
-            firePropertyChange("Uri", specHandler.getURI());
+        if (getUri().equals(uri)) return;                    // no change
+        String newUri = XMLUtilities.toValidNCName(uri);
+        if (StringUtil.isNullOrEmpty(newUri)) {
+            String msg = "Specification Name " + (StringUtil.isNullOrEmpty(uri) ?
+                    "cannot be blank" : "contains only invalid XML characters");
+            showWarning("Invalid Specification Name", msg);
         }
         else {
-            specHandler.setURI(uri);
+            specHandler.setURI(newUri);
+            if (! newUri.equals(uri)) {
+                YAWLEditor.getStatusBar().setText(
+                        "Invalid XML characters removed from new specification name");
+            }
         }
+        firePropertyChange("Uri", getUri());
     }
 
 
@@ -122,13 +130,18 @@ public class NetProperties extends YPropertiesBean {
         String oldName = getName();
         if (oldName.equals(name)) return;
         try {
-            String newName = XMLUtilities.toValidXMLName(name);
+            String newName = XMLUtilities.toValidNCName(name);
             flowHandler.checkDecompositionID(newName);  // throws exception if invalid
             specHandler.getDataHandler().renameDecomposition(oldName, newName);
             graph.setName(newName);
             SpecificationModel.getNets().propagateDecompositionNameChange(
                     model.getDecomposition(), oldName);
             setDirty();
+            if (! newName.equals(name)) {
+                YAWLEditor.getStatusBar().setText(
+                        "Invalid XML characters removed from new net name");
+                firePropertyChange("Name", newName);
+            }
         }
         catch (Exception e) {
             showWarning("Net Rename Error", e.getMessage());

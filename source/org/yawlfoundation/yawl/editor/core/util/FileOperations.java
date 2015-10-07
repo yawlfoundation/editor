@@ -22,6 +22,7 @@ import org.yawlfoundation.yawl.editor.core.layout.YLayout;
 import org.yawlfoundation.yawl.editor.core.layout.YLayoutParseException;
 import org.yawlfoundation.yawl.editor.core.layout.YNetLayout;
 import org.yawlfoundation.yawl.editor.core.layout.YTaskLayout;
+import org.yawlfoundation.yawl.editor.ui.util.XMLUtilities;
 import org.yawlfoundation.yawl.elements.YNet;
 import org.yawlfoundation.yawl.elements.YSpecVersion;
 import org.yawlfoundation.yawl.elements.YSpecification;
@@ -230,7 +231,7 @@ public class FileOperations {
         String shortFileName = file.getName();
         int extnPos = shortFileName.lastIndexOf('.');
         if (extnPos > -1) shortFileName = shortFileName.substring(0, extnPos);
-        _specification.setURI(shortFileName);
+        _specification.setURI(XMLUtilities.toValidNCName(shortFileName));
     }
 
     /**

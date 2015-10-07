@@ -73,18 +73,8 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
                 }
             }
             catch (Exception e) {
-                String msg = e.getMessage() != null ? e.getMessage() : "General Error";
-                showError("The attempt to save this specification to file failed.\n\n" +
-                                "Error message: " + msg + "\n ",
-                        "Save File Error");
+                showFileSaveError(e);
                 _log.error("Error saving specification to file.", e);
-                try {
-                    ErrorReporter er = new ErrorReporter();
-                    Report report = er.prepare("Failed to save", e);
-                    report.addContent("FileName", _fileName);
-                    er.send(report);
-                }
-                catch (IOException ioe) {}
             }
         }
         return _successful;
@@ -158,6 +148,31 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
 
     private void firePropertyChange(String property, Object newValue) {
         YAWLEditor.getPropertySheet().firePropertyChange(property, newValue);
+    }
+
+
+    private void showFileSaveError(Exception e) {
+        String[] options = new String[] {"Don't Send", "Send" };
+        String message = "The attempt to save this specification to file failed." +
+                "\nError message: " +
+                (e.getMessage() != null ? e.getMessage() : "General Error") +
+                "\n\nClick 'Send' to report this issue to the YAWL team.";
+
+        int choice = JOptionPane.showOptionDialog(YAWLEditor.getInstance(), message,
+                "Save File Error", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE,
+                null, options, options[1]);
+
+        if (choice == 1) {
+            try {
+                ErrorReporter er = new ErrorReporter();
+                Report report = er.prepare("Failed to save", e);
+                report.addContent("FileName", _fileName);
+                er.send(report);
+            }
+            catch (IOException ioe) {
+                //
+            }
+        }
     }
 
 }

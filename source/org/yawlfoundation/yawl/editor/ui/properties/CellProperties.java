@@ -268,7 +268,7 @@ public class CellProperties extends NetProperties {
             }
             try {
                 YDecomposition decomposition;
-                String id = XMLUtilities.toValidXMLName(newName);
+                String id = XMLUtilities.toValidNCName(newName);
                 if (isComposite) {
                     YAWLEditorNetPanel panel = YAWLEditor.getNetsPane().newNet(false, id);
                     decomposition = panel.getNet().getNetModel().getDecomposition();
@@ -297,7 +297,7 @@ public class CellProperties extends NetProperties {
         boolean isComposite = (vertex instanceof YAWLCompositeTask);
         while (true) {
             String newName = getDecompositionNameInput("Rename", isComposite);
-            String newID = XMLUtilities.toValidXMLName(newName);
+            String newID = XMLUtilities.toValidNCName(newName);
             if (newID == null || oldID.equals(newID)) break;
             try {
                 newID = flowHandler.checkDecompositionID(newID);
@@ -574,7 +574,7 @@ public class CellProperties extends NetProperties {
 
     private void updateVertexID(String id) {
         if (id != null) {
-            String validID = XMLUtilities.toValidXMLName(id);
+            String validID = XMLUtilities.toValidNCName(id);
             if (validID.isEmpty()) {
                 validID = (vertex instanceof YAWLTask) ? "T" : "C";      // default
             }

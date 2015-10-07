@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.util;
 
+import org.apache.xerces.util.XMLChar;
 import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.util.XNode;
 import org.yawlfoundation.yawl.util.XNodeParser;
@@ -29,27 +30,34 @@ public class XMLUtilities {
     };
 
     /**
-     * Returns a variant of the supplied string with all invalid XML name characters
-     * removed. A special case is the the space character, which is converted to the '_'
-     * character instead.
-     * @param name A string that could be used as an XML name.
-     * @return A valid XML name equivalent of name.
+     * Returns a variant of the supplied string with all invalid XML NCName characters
+     * removed. Whitespace characters are treated as a special case, and converted to
+     * the underscore '_' character instead of being removed.
+     * @param name A string that could be used as an NCName.
+     * @return A valid NCName equivalent of string.
      */
-
-    public static String toValidXMLName(String name) {
+    public static String toValidNCName(String name) {
         if (name == null) return null;
+        if (name.isEmpty()) return name;
+        StringBuilder sb = new StringBuilder(name.length());
 
-        StringBuilder s = new StringBuilder(name.length());
-        for (char c : name.toCharArray()) {
-            if (c == ' ') {
-                s.append('_');
+        // ensure valid starter
+        int cp = name.codePointAt(0);
+        char start = XMLChar.isNCNameStart(cp) ? name.charAt(0) : '_';
+        sb.append(start);
+
+        for (int i=1; i < name.length(); i++) {
+            cp = name.codePointAt(i);
+            if (Character.isWhitespace(cp)) {
+                sb.append('_');
             }
-            else if (Character.isLetterOrDigit(c) || c == '_' || c == '-' || c == '.') {
-                s.append(c);
+            else if (XMLChar.isNCName(cp)) {
+                sb.append(name.charAt(i));
             }
         }
-        return s.toString();
+        return sb.toString();
     }
+
 
 
     public static String stripXMLChars(String s) {
@@ -69,7 +77,6 @@ public class XMLUtilities {
      * @param character A character to be tested.
      * @return whether the character is a special XML character or not.
      */
-
     public static boolean isSpecialXMLCharacter(final char character) {
 
         for (char XML_SPECIAL_CHARACTER : XML_SPECIAL_CHARACTERS) {

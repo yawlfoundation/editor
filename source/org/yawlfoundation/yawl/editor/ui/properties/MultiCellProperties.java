@@ -239,17 +239,6 @@ public class MultiCellProperties extends NetProperties {
         refreshCellViews(vertexSet);
     }
 
-//    public NetTaskPair getResourcing() {
-//        NetTaskPair pair = new NetTaskPair(getSelectedYNet(), vertexSet);
-//        setResourcingString(pair);
-//        return pair;
-//    }
-//
-//    public void setResourcing(NetTaskPair pair) {
-//        setResourcingString(pair);
-//        setDirty();
-//    }
-
 
     public String getIcon() {
         String path = null;
@@ -353,7 +342,7 @@ public class MultiCellProperties extends NetProperties {
             }
             try {
                 YDecomposition decomposition;
-                String id = XMLUtilities.toValidXMLName(newName);
+                String id = XMLUtilities.toValidNCName(newName);
                 if (isComposite) {
                     YAWLEditorNetPanel panel = YAWLEditor.getNetsPane().newNet(false, id);
                     decomposition = panel.getNet().getNetModel().getDecomposition();
@@ -383,7 +372,7 @@ public class MultiCellProperties extends NetProperties {
         String newID = getDecompositionNameInput("Rename", isComposite);
         if (! (newID == null || oldID.equals(newID))) {
             try {
-                newID = specHandler.checkID(XMLUtilities.toValidXMLName(newID));
+                newID = specHandler.checkID(XMLUtilities.toValidNCName(newID));
                 specHandler.getDataHandler().renameDecomposition(oldID, newID);
                 if (isComposite) {
                     YAWLEditor.getNetsPane().renameTab(oldID, newID);
@@ -662,7 +651,7 @@ public class MultiCellProperties extends NetProperties {
 
     private void updateVertexID(YAWLVertex vertex, String id) {
         if (id != null) {
-            String validID = XMLUtilities.toValidXMLName(id);
+            String validID = XMLUtilities.toValidNCName(id);
             if (validID.isEmpty()) {
                 validID = (vertex instanceof YAWLTask) ? "T" : "C";      // default
             }
