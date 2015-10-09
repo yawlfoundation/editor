@@ -37,19 +37,27 @@ public class ServicesPropertyEditor extends ComboPropertyEditor {
     }
 
 
-    public static YAWLServiceReference getService(String label) {
+    public static YAWLServiceReference getByName(String label) {
+        if (services == null) buildServicesMap();
         return services.get(label);
     }
 
 
-    private void buildServicesMap() {
-        services = new HashMap<String, YAWLServiceReference>();
-        String label = "";
-        for (YAWLServiceReference service : YConnector.getServices()) {
-            if (! service.canBeAssignedToTask()) {
-                continue;          // ignore services that are not for tasks
+    public static YAWLServiceReference getByURI(String uri) {
+        if (services == null) buildServicesMap();
+        for (YAWLServiceReference service : services.values()) {
+            String serviceURI = service.getURI();
+            if (serviceURI != null && serviceURI.equals(uri)) {
+                return service;
             }
+        }
+        return null;
+    }
 
+
+    public static String getLabel(YAWLServiceReference service) {
+        String label = "";
+        if (service != null) {
             if (service.getUserName().equals("DefaultWorklist")) {
                 label = DEFAULT_WORKLIST;
             }
@@ -57,8 +65,19 @@ public class ServicesPropertyEditor extends ComboPropertyEditor {
                 label = service.getDocumentation();
             }
             else label = service.getUserName();
+        }
+        return label;
+    }
 
-            services.put(label, service);
+
+    private static void buildServicesMap() {
+        services = new HashMap<String, YAWLServiceReference>();
+        for (YAWLServiceReference service : YConnector.getServices()) {
+            if (! service.canBeAssignedToTask()) {
+                continue;          // ignore services that are not for tasks
+            }
+
+            services.put(getLabel(service), service);
         }
     }
 

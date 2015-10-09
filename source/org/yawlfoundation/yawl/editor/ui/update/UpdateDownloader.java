@@ -35,19 +35,17 @@ public class UpdateDownloader extends SwingWorker<Void, Void> implements Propert
 
     private String _urlBase;
     private String _urlSuffix;
-    private List<String> _fileNames;
-    private long _totalBytes;
+    private VersionDiffer _differ;
     private File _targetDir;
     private Map<DownloadWorker, Integer> _workerMap;
     private final Object _lock = new Object();
 
 
-    public UpdateDownloader(String urlBase, String urlSuffix, List<String> fileNames,
-                            long totalBytes, File targetDir) {
+    public UpdateDownloader(String urlBase, String urlSuffix, VersionDiffer differ,
+                            File targetDir) {
         _urlBase = urlBase;
         _urlSuffix = urlSuffix;
-        _fileNames = fileNames;
-        _totalBytes = totalBytes;
+        _differ = differ;
         _targetDir = targetDir;
     }
 
@@ -76,9 +74,9 @@ public class UpdateDownloader extends SwingWorker<Void, Void> implements Propert
     protected Void doInBackground() {
         _workerMap = new HashMap<DownloadWorker, Integer>();
         setProgress(0);
-        for (String fileName : _fileNames) {
+        for (String fileName : _differ.getDownloadList()) {
             DownloadWorker worker = new DownloadWorker(_urlBase, _urlSuffix,
-                     fileName, _totalBytes, _targetDir);
+                     fileName, _differ.getDownloadSize(), _targetDir);
             worker.addPropertyChangeListener(this);
             _workerMap.put(worker, 0);
             worker.execute();

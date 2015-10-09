@@ -117,7 +117,11 @@ public class MultiDecompositionProperties extends MultiCellProperties {
             YAWLServiceReference service =
                     ((YAWLServiceGateway) _decomposition).getYawlService();
             if (service != null) {
-                serviceName = service.getServiceName();
+                YAWLServiceReference fullService =
+                        ServicesPropertyEditor.getByURI(service.getURI());
+                if (fullService != null) {
+                    serviceName = ServicesPropertyEditor.getLabel(fullService);
+                }
             }
         }
 
@@ -129,9 +133,10 @@ public class MultiDecompositionProperties extends MultiCellProperties {
         return serviceName;
     }
 
+
     public void setCustomService(String serviceName) {
         if (_decomposition != null) {
-            YAWLServiceReference service = ServicesPropertyEditor.getService(serviceName);
+            YAWLServiceReference service = ServicesPropertyEditor.getByName(serviceName);
             if (service != null) {
                 ((YAWLServiceGateway) _decomposition).setYawlService(service);
                 try {

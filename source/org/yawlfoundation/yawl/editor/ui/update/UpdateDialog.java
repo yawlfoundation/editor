@@ -48,7 +48,7 @@ public class UpdateDialog extends JDialog
 
     private JProgressBar _progressBar;
     private JButton _btnDownload;
-    private JButton _btnDownloadAndRestart;
+    private JButton _btnUpdateAndRestart;
     private UpdateDownloader _downloader;
     private VersionDiffer _differ;
     private boolean _restarting;
@@ -84,7 +84,7 @@ public class UpdateDialog extends JDialog
             File path = getUserDownloadToPath();
             if (path != null) download(path);                    // null = user cancel
         }
-        else if (action.equals("Download & Restart")) {
+        else if (action.equals("Update & Restart")) {
             _restarting = true;
             download(null);                                      // null = use tmp dir
         }
@@ -137,8 +137,8 @@ public class UpdateDialog extends JDialog
         panel.add(createButton("Cancel"));
         _btnDownload = createButton("Download");
         panel.add(_btnDownload);
-        _btnDownloadAndRestart = createButton("Download & Restart");
-        panel.add(_btnDownloadAndRestart);
+        _btnUpdateAndRestart = createButton("Update & Restart");
+        panel.add(_btnUpdateAndRestart);
         return panel;
     }
 
@@ -163,7 +163,7 @@ public class UpdateDialog extends JDialog
 
     private void enableButtons(boolean enable) {
         _btnDownload.setEnabled(enable);
-        _btnDownloadAndRestart.setEnabled(enable);
+        _btnUpdateAndRestart.setEnabled(enable);
     }
 
 
@@ -181,8 +181,7 @@ public class UpdateDialog extends JDialog
 
         if (saveToDir == null) saveToDir = getTmpDir();
         _downloader = new UpdateDownloader(UpdateChecker.SOURCE_URL,
-                UpdateChecker.SF_DOWNLOAD_SUFFIX, _differ.getDownloadList(),
-                _differ.getDownloadSize(), saveToDir);
+                UpdateChecker.SF_DOWNLOAD_SUFFIX, _differ, saveToDir);
         _downloader.addPropertyChangeListener(this);
         _downloader.execute();
     }
