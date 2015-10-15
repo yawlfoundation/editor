@@ -174,6 +174,10 @@ public class YAWLEditor extends JFrame implements FileStateListener {
                      loadChosenSpecification(null);
                  }
                  else loadChosenSpecification(arg);
+                 if (! UserSettings.hasRunOnce()) {
+                     UserSettings.setHasRunOnce(true);
+                     new BackgroundUpdateChecker().execute();
+                 }
               }
         });
     }

@@ -141,18 +141,19 @@ public class TaskVariableTablePanel extends VariableTablePanel
 
     private void showBindingDialog(int scope) {
         int selectedRow = table.getSelectedRow();
+        VariableRow selectedVar = table.getSelectedVariable();
         java.util.List<VariableRow> netVars =
                 parent.getNetTablePanel().getTable().getVariables();
         java.util.List<VariableRow> taskVars = table.getVariables();
         String taskID = parent.getTask().getID();
         AbstractDataBindingDialog dialog = null;
 
+
         if (scope == YDataHandler.INPUT) {
-            dialog = new InputBindingDialog(taskID, table.getSelectedVariable(),
-                    netVars, taskVars);
+            dialog = new InputBindingDialog(taskID, selectedVar, netVars, taskVars);
         }
         else if (scope == YDataHandler.OUTPUT) {
-            dialog = new OutputBindingDialog(taskID, table.getSelectedVariable(),
+            dialog = new OutputBindingDialog(taskID, selectedVar,
                     netVars, taskVars, parent.getOutputBindings());
         }
         if (dialog != null) {
@@ -160,7 +161,10 @@ public class TaskVariableTablePanel extends VariableTablePanel
                 dialog.setMultiInstanceHandler(parent.getMultiInstanceHandler());
             }
             dialog.setVisible(true);
-            if (dialog.hasChanges()) parent.enableApplyButton();
+            if (dialog.hasChanges() || selectedVar.isBindingChange()) {
+                parent.enableApplyButton();
+                table.getTableModel().setTableChanged(true);
+            }
             table.getTableModel().fireTableDataChanged();
         }
         table.selectRow(selectedRow);

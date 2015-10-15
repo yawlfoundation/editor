@@ -128,7 +128,7 @@ public class UserSettings {
     // 'other' settings
     private static final String CHECK_FOR_UPDATES_ON_START = "checkUpdatesOnStart";
     private static final String POST_UPDATES_COMPLETED = "postUpdatesCompleted";
-
+    private static final String HAS_RUN_ONCE = "hasRunAtLeastOnce";
 
     public static Preferences getSettings() { return _prefs; }
 
@@ -626,6 +626,15 @@ public class UserSettings {
     public static boolean getPostUpdatesCompleted() {
         return getBoolean(POST_UPDATES_COMPLETED);
     }
+
+    public static void setHasRunOnce(boolean hasRun) {
+        setBoolean(HAS_RUN_ONCE, hasRun);
+    }
+
+    public static boolean hasRunOnce() {
+        return getBoolean(HAS_RUN_ONCE);
+    }
+
 
     public static void setMaxRecentFiles(int max) {
         MAX_RECENT_FILES = max;

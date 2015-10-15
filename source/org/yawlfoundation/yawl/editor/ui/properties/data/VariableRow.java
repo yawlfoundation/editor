@@ -150,8 +150,10 @@ public class VariableRow implements Comparable<VariableRow> {
     }
 
     public void setDataType(String dataType) {
-        endValues.dataType = dataType;
-        if (isLocal()) initialiseValue(dataType);
+        if (! (dataType == null || dataType.equals(getDataType()))) {
+            endValues.dataType = dataType;
+            if (isLocal()) initialiseValue(dataType);
+        }
     }
 
     public boolean isDataTypeChange() {

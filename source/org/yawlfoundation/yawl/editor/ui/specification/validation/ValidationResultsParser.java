@@ -130,7 +130,7 @@ public class ValidationResultsParser {
         }
         if (message.contains("needs to be connected with the input parameter")) {
             return new ValidationMessage("Error: Task '" +
-                    extractLabel(message, '=', ')') +
+                    extractLabel(message, '=', ')').trim() +
                     "' has a variable without a data binding expression.",
                     message);
         }
@@ -142,10 +142,19 @@ public class ValidationResultsParser {
         if (message.startsWith("The decomposition")) {
             return new ValidationMessage("Warning: Decomposition '"
                     + extractLabel(message, '[', ']') + "' is unused.",
-                    "The decomposition is either not associated with any task " +
-                    "or its task is currently not connected. You can remove this " +
-                    "decomposition now using the 'File->Delete Orphaned Decompositions' " +
-                    "menu, or have it automatically discarded when the file is next saved.");
+                    "The decomposition is either (1) not associated with any task " +
+                    "or (2) its task is currently not connected to any net. If (1), you " +
+                    "can remove this decomposition now using the 'File->Delete Orphaned " +
+                    "Decompositions' menu, or have it automatically discarded when the " +
+                    "file is next saved. If (2), you should either connect or remove " +
+                    "the task from its net.");
+        }
+        if (message.startsWith("The net")) {
+            return new ValidationMessage("Warning: The net '"
+                                + extractLabel(message, '[', ']') + "' is unused.",
+                    "The net is not connected to any composite task, so can never " +
+                    "be reached. It should be removed (via the 'Net->Remove' Net menu) " +
+                    "if no longer required.");
         }
         return new ValidationMessage(message);     // default - no long form
     }
