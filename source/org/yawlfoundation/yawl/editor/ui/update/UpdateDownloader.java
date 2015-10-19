@@ -18,6 +18,8 @@
 
 package org.yawlfoundation.yawl.editor.ui.update;
 
+import org.yawlfoundation.yawl.editor.ui.util.Pauser;
+
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -82,7 +84,7 @@ public class UpdateDownloader extends SwingWorker<Void, Void> implements Propert
             worker.execute();
         }
         while (! isComplete()) {
-            pause(1000);
+            Pauser.pause(1000);
             if (hasErrors()) {
                 cancel();
                 break;
@@ -123,23 +125,5 @@ public class UpdateDownloader extends SwingWorker<Void, Void> implements Propert
         for (Integer i : _workerMap.values()) progress += i;
         return progress;
     }
-
-    private void pause(long milliseconds) {
-        long now = System.currentTimeMillis();
-        long finishTime = now + milliseconds;
-        while (now < finishTime) {
-            long timeToWait = finishTime - now;
-            synchronized (_lock) {
-                try {
-                    _lock.wait(timeToWait);
-                }
-                catch (InterruptedException ex) {
-                    // go round again
-                }
-            }
-            now = System.currentTimeMillis();
-        }
-    }
-
 
 }

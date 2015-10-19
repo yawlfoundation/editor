@@ -19,6 +19,8 @@
 package org.yawlfoundation.yawl.editor.ui.specification;
 
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
+import org.yawlfoundation.yawl.editor.ui.specification.pubsub.FileState;
+import org.yawlfoundation.yawl.editor.ui.specification.pubsub.FileStateListener;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.Publisher;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.AnalysisResultsParser;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.SpecificationValidator;
@@ -91,8 +93,20 @@ public class FileOperations {
                 break;
             }
             case Exit: {
-                if (handler.closeFileOnExit()) {
-                    System.exit(0);
+
+                // need to listen for file save completion (or file close)
+                FileStateListener fsListener = new FileStateListener() {
+                    @Override
+                    public void specificationFileStateChange(FileState state) {
+                        if (state == FileState.Closed) {
+                            System.exit(0);
+                        }
+                    }
+                };
+                publisher.subscribe(fsListener);
+
+                if (! handler.closeFileOnExit()) {
+                    publisher.unsubscribe(fsListener);       // exit cancelled
                 }
                 break;
             }

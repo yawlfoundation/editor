@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.editor.ui.properties;
 
 import com.l2fprod.common.propertysheet.*;
 import org.yawlfoundation.yawl.editor.ui.properties.editor.*;
+import org.yawlfoundation.yawl.editor.ui.util.Pauser;
 import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
 
 import javax.swing.*;
@@ -105,23 +106,6 @@ public class YPropertySheet extends PropertySheetPanel {
         rendererFactory.registerRenderer(FontColor.class, new FontColorRenderer());
     }
 
-    protected void pause(long milliseconds) {
-        Object lock = new Object();
-        long now = System.currentTimeMillis();
-        long finishTime = now + milliseconds;
-        while (now < finishTime) {
-            long timeToWait = finishTime - now;
-            synchronized (lock) {
-                try {
-                    lock.wait(timeToWait);
-                }
-                catch (InterruptedException ex) {
-                }
-            }
-            now = System.currentTimeMillis();
-        }
-    }
-
 
     /*****************************************************************************/
 
@@ -155,7 +139,7 @@ public class YPropertySheet extends PropertySheetPanel {
                 return super.getCellRenderer(row, column);
             }
             catch (IndexOutOfBoundsException ioobe) {
-                pause(20);                 // wait a bit for threads to catch up
+                Pauser.pause(50);                 // wait a bit for threads to catch up
                 return getCellRenderer(row, column, ++threshold);     // & retry
             }
         }
@@ -201,7 +185,7 @@ public class YPropertySheet extends PropertySheetPanel {
                         item = getSheetModel().getPropertySheetElement(row);
                     }
                     catch (IndexOutOfBoundsException ioobe) {
-                        pause(100);
+                        Pauser.pause(100);
                         threshold++;
                     }
                 }
@@ -246,7 +230,7 @@ public class YPropertySheet extends PropertySheetPanel {
                 return super.getValueAt(rowIndex, columnIndex);
             }
             catch (IndexOutOfBoundsException ioobe) {
-                pause(100);
+                Pauser.pause(100);
                 return getValueAt(rowIndex, columnIndex, ++threshold);
             }
         }

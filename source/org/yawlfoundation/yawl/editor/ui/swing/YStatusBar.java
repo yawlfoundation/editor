@@ -21,6 +21,7 @@ package org.yawlfoundation.yawl.editor.ui.swing;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.Publisher;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.SpecificationState;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.SpecificationStateListener;
+import org.yawlfoundation.yawl.editor.ui.util.Pauser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -151,19 +152,11 @@ public class YStatusBar extends JPanel implements SpecificationStateListener {
             while (progress < maxMSecs && ! isCancelled()) {
                 progress += WAIT_MSECS;
                 setProgress(Math.min(progress * 100 / maxMSecs, 100));
-                pause(WAIT_MSECS);
+                Pauser.pause(WAIT_MSECS);
             }
             return null;
         }
 
-        private void pause(long milliseconds) {
-            try {
-                Thread.sleep(milliseconds);
-            }
-            catch (InterruptedException ie) {
-                // ignore
-            }
-        }
     }
 
 }

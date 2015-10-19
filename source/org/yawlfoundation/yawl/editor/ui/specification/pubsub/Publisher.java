@@ -72,6 +72,11 @@ public class Publisher {
     }
 
 
+    public void unsubscribe(FileStateListener listener) {
+        _fileListeners.remove(listener);
+    }
+
+
     public void publishState(GraphState state, GraphSelectionEvent event) {
         for (GraphStateListener listener : _graphListeners.get(state)) {
             listener.graphSelectionChange(state, event);

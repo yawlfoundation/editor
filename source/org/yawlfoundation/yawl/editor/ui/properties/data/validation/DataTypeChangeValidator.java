@@ -87,6 +87,7 @@ public class DataTypeChangeValidator {
                                        BindingTypeValidator outputValidator) {
 
         String origType = netVar.getDataType();
+        String origValue = netVar.getValue();
         netVar.setDataType(newType);
         for (VariableRow row : getTaskVariables()) {
             validateInputBinding(inputValidator, row);
@@ -104,6 +105,7 @@ public class DataTypeChangeValidator {
             }
         }
         netVar.setDataType(origType);
+        netVar.setValue(origValue);
         getVariableDialog().getTaskTablePanel().setBindingIconsForSelection();
     }
 
@@ -207,12 +209,14 @@ public class DataTypeChangeValidator {
 
                 // validate it
                 String origType = row.getDataType();
+                String origValue = row.getValue();
                 row.setDataType(newType);
                 List<VariableRow> allVars = new ArrayList<VariableRow>(netVars);
                 allVars.addAll(getTaskVariables());
                 row.setValidOutputBinding(validateBinding(allVars, target.getDataType(),
                         outputBinding, row.getDecompositionID()));
                 row.setDataType(origType);
+                row.setValue(origValue);
             }
         }
     }

@@ -42,10 +42,14 @@ public class SpecificationFileHandler {
 
     private static final String EXTENSION = ".yawl";
 
+    private boolean _closeAfterSave;
+    private boolean _canExit;
+
 
     public SpecificationFileHandler() {
         _statusBar = YAWLEditor.getStatusBar();
         _handler = SpecificationModel.getHandler();
+        _canExit = true;                                    // no current file handling
     }
 
 
@@ -116,6 +120,12 @@ public class SpecificationFileHandler {
         YConnector.disconnect();
         return Publisher.getInstance().isFileStateClosed() || handleCloseResponse();
     }
+
+
+    /**
+     * @return true if all file handling has been completed and it is safe to exit
+     */
+    public boolean canExit() { return _canExit; }
 
 
     /****************************************************************************/
@@ -207,7 +217,6 @@ public class SpecificationFileHandler {
 
         YPluginHandler.getInstance().preSaveFile();
         saveToFile(fileName);
-        YPluginHandler.getInstance().postSaveFile();
     }
 
 
@@ -226,11 +235,11 @@ public class SpecificationFileHandler {
     private void doPreSaveClosingWork() {
         YAWLEditor.getNetsPane().setVisible(false);
         YAWLEditor.getPropertySheet().setIgnoreRepaint(true);
-        Publisher.getInstance().publishCloseFileEvent();
     }
 
     private void doPostSaveClosingWork() {
         YAWLEditor.getNetsPane().closeAllNets();
+        Publisher.getInstance().publishCloseFileEvent();
         SpecificationModel.reset();
         YPluginHandler.getInstance().specificationClosed();
         SpecificationUndoManager.getInstance().discardAllEdits();
@@ -246,9 +255,10 @@ public class SpecificationFileHandler {
             }
         }
 
+        _closeAfterSave = true;
+        _canExit = false;
         doPreSaveClosingWork();
         saveSpecification(fileName);
-        doPostSaveClosingWork();
 
         return true;
     }
@@ -338,11 +348,20 @@ public class SpecificationFileHandler {
                     SpecificationUndoManager.getInstance().setDirty(false);
                     _statusBar.setText("Saved to file: " + fullFileName);
                     OpenRecentSubMenu.getInstance().addRecentFile(fullFileName);
-                    YAWLEditor.getInstance().setTitle(fullFileName);
-                 }
-                 else _statusBar.setTextToPrevious();
+                    YPluginHandler.getInstance().postSaveFile();
+                    if (_closeAfterSave) {
+                        doPostSaveClosingWork();
+                        YAWLEditor.getInstance().setTitle("");
+                    }
+                    else {
+                        YAWLEditor.getInstance().setTitle(fullFileName);
+                    }
+                }
+                else _statusBar.setTextToPrevious();
 
-                 _statusBar.resetProgress();
+                _statusBar.resetProgress();
+                _closeAfterSave = false;
+                _canExit = true;
             }
         }
     }

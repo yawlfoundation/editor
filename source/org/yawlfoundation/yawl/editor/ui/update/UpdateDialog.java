@@ -21,6 +21,9 @@ package org.yawlfoundation.yawl.editor.ui.update;
 import org.yawlfoundation.yawl.editor.core.util.FileUtil;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationFileHandler;
+import org.yawlfoundation.yawl.editor.ui.specification.pubsub.FileState;
+import org.yawlfoundation.yawl.editor.ui.specification.pubsub.FileStateListener;
+import org.yawlfoundation.yawl.editor.ui.specification.pubsub.Publisher;
 import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
 import org.yawlfoundation.yawl.util.CheckSummer;
 
@@ -280,12 +283,32 @@ public class UpdateDialog extends JDialog
 
 
     private void restart() {
-        try {
-            if (new SpecificationFileHandler().closeFileOnExit()) {
-                UserSettings.setPostUpdatesCompleted(false);
-                replaceApp();
-                restartApp();
+        Publisher publisher = Publisher.getInstance();
+
+        // offer user to save open work - we need a listener to tell us when
+        // the save (if chosen) has completed
+        FileStateListener fsListener = new FileStateListener() {
+            public void specificationFileStateChange(FileState state) {
+                if (state == FileState.Closed) {
+                    replaceAndRestart();
+                }
             }
+        };
+        publisher.subscribe(fsListener);
+
+        if (! new SpecificationFileHandler().closeFileOnExit()) {
+
+            // user has cancelled save, and so restart is also cancelled
+            publisher.unsubscribe(fsListener);
+        }
+    }
+
+
+    private void replaceAndRestart() {
+        UserSettings.setPostUpdatesCompleted(false);
+        try {
+            replaceApp();
+            restartApp();
         }
         catch (Exception e) {
             showError(e.getMessage());
