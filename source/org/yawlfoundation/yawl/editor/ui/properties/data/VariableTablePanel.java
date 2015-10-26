@@ -24,6 +24,7 @@ import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
@@ -32,6 +33,8 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 
 /**
  * The basic, net-level variable table panel
@@ -44,6 +47,8 @@ public class VariableTablePanel extends JPanel
 
     protected VariableTable table;
     protected final DataVariableDialog parent;
+    protected final JScrollPane scrollPane;
+    protected final ScrollListener scrollListener;
     protected MiniToolBar toolbar;
     protected final TableType tableType;
     protected boolean isEditing;
@@ -62,8 +67,9 @@ public class VariableTablePanel extends JPanel
         this.tableType = tableType;
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(10,10,0,10));
-        JScrollPane scrollPane = new JScrollPane(createTable(rows, tableType, decompositionID));
+        scrollPane = new JScrollPane(createTable(rows, tableType, decompositionID));
         scrollPane.setSize(new Dimension(tableType.getPreferredWidth(), 180));
+        scrollListener = new ScrollListener();
         add(populateToolBar(), BorderLayout.SOUTH);
         add(scrollPane, BorderLayout.CENTER);
         table.getSelectionModel().addListSelectionListener(this);
@@ -216,8 +222,14 @@ public class VariableTablePanel extends JPanel
             isEditing = editing;
             parent.setEditing(editing, tableType);
             enableButtons(!editing);
+            setTitleIndicator(editing);
+            setScrollFreezer(editing);
             if (! editing) {
                 getTable().getTableModel().setTableChanged(true);
+                scrollPane.getVerticalScrollBar().removeAdjustmentListener(scrollListener);
+            }
+            else {
+                scrollPane.getVerticalScrollBar().addAdjustmentListener(scrollListener);
             }
         }
     }
@@ -236,6 +248,50 @@ public class VariableTablePanel extends JPanel
     }
 
 
+    protected void setTitleIndicator(boolean editing) {
+        TitledBorder border = (TitledBorder) getBorder();
+        String title = border.getTitle();
+        String pencil = " \u270E";
+        if (editing) {
+            border.setTitle(title + pencil);
+        }
+        else {
+            border.setTitle(title.replace(pencil, ""));
+        }
+        repaint();
+    }
+
+
+    // when editing, prevent the table's viewport from scrolling
+    protected void setScrollFreezer(boolean freeze) {
+        if (freeze) {
+            scrollListener.topRow = table.rowAtPoint(
+                    scrollPane.getViewport().getViewPosition()
+            );
+            scrollPane.getVerticalScrollBar().addAdjustmentListener(scrollListener);
+        }
+        else {
+            scrollPane.getVerticalScrollBar().removeAdjustmentListener(scrollListener);
+        }
+    }
+
+
     protected void notifyUsageChange(int usage) {  }
+
+
+
+    /**********************************************************/
+
+    class ScrollListener implements AdjustmentListener {
+
+        int topRow;
+
+        // override viewport changes while frozen
+        public void adjustmentValueChanged(AdjustmentEvent e) {
+            scrollPane.getViewport().setViewPosition(
+                    table.getCellRect(topRow, 0, true).getLocation()
+            );
+        }
+    }
 
 }

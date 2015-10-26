@@ -689,7 +689,7 @@
     </target>
 
 
-    <!-- build checksums.xml for future update comparisons -->
+    <!--build checksums.xml for future update comparisons-->
     <target name="checksums">
         <checkSums rootdir="../${output.dir}" todir="../${output.dir}/lib"
                    includes="*.jar *.pdf"/>

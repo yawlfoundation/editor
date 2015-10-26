@@ -183,7 +183,7 @@ public class MultiInstanceHandler {
     }
 
 
-    private String[] getItemNameAndType(String complexType) {
+    public String[] getItemNameAndType(String complexType) {
         String[] itemNameAndType;
         try {
             itemNameAndType = SpecificationModel.getHandler().getDataHandler()

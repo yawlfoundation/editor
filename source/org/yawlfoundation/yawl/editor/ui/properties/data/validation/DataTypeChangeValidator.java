@@ -98,8 +98,13 @@ public class DataTypeChangeValidator {
                 if (outputBinding != null) {
                     VariableRow target = getOutputBindingTarget(outputBinding, row.getName());
                     if (target != null && target.getName().equals(netVar.getName())) {
-                        row.setValidOutputBinding(validateBinding(outputValidator,
-                                outputBinding));
+                        if (row.isMultiInstance()) {
+                            validateMIRowOutputBinding(row, outputBinding,
+                                    outputValidator, target.getDataType());
+                        }
+                        else {
+                            validateRowOutputBinding(row, outputBinding, outputValidator);
+                        }
                     }
                 }
             }
@@ -303,6 +308,22 @@ public class DataTypeChangeValidator {
     // return the list of output bindings for the active task
     private OutputBindings getOutputBindings() {
         return getVariableDialog().getOutputBindings();
+    }
+
+
+    private void validateRowOutputBinding(VariableRow row, String binding,
+                                   BindingTypeValidator validator) {
+        row.setValidOutputBinding(validateBinding(validator, binding));
+    }
+
+
+    // an row set as multi-instance has its data type set to the child type of the
+    // corresponding net level var, so we need to validate against the row's own type
+    private void validateMIRowOutputBinding(VariableRow row, String binding,
+                               BindingTypeValidator validator, String targetType) {
+        validator.setDataType(row.getDataType());
+        validateRowOutputBinding(row, binding, validator);
+        validator.setDataType(targetType);
     }
 
 

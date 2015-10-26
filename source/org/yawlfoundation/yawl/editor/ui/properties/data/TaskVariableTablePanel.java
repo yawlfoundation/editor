@@ -148,18 +148,18 @@ public class TaskVariableTablePanel extends VariableTablePanel
         String taskID = parent.getTask().getID();
         AbstractDataBindingDialog dialog = null;
 
+        MultiInstanceHandler miHandler = table.hasMultiInstanceRow() ?
+            parent.getMultiInstanceHandler() : null;
 
         if (scope == YDataHandler.INPUT) {
-            dialog = new InputBindingDialog(taskID, selectedVar, netVars, taskVars);
+            dialog = new InputBindingDialog(taskID, selectedVar,
+                    netVars, taskVars, miHandler);
         }
         else if (scope == YDataHandler.OUTPUT) {
             dialog = new OutputBindingDialog(taskID, selectedVar,
-                    netVars, taskVars, parent.getOutputBindings());
+                    netVars, taskVars, parent.getOutputBindings(), miHandler);
         }
         if (dialog != null) {
-            if (table.hasMultiInstanceRow()) {
-                dialog.setMultiInstanceHandler(parent.getMultiInstanceHandler());
-            }
             dialog.setVisible(true);
             if (dialog.hasChanges() || selectedVar.isBindingChange()) {
                 parent.enableApplyButton();
@@ -266,14 +266,9 @@ public class TaskVariableTablePanel extends VariableTablePanel
 
     protected void setEditMode(boolean editing) {
         if (isEditing != editing) {
-            isEditing = editing;
-            parent.setEditing(editing, tableType);
-            enableButtons(!editing);
-            if (! editing) {
-                getTable().getTableModel().setTableChanged(true);
-                if (tableType == TableType.Task) {
+            super.setEditMode(editing);
+            if (! editing && tableType == TableType.Task) {
                     showBindingStatus(getTable().getSelectedVariable());
-                }
             }
         }
     }

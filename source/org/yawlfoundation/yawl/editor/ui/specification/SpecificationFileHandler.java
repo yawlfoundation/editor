@@ -43,13 +43,11 @@ public class SpecificationFileHandler {
     private static final String EXTENSION = ".yawl";
 
     private boolean _closeAfterSave;
-    private boolean _canExit;
 
 
     public SpecificationFileHandler() {
         _statusBar = YAWLEditor.getStatusBar();
         _handler = SpecificationModel.getHandler();
-        _canExit = true;                                    // no current file handling
     }
 
 
@@ -120,12 +118,6 @@ public class SpecificationFileHandler {
         YConnector.disconnect();
         return Publisher.getInstance().isFileStateClosed() || handleCloseResponse();
     }
-
-
-    /**
-     * @return true if all file handling has been completed and it is safe to exit
-     */
-    public boolean canExit() { return _canExit; }
 
 
     /****************************************************************************/
@@ -256,7 +248,6 @@ public class SpecificationFileHandler {
         }
 
         _closeAfterSave = true;
-        _canExit = false;
         doPreSaveClosingWork();
         saveSpecification(fileName);
 
@@ -361,7 +352,6 @@ public class SpecificationFileHandler {
 
                 _statusBar.resetProgress();
                 _closeAfterSave = false;
-                _canExit = true;
             }
         }
     }

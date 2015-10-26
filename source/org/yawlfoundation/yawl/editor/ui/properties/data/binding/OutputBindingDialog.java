@@ -44,13 +44,15 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
     public OutputBindingDialog(String taskID, VariableRow row,
                                java.util.List<VariableRow> netVarList,
                                java.util.List<VariableRow> taskVarList,
-                               OutputBindings outputBindings) {
+                               OutputBindings outputBindings,
+                               MultiInstanceHandler miHandler) {
         super(taskID, row, netVarList, taskVarList);
         _outputBindings = outputBindings;
         _outputBindings.beginUpdates();
         _workingSelection = new WorkingSelection();
         _externalUndoMap = new HashMap<String, String>();
         initSpecificContent(row);
+        setMultiInstanceHandler(miHandler);
         setTypeValidator();
         _initialising = false;
     }
@@ -93,10 +95,14 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
     }
 
     public void setMultiInstanceHandler(MultiInstanceHandler miHandler) {
-        super.setMultiInstanceHandler(miHandler);
-        _targetPanel.setSelectedItem(miHandler.getOutputTarget());
-        setEditorText(miHandler.getOutputQuery());
-        setMIEditorText(miHandler.getJoinQueryUnwrapped());
+        if (miHandler != null) {
+            super.setMultiInstanceHandler(miHandler);
+            _targetPanel.setSelectedItem(miHandler.getOutputTarget());
+            if (StringUtil.isNullOrEmpty(getEditorText())) {
+                setEditorText(miHandler.getOutputQuery());
+            }
+            setMIEditorText(miHandler.getJoinQueryUnwrapped());
+        }
     }
 
 
@@ -152,6 +158,9 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
 
 
     private String getTargetDataType() {
+        if (getCurrentRow().isMultiInstance()) {
+            return getCurrentRow().getDataType();
+        }
         VariableRow netVarRow = getSelectedNetVariableRow();
         if (netVarRow != null) {
             return netVarRow.getDataType();

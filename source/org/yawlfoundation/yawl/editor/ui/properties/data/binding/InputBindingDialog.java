@@ -39,8 +39,10 @@ public class InputBindingDialog extends AbstractDataBindingDialog {
 
     public InputBindingDialog(String taskID, VariableRow row,
                               java.util.List<VariableRow> netVarList,
-                              java.util.List<VariableRow> taskVarList) {
+                              java.util.List<VariableRow> taskVarList,
+                              MultiInstanceHandler miHandler) {
         super(taskID, row, netVarList, taskVarList);
+        setMultiInstanceHandler(miHandler);
         setTypeValidator(row);
         _initialising = false;
     }
@@ -75,8 +77,10 @@ public class InputBindingDialog extends AbstractDataBindingDialog {
     }
 
     public void setMultiInstanceHandler(MultiInstanceHandler miHandler) {
-        super.setMultiInstanceHandler(miHandler);
-        setMIEditorText(miHandler.getSplitQuery());
+        if (miHandler != null) {
+            super.setMultiInstanceHandler(miHandler);
+            setMIEditorText(miHandler.getSplitQuery());
+        }
     }
 
     protected String makeTitle(String taskID) {
