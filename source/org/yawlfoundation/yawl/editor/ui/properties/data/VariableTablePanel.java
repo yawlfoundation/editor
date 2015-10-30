@@ -23,6 +23,7 @@ import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.MiniToolBar
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -249,16 +250,19 @@ public class VariableTablePanel extends JPanel
 
 
     protected void setTitleIndicator(boolean editing) {
-        TitledBorder border = (TitledBorder) getBorder();
-        String title = border.getTitle();
-        String pencil = " \u270E";
-        if (editing) {
-            border.setTitle(title + pencil);
+        Border border = getBorder();
+        if (border instanceof TitledBorder) {
+            TitledBorder titledBorder = (TitledBorder) getBorder();
+            String title = titledBorder.getTitle();
+            String pencil = " \u270E";
+            if (editing) {
+                titledBorder.setTitle(title + pencil);
+            }
+            else {
+                titledBorder.setTitle(title.replace(pencil, ""));
+            }
+            repaint();
         }
-        else {
-            border.setTitle(title.replace(pencil, ""));
-        }
-        repaint();
     }
 
 
