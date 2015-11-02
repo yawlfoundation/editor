@@ -40,10 +40,11 @@ public class InputBindingDialog extends AbstractDataBindingDialog {
     public InputBindingDialog(String taskID, VariableRow row,
                               java.util.List<VariableRow> netVarList,
                               java.util.List<VariableRow> taskVarList,
-                              MultiInstanceHandler miHandler) {
+                              MultiInstanceHandler miHandler,
+                              BindingTypeValidator typeValidator) {
         super(taskID, row, netVarList, taskVarList);
         setMultiInstanceHandler(miHandler);
-        setTypeValidator(row);
+        setTypeValidator(typeValidator, row);
         _initialising = false;
     }
 
@@ -114,9 +115,8 @@ public class InputBindingDialog extends AbstractDataBindingDialog {
     }
 
 
-    private void setTypeValidator(VariableRow row) {
-        BindingTypeValidator validator = new BindingTypeValidator(getNetVarList(),
-                            row.getDataType());
+    private void setTypeValidator(BindingTypeValidator validator, VariableRow row) {
+        validator.setDataType(row.getDataType());
         if (row.isMultiInstance()) validator.setMultiInstance();
         setTypeValidator(validator);
     }

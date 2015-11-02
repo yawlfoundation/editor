@@ -24,6 +24,7 @@ import org.yawlfoundation.yawl.editor.ui.properties.data.binding.AbstractDataBin
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.InputBindingDialog;
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.OutputBindingDialog;
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.view.BindingViewDialog;
+import org.yawlfoundation.yawl.editor.ui.properties.data.validation.BindingTypeValidator;
 import org.yawlfoundation.yawl.editor.ui.properties.data.validation.DataTypeChangeValidator;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.ExtendedAttributesDialog;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.LogPredicateDialog;
@@ -50,6 +51,10 @@ public class TaskVariableTablePanel extends VariableTablePanel
     private JButton btnMIVar;
     private JButton btnExAttributes;
     private JButton btnLog;
+
+    private BindingTypeValidator inputBindingValidator;
+    private BindingTypeValidator outputBindingValidator;
+
 
 
     public TaskVariableTablePanel(java.util.List<VariableRow> rows,
@@ -152,12 +157,18 @@ public class TaskVariableTablePanel extends VariableTablePanel
             parent.getMultiInstanceHandler() : null;
 
         if (scope == YDataHandler.INPUT) {
+            if (inputBindingValidator == null) {
+                inputBindingValidator = new BindingTypeValidator(netVars, "string");
+            }
             dialog = new InputBindingDialog(taskID, selectedVar,
-                    netVars, taskVars, miHandler);
+                    netVars, taskVars, miHandler, inputBindingValidator);
         }
         else if (scope == YDataHandler.OUTPUT) {
-            dialog = new OutputBindingDialog(taskID, selectedVar,
-                    netVars, taskVars, parent.getOutputBindings(), miHandler);
+            if (outputBindingValidator == null) {
+                outputBindingValidator = new BindingTypeValidator(taskVars, "string");
+            }
+            dialog = new OutputBindingDialog(taskID, selectedVar, netVars, taskVars,
+                    parent.getOutputBindings(), miHandler, outputBindingValidator);
         }
         if (dialog != null) {
             dialog.setVisible(true);

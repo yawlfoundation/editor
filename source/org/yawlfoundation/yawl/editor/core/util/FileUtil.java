@@ -235,10 +235,9 @@ public class FileUtil {
     public static String getHomeDir() { return HOME_DIR; }
 
 
-    public static boolean isWindows() {
-        String os = System.getProperty("os.name");
-        return os != null && os.toLowerCase().startsWith("win");
-    }
+    public static boolean isWindows() { return isOS("win"); }
+
+    public static boolean isMac() { return isOS("mac"); }
 
 
     public static File makeFile(String base, String suffix) {
@@ -253,5 +252,10 @@ public class FileUtil {
         return new File(base, suffix);
     }
 
+
+    private static boolean isOS(String osName) {
+        String os = System.getProperty("os.name");
+        return os != null && os.toLowerCase().startsWith(osName);
+    }
 
 }

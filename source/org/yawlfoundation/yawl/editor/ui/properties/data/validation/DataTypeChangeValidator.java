@@ -150,7 +150,7 @@ public class DataTypeChangeValidator {
 
 
     /**
-     * Instantiates a binding type validate and uses it to validate a binding
+     * Instantiates a binding type validator and uses it to validate a binding
      * @param variables the set of variables to validate against
      * @param dataType the data type to validate
      * @param binding the binding to validate against the new data type
@@ -165,6 +165,7 @@ public class DataTypeChangeValidator {
 
         BindingTypeValidator validator = new BindingTypeValidator(variables, dataType,
                 taskDecompositionID);
+        validator.waitForInitialisation(2000);
         return validateBinding(validator, binding);
     }
 
@@ -176,20 +177,6 @@ public class DataTypeChangeValidator {
      * @return true if the binding is valid for data type
      */
     private boolean validateBinding(BindingTypeValidator validator, String binding) {
-
-        // we have to give the validator a bit of time to set itself up
-        int maxWait = 1200;
-        int waitInterval = 100;
-        while (! validator.isInitialised() && maxWait > 0) {
-            try {
-                Thread.sleep(waitInterval);
-                maxWait -= waitInterval;
-            }
-            catch (InterruptedException ie) {
-                // continue
-            }
-        }
-
         return validator.isInitialised() && validator.validate(binding).isEmpty();
     }
 
@@ -278,7 +265,10 @@ public class DataTypeChangeValidator {
             vars.addAll(taskVars);
             taskDecompositionID = taskVars.get(0).getDecompositionID();
         }
-        return new BindingTypeValidator(vars, dataType, taskDecompositionID);
+        BindingTypeValidator validator =
+                new BindingTypeValidator(vars, dataType, taskDecompositionID);
+        validator.waitForInitialisation(2000);
+        return validator;
     }
 
 

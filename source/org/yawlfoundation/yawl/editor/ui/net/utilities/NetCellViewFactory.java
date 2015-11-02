@@ -57,7 +57,7 @@ public class NetCellViewFactory extends DefaultCellViewFactory {
             return new YPortView(cell);
         }
         if (cell instanceof YAWLFlowRelation) {
-            return new EdgeView(cell);
+            return new FlowRelationView(cell);
         }
         return createVertexView(cell);
     }

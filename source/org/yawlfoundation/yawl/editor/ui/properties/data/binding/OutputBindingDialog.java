@@ -45,7 +45,8 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
                                java.util.List<VariableRow> netVarList,
                                java.util.List<VariableRow> taskVarList,
                                OutputBindings outputBindings,
-                               MultiInstanceHandler miHandler) {
+                               MultiInstanceHandler miHandler,
+                               BindingTypeValidator typeValidator) {
         super(taskID, row, netVarList, taskVarList);
         _outputBindings = outputBindings;
         _outputBindings.beginUpdates();
@@ -53,7 +54,8 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
         _externalUndoMap = new HashMap<String, String>();
         initSpecificContent(row);
         setMultiInstanceHandler(miHandler);
-        setTypeValidator();
+        typeValidator.setDataType(getTargetDataType());
+        setTypeValidator(typeValidator);
         _initialising = false;
     }
 
@@ -151,10 +153,6 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
         }
     }
 
-
-    private void setTypeValidator() {
-        setTypeValidator(new BindingTypeValidator(getTaskVarList(), getTargetDataType()));
-    }
 
 
     private String getTargetDataType() {

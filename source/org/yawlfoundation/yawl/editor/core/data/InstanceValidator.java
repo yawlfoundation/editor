@@ -73,7 +73,7 @@ public class InstanceValidator {
             _validator.setDataTypeSchema(schema);
             return _validator.validate(instance);
         }
-        return Arrays.asList("Invalid schema") ;
+        return Collections.singletonList("Invalid schema") ;
     }
 
 

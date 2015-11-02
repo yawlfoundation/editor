@@ -4,8 +4,6 @@ import org.yawlfoundation.yawl.editor.ui.data.Validity;
 import org.yawlfoundation.yawl.editor.ui.data.editorpane.XQueryValidatingEditorPane;
 import org.yawlfoundation.yawl.editor.ui.properties.data.validation.BindingTypeValidator;
 
-import javax.swing.*;
-
 /**
  * @author Michael Adams
  * @date 5/11/2013
@@ -28,7 +26,7 @@ public class XQueryValidatingEditor extends XQueryEditor {
     public void setTypeChecker(BindingTypeValidator checker, boolean isSplitPredicate) {
         _typeChecker = checker;
         _isSplitPredicate = isSplitPredicate;
-        new InitialTypeCheckWorker().execute();
+        checker.waitForInitialisation(2000);
     }
 
     /**
@@ -48,27 +46,4 @@ public class XQueryValidatingEditor extends XQueryEditor {
         return _isSplitPredicate ? "boolean(" + getText() + ")" : getText();
     }
 
-
-    /*************************************************************************/
-
-    // At the moment type-checker is set, it may not be yet fully initialised.
-    // Rather than hold the EDT while we wait, this worker will wait until
-    // it completes and then do an initial validity check of the editor text
-    class InitialTypeCheckWorker extends SwingWorker<Void, Void> {
-
-        @Override
-        protected Void doInBackground() throws Exception {
-            while (! _typeChecker.isInitialised()) {
-                try {
-                    Thread.sleep(200);
-                }
-                catch (InterruptedException ie) {
-                    // continue
-                }
-            }
-            return null;
-        }
-
-        protected void done() { getXMLStyledDocument().publishValidity(); }
-    }
 }

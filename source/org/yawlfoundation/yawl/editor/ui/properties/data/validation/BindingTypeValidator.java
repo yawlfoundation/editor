@@ -58,25 +58,17 @@ public class BindingTypeValidator extends TypeValueBuilder {
      *                     of the net-level variable for output bindings)
      */
     public BindingTypeValidator(List<VariableRow> varList, String dataTypeName) {
-        YNet net = getNet();
-        _rootName = net.getRootDataElementName();
-        _dataTypeName = dataTypeName;
         setTaskDecompositionID(varList);
-        Map<String, FormParameter> paramMap = getParamMap(net);
-        paramMap.putAll(getParamMap(varList));
-        init(paramMap);
+        init(getNet(), varList, dataTypeName);
     }
 
 
     /**
      * This variant is used to validate split predicates
      * @param net the selected net
-     *
      */
     public BindingTypeValidator(YNet net) {
-        _rootName = net.getRootDataElementName();
-        _dataTypeName = "boolean";
-        init(getParamMap(net));
+        init(net, null, null);
     }
 
 
@@ -93,10 +85,8 @@ public class BindingTypeValidator extends TypeValueBuilder {
      */
     public BindingTypeValidator(List<VariableRow> varList, String dataTypeName,
                                 String taskDecompositionID) {
-        _rootName = getNet().getRootDataElementName();
-        _dataTypeName = dataTypeName;
         _taskDecompositionID = taskDecompositionID;
-        init(getParamMap(varList));
+        init(null, varList, dataTypeName);
     }
 
 
@@ -148,22 +138,51 @@ public class BindingTypeValidator extends TypeValueBuilder {
 
     public boolean isInitialised() { return _initialised; }
 
+
+    // allows calling methods to wait until initialisation has completed
+    public boolean waitForInitialisation(int timeLimit) {
+        int maxWait = timeLimit;
+        int waitInterval = 100;
+        while (! isInitialised() &&  maxWait > 0) {
+            try {
+                Thread.sleep(waitInterval);
+                maxWait -= waitInterval;
+            }
+            catch (InterruptedException ie) {
+                // continue
+            }
+        }
+        return isInitialised();
+    }
+
     /********************************************************************************/
 
     /**
      * Initialises the schema and data document
-     * @param paramMap a map of variable names to FormParameters (an extension of
-     *                 YVariable required for dynamic forms)
+     * @param net the net to get input and local variables from. May be null
+     * @param varList a list of net- or task- level variables. May be null
      */
-    private void init(final Map<String, FormParameter> paramMap) {
-        _externalMatcher = new ExpressionMatcher("#external:\\w+\\s*:\\w+\\s*");
-        _timerMatcher = new ExpressionMatcher("timer\\(\\w+\\)\\s*!?=\\s*" +
-                               "'(dormant|active|closed|expired)'");
+    private void init(final YNet net, final List<VariableRow> varList,
+                      final String dataTypeName) {
 
         new SwingWorker<Void, Void>() {
 
             @Override
             protected Void doInBackground() throws Exception {
+
+                // create matchers for external binding strings
+                _externalMatcher = new ExpressionMatcher("#external:\\w+\\s*:\\w+\\s*");
+                _timerMatcher = new ExpressionMatcher("timer\\(\\w+\\)\\s*!?=\\s*" +
+                                   "'(dormant|active|closed|expired)'");
+
+                _rootName = getNet().getRootDataElementName();
+                _dataTypeName = dataTypeName != null ? dataTypeName : "boolean";
+
+                // create parameter list to build schema
+                Map<String, FormParameter> paramMap = new HashMap<String, FormParameter>();
+                if (net != null) paramMap.putAll(getParamMap(net));
+                if (varList != null) paramMap.putAll(getParamMap(varList));
+
                 _fieldList = getFieldList(paramMap, _rootName, getDataSchema(paramMap));
                 _dataDocument = getDataDocument(_fieldList, _rootName);
                 _initialised = true;

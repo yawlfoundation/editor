@@ -39,7 +39,7 @@ public class DataSchemaValidator {
 
     public DataSchemaValidator() { }
 
-    public DataSchemaValidator(String schema) {  setDataTypeSchema(schema); }
+    public DataSchemaValidator(String schema) { setDataTypeSchema(schema); }
 
 
     public List<String> validateSchema(String schema) {
@@ -100,9 +100,9 @@ public class DataSchemaValidator {
     // pre: valid data schema already set
     public List<String> validate(String data) {
         if (! hasValidDataTypeDefinition()) {
-            return Arrays.asList("Error: Schema is malformed or null");
+            return Collections.singletonList("Error: Schema is malformed or null");
         }
-        if (! schemaHandler.validate(data)) {
+        if (! schemaHandler.compileAndValidate(data)) {
             return schemaHandler.getErrorMessages();
         }
         return Collections.emptyList();

@@ -39,12 +39,9 @@ import java.awt.geom.Rectangle2D;
 
 public class NetMarqueeHandler extends BasicMarqueeHandler {
 
-    private static final int PORT_BUFFER = 2;
-
     private PortView sourcePort, targetPort = null;
     private final NetGraph net;
     private final PaletteBar paletteBar;
-    private int paintPotentialFlowCounter;
 
     private enum State {
         ABOVE_CANVAS,
@@ -533,12 +530,6 @@ public class NetMarqueeHandler extends BasicMarqueeHandler {
                     (int) clip.getWidth(), (int) clip.getHeight());
         }
         else net.repaint();
-    }
-
-
-    private Point2D getPortCentre(Rectangle2D portBounds) {
-        return portBounds == null ? null :
-             net.fromScreen(new Point2D.Double(portBounds.getX(), portBounds.getY()));
     }
 
 }
