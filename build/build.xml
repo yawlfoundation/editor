@@ -135,11 +135,6 @@
         </classpath>
     </taskdef>
 
-    <taskdef name="xmltask"
-             classname="com.oopsconsultancy.xmltask.ant.XmlTask"
-             classpath="${library.dir}/xmltask.jar"/>
-
-
     <scriptdef name="adjust.build.version" language="javascript">
         <attribute name="last.build.version" />
         <attribute name="property" />
@@ -693,10 +688,6 @@
     <target name="checksums">
         <checkSums rootdir="../${output.dir}" todir="../${output.dir}/lib"
                    includes="*.jar *.pdf"/>
-        <!--<xmltask source="${output.dir}/lib/checksums.xml"-->
-                 <!--dest="${output.dir}/lib/checksums.xml">-->
-            <!--<insert path="/release" file="${build.dir}/cleanup.xml"/>-->
-        <!--</xmltask>-->
     </target>
 
 	<!--

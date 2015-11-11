@@ -25,6 +25,7 @@ import org.yawlfoundation.yawl.editor.ui.properties.dialog.PropertyDialog;
 import org.yawlfoundation.yawl.editor.ui.specification.io.LayoutRepository;
 import org.yawlfoundation.yawl.editor.ui.specification.io.SpecificationReader;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.Publisher;
+import org.yawlfoundation.yawl.editor.ui.util.CursorUtil;
 import org.yawlfoundation.yawl.engine.YSpecificationID;
 import org.yawlfoundation.yawl.engine.interfce.SpecificationData;
 import org.yawlfoundation.yawl.util.StringUtil;
@@ -113,9 +114,8 @@ public class SpecificationDownloadDialog extends PropertyDialog
                 if (specXML.startsWith("<fail")) {
                     throw new IOException(StringUtil.unwrap(specXML));
                 }
-                YAWLEditor editor = YAWLEditor.getInstance();
                 YStatusBar statusBar = YAWLEditor.getStatusBar();
-                editor.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                CursorUtil.showWaitCursor();
                 Publisher.getInstance().publishFileBusyEvent();
                 statusBar.setText("Downloading Specification...");
                 statusBar.progressOverSeconds(4);
@@ -206,8 +206,7 @@ public class SpecificationDownloadDialog extends PropertyDialog
                 YAWLEditor.getNetsPane().setVisible(true);
                 YAWLEditor.getStatusBar().resetProgress();
                 Publisher.getInstance().publishFileUnbusyEvent();
-                YAWLEditor.getInstance().setCursor(
-                        Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                CursorUtil.showDefaultCursor();
                 YPluginHandler.getInstance().specificationLoaded();
             }
         }

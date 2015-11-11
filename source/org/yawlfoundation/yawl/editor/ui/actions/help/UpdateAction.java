@@ -22,9 +22,9 @@ import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.actions.YAWLBaseAction;
 import org.yawlfoundation.yawl.editor.ui.update.UpdateChecker;
 import org.yawlfoundation.yawl.editor.ui.update.UpdateDialog;
+import org.yawlfoundation.yawl.editor.ui.util.CursorUtil;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -45,7 +45,7 @@ public class UpdateAction extends YAWLBaseAction implements PropertyChangeListen
     }
 
     public void actionPerformed(ActionEvent event) {
-        setCursor(Cursor.WAIT_CURSOR);
+        CursorUtil.showWaitCursor();
         check();
     }
 
@@ -61,7 +61,7 @@ public class UpdateAction extends YAWLBaseAction implements PropertyChangeListen
         if (event.getPropertyName().equals("state")) {
             SwingWorker.StateValue stateValue = (SwingWorker.StateValue) event.getNewValue();
             if (stateValue == SwingWorker.StateValue.DONE) {
-                setCursor(Cursor.DEFAULT_CURSOR);
+                CursorUtil.showDefaultCursor();
                 if (_checker.hasError()) {
                     showError(_checker.getErrorMessage());
                 }
@@ -85,10 +85,6 @@ public class UpdateAction extends YAWLBaseAction implements PropertyChangeListen
     private void showMessage(String message, int type) {
         JOptionPane.showMessageDialog(YAWLEditor.getInstance(),
                 message, "Check for Updates", type);
-    }
-
-    private void setCursor(int cursor) {
-        YAWLEditor.getInstance().setCursor(Cursor.getPredefinedCursor(cursor));
     }
 
 }

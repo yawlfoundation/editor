@@ -224,14 +224,14 @@ public class VariableTablePanel extends JPanel
             parent.setEditing(editing, tableType);
             enableButtons(!editing);
             setTitleIndicator(editing);
-            setScrollFreezer(editing);
+//            setScrollFreezer(editing);
             if (! editing) {
                 getTable().getTableModel().setTableChanged(true);
-                scrollPane.getVerticalScrollBar().removeAdjustmentListener(scrollListener);
+//                scrollPane.getVerticalScrollBar().removeAdjustmentListener(scrollListener);
             }
-            else {
-                scrollPane.getVerticalScrollBar().addAdjustmentListener(scrollListener);
-            }
+//            else {
+ //               scrollPane.getVerticalScrollBar().addAdjustmentListener(scrollListener);
+//            }
         }
     }
 

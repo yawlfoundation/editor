@@ -22,6 +22,7 @@ import org.imgscalr.Scalr;
 import org.yawlfoundation.yawl.editor.core.YSpecificationHandler;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.editor.ui.util.CursorUtil;
 
 import javax.print.PrintService;
 import javax.print.attribute.HashPrintRequestAttributeSet;
@@ -78,11 +79,11 @@ public class NetPrinter implements Printable {
 
 
     public void print() {
-        setCursor(Cursor.WAIT_CURSOR);
+        CursorUtil.showWaitCursor();
         PrinterJob job = PrinterJob.getPrinterJob();
         job.setPrintable(this);
         PrintService[] services = PrinterJob.lookupPrintServices();
-        setCursor(Cursor.DEFAULT_CURSOR);
+        CursorUtil.showDefaultCursor();
 
         if (services.length > 0) {
             try {
@@ -207,11 +208,6 @@ public class NetPrinter implements Printable {
     private void showError(String msg) {
         JOptionPane.showMessageDialog(YAWLEditor.getInstance(), msg,
                 "Printer Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-
-    private void setCursor(int cursor) {
-        YAWLEditor.getInstance().setCursor(Cursor.getPredefinedCursor(cursor));
     }
 
 }

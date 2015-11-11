@@ -41,25 +41,20 @@ import java.util.Vector;
 public class VariableRowStringEditor extends AbstractCellEditor
         implements TableCellEditor, ActionListener, PopupMenuListener {
 
-    private final JTextField nameField;
-    private final JComboBox dataTypeCombo;
+    private JTextField nameField;
+    private JComboBox dataTypeCombo;
     private JCheckBox checkBox;
+    private ValueField valuePanel;
 
-    private final ValueField valuePanel;
     private VariableTablePanel tablePanel;
     private DataTypeChangeValidator dataTypeChangeValidator;
     private String editingColumnName;
     private int editingRow;
+    private Vector<String> dataTypeNames;
 
 
-    public VariableRowStringEditor() {
-        nameField = new JTextField();
-        dataTypeCombo = new JComboBox(getDataTypeNames());
-        dataTypeCombo.addPopupMenuListener(this);
-        valuePanel = new ValueField(this, null);
-        checkBox = new JCheckBox();
-        checkBox.addActionListener(this);
-    }
+    public VariableRowStringEditor() {  }
+
 
     public VariableRowStringEditor(VariableTablePanel panel) {
         this();
@@ -89,18 +84,24 @@ public class VariableRowStringEditor extends AbstractCellEditor
         editingRow = row;
 
         if (editingColumnName.equals("Type")) {
+            dataTypeCombo = new JComboBox(getDataTypeNames());
+            dataTypeCombo.addPopupMenuListener(this);
             dataTypeCombo.setSelectedItem(value);
             return dataTypeCombo;
         }
         else if (editingColumnName.endsWith("Value")) {
             if (isBooleanValueRow()) {
+                checkBox = new JCheckBox();
+                checkBox.addActionListener(this);
                 checkBox.setSelected(Boolean.valueOf((String) value));
                 return checkBox;
             }
+            valuePanel = new ValueField(this, null);
             valuePanel.setText((String) value);
             return valuePanel;
         }
         else {
+            nameField = new JTextField();
             nameField.setText((String) value);
             return nameField;
         }
@@ -240,13 +241,16 @@ public class VariableRowStringEditor extends AbstractCellEditor
 
 
     private Vector<String> getDataTypeNames() {
-        try {
-            return new Vector<String>(
-                    SpecificationModel.getHandler().getDataHandler().getDataTypeNames());
+        if (dataTypeNames == null) {
+            try {
+                dataTypeNames = new Vector<String>(
+                        SpecificationModel.getHandler().getDataHandler().getDataTypeNames());
+            }
+            catch (YDataHandlerException ydhe) {
+                return new Vector<String>();
+            }
         }
-        catch (YDataHandlerException ydhe) {
-            return new Vector<String>();
-        }
+        return dataTypeNames;
     }
 
 }

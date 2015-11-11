@@ -25,8 +25,7 @@ import org.yawlfoundation.yawl.editor.ui.specification.pubsub.Publisher;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.AnalysisResultsParser;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.SpecificationValidator;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.ValidationResultsParser;
-
-import java.awt.*;
+import org.yawlfoundation.yawl.editor.ui.util.CursorUtil;
 
 /**
  * @author Michael Adams
@@ -55,8 +54,7 @@ public class FileOperations {
 
 
     private static void processAction(Action action, String... args) {
-        YAWLEditor editor = YAWLEditor.getInstance();
-        editor.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        CursorUtil.showWaitCursor();
         SpecificationFileHandler handler = new SpecificationFileHandler();
         Publisher publisher = Publisher.getInstance();
         publisher.publishFileBusyEvent();
@@ -71,7 +69,7 @@ public class FileOperations {
                 break;
             }
             case Validate: {
-                editor.showProblemList("Validation Results",
+                YAWLEditor.getInstance().showProblemList("Validation Results",
                         new ValidationResultsParser().parse(
                         new SpecificationValidator().getValidationResults()));
                 break;
@@ -113,7 +111,7 @@ public class FileOperations {
         }
 
         publisher.publishFileUnbusyEvent();
-        editor.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        CursorUtil.showDefaultCursor();
     }
 
 }

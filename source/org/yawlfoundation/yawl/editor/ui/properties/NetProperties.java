@@ -102,8 +102,8 @@ public class NetProperties extends YPropertiesBean {
         }
         catch (IllegalArgumentException iae) {
             showWarning("Invalid Version", iae.getMessage());
-            firePropertyChange("Version", specHandler.getVersion().toString());
         }
+        firePropertyChange("Version", specHandler.getVersion().toString());
     }
 
 

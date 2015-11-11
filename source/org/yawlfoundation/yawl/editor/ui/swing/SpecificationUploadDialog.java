@@ -18,13 +18,9 @@
 
 package org.yawlfoundation.yawl.editor.ui.swing;
 
-import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
-import org.yawlfoundation.yawl.editor.ui.specification.io.SpecificationUploader;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.PropertyDialog;
+import org.yawlfoundation.yawl.editor.ui.util.CursorUtil;
 import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
-import org.yawlfoundation.yawl.util.StringUtil;
-import org.yawlfoundation.yawl.util.XNode;
-import org.yawlfoundation.yawl.util.XNodeParser;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -33,7 +29,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.IOException;
 
 /**
  * @author Michael Adams
@@ -81,7 +76,7 @@ public class SpecificationUploadDialog extends PropertyDialog
     private JPanel getUnloadPanel() {
         JPanel content = new JPanel();
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
-        _cbxUnloadPrevious = new JCheckBox("Unload Previous Versions");
+        _cbxUnloadPrevious = new JCheckBox("Unload All Previous Versions");
         _cbxUnloadPrevious.setBorder(new EmptyBorder(10,10,5,0));
         _cbxUnloadPrevious.setAlignmentX(LEFT_ALIGNMENT);
         _cbxUnloadPrevious.setMnemonic('U');
@@ -123,83 +118,9 @@ public class SpecificationUploadDialog extends PropertyDialog
 
 
     private void upload() {
-        YAWLEditor editor = YAWLEditor.getInstance();
-        editor.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        String message;
-        int msgType = JOptionPane.INFORMATION_MESSAGE;
-        SpecificationUploader uploader = new SpecificationUploader();
-        try {
-            String result = uploader.upload(_cbxUnloadPrevious.isSelected(),
-                    _cbxCancelCases.isSelected());
-            String errorMsg = processUploadResult(result);
-            if (errorMsg.isEmpty()) {
-                uploader.storeLayout();
-                String launchResult = launchCase(uploader);
-                message = "Specification uploaded successfully." + launchResult;
-            }
-            else {
-                message = errorMsg;
-                msgType = JOptionPane.ERROR_MESSAGE;
-            }
-        }
-        catch (IOException ioe) {
-            msgType = JOptionPane.ERROR_MESSAGE;
-            message = unwrap(ioe.getMessage());
-            if (message.equals("Invalid Specification")) {
-                message += ". Please resolve the issues listed in the " +
-                        "\n'Validation Results' pane below before retrying an upload.";
-            }
-        }
-        String title = "Upload " + (msgType == JOptionPane.ERROR_MESSAGE ?
-                "Error" : "Success");
-        editor.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        JOptionPane.showMessageDialog(YAWLEditor.getInstance(), message, title, msgType);
-    }
-
-
-    private String launchCase(SpecificationUploader uploader) throws IOException {
-        if (_cbxLaunchCase.isEnabled() && _cbxLaunchCase.isSelected()) {
-            String caseID = uploader.launchCase();
-            if (caseID != null) {
-                return caseID.contains("fail") ?
-                    "\n\nCase launch failed: " + StringUtil.unwrap(caseID) :
-                    "\n\nNew case launched with id: " + caseID;
-            }
-        }
-        return "";
-    }
-
-
-    private String processUploadResult(String result) {
-        if (result.contains("fail")) {
-            XNode msgNode = new XNodeParser().parse(result);
-            String errMsg = msgNode.getText();
-
-            // simple error message - return immediately
-            return errMsg != null ? unwrap(errMsg) :
-                    processUploadValidationResult(msgNode);
-        }
-        return "";                                 // no errors
-    }
-
-
-    private String processUploadValidationResult(XNode msgNode) {
-        StringBuilder s = new StringBuilder();
-        XNode reason = msgNode.getChild();
-        XNode messages = reason.getChild();
-
-        // only interested in errors
-        for (XNode errorNode : messages.getChildren("error")) {
-            XNode message = errorNode.getChild("message");
-            s.append(message.getText()).append('\n');
-        }
-        return s.toString();
-    }
-
-
-    private String unwrap(String xml) {
-        return xml.startsWith("<") ? StringUtil.unwrap(xml) : xml;
-
+        CursorUtil.showWaitCursor();
+        new UploadWorker(_cbxUnloadPrevious.isSelected(),_cbxCancelCases.isSelected(),
+                _cbxLaunchCase.isEnabled() && _cbxLaunchCase.isSelected()).execute();
     }
 
 }
