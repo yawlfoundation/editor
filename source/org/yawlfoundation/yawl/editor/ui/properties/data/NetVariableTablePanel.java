@@ -21,6 +21,8 @@ package org.yawlfoundation.yawl.editor.ui.properties.data;
 import org.yawlfoundation.yawl.editor.core.data.BindingReference;
 import org.yawlfoundation.yawl.editor.core.data.YDataHandlerException;
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.references.BindingReferencesDialog;
+import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.elements.YNet;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -39,7 +41,6 @@ public class NetVariableTablePanel extends VariableTablePanel
 
     // toolbar button
     private JButton btnBindingRefs;
-
 
     public NetVariableTablePanel(java.util.List<VariableRow> rows,
                                  String decompositionID, DataVariableDialog parent) {
@@ -61,6 +62,15 @@ public class NetVariableTablePanel extends VariableTablePanel
     public NetVariableTablePanel copy() {
         return new NetVariableTablePanel(table.getVariables(),
                 table.getDecompositionID(), parent);
+    }
+
+
+    public java.util.List<String> getScopeNames() {
+        java.util.List<String> names = super.getScopeNames();
+        if (isRootNet(parent.getNet())) {
+            names.remove("InputOutput");
+        }
+        return names;
     }
 
 
@@ -89,6 +99,12 @@ public class NetVariableTablePanel extends VariableTablePanel
                     "Get Binding References Error",
                     JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+
+    private boolean isRootNet(YNet net) {
+        return SpecificationModel.getHandler().getControlFlowHandler()
+                .getRootNet().equals(net);
     }
 
 }

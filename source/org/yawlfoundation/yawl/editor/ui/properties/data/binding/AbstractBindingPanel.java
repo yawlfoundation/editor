@@ -37,10 +37,12 @@ class AbstractBindingPanel extends JPanel {
     AbstractBindingPanel() { super(); }
 
 
-    protected Vector<String> getVarNames(java.util.List<VariableRow> varList) {
+    protected Vector<String> getVarNames(java.util.List<VariableRow> varList, int ioType) {
         Vector<String> names = new Vector<String>();
         for (VariableRow row : varList) {
-            names.add(row.getName());
+            if (hasValidUsage(row, ioType)) {
+                names.add(row.getName());
+            }
         }
         return names;
     }
@@ -68,6 +70,11 @@ class AbstractBindingPanel extends JPanel {
 
     protected String formatQuery(String query) {
         return XMLUtilities.formatXML(query, true, true);
+    }
+
+
+    private boolean hasValidUsage(VariableRow row, int ioType) {
+        return row.isInputOutput() || row.isLocal() || row.getUsage() == ioType;
     }
 
 

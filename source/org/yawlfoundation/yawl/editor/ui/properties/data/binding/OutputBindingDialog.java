@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.data.binding;
 
+import org.yawlfoundation.yawl.editor.core.data.YDataHandler;
 import org.yawlfoundation.yawl.editor.ui.properties.data.MultiInstanceHandler;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.properties.data.validation.BindingTypeValidator;
@@ -80,14 +81,9 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
             setVisible(false);
         }
         else if (action.equals("OK")) {
-            savePreviousSelection();
-            if (getCurrentRow().isMultiInstance()) {
-                getMultiInstanceHandler().setJoinQueryUnwrapped(
-                        formatQuery(getMIEditorText(), false));
-                getMultiInstanceHandler().setOutputTarget(
-                        _targetPanel.getSelectedVariableName());
+            if (saveAndClose()) {
+                setVisible(false);
             }
-            setVisible(false);
         }
     }
 
@@ -119,12 +115,12 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
 
 
     protected JPanel buildTargetPanel() {
-        _targetPanel = new NetVariablePanel("Output To", getNetVarList(), this);
+        _targetPanel = new NetVariablePanel(YDataHandler.OUTPUT, getNetVarList(), this);
         return _targetPanel;
     }
 
     protected JPanel buildGeneratePanel() {
-        _generatePanel = new TaskVariablePanel("Generate Binding From",
+        _generatePanel = new TaskVariablePanel(YDataHandler.OUTPUT,
                 getTaskVarList(), null);
         return _generatePanel;
     }
@@ -237,29 +233,37 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
     }
 
     private void handleNetVarSelection() {
-        savePreviousSelection();
-        VariableRow row = getSelectedNetVariableRow();
-        updateValidator(row);
-        setTargetVariableName(row.getName());
-        String binding = _outputBindings.getBinding(row.getName());
-        setEditorText(binding);
-        _workingSelection.set(row.getName(), binding, false);
+        if (savePreviousSelection(false) != JOptionPane.CANCEL_OPTION) {
+            VariableRow row = getSelectedNetVariableRow();
+            updateValidator(row);
+            setTargetVariableName(row.getName());
+            String binding = _outputBindings.getBinding(row.getName());
+            setEditorText(binding);
+            _workingSelection.set(row.getName(), binding, false);
+        }
+        else {
+            _targetPanel.setSelectedItem(_workingSelection.item);
+        }
     }
 
     private void handleGatewaySelection() {
-        savePreviousSelection();
-        String gateway = _targetPanel.getSelectedDataGateway();
-        updateValidator(null);
-        String binding = _outputBindings.getExternalBinding(
-                _generatePanel.getSelectedItem(), gateway);
-        if (binding == null) {
-            binding = _outputBindings.getAnyExternalBindingForGateway(gateway);
-            if (binding != null) {
-                setTaskVarFromGatewayBinding(gateway);
+        if (savePreviousSelection(false) != JOptionPane.CANCEL_OPTION) {
+            String gateway = _targetPanel.getSelectedDataGateway();
+            updateValidator(null);
+            String binding = _outputBindings.getExternalBinding(
+                    _generatePanel.getSelectedItem(), gateway);
+            if (binding == null) {
+                binding = _outputBindings.getAnyExternalBindingForGateway(gateway);
+                if (binding != null) {
+                    setTaskVarFromGatewayBinding(gateway);
+                }
             }
+            setEditorText(binding);
+            _workingSelection.set(gateway, binding, true);
         }
-        setEditorText(binding);
-        _workingSelection.set(gateway, binding, true);
+        else {
+            _targetPanel.setSelectedItem(_workingSelection.item);
+        }
    }
 
 
@@ -281,26 +285,44 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
     }
 
 
-    private void savePreviousSelection() {
-        String binding = getEditorText();
-        if (isValidBinding(binding) && ! binding.equals(_workingSelection.binding)) {
-            if (_workingSelection.isGateway) {
-                _outputBindings.setExternalBinding(_generatePanel.getSelectedItem(),
-                        formatQuery(binding, false));
-            }
-            else {
-                String query = formatQuery(binding, false);
-                _outputBindings.setBinding(_workingSelection.item, query);
-                validateBinding(query);
-            }
+    private boolean saveAndClose() {
+        int userChoice = savePreviousSelection(true);
+        if (userChoice == JOptionPane.YES_OPTION && getCurrentRow().isMultiInstance()) {
+            getMultiInstanceHandler().setJoinQueryUnwrapped(
+                    formatQuery(getMIEditorText(), false));
+            getMultiInstanceHandler().setOutputTarget(
+                    _targetPanel.getSelectedVariableName());
         }
+        return userChoice != JOptionPane.CANCEL_OPTION;
     }
 
 
-    private void validateBinding(String binding) {
-        VariableRow row = getCurrentRow();
-        row.setValidOutputBinding(!StringUtil.isNullOrEmpty(binding) &&
-                getTypeValidator().validate(binding).isEmpty());
+    private int savePreviousSelection(boolean dialogClosing) {
+        String binding = getEditorText();
+        int userChoice = JOptionPane.YES_OPTION;
+        if (isValidBinding(binding) && ! binding.equals(_workingSelection.binding)) {
+            if (! dialogClosing) {
+                userChoice = confirmSaveOnComboChange(
+                        YDataHandler.OUTPUT, _workingSelection.item);
+            }
+//            if (userChoice == JOptionPane.YES_OPTION) {
+//                if (_outputBindings.getBinding(_workingSelection.item) != null) {
+//                    userChoice = confirmSaveOnDialogClosing();
+//                }
+//            }
+            if (userChoice == JOptionPane.YES_OPTION) {
+                _workingSelection.save(binding);
+            }
+        }
+
+        return userChoice;
+    }
+
+
+    private int confirmSaveOnDialogClosing() {
+        String msg = "Net variable '" + _workingSelection.item + "' has an existing " +
+                     "output binding.\n Overwrite it with the updated binding?";
+        return JOptionPane.showConfirmDialog(this, msg);
     }
 
 
@@ -311,6 +333,26 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
         boolean isGateway;
 
         void set(String i, String b, boolean g) { item = i; binding = b; isGateway = g; }
+
+        void save(String editedBinding) {
+            if (! editedBinding.equals(binding)) {
+                if (isGateway) {
+                    _outputBindings.setExternalBinding(_generatePanel.getSelectedItem(),
+                            formatQuery(editedBinding, false));
+                }
+                else {
+                    String query = formatQuery(editedBinding, false);
+                    _outputBindings.setBinding(item, query);
+                    validateBinding(query);
+                }
+            }
+        }
+
+        private void validateBinding(String binding) {
+            VariableRow row = getCurrentRow();
+            row.setValidOutputBinding(!StringUtil.isNullOrEmpty(binding) &&
+                    getTypeValidator().validate(binding).isEmpty());
+        }
     }
 
 }

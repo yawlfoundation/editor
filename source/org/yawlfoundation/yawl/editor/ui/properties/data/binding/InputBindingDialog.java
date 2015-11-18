@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.data.binding;
 
+import org.yawlfoundation.yawl.editor.core.data.YDataHandler;
 import org.yawlfoundation.yawl.editor.ui.properties.data.MultiInstanceHandler;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.properties.data.validation.BindingTypeValidator;
@@ -93,14 +94,13 @@ public class InputBindingDialog extends AbstractDataBindingDialog {
     }
 
     protected JPanel buildTargetPanel() {
-        _targetPanel = new TaskVariablePanel("Input To", getTaskVarList(), this);
+        _targetPanel = new TaskVariablePanel(YDataHandler.INPUT, getTaskVarList(), this);
         return _targetPanel;
     }
 
 
     protected JPanel buildGeneratePanel() {
-        _generatePanel = new NetVariablePanel("Generate Binding From",
-                getNetVarList(), null);
+        _generatePanel = new NetVariablePanel(YDataHandler.INPUT, getNetVarList(), null);
         return _generatePanel;
     }
 
@@ -149,18 +149,28 @@ public class InputBindingDialog extends AbstractDataBindingDialog {
 
     private void handleTaskVarSelection() {
         String binding = getEditorText();
+        int userChoice = JOptionPane.YES_OPTION;
         if (isValidBinding(binding) && ! binding.equals(getCurrentRow().getBinding())) {
-            saveToUndo();
-            getCurrentRow().setBinding(formatQuery(getEditorText(), false));
+            userChoice = confirmSaveOnComboChange(
+                    YDataHandler.INPUT, getCurrentRow().getName());
+            if (userChoice == JOptionPane.YES_OPTION) {
+                saveToUndo();
+                getCurrentRow().setBinding(formatQuery(binding, false));
+            }
         }
-        VariableRow row = getSelectedTaskVariableRow();
-        BindingTypeValidator validator = getTypeValidator();
-        if (validator != null) {
-            validator.setDataType(row.getDataType());
+        if (userChoice != JOptionPane.CANCEL_OPTION) {
+            VariableRow row = getSelectedTaskVariableRow();
+            BindingTypeValidator validator = getTypeValidator();
+            if (validator != null) {
+                validator.setDataType(row.getDataType());
+            }
+            setCurrentRow(row);
+            setTargetVariableName(row.getName());
+            setEditorText(row.getBinding());
         }
-        setCurrentRow(row);
-        setTargetVariableName(row.getName());
-        setEditorText(row.getBinding());
+        else {
+            _targetPanel.setSelectedItem(getCurrentRow().getName());
+        }
     }
 
 

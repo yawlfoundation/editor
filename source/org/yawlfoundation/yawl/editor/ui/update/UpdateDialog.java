@@ -24,6 +24,7 @@ import org.yawlfoundation.yawl.editor.ui.specification.SpecificationFileHandler;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.FileState;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.FileStateListener;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.Publisher;
+import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
 import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
 import org.yawlfoundation.yawl.util.CheckSummer;
 
@@ -69,6 +70,7 @@ public class UpdateDialog extends JDialog
         setContentPane(addContent());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pack();
+        setResizable(false);
         setLocationRelativeTo(YAWLEditor.getInstance());
     }
 
@@ -137,11 +139,13 @@ public class UpdateDialog extends JDialog
 
     private JPanel getButtonPanel() {
         JPanel panel = new JPanel();
-        panel.add(createButton("Cancel"));
+        JButton btnCancel = createButton("Cancel");
+        panel.add(btnCancel);
         _btnDownload = createButton("Download");
         panel.add(_btnDownload);
         _btnUpdateAndRestart = createButton("Update & Restart");
         panel.add(_btnUpdateAndRestart);
+        ButtonUtil.setEqualWidths(panel);
         return panel;
     }
 
@@ -149,7 +153,6 @@ public class UpdateDialog extends JDialog
     protected JButton createButton(String caption) {
         JButton btn = new JButton(caption);
         btn.setActionCommand(caption);
-        btn.setPreferredSize(new Dimension(130, 25));
         btn.addActionListener(this);
         return btn;
     }

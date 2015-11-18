@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.data.binding;
 
+import org.yawlfoundation.yawl.editor.core.data.YDataHandler;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.properties.data.DataUtils;
 import org.yawlfoundation.yawl.editor.ui.properties.data.MultiInstanceHandler;
@@ -177,6 +178,15 @@ public abstract class AbstractDataBindingDialog extends JDialog implements Actio
         }
         return false;
     }
+
+
+    protected int confirmSaveOnComboChange(int scope, String varName) {
+        String scopeStr = (scope == YDataHandler.INPUT) ? "task" : "net";
+        String msg = "The binding for " + scopeStr + " variable '" + varName +
+                     "' has changed.\n Save the updated binding?";
+        return JOptionPane.showConfirmDialog(this, msg);
+    }
+
 
 
     private JPanel getContent(VariableRow row) {

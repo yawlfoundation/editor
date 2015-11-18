@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.data.binding;
 
+import org.yawlfoundation.yawl.editor.core.data.YDataHandler;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 
 import javax.swing.*;
@@ -39,14 +40,15 @@ class TaskVariablePanel extends AbstractBindingPanel {
     private String _miVarName;
 
 
-    TaskVariablePanel(String title, java.util.List<VariableRow> varList,
+    TaskVariablePanel(int ioType, java.util.List<VariableRow> varList,
                       ActionListener listener) {
         super();
         setLayout(new BorderLayout());
-        setBorder(new CompoundBorder(new TitledBorder(title),
+        setBorder(new CompoundBorder(new TitledBorder(getTitle(ioType)),
                 new EmptyBorder(0,17,3,0)));
 
-        _varsCombo = buildComboBox(getVarNames(varList), "taskVarComboSelection", listener);
+        _varsCombo = buildComboBox(getVarNames(varList, ioType),
+                "taskVarComboSelection", listener);
         _varsCombo.setBorder(new EmptyBorder(3,0,3,0));
         add(_varsCombo, BorderLayout.CENTER);
         _prompt = new JLabel("Task Variable: ");
@@ -84,5 +86,10 @@ class TaskVariablePanel extends AbstractBindingPanel {
                 break;
             }
         }
+    }
+
+
+    private String getTitle(int ioType) {
+        return ioType == YDataHandler.INPUT ? "Input To" : "Generate Binding From";
     }
 }

@@ -44,7 +44,6 @@ public class SpecificationUploadDialog extends PropertyDialog
     public SpecificationUploadDialog(Window parent) {
         super(parent);
         setTitle("Upload Options");
-        setPreferredSize(new Dimension(200, 163));
         loadPreferences();
         pack();
     }
@@ -66,6 +65,7 @@ public class SpecificationUploadDialog extends PropertyDialog
 
     protected JPanel getContent() {
         JPanel content = new JPanel(new BorderLayout());
+        content.setBorder(new EmptyBorder(5,5,0,10));
         content.add(getUnloadPanel(), BorderLayout.NORTH);
         content.add(getLaunchPanel(), BorderLayout.CENTER);
         content.add(getButtonBar(this), BorderLayout.SOUTH);

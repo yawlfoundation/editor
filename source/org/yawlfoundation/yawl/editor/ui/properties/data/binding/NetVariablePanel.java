@@ -18,9 +18,9 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.data.binding;
 
+import org.yawlfoundation.yawl.editor.core.data.YDataHandler;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.elements.data.external.ExternalDBGatewayFactory;
-import org.yawlfoundation.yawl.util.StringUtil;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -42,14 +42,13 @@ class NetVariablePanel extends AbstractBindingPanel implements ActionListener {
     private JRadioButton _gatewayButton;
 
 
-    NetVariablePanel(String title, java.util.List<VariableRow> varList,
+    NetVariablePanel(int ioType, java.util.List<VariableRow> varList,
                      ActionListener listener) {
         super();
         setLayout(new BorderLayout());
-        if (!StringUtil.isNullOrEmpty(title)) {
-            setBorder(new TitledBorder(title));
-        }
-        add(buildNetSelectionPanel(varList, listener), BorderLayout.CENTER);
+        setBorder(new TitledBorder(getTitle(ioType)));
+
+        add(buildNetSelectionPanel(varList, ioType, listener), BorderLayout.CENTER);
         add(buildRadioPanel(listener), BorderLayout.WEST);
         initContent();
     }
@@ -145,10 +144,10 @@ class NetVariablePanel extends AbstractBindingPanel implements ActionListener {
 
 
     private JPanel buildNetSelectionPanel(java.util.List<VariableRow> netVarList,
-                                          ActionListener listener) {
+                                          int ioType, ActionListener listener) {
         JPanel panel = new JPanel(new GridLayout(0, 1, 10, 10));
         panel.setBorder(new EmptyBorder(3,0,3,0));
-        _varsCombo = buildComboBox(getVarNames(netVarList),
+        _varsCombo = buildComboBox(getVarNames(netVarList, ioType),
                 "netVarComboSelection", listener);
         panel.add(_varsCombo);
         _gatewayCombo = buildComboBox(getDataGatewayNames(),
@@ -183,6 +182,12 @@ class NetVariablePanel extends AbstractBindingPanel implements ActionListener {
         _varsCombo.setEnabled(enableNetVarsCombo);
         _gatewayCombo.setEnabled(enableGatewayCombo);
     }
+
+
+    private String getTitle(int ioType) {
+        return ioType == YDataHandler.INPUT ? "Generate Binding From" : "Output To";
+    }
+
 
     // when showing the MI parameter
     protected void disableSelections() {
