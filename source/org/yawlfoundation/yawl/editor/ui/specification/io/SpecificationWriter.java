@@ -29,13 +29,10 @@ import org.yawlfoundation.yawl.editor.ui.specification.validation.AnalysisResult
 import org.yawlfoundation.yawl.editor.ui.specification.validation.DataTypeValidator;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.SpecificationValidator;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.ValidationResultsParser;
-import org.yawlfoundation.yawl.editor.ui.util.ErrorReporter;
 import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
 import org.yawlfoundation.yawl.elements.YSpecification;
-import org.yawlfoundation.yawl.reporter.Report;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +70,7 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
                 }
             }
             catch (Exception e) {
-                showFileSaveError(e);
+                new FileSaveErrorNotifier().notify(e, _fileName);
                 _log.error("Error saving specification to file.", e);
             }
         }
@@ -148,31 +145,6 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
 
     private void firePropertyChange(String property, Object newValue) {
         YAWLEditor.getPropertySheet().firePropertyChange(property, newValue);
-    }
-
-
-    private void showFileSaveError(Exception e) {
-        String[] options = new String[] {"Don't Send", "Send" };
-        String message = "The attempt to save this specification to file failed." +
-                "\nError message: " +
-                (e.getMessage() != null ? e.getMessage() : "General Error") +
-                "\n\nClick 'Send' to report this issue to the YAWL team.";
-
-        int choice = JOptionPane.showOptionDialog(YAWLEditor.getInstance(), message,
-                "Save File Error", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE,
-                null, options, options[1]);
-
-        if (choice == 1) {
-            try {
-                ErrorReporter er = new ErrorReporter();
-                Report report = er.prepare("Failed to save", e);
-                report.addContent("FileName", _fileName);
-                er.send(report);
-            }
-            catch (IOException ioe) {
-                //
-            }
-        }
     }
 
 }

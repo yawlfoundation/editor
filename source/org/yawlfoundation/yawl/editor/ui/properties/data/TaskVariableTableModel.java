@@ -32,7 +32,7 @@ public class TaskVariableTableModel extends NetVariableTableModel {
 
 
     public String getColumnName(int column) {
-        return column == VALUE_COLUMN ? "Default Value" : super.getColumnName(column);
+        return column == VALUE_COLUMN ? "Default Output Value" : super.getColumnName(column);
     }
 
 
