@@ -38,6 +38,7 @@ import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationUndoManager;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.Publisher;
 import org.yawlfoundation.yawl.editor.ui.swing.DefaultLayoutArranger;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.elements.*;
 
 import javax.swing.*;
@@ -393,29 +394,18 @@ public class SpecificationReader extends SwingWorker<Boolean, Void> {
 
     private void showLoadError(String errorMsg) {
         if (errorMsg == null) errorMsg = "Invalid or corrupt content.";
-        showError(
-                "Failed to load specification.\n" +
+        MessageDialog.error("Failed to load specification.\n" +
                 (errorMsg.length() > 0 ? "Reason: " + errorMsg : ""),
-                "Specification File Load Error",
-                JOptionPane.ERROR_MESSAGE
-        );
+                "Specification File Load Error");
     }
 
 
     private void showLayoutParseWarning() {
-        showError(
+        MessageDialog.warn(
                 "The specification loaded successfully, but the layout data is invalid.\n" +
                 "A basic default layout will be applied.",
-                "Specification Layout Load Error",
-                JOptionPane.WARNING_MESSAGE
-        );
+                "Specification Layout Load Error");
     }
-
-    private void showError(String errorMsg, String title, int msgType) {
-         JOptionPane.showMessageDialog(YAWLEditor.getInstance(), errorMsg, title,
-                 msgType);
-     }
-
 
 
     private void warnOnInvalidResources() {

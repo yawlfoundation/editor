@@ -28,9 +28,9 @@ import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 import org.yawlfoundation.yawl.editor.ui.net.utilities.NetCellUtilities;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationUndoManager;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.elements.YNet;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -101,8 +101,7 @@ public abstract class YPropertiesBean {
 
 
     protected void showWarning(String title, String message) {
-        JOptionPane.showMessageDialog(YAWLEditor.getInstance(), message, title,
-                JOptionPane.WARNING_MESSAGE);
+        MessageDialog.warn(message, title);
     }
 
 }

@@ -19,6 +19,7 @@
 package org.yawlfoundation.yawl.worklet.model;
 
 import org.yawlfoundation.yawl.editor.ui.resourcing.listmodel.AbstractResourceListModel;
+import org.yawlfoundation.yawl.engine.YSpecificationID;
 import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 
 import java.io.IOException;
@@ -32,16 +33,15 @@ import java.util.List;
  */
 public class WorkletListModel extends AbstractResourceListModel {
 
-    private final List<String> fullList;
-    private List<String> filteredList;
+    private final List<YSpecificationID> fullList;
+    private List<YSpecificationID> filteredList;
 
     private int filterLength;
 
 
     public WorkletListModel() {
-        fullList = new ArrayList<String>(getWorkletList());
-        Collections.sort(fullList);
-        filteredList = new ArrayList<String>(fullList);
+        fullList = getWorkletList();
+        filteredList = new ArrayList<YSpecificationID>(fullList);
         filterLength = 0;
     }
 
@@ -50,13 +50,13 @@ public class WorkletListModel extends AbstractResourceListModel {
 
 
     public Object getElementAt(int i) {
-        return filteredList.get(i);
+        return filteredList.get(i).getUri();
     }
 
 
     public void filter(String chars) {
         if (chars.length() == 0) {
-            filteredList = new ArrayList<String>(fullList);
+            filteredList = new ArrayList<YSpecificationID>(fullList);
         }
         else if (chars.length() > filterLength) {
             filteredList = filter(filteredList, chars);
@@ -79,21 +79,22 @@ public class WorkletListModel extends AbstractResourceListModel {
     }
 
 
-    private List<String> filter(List<String> list, String chars) {
-        List<String> filtered = new ArrayList<String>();
+    private List<YSpecificationID> filter(List<YSpecificationID> list, String chars) {
+        List<YSpecificationID> filtered = new ArrayList<YSpecificationID>();
         String mask = chars.toLowerCase();
-        for (String s : list) {
-            if (s.toLowerCase().contains(mask)) {
-                filtered.add(s);
+        for (YSpecificationID specID : list) {
+            String uri = specID.getUri();
+            if (uri.toLowerCase().contains(mask)) {
+                filtered.add(specID);
             }
         }
         return filtered;
     }
 
 
-    private List<String> getWorkletList() {
+    private List<YSpecificationID> getWorkletList() {
         try {
-            return new WorkletClient().getWorkletList();
+            return new WorkletClient().getWorkletIdList();
         }
         catch (IOException ioe) {
             return Collections.emptyList();

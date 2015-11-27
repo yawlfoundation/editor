@@ -22,6 +22,7 @@ import org.bounce.text.LineNumberMargin;
 import org.bounce.text.xml.XMLFoldingMargin;
 import org.yawlfoundation.yawl.editor.ui.data.Validity;
 import org.yawlfoundation.yawl.editor.ui.swing.JUtilities;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.swing.MoreDialog;
 import org.yawlfoundation.yawl.util.StringUtil;
 
@@ -108,8 +109,7 @@ public class ProblemReportingEditorPane extends JPanel
             }
         }
         else {
-            JOptionPane.showMessageDialog(this, "'" + textToFind + "' not found.",
-                                "Text not found", JOptionPane.WARNING_MESSAGE);
+            MessageDialog.warn(this, "'" + textToFind + "' not found.", "Text not found");
         }
         editor.requestFocusInWindow();
     }

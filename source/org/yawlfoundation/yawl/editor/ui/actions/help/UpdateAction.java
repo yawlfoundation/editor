@@ -18,8 +18,8 @@
 
 package org.yawlfoundation.yawl.editor.ui.actions.help;
 
-import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.actions.YAWLBaseAction;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.update.UpdateChecker;
 import org.yawlfoundation.yawl.editor.ui.update.UpdateDialog;
 import org.yawlfoundation.yawl.editor.ui.util.CursorUtil;
@@ -75,16 +75,11 @@ public class UpdateAction extends YAWLBaseAction implements PropertyChangeListen
 
 
     private void showInfo(String message) {
-        showMessage(message, JOptionPane.INFORMATION_MESSAGE);
+        MessageDialog.info(message, "Check for Updates");
     }
 
     private void showError(String message) {
-        showMessage(message, JOptionPane.ERROR_MESSAGE);
-    }
-
-    private void showMessage(String message, int type) {
-        JOptionPane.showMessageDialog(YAWLEditor.getInstance(),
-                message, "Check for Updates", type);
+        MessageDialog.error(message, "Check for Updates");
     }
 
 }

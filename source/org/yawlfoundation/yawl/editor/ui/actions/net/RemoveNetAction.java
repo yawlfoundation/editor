@@ -23,6 +23,7 @@ import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraph;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationUndoManager;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.SpecificationState;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.swing.TooltipTogglingWidget;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.MenuUtilities;
 
@@ -47,9 +48,7 @@ public class RemoveNetAction extends YAWLSelectedNetAction
             SpecificationUndoManager.getInstance().setDirty(true);
         }
         catch (YControlFlowHandlerException yche) {
-            JOptionPane.showMessageDialog(YAWLEditor.getInstance(),
-                    "Failed to remove net from specification", "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            MessageDialog.error("Failed to remove net from specification", "Error");
         }
     }
 

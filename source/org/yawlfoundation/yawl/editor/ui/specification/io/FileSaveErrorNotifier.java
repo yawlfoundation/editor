@@ -1,6 +1,7 @@
 package org.yawlfoundation.yawl.editor.ui.specification.io;
 
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.util.ErrorReporter;
 import org.yawlfoundation.yawl.reporter.Report;
 
@@ -28,11 +29,11 @@ public class FileSaveErrorNotifier {
 
 
     private void showPermissionDeniedError(String errMsg) {
-        JOptionPane.showMessageDialog(YAWLEditor.getInstance(),
+        MessageDialog.error(
                 "Failed to save this specification to " + errMsg +
                 ".\nYou do not have the necessary file permissions to write to that directory.\n" +
                 "Please use 'File...Save As' to save the file to a different location.",
-                "Save File Error", JOptionPane.ERROR_MESSAGE);
+                "Save File Error");
     }
 
 

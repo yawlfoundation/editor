@@ -20,7 +20,7 @@ package org.yawlfoundation.yawl.worklet;
 
 import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
 import org.yawlfoundation.yawl.editor.ui.plugin.YEditorPluginAdapter;
-import org.yawlfoundation.yawl.worklet.menu.RulesMenu;
+import org.yawlfoundation.yawl.worklet.menu.WorkletMenu;
 
 import javax.swing.*;
 
@@ -28,17 +28,17 @@ import javax.swing.*;
  * @author Michael Adams
  * @date 29/09/2014
  */
-public class WorkletRulesPlugin extends YEditorPluginAdapter {
+public class WorkletEditorPlugin extends YEditorPluginAdapter {
 
-    public WorkletRulesPlugin() { }
+    public WorkletEditorPlugin() { }
 
 
     @Override
-    public String getName() { return "Worklet Rules Plugin"; }
+    public String getName() { return "Worklet Editor Plugin"; }
 
     @Override
     public String getDescription() {
-        return "Allows rules to be added to Worklet Service";
+        return "Allows for the management of worklets and rules sets";
     }
 
     @Override
@@ -48,6 +48,6 @@ public class WorkletRulesPlugin extends YEditorPluginAdapter {
 
     @Override
     public JMenu getPluginMenu() {
-        return new RulesMenu();
+        return new WorkletMenu();
     }
 }

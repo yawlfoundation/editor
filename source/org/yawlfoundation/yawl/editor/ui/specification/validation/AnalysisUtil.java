@@ -23,12 +23,12 @@ import org.yawlfoundation.yawl.analyser.YAnalyser;
 import org.yawlfoundation.yawl.analyser.YAnalyserOptions;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.swing.AnalysisDialog;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.util.FileLocations;
 import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
 import org.yawlfoundation.yawl.exceptions.YSyntaxException;
 import org.yawlfoundation.yawl.util.JDOMUtil;
 
-import javax.swing.*;
 import java.io.File;
 
 /**
@@ -126,9 +126,7 @@ public class AnalysisUtil {
     private static void showError(AnalysisDialog messageDlg, String msg) {
         messageDlg.setVisible(false);
         messageDlg.dispose();
-        JOptionPane.showMessageDialog(YAWLEditor.getInstance(),
-                msg, "Error analysing specification",
-                JOptionPane.ERROR_MESSAGE);
+        MessageDialog.error(msg, "Error analysing specification");
     }
 
 

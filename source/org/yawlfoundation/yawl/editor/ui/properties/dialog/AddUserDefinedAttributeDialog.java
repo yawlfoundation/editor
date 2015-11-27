@@ -19,6 +19,7 @@
 package org.yawlfoundation.yawl.editor.ui.properties.dialog;
 
 import org.yawlfoundation.yawl.editor.ui.properties.extended.UserDefinedAttributes;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -106,9 +107,8 @@ public class AddUserDefinedAttributeDialog extends PropertyDialog
     public void actionPerformed(ActionEvent event) {
         String cmd = event.getActionCommand();
         if (cmd.equals("OK") && ! parentDialog.isUniqueName(getName())) {
-            JOptionPane.showMessageDialog(this,
-                    "An attribute with that name already exists.",
-                    "Unable to add attribute", JOptionPane.ERROR_MESSAGE);
+            MessageDialog.error(this, "An attribute with that name already exists.",
+                    "Unable to add attribute");
             txtName.requestFocus();
             txtName.selectAll();
         }

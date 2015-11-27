@@ -20,7 +20,6 @@ package org.yawlfoundation.yawl.editor.ui.swing.element;
 
 import org.yawlfoundation.yawl.editor.core.YSpecificationHandler;
 import org.yawlfoundation.yawl.editor.core.exception.IllegalIdentifierException;
-import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.elements.model.Condition;
 import org.yawlfoundation.yawl.editor.ui.elements.model.VertexContainer;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLTask;
@@ -29,6 +28,7 @@ import org.yawlfoundation.yawl.editor.ui.net.NetGraph;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationUndoManager;
 import org.yawlfoundation.yawl.editor.ui.swing.JFormattedSafeXMLCharacterField;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.util.XMLUtilities;
 
 import javax.swing.*;
@@ -155,11 +155,10 @@ public class LabelElementDialog extends AbstractVertexDoneDialog {
                     vertex.setID(validID);
                 }
                 catch (IllegalIdentifierException iie) {
-                    JOptionPane.showMessageDialog(YAWLEditor.getInstance(),
+                    MessageDialog.warn(
                             "Label updated, but failed to synch element identifier - " +
                                     iie.getMessage(),
-                            "Element Identifier Synchronisation Failed",
-                            JOptionPane.WARNING_MESSAGE);
+                            "Element Identifier Synchronisation Failed");
                 }
             }
         }

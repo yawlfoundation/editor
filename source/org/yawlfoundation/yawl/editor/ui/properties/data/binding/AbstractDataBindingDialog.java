@@ -25,6 +25,7 @@ import org.yawlfoundation.yawl.editor.ui.properties.data.MultiInstanceHandler;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.properties.data.validation.BindingTypeValidator;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.ButtonBar;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.util.SplitPaneUtil;
 import org.yawlfoundation.yawl.editor.ui.util.XMLUtilities;
 
@@ -268,8 +269,7 @@ public abstract class AbstractDataBindingDialog extends JDialog implements Actio
         s.append("' has data type: ").append(source.getDataType()).append(".\n");
         s.append("\tTarget variable '").append(target.getName());
         s.append("' has data type: ").append(target.getDataType()).append(".\n");
-        JOptionPane.showMessageDialog(this, s.toString(), "Generate Binding Error",
-                JOptionPane.ERROR_MESSAGE);
+        MessageDialog.error(this, s.toString(), "Generate Binding Error");
     }
 
 }

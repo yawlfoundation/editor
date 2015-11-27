@@ -20,8 +20,8 @@ package org.yawlfoundation.yawl.editor.ui.net;
 
 import org.imgscalr.Scalr;
 import org.yawlfoundation.yawl.editor.core.YSpecificationHandler;
-import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.util.CursorUtil;
 
 import javax.print.PrintService;
@@ -29,7 +29,6 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
 import javax.print.attribute.standard.JobName;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
@@ -206,8 +205,7 @@ public class NetPrinter implements Printable {
 
 
     private void showError(String msg) {
-        JOptionPane.showMessageDialog(YAWLEditor.getInstance(), msg,
-                "Printer Error", JOptionPane.ERROR_MESSAGE);
+        MessageDialog.error(msg, "Printer Error");
     }
 
 }

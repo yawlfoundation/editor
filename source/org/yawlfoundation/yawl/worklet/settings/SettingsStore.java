@@ -40,6 +40,8 @@ public class SettingsStore {
     private static final String DEFAULT_HOST = "localhost";
     private static final int DEFAULT_PORT = 8080;
 
+    private static final String LAST_RULE_SET_PATH = "lastRuleSetPath";
+
 
     public static void setServiceUserId(String id) {
         _prefs.put(SERVICE_USERID, id);
@@ -74,6 +76,15 @@ public class SettingsStore {
 
     public static void setServicePort(int port) {
         _prefs.putInt(SERVICE_PORT, port);
+    }
+
+
+    public static String getLastRuleSetPath() {
+        return _prefs.get(LAST_RULE_SET_PATH, null);
+    }
+
+    public static void setLastRuleSetPath(String path) {
+        _prefs.put(LAST_RULE_SET_PATH, path);
     }
 
 }

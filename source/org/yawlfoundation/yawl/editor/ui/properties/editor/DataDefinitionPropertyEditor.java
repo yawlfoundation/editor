@@ -21,11 +21,9 @@ package org.yawlfoundation.yawl.editor.ui.properties.editor;
 import com.l2fprod.common.swing.renderer.DefaultCellRenderer;
 import org.yawlfoundation.yawl.editor.core.YSpecificationHandler;
 import org.yawlfoundation.yawl.editor.core.data.YDataHandlerException;
-import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.DataDefinitionDialog;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
-
-import javax.swing.*;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 
 /**
  * @author Michael Adams
@@ -78,14 +76,8 @@ public class DataDefinitionPropertyEditor extends DialogPropertyEditor {
             _handler.setSchema(schema);
         }
         catch (Exception yse) {
-            showWarning("Invalid Schema", yse.getMessage());
+            MessageDialog.warn(yse.getMessage(), "Invalid Schema");
         }
-    }
-
-
-    protected void showWarning(String title, String message) {
-        JOptionPane.showMessageDialog(YAWLEditor.getInstance(), message, title,
-                JOptionPane.WARNING_MESSAGE);
     }
 
 }

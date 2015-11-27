@@ -20,11 +20,9 @@ package org.yawlfoundation.yawl.editor.ui.properties.editor;
 
 import com.l2fprod.common.swing.renderer.DefaultCellRenderer;
 import org.yawlfoundation.yawl.editor.core.YConnector;
-import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.CodeletDialog;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.CodeletData;
-
-import javax.swing.*;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 
 /**
  * @author Michael Adams
@@ -62,12 +60,12 @@ public class CodeletPropertyEditor extends DialogPropertyEditor {
             }
         }
         else {
-            JOptionPane.showMessageDialog(YAWLEditor.getInstance(),
+            MessageDialog.warn(
                  "A connection to the Resource Service has not been established,\n" +
                  "so the list of available codelets cannot be retrieved. Please\n" +
                  "connect to a running Resource Service via the Preferences\n" +
                  "dialog (menu File...Preferences), and try again.",
-                 "Service Unavailable", JOptionPane.WARNING_MESSAGE);
+                 "Service Unavailable");
         }
     }
 

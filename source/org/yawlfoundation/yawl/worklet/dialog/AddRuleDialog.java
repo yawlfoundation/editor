@@ -53,9 +53,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * @author Michael Adams
@@ -466,13 +464,17 @@ public class AddRuleDialog extends JDialog
     }
 
 
-    private java.util.List<String> getWorkletList() {
+    private Set<String> getWorkletList() {
+        Set<String> workletNames = new HashSet<String>();
         try {
-            return new WorkletClient().getWorkletList();
+            for (YSpecificationID specID : new WorkletClient().getWorkletIdList()) {
+                 workletNames.add(specID.getUri());
+            }
         }
         catch (IOException ioe) {
-            return Collections.emptyList();
+            // fallthrough
         }
+        return  workletNames;
     }
 
 

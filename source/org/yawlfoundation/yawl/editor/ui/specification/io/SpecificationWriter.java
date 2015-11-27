@@ -29,6 +29,7 @@ import org.yawlfoundation.yawl.editor.ui.specification.validation.AnalysisResult
 import org.yawlfoundation.yawl.editor.ui.specification.validation.DataTypeValidator;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.SpecificationValidator;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.ValidationResultsParser;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
 import org.yawlfoundation.yawl.elements.YSpecification;
 
@@ -107,7 +108,8 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
         if (! results.isEmpty()) {
             YAWLEditor.getInstance().showProblemList("Export Errors",
                     new ValidationResultsParser().parse(results));
-            showError("Could not export Specification due to missing or invalid user-" +
+            MessageDialog.error(
+                    "Could not export Specification due to missing or invalid user-" +
                     "defined data types.\nPlease see the problem list below for details.",
                     "Data type Error");
         }
@@ -134,12 +136,6 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
         }
         YAWLEditor.getInstance().showProblemList(title + " Results",
                 new ValidationResultsParser().parse(results));
-    }
-
-
-    private void showError(String message, String title) {
-        JOptionPane.showMessageDialog(YAWLEditor.getInstance(), message, title,
-                JOptionPane.ERROR_MESSAGE);
     }
 
 

@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.editor.ui.actions;
 
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraph;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.swing.NetsPane;
 import org.yawlfoundation.yawl.editor.ui.util.ResourceLoader;
 
@@ -34,11 +35,8 @@ public abstract class YAWLBaseAction extends AbstractAction {
 
 
     public void actionPerformed(ActionEvent e) {
-        JOptionPane.showMessageDialog(YAWLEditor.getInstance(),
-                "The action labelled '" + getValue(Action.NAME) +
-                        "' is not yet implemented.\n\n",
-                "No Action",
-                JOptionPane.INFORMATION_MESSAGE);
+        MessageDialog.info("The action labelled '" + getValue(Action.NAME) +
+                "' is not yet implemented.\n\n", "No Action");
     }
 
     public NetGraph getGraph() {

@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.editor.ui.preferences;
 
 import org.yawlfoundation.yawl.editor.core.YConnector;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
 
 import javax.swing.*;
@@ -73,8 +74,8 @@ public class ConnectionsPanel extends JPanel
                 _hasChanges = false;
             }
             catch (MalformedURLException mue) {
-                JOptionPane.showMessageDialog(this, "Update failed: " + mue.getMessage(),
-                        "Connection Error", JOptionPane.ERROR_MESSAGE);
+                MessageDialog.error(this, "Update failed: " + mue.getMessage(),
+                        "Connection Error");
             }
         }
     }

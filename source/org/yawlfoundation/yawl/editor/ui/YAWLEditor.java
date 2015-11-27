@@ -29,10 +29,7 @@ import org.yawlfoundation.yawl.editor.ui.specification.pubsub.FileState;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.FileStateListener;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.Publisher;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.ValidationMessage;
-import org.yawlfoundation.yawl.editor.ui.swing.JUtilities;
-import org.yawlfoundation.yawl.editor.ui.swing.NetsPane;
-import org.yawlfoundation.yawl.editor.ui.swing.YSplashScreen;
-import org.yawlfoundation.yawl.editor.ui.swing.YStatusBar;
+import org.yawlfoundation.yawl.editor.ui.swing.*;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.*;
 import org.yawlfoundation.yawl.editor.ui.swing.specification.BottomPanel;
 import org.yawlfoundation.yawl.editor.ui.update.BackgroundUpdateChecker;
@@ -428,10 +425,8 @@ public class YAWLEditor extends JFrame implements FileStateListener {
 
 
     private static void showUpdateSuccess() {
-        JOptionPane.showMessageDialog(getInstance(),
-                "Updated successfully to version " +
-                        new BuildProperties().getFullVersionText(),
-                "Update Completed", JOptionPane.INFORMATION_MESSAGE);
+        MessageDialog.info("Updated successfully to version " +
+                new BuildProperties().getFullVersionText(), "Update Completed");
     }
 
 

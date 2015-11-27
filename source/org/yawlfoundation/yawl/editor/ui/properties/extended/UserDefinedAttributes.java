@@ -18,10 +18,9 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.extended;
 
-import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.util.StringUtil;
 
-import javax.swing.*;
 import java.io.*;
 import java.util.*;
 
@@ -107,11 +106,8 @@ public abstract class UserDefinedAttributes {
            // no UDA file
         }
         if (! errors.isEmpty()) {
-            JOptionPane.showMessageDialog(YAWLEditor.getInstance(),
-                    coalesceErrorMessages(errors),
-                    "Problems Loading User-Defined Attributes",
-                    JOptionPane.WARNING_MESSAGE);
-
+            MessageDialog.warn(coalesceErrorMessages(errors),
+                    "Problems Loading User-Defined Attributes");
         }
         return map;
     }

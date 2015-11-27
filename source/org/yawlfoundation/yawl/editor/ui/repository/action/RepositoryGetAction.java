@@ -22,12 +22,12 @@ import org.yawlfoundation.yawl.editor.core.controlflow.YControlFlowHandler;
 import org.yawlfoundation.yawl.editor.core.repository.Repo;
 import org.yawlfoundation.yawl.editor.core.repository.RepoDescriptor;
 import org.yawlfoundation.yawl.editor.core.repository.YRepository;
-import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.actions.specification.YAWLOpenSpecificationAction;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.ExtendedAttributesDialog;
 import org.yawlfoundation.yawl.editor.ui.repository.dialog.DescriptorListDialog;
 import org.yawlfoundation.yawl.editor.ui.specification.NetReloader;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.DataTypeDialogToolBarMenu;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.MenuUtilities;
 import org.yawlfoundation.yawl.elements.YAWLServiceGateway;
@@ -180,9 +180,7 @@ public class RepositoryGetAction extends YAWLOpenSpecificationAction {
                 "\n\nUntil a definition for each listed data type is created, or\n" +
                 "imported from the repository if it exists there, this\n" +
                 "specification will not validate successfully.";
-        JOptionPane.showMessageDialog(YAWLEditor.getInstance(), message,
-                "Unknown Data Types in Imported Decompositions",
-                JOptionPane.WARNING_MESSAGE);
+        MessageDialog.warn(message, "Unknown Data Types in Imported Decompositions");
     }
 
 

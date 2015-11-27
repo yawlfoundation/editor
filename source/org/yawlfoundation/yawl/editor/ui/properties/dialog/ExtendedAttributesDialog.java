@@ -32,6 +32,7 @@ import org.yawlfoundation.yawl.editor.ui.repository.action.RepositoryAddAction;
 import org.yawlfoundation.yawl.editor.ui.repository.action.RepositoryGetAction;
 import org.yawlfoundation.yawl.editor.ui.repository.action.RepositoryRemoveAction;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationUndoManager;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.YAWLToolBarButton;
 import org.yawlfoundation.yawl.elements.YAttributeMap;
 import org.yawlfoundation.yawl.elements.YDecomposition;
@@ -103,10 +104,8 @@ public class ExtendedAttributesDialog extends PropertyDialog
         propertySheet.readFromObject(properties);  // load new values to sheet
 
         // let the user know
-        JOptionPane.showMessageDialog(this,
-                filtered.size() + " attribute values loaded",
-                "Load from Repository",
-                JOptionPane.INFORMATION_MESSAGE);
+        MessageDialog.info(this, filtered.size() + " attribute values loaded",
+                "Load from Repository");
     }
 
 

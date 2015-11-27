@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.editor.ui.properties.data;
 
 import org.yawlfoundation.yawl.editor.core.data.YDataHandler;
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.OutputBindings;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 
 import javax.activation.ActivationDataFlavor;
 import javax.activation.DataHandler;
@@ -139,9 +140,9 @@ public class VariableRowTransferHandler extends TransferHandler {
     private boolean isUniqueRowName(String name) {
         for (VariableRow row : _table.getVariables()) {
             if (row.getName().equals(name)) {
-                JOptionPane.showMessageDialog(null,
+                MessageDialog.error(
                         "A variable of the same name already exists in the target list.",
-                        "Transfer Error", JOptionPane.ERROR_MESSAGE);
+                        "Transfer Error");
                 _table.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 return false;
             }

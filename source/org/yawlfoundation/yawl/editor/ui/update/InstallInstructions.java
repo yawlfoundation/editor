@@ -18,9 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.update;
 
-import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
-
-import javax.swing.*;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 
 /**
  * @author Michael Adams
@@ -29,8 +27,7 @@ import javax.swing.*;
 public class InstallInstructions {
 
     public void show() {
-        JOptionPane.showMessageDialog(YAWLEditor.getInstance(), getInstructions(),
-                "Installation Instructions", JOptionPane.INFORMATION_MESSAGE);
+        MessageDialog.info(getInstructions(), "Installation Instructions");
     }
 
     public String getInstructions() {

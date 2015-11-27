@@ -16,68 +16,57 @@
  * License along with YAWL. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.yawlfoundation.yawl.editor.ui.swing;
+package org.yawlfoundation.yawl.worklet.dialog;
 
-import org.yawlfoundation.yawl.editor.core.YConnector;
-import org.yawlfoundation.yawl.editor.ui.specification.io.LayoutRepository;
 import org.yawlfoundation.yawl.editor.ui.specification.io.SpecificationReader;
+import org.yawlfoundation.yawl.editor.ui.swing.AbstractDownloadDialog;
 import org.yawlfoundation.yawl.engine.YSpecificationID;
-import org.yawlfoundation.yawl.engine.interfce.SpecificationData;
-import org.yawlfoundation.yawl.util.StringUtil;
+import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * @author Michael Adams
- * @date 18/10/13
+ * @date 27/11/15
  */
-public class SpecificationDownloadDialog extends AbstractDownloadDialog {
+public class WorkletLoadDialog extends AbstractDownloadDialog {
 
-    public SpecificationDownloadDialog() {
+    private final WorkletClient _client;
+
+    public WorkletLoadDialog() {
         super();
-        setTitle("Available Specifications");
+        _client = new WorkletClient();
+        setTitle("Loaded Worklets");
     }
 
 
     @Override
     protected java.util.List<YSpecificationID> getLoadedSpecificationList() {
-        java.util.List<YSpecificationID> list = new ArrayList<YSpecificationID>();
         try {
-            for (SpecificationData specData : YConnector.getLoadedSpecificationList()) {
-                YSpecificationID specID = specData.getID();
-                list.add(specID);
-            }
+            return _client.getWorkletIdList();
         }
         catch (IOException ioe) {
-            showError("Failed to get list of specifications from the YAWL Engine: ", ioe);
+            showError("Failed to get list of worklets from the Worklet Service: ", ioe);
+            return Collections.emptyList();
         }
-        return list;
     }
 
 
     @Override
     protected SpecificationReader getSpecificationReader(YSpecificationID specID,
                                                          String specXML) {
-        return new SpecificationReader(specXML, getSpecificationLayout(specID));
+        return new SpecificationReader(specXML, null);
     }
+
 
     @Override
     protected String getSelectedSpecification(YSpecificationID specID) throws IOException {
-        String specXML = YConnector.getSpecification(specID);
-        if (specXML.startsWith("<fail")) {
-            throw new IOException(StringUtil.unwrap(specXML));
-        }
-        return specXML;
+        return _client.getWorklet(specID);
     }
 
 
     @Override
-    protected String getSourceString() { return "YAWL Engine"; }
-
-
-    private String getSpecificationLayout(YSpecificationID specID) {
-            return LayoutRepository.getInstance().get(specID);
-    }
+    protected String getSourceString() { return "Worklet Service"; }
 
 }

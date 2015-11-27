@@ -21,6 +21,7 @@ package org.yawlfoundation.yawl.editor.ui.resourcing.panel;
 import org.yawlfoundation.yawl.editor.core.resourcing.BasicOfferInteraction;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.resourcing.ResourceDialog;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.elements.YAtomicTask;
 import org.yawlfoundation.yawl.resourcing.constraints.AbstractConstraint;
 import org.yawlfoundation.yawl.util.StringUtil;
@@ -246,7 +247,7 @@ public class ConstraintsPanel extends JPanel implements ItemListener {
 
 
     private void showWarningDialog(String title, String msg) {
-        JOptionPane.showMessageDialog(this, msg, title, JOptionPane.WARNING_MESSAGE);
+        MessageDialog.warn(this, msg, title);
     }
 
 }

@@ -27,6 +27,7 @@ import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLVertex;
 import org.yawlfoundation.yawl.editor.ui.net.utilities.NetCellUtilities;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.ExtendedAttributesDialog;
 import org.yawlfoundation.yawl.editor.ui.repository.dialog.AddDialog;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.DataTypeDialogToolBarMenu;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.MenuUtilities;
 import org.yawlfoundation.yawl.elements.YAWLServiceGateway;
@@ -78,7 +79,7 @@ public class RepositoryAddAction extends YAWLOpenSpecificationAction {
                         repo.getTaskDecompositionRepository().add(
                                 name, description, (YAWLServiceGateway) decomposition);
                     }
-                    else showError(
+                    else MessageDialog.error(
                             "Please first select a task with a decomposition", "Error");
                     break;
                 case NetDecomposition:
@@ -117,12 +118,6 @@ public class RepositoryAddAction extends YAWLOpenSpecificationAction {
         Object cell = YAWLEditor.getNetsPane().getSelectedGraph().getSelectionCell();
         YAWLVertex vertex = NetCellUtilities.getVertexFromCell(cell);
         return vertex != null ? ((YAWLAtomicTask) vertex).getDecomposition() : null;
-    }
-
-
-    private void showError(String message, String title) {
-        JOptionPane.showMessageDialog(YAWLEditor.getInstance(), message, title,
-                JOptionPane.ERROR_MESSAGE);
     }
 
 }

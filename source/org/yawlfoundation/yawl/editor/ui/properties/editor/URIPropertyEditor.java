@@ -38,6 +38,7 @@ package org.yawlfoundation.yawl.editor.ui.properties.editor;
 
 import com.l2fprod.common.swing.renderer.DefaultCellRenderer;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 
 import javax.swing.*;
 import java.net.MalformedURLException;
@@ -96,11 +97,9 @@ public abstract class URIPropertyEditor extends DialogPropertyEditor {
                     done = true;                           // passed the test
                 }
                 catch (MalformedURLException mfue) {       // not wellformed - try again
-                    JOptionPane.showMessageDialog(editor,
-                            "'" + newUrlText +
+                    MessageDialog.error("'" + newUrlText +
                             "' is not a valid absolute URL. Please correct it or cancel.",
-                            "Malformed URL",
-                            JOptionPane.ERROR_MESSAGE);
+                            "Malformed URL");
                 }
             }
         }

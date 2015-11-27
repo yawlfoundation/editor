@@ -24,6 +24,7 @@ import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLTask;
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.OutputBindings;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationUndoManager;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.elements.YCompositeTask;
 import org.yawlfoundation.yawl.elements.YDecomposition;
 import org.yawlfoundation.yawl.elements.YNet;
@@ -453,8 +454,7 @@ public class DataVariableDialog extends JDialog
             return true;
         }
         catch (YDataHandlerException ydhe) {
-            JOptionPane.showMessageDialog(this, ydhe.getMessage(),
-                    "Failed to update data", JOptionPane.ERROR_MESSAGE);
+            MessageDialog.error(this, ydhe.getMessage(), "Failed to update data");
             return false;
         }
     }

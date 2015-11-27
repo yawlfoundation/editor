@@ -24,6 +24,7 @@ import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLAtomicTask;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 import org.yawlfoundation.yawl.editor.ui.net.utilities.NetUtilities;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.swing.TooltipTogglingWidget;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.MenuUtilities;
 import org.yawlfoundation.yawl.elements.YDecomposition;
@@ -48,12 +49,11 @@ public class DeleteOrphanDecompositionAction extends YAWLOpenSpecificationAction
     public void actionPerformed(ActionEvent event) {
         Vector<String> orphans = getOrphanedDecompositionNames();
         if (orphans.isEmpty()) {
-            JOptionPane.showMessageDialog(YAWLEditor.getInstance(),
+            MessageDialog.info(
                     "This specification has no orphaned task decompositions.\n" +
                     "Tip: orphaned task decompositions are automatically\n" +
                     "removed whenever a specification is saved to file.",
-                    "Delete Orphaned Task Decompositions",
-                    JOptionPane.INFORMATION_MESSAGE);
+                    "Delete Orphaned Task Decompositions");
             return;
         }
 

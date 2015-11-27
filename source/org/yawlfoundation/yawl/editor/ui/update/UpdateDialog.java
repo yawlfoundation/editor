@@ -24,6 +24,7 @@ import org.yawlfoundation.yawl.editor.ui.specification.SpecificationFileHandler;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.FileState;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.FileStateListener;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.Publisher;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
 import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
 import org.yawlfoundation.yawl.util.CheckSummer;
@@ -321,9 +322,7 @@ public class UpdateDialog extends JDialog
 
 
     private void showError(String message) {
-        JOptionPane.showMessageDialog(this,
-                "Update error: " + message,
-                "Update Error", JOptionPane.ERROR_MESSAGE);
+        MessageDialog.error(this, "Update error: " + message, "Update Error");
     }
 
 
@@ -356,10 +355,9 @@ public class UpdateDialog extends JDialog
         if (! (newJarName == null || appPath.endsWith(newJarName))) {
             appPath = getPathForNewAppName(appPath);
             if (appPath == null) {
-                JOptionPane.showMessageDialog(this,
+                MessageDialog.info(this,
                     "The Editor has been updated, but could not be auto-restarted.\n" +
-                    "Please restart manually",
-                    "Update Completed", JOptionPane.INFORMATION_MESSAGE);
+                    "Please restart manually", "Update Completed");
                 return;
             }
         }

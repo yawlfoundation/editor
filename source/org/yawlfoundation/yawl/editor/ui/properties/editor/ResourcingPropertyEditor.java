@@ -20,11 +20,9 @@ package org.yawlfoundation.yawl.editor.ui.properties.editor;
 
 import com.l2fprod.common.swing.renderer.DefaultCellRenderer;
 import org.yawlfoundation.yawl.editor.core.YConnector;
-import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.properties.NetTaskPair;
 import org.yawlfoundation.yawl.editor.ui.resourcing.ResourceDialog;
-
-import javax.swing.*;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 
 /**
  * @author Michael Adams
@@ -64,20 +62,20 @@ public class ResourcingPropertyEditor extends DialogPropertyEditor {
     private boolean isEmptyOrMissingOrgModel() {
         if (YConnector.isResourceConnected()) {
             if (! YConnector.hasResources()) {
-                JOptionPane.showMessageDialog(YAWLEditor.getInstance(),
+                MessageDialog.warn(
                         "The organisational model supplied by the " +
                         "Resource Service contains no participants or roles.\n" +
                         "There are no resources available to assign to the selected task.",
-                        "No Available Resources", JOptionPane.WARNING_MESSAGE);
+                        "No Available Resources");
                 return true;
             }
         }
         else {
-            JOptionPane.showMessageDialog(YAWLEditor.getInstance(),
+            MessageDialog.warn(
                  "A connection to the Resource Service has not been established.\n" +
                  "Please connect to a running Resource Service via the Preferences\n" +
                  "dialog (menu File...Preferences), and try again.",
-                 "Service Unavailable", JOptionPane.WARNING_MESSAGE);
+                 "Service Unavailable");
             return true;
         }
         return false;     // not missing and not empty

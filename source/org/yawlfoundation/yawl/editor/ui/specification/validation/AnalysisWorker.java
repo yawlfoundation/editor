@@ -19,13 +19,12 @@
 package org.yawlfoundation.yawl.editor.ui.specification.validation;
 
 import org.yawlfoundation.yawl.analyser.YAnalyser;
-import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.specification.io.SpecificationWriter;
 import org.yawlfoundation.yawl.editor.ui.swing.AnalysisDialog;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.util.StringUtil;
 
 import javax.swing.*;
-import java.util.concurrent.ExecutionException;
 
 /**
  * @author Michael Adams
@@ -67,8 +66,7 @@ public class AnalysisWorker extends SwingWorker<Void, Void> implements AnalysisC
             get();
         }
         catch (Exception e) {
-            JOptionPane.showMessageDialog(YAWLEditor.getInstance(),
-                e.getMessage(), "Unexpected Error", JOptionPane.ERROR_MESSAGE);
+            MessageDialog.error(e.getMessage(), "Unexpected Error");
         }
     }
 

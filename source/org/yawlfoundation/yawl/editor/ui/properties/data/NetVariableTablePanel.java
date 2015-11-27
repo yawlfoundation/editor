@@ -22,6 +22,7 @@ import org.yawlfoundation.yawl.editor.core.data.BindingReference;
 import org.yawlfoundation.yawl.editor.core.data.YDataHandlerException;
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.references.BindingReferencesDialog;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.elements.YNet;
 
 import javax.swing.*;
@@ -94,10 +95,8 @@ public class NetVariableTablePanel extends VariableTablePanel
             new BindingReferencesDialog(parent, references, netVarName).setVisible(true);
         }
         catch (YDataHandlerException ydhe) {
-            JOptionPane.showMessageDialog(this,
-                    "Error: " + ydhe.getMessage(),
-                    "Get Binding References Error",
-                    JOptionPane.ERROR_MESSAGE);
+            MessageDialog.error(this, "Error: " + ydhe.getMessage(),
+                    "Get Binding References Error");
         }
     }
 

@@ -36,7 +36,6 @@
 
 package org.yawlfoundation.yawl.editor.ui.actions.specification;
 
-import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.swing.SpecificationDownloadDialog;
 import org.yawlfoundation.yawl.editor.ui.swing.TooltipTogglingWidget;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.MenuUtilities;
@@ -61,7 +60,7 @@ public class DownloadSpecificationAction extends YAWLSpecificationAction
     }
 
     public void actionPerformed(ActionEvent event) {
-        new SpecificationDownloadDialog(YAWLEditor.getInstance()).setVisible(true);
+        new SpecificationDownloadDialog().setVisible(true);
     }
 
     public String getEnabledTooltipText() {

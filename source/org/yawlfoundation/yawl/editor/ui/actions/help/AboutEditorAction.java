@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.editor.ui.actions.help;
 
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.actions.YAWLBaseAction;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.util.BuildProperties;
 import org.yawlfoundation.yawl.editor.ui.util.ResourceLoader;
 
@@ -168,9 +169,7 @@ class AboutEditorDialog extends JDialog {
                     openWebPage(url);
                 }
                 catch (Exception e) {
-                    JOptionPane.showMessageDialog(YAWLEditor.getInstance(),
-                            e.getMessage(), "Error browsing to page",
-                            JOptionPane.ERROR_MESSAGE);
+                    MessageDialog.error(e.getMessage(), "Error browsing to page");
                 }
             }
         });
