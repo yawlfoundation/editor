@@ -114,6 +114,10 @@ public class YSpecificationHandler {
         return _fileOps.getSpecificationXML();
     }
 
+    public String getSpecificationXML(boolean includeLayout) throws IOException {
+        return _fileOps.getSpecificationXML(includeLayout);
+    }
+
 
     /**
      * Sets the data schema for this specification

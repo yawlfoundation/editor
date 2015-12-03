@@ -38,7 +38,7 @@ public class ConditionVerifier extends InputVerifier {
             _valid = new ConditionEvaluator().evaluate(textField.getText(),
                     _ruleDialog.getDataElement());
             if (!_valid) {
-                errMsg = " Expression must evaluate to true, based on Data Context ";
+                errMsg = " Condition must evaluate to true, based on Data Context ";
             }
         }
         catch (RdrConditionException rce) {

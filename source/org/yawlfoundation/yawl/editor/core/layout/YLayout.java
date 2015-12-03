@@ -300,6 +300,7 @@ public class YLayout {
 
 
     private XNode getSizeNode() {
+        if (_size == null) _size = YLayoutUtil.DEFAULT_SIZE;
         XNode node = new XNode("size");
         node.addAttribute("w", (int) _size.getWidth());
         node.addAttribute("h", (int) _size.getHeight());

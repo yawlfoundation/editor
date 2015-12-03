@@ -25,8 +25,11 @@ import org.yawlfoundation.yawl.engine.YSpecificationID;
 import org.yawlfoundation.yawl.engine.interfce.SpecificationData;
 import org.yawlfoundation.yawl.util.StringUtil;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * @author Michael Adams
@@ -41,18 +44,20 @@ public class SpecificationDownloadDialog extends AbstractDownloadDialog {
 
 
     @Override
-    protected java.util.List<YSpecificationID> getLoadedSpecificationList() {
-        java.util.List<YSpecificationID> list = new ArrayList<YSpecificationID>();
+    protected JList getList() {
         try {
+            java.util.List<YSpecificationID> idList = new ArrayList<YSpecificationID>();
             for (SpecificationData specData : YConnector.getLoadedSpecificationList()) {
                 YSpecificationID specID = specData.getID();
-                list.add(specID);
+                idList.add(specID);
             }
+            sortSpecificationsList(idList);
+            return new JList(new SpecificationIDListModel(idList));
         }
         catch (IOException ioe) {
             showError("Failed to get list of specifications from the YAWL Engine: ", ioe);
         }
-        return list;
+        return new JList();
     }
 
 
@@ -76,8 +81,32 @@ public class SpecificationDownloadDialog extends AbstractDownloadDialog {
     protected String getSourceString() { return "YAWL Engine"; }
 
 
+    protected void sortSpecificationsList(java.util.List<YSpecificationID> list) {
+        Collections.sort(list, new Comparator<YSpecificationID>() {
+            public int compare(YSpecificationID o1, YSpecificationID o2) {
+                return o1.toString().compareTo(o2.toString());
+            }
+        });
+    }
+
+
     private String getSpecificationLayout(YSpecificationID specID) {
             return LayoutRepository.getInstance().get(specID);
     }
+
+
+    /**************************************************************************/
+
+    class SpecificationIDListModel extends SpecificationListModel {
+
+        protected SpecificationIDListModel(java.util.List<YSpecificationID> items) {
+            super(items);
+        }
+
+        public YSpecificationID getSelectedID() {
+            return (YSpecificationID) items.get(getSelectedIndex());
+        }
+    }
+
 
 }

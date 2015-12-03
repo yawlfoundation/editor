@@ -34,7 +34,7 @@ import java.text.NumberFormat;
  */
 public class YLayoutUtil {
 
-    private static final Dimension DEFAULT_SIZE = new Dimension(300, 200);
+    protected static final Dimension DEFAULT_SIZE = new Dimension(300, 200);
     protected static final Rectangle DEFAULT_RECTANGLE = new Rectangle(0, 0, 32, 32);
 
 

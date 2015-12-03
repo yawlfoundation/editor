@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.editor.ui.properties.dialog.component;
 
 import javax.swing.*;
 import javax.swing.event.CaretListener;
+import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
@@ -49,5 +50,7 @@ public class ValueField extends JPanel {
     public String getText() {return _textField.getText(); }
 
     public void setText(String text) { _textField.setText(text); }
+
+    public void setDocument(Document doc) { _textField.setDocument(doc); }
 
 }

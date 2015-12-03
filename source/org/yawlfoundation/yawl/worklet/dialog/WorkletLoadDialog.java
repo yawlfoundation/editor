@@ -22,9 +22,10 @@ import org.yawlfoundation.yawl.editor.ui.specification.io.SpecificationReader;
 import org.yawlfoundation.yawl.editor.ui.swing.AbstractDownloadDialog;
 import org.yawlfoundation.yawl.engine.YSpecificationID;
 import org.yawlfoundation.yawl.worklet.client.WorkletClient;
+import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
 
+import javax.swing.*;
 import java.io.IOException;
-import java.util.Collections;
 
 /**
  * @author Michael Adams
@@ -32,24 +33,25 @@ import java.util.Collections;
  */
 public class WorkletLoadDialog extends AbstractDownloadDialog {
 
-    private final WorkletClient _client;
+    private WorkletClient _client;
 
     public WorkletLoadDialog() {
         super();
-        _client = new WorkletClient();
         setTitle("Loaded Worklets");
     }
 
 
     @Override
-    protected java.util.List<YSpecificationID> getLoadedSpecificationList() {
+    protected JList getList() {
         try {
-            return _client.getWorkletIdList();
+            java.util.List<WorkletInfo> workletList = getClient().getWorkletInfoList();
+            return new JList(new WorkletSpecificationListModel(workletList));
+
         }
         catch (IOException ioe) {
             showError("Failed to get list of worklets from the Worklet Service: ", ioe);
-            return Collections.emptyList();
         }
+        return new JList();
     }
 
 
@@ -62,11 +64,32 @@ public class WorkletLoadDialog extends AbstractDownloadDialog {
 
     @Override
     protected String getSelectedSpecification(YSpecificationID specID) throws IOException {
-        return _client.getWorklet(specID);
+        return getClient().getWorklet(specID);
     }
 
 
     @Override
     protected String getSourceString() { return "Worklet Service"; }
+
+
+    private WorkletClient getClient() {
+        if (_client == null) _client = new WorkletClient();
+        return _client;
+    }
+
+
+
+    /**************************************************************************/
+
+    class WorkletSpecificationListModel extends SpecificationListModel {
+
+        protected WorkletSpecificationListModel(java.util.List<WorkletInfo> items) {
+            super(items);
+        }
+
+        public YSpecificationID getSelectedID() {
+            return ((WorkletInfo) items.get(getSelectedIndex())).getSpecID();
+        }
+    }
 
 }

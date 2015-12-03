@@ -36,14 +36,17 @@
 
 package org.yawlfoundation.yawl.worklet.dialog;
 
+import org.yawlfoundation.yawl.engine.YSpecificationID;
+import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.exception.ExletAction;
 import org.yawlfoundation.yawl.worklet.exception.ExletTarget;
 import org.yawlfoundation.yawl.worklet.rdr.RdrConclusion;
 import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
+import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @author Michael Adams
@@ -51,7 +54,9 @@ import java.util.List;
  */
 public class ConclusionTableModel extends AbstractTableModel {
 
-    private List<RdrPrimitive> _primitives = new ArrayList<RdrPrimitive>();
+    private List<RdrPrimitive> _primitives;
+    private Map<RdrPrimitive, List<YSpecificationID>> _workletTargets;
+    private final List<WorkletInfo> _infoList = getWorkletList();
 
 
     private static final String[] COLUMN_LABELS = { "", "Action", "Target" };
@@ -59,12 +64,15 @@ public class ConclusionTableModel extends AbstractTableModel {
 
     public ConclusionTableModel() {
         super();
+        _primitives = new ArrayList<RdrPrimitive>();
+        _workletTargets = new HashMap<RdrPrimitive, List<YSpecificationID>>();
     }
 
 
     public void setConclusion(List<RdrPrimitive> primitives) {
         if (primitives != null) {
             _primitives = primitives;
+            setWorkletTargets();
         }
         else {
             _primitives.clear();
@@ -94,11 +102,15 @@ public class ConclusionTableModel extends AbstractTableModel {
 
     public Object getValueAt(int row, int col) {
         if (row < getRowCount()) {
+            RdrPrimitive primitive =  _primitives.get(row);
             switch (col) {
                 case 0: return String.valueOf(row + 1);
-                case 1: return _primitives.get(row).getAction();
+                case 1: return primitive.getAction();
                 case 2: {
-                    String target = _primitives.get(row).getTarget();
+                    if (isWorkletAction(primitive.getAction())) {
+                        return getWorkletsForView(primitive);
+                    }
+                    String target = primitive.getTarget();
                     return target.equals("invalid") ? "" : target;
                 }
             }
@@ -109,9 +121,15 @@ public class ConclusionTableModel extends AbstractTableModel {
 
     public void setValueAt(Object value, int row, int col) {
         if (row < getRowCount() && col > 0) {
+            RdrPrimitive primitive =  _primitives.get(row);
             switch (col) {
-                case 1: _primitives.get(row).setAction(value.toString()); break;
-                case 2: _primitives.get(row).setTarget(value.toString()); break;
+                case 1: primitive.setAction(value.toString()); break;
+                case 2: {
+                    primitive.setTarget(value.toString());
+                    if (isWorkletAction(primitive.getAction())) {
+                        addWorkletTarget(primitive);
+                    }
+                } break;
             }
             fireTableRowsUpdated(row, row);
         }
@@ -123,13 +141,15 @@ public class ConclusionTableModel extends AbstractTableModel {
         if (getRowCount() > 0) {                              // not null or empty
             for (RdrPrimitive primitive : _primitives) {
                 String action = primitive.getAction();
-                String target = primitive.getTarget();
                 if (action.equals(ExletAction.Select.toString())) {
-                    conclusion.setSelectionPrimitive(target);
+                    conclusion.setSelectionPrimitive(_workletTargets.get(primitive));
                     break;
                 }
+                else if (action.equals(ExletAction.Compensate.toString())) {
+                    conclusion.addCompensationPrimitive(_workletTargets.get(primitive));
+                }
                 else if (! action.equals(ExletAction.Invalid.toString())) {
-                    conclusion.addPrimitive(action, target);
+                    conclusion.addPrimitive(action, primitive.getTarget());
                 }
             }
         }
@@ -149,6 +169,76 @@ public class ConclusionTableModel extends AbstractTableModel {
         if (getRowCount() == 0 || row >= getRowCount()) return;
         _primitives.remove(row);
         fireTableDataChanged();
+    }
+
+
+    // list of worklet names to present to user
+    private String getWorkletsForView(RdrPrimitive primitive) {
+        List<YSpecificationID> workletIDs = _workletTargets.get(primitive);
+        if (workletIDs != null) {
+            StringBuilder s = new StringBuilder();
+            for (YSpecificationID specID : workletIDs) {
+                if (s.length() > 0) s.append(';');
+                s.append(specID.getUri());
+            }
+            return s.toString();
+        }
+        return primitive.getTarget();
+    }
+
+
+    // converts from spec keys to names for display to user
+    private void setWorkletTargets() {
+        for (RdrPrimitive primitive : _primitives) {
+            if (isWorkletAction(primitive.getAction())) {
+                addWorkletTarget(primitive);
+            }
+        }
+    }
+
+
+    private void addWorkletTarget(RdrPrimitive primitive) {
+        List<YSpecificationID> workletIDs = new ArrayList<YSpecificationID>();
+        for (String target : extractKeysFromTarget(primitive.getTarget())) {
+            for (WorkletInfo info : _infoList) {
+                YSpecificationID specID = info.getSpecID();
+                if (target.equals(specID.getKey())) {
+                    workletIDs.add(specID);
+                }
+            }
+        }
+        _workletTargets.put(primitive, workletIDs);
+    }
+
+
+    private List<String> extractKeysFromTarget(String target) {
+        List<String> keys = new ArrayList<String>();
+        int lastDelimiter = -1;
+        for (int i=0; i < target.length(); i++) {
+            char c = target.charAt(i);
+            if (c == ',' || c == ';') {
+                String key = target.substring(lastDelimiter + 1, i - 1);
+                keys.add(key.trim());
+            }
+        }
+        if (keys.isEmpty()) keys.add(target);
+        return keys;
+    }
+
+
+    private List<WorkletInfo> getWorkletList() {
+        try {
+            return new WorkletClient().getWorkletInfoList();
+        }
+        catch (IOException ioe) {
+            return Collections.emptyList();
+        }
+    }
+
+
+
+    private boolean isWorkletAction(String action) {
+        return ExletAction.fromString(action).isWorkletAction();
     }
 
 }

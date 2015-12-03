@@ -95,12 +95,10 @@ public class FileOperations {
     public void save(FileSaveOptions saveOptions) throws IOException {
         if (saveOptions == null) saveOptions = _saveOptions;    // use defaults
         if (saveOptions.autoIncVersion()) incVersion();
-        _specification.setVersion(YSchemaVersion.defaultVersion());
-        String specXML = getSpecificationXML();
         if (saveOptions.backupOnSave()) backup();
         if (saveOptions.versioningOnSave()) savePrevVersion();
-        specXML = _layoutHandler.appendLayoutXML(specXML);
-        FileUtil.write(_fileName, specXML);
+        _specification.setVersion(YSchemaVersion.defaultVersion());
+        FileUtil.write(_fileName, getSpecificationXML(true));
     }
 
 
@@ -142,9 +140,17 @@ public class FileOperations {
 
 
     public String getSpecificationXML() throws IOException {
+        return getSpecificationXML(false);
+    }
+
+
+    public String getSpecificationXML(boolean includeLayout) throws IOException {
         String specXML = YMarshal.marshal(_specification);
         if (! successful(specXML)) {
             throw new IOException(getMarshalErrorMsg(specXML));
+        }
+        if (includeLayout) {
+            specXML = _layoutHandler.appendLayoutXML(specXML);
         }
         return specXML;
     }

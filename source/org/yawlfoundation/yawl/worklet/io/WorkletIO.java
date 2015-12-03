@@ -35,8 +35,8 @@ public class WorkletIO {
     }
 
 
-    public boolean loadRules(String xml) throws IOException {
-        return CLIENT.addRuleSet(xml);
+    public boolean loadRules(YSpecificationID specID, String xml) throws IOException {
+        return CLIENT.addRuleSet(specID, xml);
     }
 
 }

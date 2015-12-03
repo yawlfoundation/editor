@@ -43,6 +43,7 @@ import org.yawlfoundation.yawl.worklet.exception.ExletAction;
 import org.yawlfoundation.yawl.worklet.exception.ExletTarget;
 import org.yawlfoundation.yawl.worklet.model.WorkletListModel;
 import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
+import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
 
 import javax.swing.*;
 import javax.swing.event.CellEditorListener;
@@ -85,6 +86,7 @@ public class ExletTargetCellEditor extends ExletCellEditor {
         if (_currentAction.isWorkletAction()) {
             _fldWorklet = new ValueField(this, null);
             _fldWorklet.setText((String) value);
+            _fldWorklet.getTextField().setEnabled(false);
             return _fldWorklet;
         }
         else {
@@ -126,7 +128,7 @@ public class ExletTargetCellEditor extends ExletCellEditor {
         dialog.setVisible(true);
         Vector<String> selections = new Vector<String>();
         for (Object o : dialog.getSelections()) {
-             selections.add((String) o);
+             selections.add(((WorkletInfo) o).getSpecID().getUri());
         }
         _fldWorklet.setText(StringUtil.join(selections, ';'));
     }

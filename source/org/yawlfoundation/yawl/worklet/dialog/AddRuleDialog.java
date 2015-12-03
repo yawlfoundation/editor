@@ -23,7 +23,9 @@ import org.yawlfoundation.yawl.editor.core.YConnector;
 import org.yawlfoundation.yawl.editor.core.controlflow.YControlFlowHandlerException;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.elements.model.AtomicTask;
+import org.yawlfoundation.yawl.editor.ui.elements.model.VertexContainer;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLAtomicTask;
+import org.yawlfoundation.yawl.editor.ui.net.NetGraph;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 import org.yawlfoundation.yawl.editor.ui.net.utilities.NetUtilities;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
@@ -42,6 +44,7 @@ import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
 import org.yawlfoundation.yawl.worklet.support.ExletValidationError;
 import org.yawlfoundation.yawl.worklet.support.ExletValidator;
+import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -74,13 +77,13 @@ public class AddRuleDialog extends JDialog
     private JTextArea _txtStatus;
 
 
-    public AddRuleDialog(AtomicTask task) {
+    public AddRuleDialog() {
         super(YAWLEditor.getInstance());
         setTitle("Add Worklet Rule for Specification: " +
                 SpecificationModel.getHandler().getID());
         setModal(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        add(getContent(task));
+        add(getContent());
         setPreferredSize(new Dimension(800, 540));
         setMinimumSize(new Dimension(800, 540));
         pack();
@@ -171,10 +174,10 @@ public class AddRuleDialog extends JDialog
         _btnClose.setEnabled(shouldEnable);
     }
 
-    private JPanel getContent(AtomicTask task) {
+    private JPanel getContent() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(new EmptyBorder(8, 8, 8, 8));
-        panel.add(getEntryPanel(task), BorderLayout.CENTER);
+        panel.add(getEntryPanel(getSelectedTask()), BorderLayout.CENTER);
         panel.add(getButtonBar(this), BorderLayout.SOUTH);
         return panel;
     }
@@ -244,6 +247,16 @@ public class AddRuleDialog extends JDialog
         label.setLabelFor(c);
         panel.add(c);
         return label;
+    }
+
+
+    private AtomicTask getSelectedTask() {
+        NetGraph selectedGraph = YAWLEditor.getNetsPane().getSelectedGraph();
+        Object cell = selectedGraph.getSelectionCell();
+        if (cell instanceof VertexContainer) {
+            cell = ((VertexContainer) cell).getVertex();
+        }
+        return (cell instanceof AtomicTask) ? (AtomicTask) cell : null;
     }
 
 
@@ -453,7 +466,7 @@ public class AddRuleDialog extends JDialog
     private void validateConclusion() {
         java.util.List<ExletValidationError> errors = new ExletValidator().validate(
                 _conclusionPanel.getConclusion(), getWorkletList());
-        updateStatus("==== Action Set Validation ====");
+        updateStatus("==== Actions Validation ====");
         if (errors.isEmpty()) {
             updateStatus("OK");
         }
@@ -467,8 +480,8 @@ public class AddRuleDialog extends JDialog
     private Set<String> getWorkletList() {
         Set<String> workletNames = new HashSet<String>();
         try {
-            for (YSpecificationID specID : new WorkletClient().getWorkletIdList()) {
-                 workletNames.add(specID.getUri());
+            for (WorkletInfo info : new WorkletClient().getWorkletInfoList()) {
+                 workletNames.add(info.getSpecID().getUri());
             }
         }
         catch (IOException ioe) {
@@ -501,7 +514,7 @@ public class AddRuleDialog extends JDialog
         }
 
         // also add service to task for worklet selection
-        if (rule.isItemLevelType()) {
+        if (rule == RuleType.ItemSelection) {
             YAWLServiceReference service = getServiceReference();
             if (service != null) {
                 AtomicTask task = (AtomicTask) _cbxTask.getSelectedItem();
@@ -519,7 +532,6 @@ public class AddRuleDialog extends JDialog
         _txtCondition.setText(null);
         _txtDescription.setText(null);
         _conclusionPanel.setConclusion(null);
-        _txtStatus.setText(null);
         _btnAdd.setEnabled(false);
         _btnClose.setEnabled(false);
     }
@@ -555,7 +567,7 @@ public class AddRuleDialog extends JDialog
     private void reportError(String msg) {
         updateStatus("========== ERROR ==========");
         updateStatus(msg);
-        updateStatus("===========================");
+        updateStatus("=========================");
     }
 
 

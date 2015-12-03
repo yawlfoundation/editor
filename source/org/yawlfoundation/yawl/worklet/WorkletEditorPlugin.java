@@ -20,7 +20,7 @@ package org.yawlfoundation.yawl.worklet;
 
 import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
 import org.yawlfoundation.yawl.editor.ui.plugin.YEditorPluginAdapter;
-import org.yawlfoundation.yawl.worklet.menu.WorkletMenu;
+import org.yawlfoundation.yawl.worklet.menu.MenuBuilder;
 
 import javax.swing.*;
 
@@ -42,12 +42,13 @@ public class WorkletEditorPlugin extends YEditorPluginAdapter {
     }
 
     @Override
-    public YAWLSelectedNetAction getPluginMenuAction() {
-        return null;   //?
-    }
+    public YAWLSelectedNetAction getPluginMenuAction() { return null; }
 
     @Override
     public JMenu getPluginMenu() {
-        return new WorkletMenu();
+        return new MenuBuilder().getMenu();
     }
+
+    @Override
+    public JToolBar getToolbar() { return new MenuBuilder().getToolBar(); }
 }

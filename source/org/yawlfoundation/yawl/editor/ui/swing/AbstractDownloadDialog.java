@@ -38,8 +38,6 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * @author Michael Adams
@@ -52,6 +50,7 @@ public abstract class AbstractDownloadDialog extends PropertyDialog
 
     public AbstractDownloadDialog() {
         super(YAWLEditor.getInstance());
+        setResizable(true);
         setPreferredSize(new Dimension(400, 200));
         pack();
     }
@@ -84,9 +83,7 @@ public abstract class AbstractDownloadDialog extends PropertyDialog
 
 
     private JScrollPane createListBox() {
-        java.util.List<YSpecificationID> specList = getLoadedSpecificationList();
-        sortSpecificationsList(specList);
-        listBox = new JList(new SpecificationListModel(specList));
+        listBox = getList();
         listBox.addListSelectionListener(this);
         listBox.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent mouseEvent) {
@@ -127,7 +124,7 @@ public abstract class AbstractDownloadDialog extends PropertyDialog
     }
 
 
-    protected abstract java.util.List<YSpecificationID> getLoadedSpecificationList();
+    protected abstract JList getList();
 
     protected abstract SpecificationReader getSpecificationReader(YSpecificationID specID,
                                                                   String specXML);
@@ -143,39 +140,21 @@ public abstract class AbstractDownloadDialog extends PropertyDialog
     }
 
 
-    private void sortSpecificationsList(java.util.List<YSpecificationID> list) {
-        Collections.sort(list, new Comparator<YSpecificationID>() {
-            public int compare(YSpecificationID specID1, YSpecificationID specID2) {
-                return specID1.toString().compareTo(specID2.toString());
-            }
-        });
-    }
-
-
     /******************************************************************************/
 
-    class SpecificationListModel extends AbstractListModel {
+    protected abstract class SpecificationListModel extends AbstractListModel {
 
-        private final java.util.List<YSpecificationID> items;
+        protected final java.util.List<?> items;
 
+        protected SpecificationListModel(java.util.List<?> items) { this.items = items; }
 
-        protected SpecificationListModel(java.util.List<YSpecificationID> items) {
-            this.items = items;
-        }
+        public int getSize() { return items != null ? items.size() : 0; }
 
-        public int getSize() {
-            return items != null ? items.size() : 0;
-        }
+        public Object getElementAt(int i) { return items.get(i).toString(); }
 
-        public Object getElementAt(int i) {
-            YSpecificationID specID = items.get(i);
-            return specID.getUri() + " (version " + specID.getVersionAsString() + ")";
-        }
+        public int getSelectedIndex() { return listBox.getSelectedIndex(); }
 
-        public YSpecificationID getSelectedID() {
-            int i = listBox.getSelectedIndex();
-            return i > -1 ? items.get(i) : null;
-        }
+        public abstract YSpecificationID getSelectedID();
     }
 
 
@@ -192,7 +171,7 @@ public abstract class AbstractDownloadDialog extends PropertyDialog
                 YPluginHandler.getInstance().specificationLoaded();
             }
         }
-    }
 
+    }
 
 }
