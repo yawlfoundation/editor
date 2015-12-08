@@ -12,19 +12,20 @@ import java.awt.*;
  */
 public class ConditionVerifier extends InputVerifier {
 
-    private AddRuleDialog _ruleDialog;
+    private final ConditionEvaluator _conditionEvaluator;
+    private ConditionPanel _parent;
     private boolean _valid = false;
 
 
-    protected ConditionVerifier(AddRuleDialog ruleDialog) {
-        _ruleDialog = ruleDialog;
+    protected ConditionVerifier(ConditionPanel parent) {
+        _parent = parent;
+        _conditionEvaluator = new ConditionEvaluator();
     }
 
 
     @Override
     public boolean verify(JComponent input) {
         validateCondition((JTextField) input);
-        _ruleDialog.validateAddButtonsEnablement();
         return true;                               // always allow user to leave field
     }
 
@@ -34,19 +35,25 @@ public class ConditionVerifier extends InputVerifier {
 
     private void validateCondition(JTextField textField) {
         String errMsg = null;
-        try {
-            _valid = new ConditionEvaluator().evaluate(textField.getText(),
-                    _ruleDialog.getDataElement());
-            if (!_valid) {
-                errMsg = " Condition must evaluate to true, based on Data Context ";
+        String condition = textField.getText();
+        if (condition.isEmpty()) {
+            errMsg = "Condition required";
+        }
+        else {
+            try {
+                _valid = _conditionEvaluator.evaluate(textField.getText(),
+                        _parent.getDataElement());
+                if (!_valid) {
+                    errMsg = "Condition does not evaluate to true";
+                }
+            }
+            catch (RdrConditionException rce) {
+                errMsg = rce.getMessage();
+                _valid = false;
             }
         }
-        catch (RdrConditionException rce) {
-            errMsg = " " + rce.getMessage() + " ";
-            _valid = false;
-        }
         setVisuals(textField, errMsg);
-        showStatus(errMsg);
+        _parent.setStatus(errMsg);
     }
 
 
@@ -55,9 +62,4 @@ public class ConditionVerifier extends InputVerifier {
         textField.setBackground(errMsg != null ? Color.PINK : Color.WHITE);
     }
 
-
-    private void showStatus(String errMsg) {
-        _ruleDialog.updateStatus(errMsg != null ? "Invalid Condition: " + errMsg :
-                "Condition is valid.");
-    }
 }

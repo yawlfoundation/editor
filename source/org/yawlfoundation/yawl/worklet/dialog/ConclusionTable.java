@@ -55,22 +55,29 @@ import java.util.List;
  */
 public class ConclusionTable extends JSingleSelectTable {
 
-    JComboBox _cbxType;  // reference to type combo - affects cell rendering
+    NodePanel _parent;                // reference to type combo - affects cell rendering
     java.util.List<ExletValidationError> _errList;
 
 
-    public ConclusionTable(JComboBox cbxType, CellEditorListener listener) {
+    public ConclusionTable(NodePanel parent) {
         super();
-        _cbxType = cbxType;
+        _parent = parent;
         setModel(new ConclusionTableModel());
+        getModel().addTableModelListener(parent.getDialog());
         setRowHeight(getRowHeight() + 5);
         setCellSelectionEnabled(true);
         setRowSelectionAllowed(true);
         setColumnSelectionAllowed(true);
         setFillsViewportHeight(true);            // to allow drops on empty table
-        getColumnModel().getColumn(1).setCellEditor(new ExletActionCellEditor(listener));
-        getColumnModel().getColumn(2).setCellEditor(new ExletTargetCellEditor(listener));
+        getColumnModel().getColumn(1).setCellEditor(new ExletActionCellEditor(parent));
+        getColumnModel().getColumn(2).setCellEditor(new ExletTargetCellEditor(parent));
         fixSelectorColumn();
+    }
+
+
+    public void addCellEditorListener(CellEditorListener listener) {
+        getColumnModel().getColumn(1).getCellEditor().addCellEditorListener(listener);
+        getColumnModel().getColumn(2).getCellEditor().addCellEditorListener(listener);
     }
 
 
@@ -87,6 +94,10 @@ public class ConclusionTable extends JSingleSelectTable {
     }
 
 
+    public boolean hasValidContent() {
+        return getRowCount() > 0 && getTableModel().hasValidContent();
+    }
+
     public RdrConclusion getConclusion() { return getTableModel().getConclusion(); }
 
 
@@ -97,7 +108,7 @@ public class ConclusionTable extends JSingleSelectTable {
 
     public void setConclusion(List<RdrPrimitive> primitives) {
         getTableModel().setConclusion(primitives);
-        if (primitives == null) _errList = null;    // reset
+        if (primitives == null || primitives.isEmpty()) _errList = null;    // reset
         updateUI();
     }
 
@@ -108,7 +119,7 @@ public class ConclusionTable extends JSingleSelectTable {
 
 
     public RuleType getSelectedRuleType() {
-        return (RuleType) _cbxType.getSelectedItem();
+        return _parent.getSelectedRule();
     }
 
 
@@ -144,11 +155,16 @@ public class ConclusionTable extends JSingleSelectTable {
 
 
     private ExletValidationError getError(int row) {
-        if (_errList == null) return null;
-        for (ExletValidationError error : _errList) {
-            if (error.getIndex() == row + 1) return error;
+        if (hasErrors()) {
+            for (ExletValidationError error : _errList) {
+                if (error.getIndex() == row + 1) return error;
+            }
         }
         return null;
+    }
+
+    private boolean hasErrors() {
+        return ! (_errList == null || _errList.isEmpty());
     }
 
 }

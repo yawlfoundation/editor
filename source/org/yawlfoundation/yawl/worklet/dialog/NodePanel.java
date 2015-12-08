@@ -2,70 +2,147 @@ package org.yawlfoundation.yawl.worklet.dialog;
 
 import org.jdom2.Element;
 import org.yawlfoundation.yawl.editor.ui.elements.model.AtomicTask;
-import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLAtomicTask;
-import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
-import org.yawlfoundation.yawl.editor.ui.net.utilities.NetUtilities;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
-import org.yawlfoundation.yawl.elements.YAWLServiceGateway;
-import org.yawlfoundation.yawl.elements.YAWLServiceReference;
 import org.yawlfoundation.yawl.elements.YDecomposition;
 import org.yawlfoundation.yawl.elements.YNet;
 import org.yawlfoundation.yawl.elements.data.YParameter;
 import org.yawlfoundation.yawl.elements.data.YVariable;
 import org.yawlfoundation.yawl.engine.YSpecificationID;
+import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.CellEditorListener;
+import javax.swing.event.*;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EventListener;
-import java.util.Vector;
 
 /**
  * @author Michael Adams
  * @date 3/12/2015
  */
-public class NodePanel extends JPanel implements EventListener {
+public class NodePanel extends JPanel implements EventListener, ItemListener,
+        CellEditorListener, ListSelectionListener {
 
     private DataContextTablePanel _dataContextPanel;
-    private JComboBox _cbxType;
-    private JComboBox _cbxTask;
-    private JLabel _cbxTaskPrompt;
-    private JTextField _txtCondition;
+    private RulePanel _rulePanel;
     private JTextArea _txtDescription;
     private ConclusionTablePanel _conclusionPanel;
+    private AbstractNodeDialog _parent;
 
-    public NodePanel(AtomicTask task, CellEditorListener cellEditorListener,
-                     ItemListener itemListener, AddRuleDialog ruleDialog) {
+
+    public NodePanel(AtomicTask task, AbstractNodeDialog parent) {
         super();
-        addContent(task, cellEditorListener, itemListener, ruleDialog);
+        _parent = parent;
+        setContent(task);
     }
 
 
+    public void addConclusionTableCellEditorListener(CellEditorListener listener) {
+        _conclusionPanel.getTable().addCellEditorListener(listener);
+    }
 
 
+    public void addDataContextEventListener(EventListener listener) {
+        _dataContextPanel.addEventListener(listener);
+    }
 
-    private void addContent(AtomicTask task, CellEditorListener cellEditorListener,
-                            ItemListener itemListener, AddRuleDialog ruleDialog) {
+
+    // combo selection
+    public void itemStateChanged(ItemEvent event) {
+        if (event.getStateChange() == ItemEvent.SELECTED) {
+            java.util.List<VariableRow> variables = null;
+            Object item = event.getItem();
+
+            // if rule change
+            if (item instanceof RuleType) {
+                RuleType selectedType = (RuleType) item;
+                _rulePanel.enabledTaskCombo(selectedType);
+
+                if (selectedType.isCaseLevelType()) {
+                    variables = getDataContext(null);  // net level vars
+                }
+                else {
+                    AtomicTask task = getSelectedTask();
+                    if (task != null) {
+                        variables = getDataContext(task);
+                    }
+                }
+            }
+            else {    // task combo
+                variables = getDataContext((AtomicTask) item);
+            }
+            _dataContextPanel.setVariables(variables);
+            clearInputs();
+        }
+    }
+
+    // data table selection
+    public void valueChanged(ListSelectionEvent event) {
+        if (! event.getValueIsAdjusting()) {
+            _rulePanel.updateCondition(_dataContextPanel.getSelectedVariable());
+        }
+    }
+
+
+    // conclusion & data tables value edit
+    public void editingStopped(ChangeEvent e) {
+        if (e.getSource() instanceof ExletCellEditor) {
+            validateConclusion();
+        }
+        else {
+            _rulePanel.updateCondition(_dataContextPanel.getSelectedVariable());
+        }
+    }
+
+
+    // data table value edit cancel
+    public void editingCanceled(ChangeEvent e) { }
+
+
+    public AbstractNodeDialog getDialog() { return _parent; }
+
+
+    public boolean hasValidContent() {
+        return _dataContextPanel.hasValidContent() && _conclusionPanel.hasValidContent() &&
+                _rulePanel.hasValidContent();
+    }
+
+
+    public RdrNode getRdrNode() {
+        YSpecificationID specID = SpecificationModel.getHandler()
+                .getSpecification().getSpecificationID();
+        RuleType rule = getSelectedRule();
+        AtomicTask task = getSelectedTask();
+        String taskID = task != null ? task.getID() : null;
+        return new RdrNode(_rulePanel.getCondition(), _conclusionPanel.getConclusion(),
+                getDataElement(specID, rule, taskID));
+    }
+
+
+    public RuleType getSelectedRule() { return _rulePanel.getSelectedRule(); }
+
+
+    public AtomicTask getSelectedTask() { return _rulePanel.getSelectedTask(); }
+
+
+    private void setContent(AtomicTask task) {
         setLayout(new BorderLayout());
-        add(getActionPanel(task, cellEditorListener, itemListener, ruleDialog), BorderLayout.WEST);
+        add(getActionPanel(task), BorderLayout.WEST);
         add(getDataPanel(task), BorderLayout.CENTER);
     }
 
 
-    private JPanel getActionPanel(AtomicTask task, CellEditorListener cellEditorListener,
-                                  ItemListener itemListener, AddRuleDialog ruleDialog) {
+    private JPanel getActionPanel(AtomicTask task) {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(getRulePanel(task, itemListener, ruleDialog), BorderLayout.NORTH);
+        panel.add(getRulePanel(task), BorderLayout.NORTH);
         panel.add(getDescriptionPanel(), BorderLayout.SOUTH);
-        panel.add(getConclusionPanel(cellEditorListener), BorderLayout.CENTER);
+        panel.add(getConclusionPanel(), BorderLayout.CENTER);
         return panel;
     }
 
@@ -77,100 +154,11 @@ public class NodePanel extends JPanel implements EventListener {
     }
 
 
-    private JPanel getRulePanel(AtomicTask task, ItemListener listener,
-                                AddRuleDialog ruleDialog) {
-        JPanel panel = new JPanel(new SpringLayout());
-        _cbxTask = getTaskCombo(task, listener);
-        _cbxType = getTypeCombo(listener);
-        addContent(panel, "Rule Type:", _cbxType);
-        _cbxTaskPrompt = addContent(panel, "Task:", _cbxTask);
-        _txtCondition = getConditionField(ruleDialog);
-        addContent(panel, "Condition:", _txtCondition);
-        SpringUtil.makeCompactGrid(panel, 3, 2, 6, 6, 8, 8);
-
-        if (isWorkletTask(task)) {
-            _cbxType.setSelectedItem(RuleType.ItemSelection);
-        }
-
-        return panel;
+    private JPanel getRulePanel(AtomicTask task) {
+        _rulePanel = new RulePanel(task, this);
+        return _rulePanel;
     }
 
-
-    private JLabel addContent(JPanel panel, String prompt, Component c) {
-        JLabel label = new JLabel(prompt, JLabel.LEADING);
-        label.setFont((Font) UIManager.get("TitledBorder.font"));
-        label.setForeground((Color) UIManager.get("TitledBorder.titleColor"));
-        panel.add(label);
-        label.setLabelFor(c);
-        panel.add(c);
-        return label;
-    }
-
-
-
-    private JComboBox getTypeCombo(ItemListener listener) {
-        JComboBox combo = new JComboBox(RuleType.values());
-
-        combo.setRenderer(new ListCellRenderer() {
-            protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
-
-            public Component getListCellRendererComponent(JList jList, Object o,
-                                                          int i, boolean b, boolean b1) {
-                JLabel label = (JLabel) defaultRenderer.getListCellRendererComponent(
-                        jList, o, i, b, b1);
-                label.setText(((RuleType) o).toLongString());
-                return label;
-            }
-        });
-
-        combo.addItemListener(listener);
-        return combo;
-    }
-
-
-    private JComboBox getTaskCombo(AtomicTask task, ItemListener listener) {
-        Vector<YAWLAtomicTask> taskVector = new Vector<YAWLAtomicTask>();
-        for (NetGraphModel model : SpecificationModel.getNets()) {
-            for (YAWLAtomicTask netTask : NetUtilities.getAtomicTasks(model)) {
-                 taskVector.add(netTask);
-            }
-        }
-        JComboBox combo = new JComboBox(taskVector);
-
-        combo.setRenderer(new ListCellRenderer() {
-            protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
-
-            public Component getListCellRendererComponent(JList jList, Object o,
-                                                          int i, boolean b, boolean b1) {
-                JLabel label = (JLabel) defaultRenderer.getListCellRendererComponent(
-                        jList, o, i, b, b1);
-                label.setText(o != null ? ((YAWLAtomicTask) o).getLabel() : null);
-                return label;
-            }
-        });
-
-        if (task != null) {
-            combo.setSelectedItem(task);
-        }
-        combo.addItemListener(listener);
-        combo.setEnabled(false);                    // initially pre-case rule selected
-        return combo;
-    }
-
-
-    private JTextField getConditionField(AddRuleDialog ruleDialog) {
-        final JTextField field = new JTextField();
-        field.setInputVerifier(new ConditionVerifier(ruleDialog));
-        field.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                super.focusGained(e);
-                field.setBackground(Color.WHITE);
-                field.setToolTipText(null);
-            }
-        });
-        return field;
-    }
 
     private JPanel getDescriptionPanel() {
         JPanel panel = new JPanel(new BorderLayout());
@@ -184,31 +172,11 @@ public class NodePanel extends JPanel implements EventListener {
     }
 
 
-    private JPanel getConclusionPanel(CellEditorListener listener) {
-        _conclusionPanel = new ConclusionTablePanel(_cbxType, listener);
+    private JPanel getConclusionPanel() {
+        _conclusionPanel = new ConclusionTablePanel(this);
         return _conclusionPanel;
     }
 
-
-    private boolean isWorkletTask(AtomicTask task) {
-         if (task == null) return false;
-         YAWLServiceGateway decomposition =
-                 (YAWLServiceGateway) task.getDecomposition();
-         if (decomposition != null) {
-             YAWLServiceReference service = decomposition.getYawlService();
-             if (service != null) {
-                 String uri = service.getServiceID();
-                 return uri != null && uri.contains("workletService/ib");
-             }
-         }
-         return false;
-     }
-
-
-     private void enabledTaskCombo(RuleType ruleType) {
-         _cbxTask.setEnabled(ruleType.isItemLevelType());
-         _cbxTaskPrompt.setEnabled(ruleType.isItemLevelType());
-     }
 
      private java.util.List<VariableRow> getDataContext(AtomicTask task) {
          java.util.List<VariableRow> rows = new ArrayList<VariableRow>();
@@ -237,33 +205,32 @@ public class NodePanel extends JPanel implements EventListener {
      }
 
 
+    protected void clearInputs() {
+        _txtDescription.setText(null);
+        _rulePanel.clearInputs();
+        _conclusionPanel.setConclusion(null);
+    }
+
+
      protected Element getDataElement() {
          YSpecificationID specID = SpecificationModel.getHandler()
                  .getSpecification().getSpecificationID();
-         RuleType rule = (RuleType) _cbxType.getSelectedItem();
-         String taskID = rule.isItemLevelType() ?
-                 ((AtomicTask) _cbxTask.getSelectedItem()).getID() : null;
+         RuleType rule = getSelectedRule();
+         AtomicTask task = getSelectedTask();
+         String taskID = task != null ? task.getID() : null;
          return getDataElement(specID, rule, taskID);
      }
 
 
      protected Element getDataElement(YSpecificationID specID, RuleType rule, String taskID) {
          String dataRootName = rule.isCaseLevelType() ? specID.getUri() : taskID;
-         return getDataElement(dataRootName);
-     }
-
-
-     protected Element getDataElement(String dataRootName) {
          return _dataContextPanel.getDataElement(dataRootName);
      }
 
 
-
-
-
-
-
-
+    private void validateConclusion() {
+        _conclusionPanel.validateConclusion();
+    }
 
 
 }

@@ -62,8 +62,7 @@ public class SettingsPanel extends JPanel {
                     _hostPanel.getPort(), user, password);
             if (testClient.isConnected()) {
                 _testReply.setForeground(Color.BLACK);
-                _testReply.setText("Successfully connected to Worklet Service with the " +
-                                        "parameters provided");
+                _testReply.setText("Successfully connected to Worklet Service");
                 testClient.disconnect();
             }
             else {

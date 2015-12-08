@@ -23,7 +23,7 @@ class SaveWorkletAction extends YAWLSelectedNetAction {
     {
         putValue(Action.SHORT_DESCRIPTION, "Save as Worklet");
         putValue(Action.NAME, "Save");
-        putValue(Action.LONG_DESCRIPTION, "Save the current specification as a Worklet");
+        putValue(Action.LONG_DESCRIPTION, "Store the current specification as a Worklet");
         putValue(Action.MNEMONIC_KEY, KeyEvent.VK_W);
     }
 

@@ -77,8 +77,6 @@ import javax.swing.event.CellEditorListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.util.Vector;
 
 /**
@@ -107,11 +105,6 @@ public abstract class ExletCellEditor extends DefaultCellEditor implements Actio
     }
 
 
-    public boolean stopCellEditing() {
-        return super.stopCellEditing();
-    }
-
-
     protected JComboBox newComboInstance(JTable table, Object value) {
         _combo = buildCombo((ConclusionTable) table, value);
         return _combo;
@@ -122,14 +115,6 @@ public abstract class ExletCellEditor extends DefaultCellEditor implements Actio
         JComboBox combo = new JComboBox(getItemsForContext(table));
         combo.setSelectedItem(value);
         combo.addActionListener(this);
-
-        combo.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent focusEvent) {
-                fireEditingStopped();
-                super.focusLost(focusEvent);
-            }
-        });
 
         combo.setRenderer(new ListCellRenderer() {
             DefaultListCellRenderer renderer = new DefaultListCellRenderer();

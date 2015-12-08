@@ -18,18 +18,24 @@
 
 package org.yawlfoundation.yawl.worklet.dialog;
 
+import org.yawlfoundation.yawl.editor.ui.properties.data.StatusPanel;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.MiniToolBar;
+import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.rdr.RdrConclusion;
 import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
 import org.yawlfoundation.yawl.worklet.support.ExletValidationError;
+import org.yawlfoundation.yawl.worklet.support.ExletValidator;
+import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.CellEditorListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Michael Adams
@@ -38,24 +44,27 @@ import java.util.ArrayList;
 public class ConclusionTablePanel extends JPanel implements ActionListener {
 
     private ConclusionTable table;
-    private MiniToolBar toolbar;
+    private StatusPanel status;
 
 
-    public ConclusionTablePanel(JComboBox cbxType, CellEditorListener listener) {
+    public ConclusionTablePanel(NodePanel parent) {
         super();
         setLayout(new BorderLayout());
         setBorder(new TitledBorder("Actions"));
-        table = new ConclusionTable(cbxType, listener);
+        table = new ConclusionTable(parent);
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setSize(new Dimension(600, 200));
         add(scrollPane, BorderLayout.CENTER);
-        add(populateToolBar(), BorderLayout.SOUTH);
+        add(populateToolBar(parent), BorderLayout.SOUTH);
         setConclusion(new ArrayList<RdrPrimitive>());
     }
 
 
     public void setConclusion(java.util.List<RdrPrimitive> primitives) {
         table.setConclusion(primitives);
+        if (primitives == null || primitives.isEmpty()) {
+            status.set("Action(s) required");
+        }
         table.setPreferredScrollableViewportSize(getPreferredSize());
     }
 
@@ -65,13 +74,37 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
     }
 
 
-    public void setVisuals(java.util.List<ExletValidationError> errors) {
-        table.setVisuals(errors);
+    public java.util.List<ExletValidationError> validateConclusion() {
+        RdrConclusion conclusion = getConclusion();
+        java.util.List<ExletValidationError> errors;
+        if (conclusion.isNullConclusion()) {
+            errors = new ArrayList<ExletValidationError>();
+            errors.add(new ExletValidationError(0, "Action(s) required"));
+        }
+        else {
+            errors = new ExletValidator().validate(conclusion, getWorkletList());
+        }
+        setVisuals(errors);
+        return errors;
     }
 
 
+
+    public void setVisuals(java.util.List<ExletValidationError> errors) {
+        table.setVisuals(errors);
+        if (errors.isEmpty()) {
+            status.clear();
+        }
+        else {
+            status.set(errors.get(0).getMessage());
+        }
+    }
+
+
+
+
     public boolean hasValidContent() {
-        return table.getRowCount() > 0 && table.getBackground() != Color.PINK;
+        return table.hasValidContent();
     }
 
 
@@ -82,15 +115,36 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
         }
         else if (action.equals("Del")) {
             table.removeRow();
+            validateConclusion();
         }
     }
 
+    public ConclusionTable getTable() { return table; }
 
-    private JToolBar populateToolBar() {
-        toolbar = new MiniToolBar(this);
+
+    private JToolBar populateToolBar(NodePanel parent) {
+        MiniToolBar toolbar = new MiniToolBar(this);
         toolbar.addButton("plus", "Add", " Add ");
         toolbar.addButton("minus", "Del", " Remove ");
+        toolbar.addSeparator(new Dimension(16, 16));
+        status = new StatusPanel(parent.getDialog());
+        toolbar.add(status);
         return toolbar;
     }
+
+
+    private Set<String> getWorkletList() {
+        Set<String> workletNames = new HashSet<String>();
+        try {
+            for (WorkletInfo info : new WorkletClient().getWorkletInfoList()) {
+                 workletNames.add(info.getSpecID().getUri());
+            }
+        }
+        catch (IOException ioe) {
+            // fallthrough
+        }
+        return  workletNames;
+    }
+
 
 }

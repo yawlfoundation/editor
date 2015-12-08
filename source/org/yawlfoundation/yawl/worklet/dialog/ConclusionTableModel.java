@@ -136,6 +136,14 @@ public class ConclusionTableModel extends AbstractTableModel {
     }
 
 
+    public boolean hasValidContent() {
+        for (RdrPrimitive primitive : _primitives) {
+            if (! primitive.isValid()) return false;
+        }
+        return true;
+    }
+
+
     public RdrConclusion getConclusion() {
         RdrConclusion conclusion = new RdrConclusion();
         if (getRowCount() > 0) {                              // not null or empty
@@ -199,7 +207,7 @@ public class ConclusionTableModel extends AbstractTableModel {
 
     private void addWorkletTarget(RdrPrimitive primitive) {
         List<YSpecificationID> workletIDs = new ArrayList<YSpecificationID>();
-        for (String target : extractKeysFromTarget(primitive.getTarget())) {
+        for (String target : extractKeysFromTarget(primitive.getWorkletTarget())) {
             for (WorkletInfo info : _infoList) {
                 YSpecificationID specID = info.getSpecID();
                 if (target.equals(specID.getKey())) {
@@ -212,17 +220,11 @@ public class ConclusionTableModel extends AbstractTableModel {
 
 
     private List<String> extractKeysFromTarget(String target) {
-        List<String> keys = new ArrayList<String>();
-        int lastDelimiter = -1;
-        for (int i=0; i < target.length(); i++) {
-            char c = target.charAt(i);
-            if (c == ',' || c == ';') {
-                String key = target.substring(lastDelimiter + 1, i - 1);
-                keys.add(key.trim());
-            }
+        String[] keys = target.split(";");
+        for (int i=0; i < keys.length; i++) {
+             keys[i] = keys[i].trim();
         }
-        if (keys.isEmpty()) keys.add(target);
-        return keys;
+        return Arrays.asList(keys);
     }
 
 
