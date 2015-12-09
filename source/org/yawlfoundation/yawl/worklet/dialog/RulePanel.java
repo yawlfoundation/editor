@@ -8,7 +8,6 @@ import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.elements.YAWLServiceGateway;
 import org.yawlfoundation.yawl.elements.YAWLServiceReference;
-import org.yawlfoundation.yawl.schema.XSDType;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
 
 import javax.swing.*;
@@ -61,20 +60,7 @@ public class RulePanel extends JPanel {
 
 
     public void updateCondition(VariableRow row) {
-        if (row != null) {
-            String value = row.getValue();
-            String dataType = row.getDataType();
-            if (value == null) {
-                if (XSDType.isNumericType(dataType)) value = "0";
-                else if (XSDType.isBooleanType(dataType)) value = "false";
-                else value = "";
-            }
-            if (dataType.equals("string")) {
-                value = "\"" + value + "\"";
-            }
-
-            _conditionPanel.setCondition(row.getName() + " = " + value);
-        }
+        _conditionPanel.updateCondition(row);
     }
 
 

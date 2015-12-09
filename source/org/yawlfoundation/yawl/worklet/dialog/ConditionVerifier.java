@@ -13,6 +13,7 @@ import java.awt.*;
 public class ConditionVerifier extends InputVerifier {
 
     private final ConditionEvaluator _conditionEvaluator;
+    private final ErrorMessageShortener _msgShortener;
     private ConditionPanel _parent;
     private boolean _valid = false;
 
@@ -20,6 +21,7 @@ public class ConditionVerifier extends InputVerifier {
     protected ConditionVerifier(ConditionPanel parent) {
         _parent = parent;
         _conditionEvaluator = new ConditionEvaluator();
+        _msgShortener = new ErrorMessageShortener();
     }
 
 
@@ -48,7 +50,7 @@ public class ConditionVerifier extends InputVerifier {
                 }
             }
             catch (RdrConditionException rce) {
-                errMsg = rce.getMessage();
+                errMsg = _msgShortener.getConditionError(rce.getMessage());
                 _valid = false;
             }
         }

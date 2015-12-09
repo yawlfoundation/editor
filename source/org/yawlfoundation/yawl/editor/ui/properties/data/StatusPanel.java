@@ -75,7 +75,7 @@ public class StatusPanel extends JPanel {
         _statusLabel.setText(text);
         _statusLabel.setVisible(true);
         _moreText = moreText;
-        _btnMore.setVisible(moreText != null);
+        _btnMore.setVisible(! (moreText == null || moreText.isEmpty()));
     }
 
 

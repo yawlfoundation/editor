@@ -43,12 +43,14 @@ import java.util.Set;
  */
 public class ConclusionTablePanel extends JPanel implements ActionListener {
 
-    private ConclusionTable table;
+    private final ConclusionTable table;
+    private final ErrorMessageShortener msgShortener;
     private StatusPanel status;
 
 
     public ConclusionTablePanel(NodePanel parent) {
         super();
+        msgShortener = new ErrorMessageShortener();
         setLayout(new BorderLayout());
         setBorder(new TitledBorder("Actions"));
         table = new ConclusionTable(parent);
@@ -63,7 +65,7 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
     public void setConclusion(java.util.List<RdrPrimitive> primitives) {
         table.setConclusion(primitives);
         if (primitives == null || primitives.isEmpty()) {
-            status.set("Action(s) required");
+            status.set("Action required");
         }
         table.setPreferredScrollableViewportSize(getPreferredSize());
     }
@@ -96,7 +98,10 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
             status.clear();
         }
         else {
-            status.set(errors.get(0).getMessage());
+            java.util.List<String> msgList = msgShortener.getExletError(
+                    errors.get(0).getMessage());
+            String shortMsg = msgList.remove(0);
+            status.set(shortMsg, msgList);
         }
     }
 

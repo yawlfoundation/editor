@@ -61,8 +61,8 @@ public class AddRuleDialog extends AbstractNodeDialog
         setModal(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         add(getContent());
-        setPreferredSize(new Dimension(800, 540));
-        setMinimumSize(new Dimension(800, 540));
+        setPreferredSize(new Dimension(800, 450));
+        setMinimumSize(new Dimension(800, 450));
         pack();
         setLocationRelativeTo(YAWLEditor.getInstance());
     }

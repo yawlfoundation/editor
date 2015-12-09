@@ -2,15 +2,15 @@ package org.yawlfoundation.yawl.worklet.dialog;
 
 import org.jdom2.Element;
 import org.yawlfoundation.yawl.editor.ui.properties.data.StatusPanel;
+import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.MiniToolBar;
+import org.yawlfoundation.yawl.schema.XSDType;
+import org.yawlfoundation.yawl.util.StringUtil;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.*;
 
 /**
  * @author Michael Adams
@@ -28,7 +28,7 @@ public class ConditionPanel extends JPanel implements ActionListener {
         _parent = parent;
         setLayout(new BorderLayout());
         setContent();
-        _status.set("what");
+        setCondition(null);
     }
 
 
@@ -66,9 +66,31 @@ public class ConditionPanel extends JPanel implements ActionListener {
 
 
     public void setCondition(String condition) {
+        if (StringUtil.isNullOrEmpty(condition)) {
+            _status.set("Condition Required");
+        }
         _txtCondition.setText(condition);
-        _txtCondition.getInputVerifier().verify(_txtCondition);
     }
+
+
+    public void updateCondition(VariableRow row) {
+        if (row != null) {
+            String value = row.getValue();
+            String dataType = row.getDataType();
+            if (value == null) {
+                if (XSDType.isNumericType(dataType)) value = "0";
+                else if (XSDType.isBooleanType(dataType)) value = "false";
+                else value = "";
+            }
+            if (dataType.equals("string")) {
+                value = "\"" + value + "\"";
+            }
+
+            setCondition(row.getName() + " = " + value);
+            _txtCondition.getInputVerifier().verify(_txtCondition);
+        }
+    }
+
 
 
     // from ConditionVerifier#validate
@@ -93,14 +115,25 @@ public class ConditionPanel extends JPanel implements ActionListener {
         final JTextField field = new JTextField();
         field.setInputVerifier(new ConditionVerifier(this));
         field.addActionListener(this);
+
         field.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 super.focusGained(e);
                 field.setBackground(Color.WHITE);
-                field.setToolTipText(null);
+                _status.clear();
             }
         });
+
+        field.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                field.setBackground(Color.WHITE);
+                _status.clear();
+            }
+        });
+
         return field;
     }
 

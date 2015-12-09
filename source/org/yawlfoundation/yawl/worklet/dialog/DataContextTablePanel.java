@@ -61,8 +61,7 @@ public class DataContextTablePanel extends JPanel implements CellEditorListener 
             status.clear();
         }
         else {
-            status.set("Variable '" + row.getName() +
-                    "' has invalid value for value type");
+            status.set("Invalid value for data type: " + row.getName());
         }
     }
 
@@ -90,8 +89,10 @@ public class DataContextTablePanel extends JPanel implements CellEditorListener 
     public Element getDataElement(String rootName) {
         XNode root = new XNode(rootName);
         for (VariableRow row : table.getTableModel().getVariables()) {
-            root.addChild(JDOMUtil.encodeEscapes(row.getName()),
+            XNode rowNode = new XNode(JDOMUtil.encodeEscapes(row.getName()),
                     JDOMUtil.encodeEscapes(row.getValue()));
+            rowNode.addAttribute("type", row.getDataType());
+            root.addChild(rowNode);
         }
         return root.toElement();
     }

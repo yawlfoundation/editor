@@ -84,10 +84,8 @@ public class ConclusionTable extends JSingleSelectTable {
     public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
         JComponent component = (JComponent) super.prepareRenderer(renderer, row, col);
         if (col != 0) {    // value col
-            ExletValidationError errorRow = getError(row);
-            if (errorRow != null) {
+            if (hasError(row)) {
                 component.setBackground(Color.PINK);
-                component.setToolTipText(errorRow.getMessage());
             }
         }
         return component;
@@ -154,14 +152,18 @@ public class ConclusionTable extends JSingleSelectTable {
     }
 
 
-    private ExletValidationError getError(int row) {
+    private boolean hasError(int row) {
         if (hasErrors()) {
             for (ExletValidationError error : _errList) {
-                if (error.getIndex() == row + 1) return error;
+                int errIndex = error.getIndex();
+                if (errIndex == 0 || errIndex == row + 1) {
+                    return true;
+                }
             }
         }
-        return null;
+        return false;
     }
+
 
     private boolean hasErrors() {
         return ! (_errList == null || _errList.isEmpty());
