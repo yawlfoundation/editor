@@ -36,7 +36,6 @@
 
 package org.yawlfoundation.yawl.worklet.dialog;
 
-import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.ValueField;
 import org.yawlfoundation.yawl.editor.ui.resourcing.subdialog.ListDialog;
 import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.worklet.exception.ExletAction;
@@ -48,7 +47,9 @@ import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
 import javax.swing.*;
 import javax.swing.event.CellEditorListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -57,18 +58,22 @@ import java.util.Vector;
  */
 public class ExletTargetCellEditor extends ExletCellEditor {
 
-    private ValueField _fldWorklet;
-    private final JLabel _lblInvalid = new JLabel("invalid");
+    private final JTextField _fldWorklet;
+    private final JLabel _emptyLabel;
     private ExletAction _currentAction;
+    private final JDialog _owner;
 
-    public ExletTargetCellEditor(CellEditorListener listener) {
+    public ExletTargetCellEditor(CellEditorListener listener, JDialog owner) {
         super(listener);
+        _emptyLabel = new JLabel();
+        _fldWorklet = newWorkletField();
+        _owner = owner;
     }
 
 
     public Object getCellEditorValue() {
         switch (_currentAction) {
-            case Invalid: return "invalid";
+            case Invalid: return "<choose>";
             case Compensate:
             case Select: return _fldWorklet.getText();
             default: return _combo.getSelectedItem();
@@ -80,26 +85,16 @@ public class ExletTargetCellEditor extends ExletCellEditor {
                                                  int column) {
         super.getTableCellEditorComponent(table, value, isSelected, row, column);
         _currentAction = getSelectedAction(table);
-        if (_currentAction.isInvalidAction()) {
-            return _lblInvalid;     // no editing of target without valid action first
-        }
         if (_currentAction.isWorkletAction()) {
-            _fldWorklet = new ValueField(this, null);
             _fldWorklet.setText((String) value);
-            _fldWorklet.getTextField().setEnabled(false);
             return _fldWorklet;
         }
-        else {
-            return newComboInstance(table, value);
-        }
-    }
 
-
-    public void actionPerformed(ActionEvent actionEvent) {
-        if (actionEvent.getActionCommand().equals("ShowDialog")) {
-            showListDialog();
+        if (_currentAction.isInvalidAction()) {
+            return _emptyLabel;     // no editing of target without valid action first
         }
-        fireEditingStopped();
+
+        return newComboInstance(table, value);
     }
 
 
@@ -124,13 +119,32 @@ public class ExletTargetCellEditor extends ExletCellEditor {
 
 
     private void showListDialog() {
-        ListDialog dialog = new ListDialog(null, new WorkletListModel(), "Worklets");
+        ListDialog dialog = new ListDialog(_owner, new WorkletListModel(), "Worklets");
+        dialog.setResizable(true);
+        dialog.setPreferredSize(new Dimension(550, 500));
+        dialog.pack();
         dialog.setVisible(true);
-        Vector<String> selections = new Vector<String>();
+        java.util.List<String> selections = new ArrayList<String>();
         for (Object o : dialog.getSelections()) {
-             selections.add(((WorkletInfo) o).getSpecID().getUri());
+             selections.add(((WorkletInfo) o).getSpecID().getKey());
         }
-        _fldWorklet.setText(StringUtil.join(selections, ';'));
+        if (! selections.isEmpty()) {
+            _fldWorklet.setText(StringUtil.join(selections, ';'));
+        }
+        fireEditingStopped();
+    }
+
+
+    private JTextField newWorkletField() {
+        JTextField textField = new JTextField();
+
+        textField.addFocusListener(new FocusAdapter() {
+            public void focusGained(FocusEvent e) {
+                showListDialog();
+            }
+        });
+
+        return textField;
     }
 
 }

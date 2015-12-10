@@ -4,6 +4,7 @@ import org.jdom2.Element;
 import org.yawlfoundation.yawl.editor.ui.elements.model.AtomicTask;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.editor.ui.util.SplitPaneUtil;
 import org.yawlfoundation.yawl.elements.YDecomposition;
 import org.yawlfoundation.yawl.elements.YNet;
 import org.yawlfoundation.yawl.elements.data.YParameter;
@@ -14,7 +15,10 @@ import org.yawlfoundation.yawl.worklet.rdr.RuleType;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.*;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -90,10 +94,15 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     }
 
 
+    public void conclusionEditingStarted() {
+        _conclusionPanel.enableButtons(false);
+    }
+
     // conclusion & data tables value edit
     public void editingStopped(ChangeEvent e) {
         if (e.getSource() instanceof ExletCellEditor) {
             validateConclusion();
+            _conclusionPanel.enableButtons(true);
         }
         else {
             _rulePanel.updateCondition(_dataContextPanel.getSelectedVariable());
@@ -115,13 +124,8 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
 
 
     public RdrNode getRdrNode() {
-        YSpecificationID specID = SpecificationModel.getHandler()
-                .getSpecification().getSpecificationID();
-        RuleType rule = getSelectedRule();
-        AtomicTask task = getSelectedTask();
-        String taskID = task != null ? task.getID() : null;
         return new RdrNode(_rulePanel.getCondition(), _conclusionPanel.getConclusion(),
-                getDataElement(specID, rule, taskID));
+                _dataContextPanel.getDataElement("cornerstone"));
     }
 
 
@@ -133,8 +137,11 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
 
     private void setContent(AtomicTask task) {
         setLayout(new BorderLayout());
-        add(getActionPanel(task), BorderLayout.WEST);
-        add(getDataPanel(task), BorderLayout.CENTER);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true);
+        new SplitPaneUtil().setupDivider(splitPane, false);
+        splitPane.setLeftComponent(getActionPanel(task));
+        splitPane.setRightComponent(getDataPanel(task));
+        add(splitPane, BorderLayout.CENTER);
     }
 
 
@@ -212,14 +219,14 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     }
 
 
-     protected Element getDataElement() {
-         YSpecificationID specID = SpecificationModel.getHandler()
-                 .getSpecification().getSpecificationID();
-         RuleType rule = getSelectedRule();
-         AtomicTask task = getSelectedTask();
-         String taskID = task != null ? task.getID() : null;
-         return getDataElement(specID, rule, taskID);
-     }
+    protected Element getDataElement() {
+        YSpecificationID specID = SpecificationModel.getHandler()
+                .getSpecification().getSpecificationID();
+        RuleType rule = getSelectedRule();
+        AtomicTask task = getSelectedTask();
+        String taskID = task != null ? task.getID() : null;
+        return getDataElement(specID, rule, taskID);
+    }
 
 
      protected Element getDataElement(YSpecificationID specID, RuleType rule, String taskID) {

@@ -85,8 +85,15 @@ public class ConditionPanel extends JPanel implements ActionListener {
             if (dataType.equals("string")) {
                 value = "\"" + value + "\"";
             }
+            String newCondition = row.getName() + " = " + value;
+            String currentCondition = getCondition().trim();
 
-            setCondition(row.getName() + " = " + value);
+            // append instead of replace if current condition ends with a conjunction op
+            if (currentCondition.endsWith("&") || currentCondition.endsWith("|")) {
+                newCondition = currentCondition + " " + newCondition;
+            }
+
+            setCondition(newCondition);
             _txtCondition.getInputVerifier().verify(_txtCondition);
         }
     }

@@ -50,7 +50,7 @@ public class WorkletListModel extends AbstractResourceListModel {
 
 
     public Object getElementAt(int i) {
-        return filteredList.get(i).getSpecID().getUri();
+        return filteredList.get(i).toString();
     }
 
 

@@ -100,7 +100,8 @@ public abstract class AbstractDownloadDialog extends PropertyDialog
 
     private void download() {
         YSpecificationID selectedID =
-                ((SpecificationListModel)listBox.getModel()).getSelectedID();
+                ((SpecificationListModel)listBox.getModel()).getSelectedID(
+                        listBox.getSelectedIndex());
         if (selectedID != null) {
             try {
                 String specXML = getSelectedSpecification(selectedID);
@@ -137,24 +138,6 @@ public abstract class AbstractDownloadDialog extends PropertyDialog
 
     protected void showError(String message, Exception e) {
         MessageDialog.error(this, message + '\n' + e.getMessage(), "Error");
-    }
-
-
-    /******************************************************************************/
-
-    protected abstract class SpecificationListModel extends AbstractListModel {
-
-        protected final java.util.List<?> items;
-
-        protected SpecificationListModel(java.util.List<?> items) { this.items = items; }
-
-        public int getSize() { return items != null ? items.size() : 0; }
-
-        public Object getElementAt(int i) { return items.get(i).toString(); }
-
-        public int getSelectedIndex() { return listBox.getSelectedIndex(); }
-
-        public abstract YSpecificationID getSelectedID();
     }
 
 

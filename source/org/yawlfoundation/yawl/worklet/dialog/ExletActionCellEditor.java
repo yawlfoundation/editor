@@ -83,6 +83,12 @@ public class ExletActionCellEditor extends ExletCellEditor {
     }
 
 
+    public Object getCellEditorValue() {
+        return _combo.getSelectedItem();
+    }
+
+
+
     protected Vector<ExletAction> getItemsForContext(ConclusionTable table) {
         Vector<ExletAction> actions = new Vector<ExletAction>();
         RuleType selectedRule = table.getSelectedRuleType();

@@ -74,6 +74,8 @@ package org.yawlfoundation.yawl.worklet.dialog;
 
 import javax.swing.*;
 import javax.swing.event.CellEditorListener;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -83,7 +85,7 @@ import java.util.Vector;
  * @author Michael Adams
  * @date 30/09/2014
  */
-public abstract class ExletCellEditor extends DefaultCellEditor implements ActionListener {
+public abstract class ExletCellEditor extends DefaultCellEditor {
 
     protected JComboBox _combo;
 
@@ -95,13 +97,11 @@ public abstract class ExletCellEditor extends DefaultCellEditor implements Actio
     }
 
 
-    public Object getCellEditorValue() {
-        return _combo.getSelectedItem();
-    }
-
-
-    public void actionPerformed(ActionEvent actionEvent) {
-        fireEditingStopped();
+    public Component getTableCellEditorComponent(JTable table, Object value,
+                                                 boolean isSelected, int row,
+                                                 int column) {
+        ((ConclusionTable) table).editingStarted();
+        return super.getTableCellEditorComponent(table, value, isSelected, row, column);
     }
 
 
@@ -112,9 +112,24 @@ public abstract class ExletCellEditor extends DefaultCellEditor implements Actio
 
 
     protected JComboBox buildCombo(ConclusionTable table, Object value) {
-        JComboBox combo = new JComboBox(getItemsForContext(table));
+        final JComboBox combo = new JComboBox(getItemsForContext(table));
         combo.setSelectedItem(value);
-        combo.addActionListener(this);
+
+        combo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                fireEditingStopped();
+            }
+        });
+
+        combo.addPopupMenuListener(new PopupMenuListener() {
+            public void popupMenuWillBecomeVisible(PopupMenuEvent e) { }
+
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) { }
+
+            public void popupMenuCanceled(PopupMenuEvent e) {
+                fireEditingCanceled();
+            }
+        });
 
         combo.setRenderer(new ListCellRenderer() {
             DefaultListCellRenderer renderer = new DefaultListCellRenderer();
@@ -126,7 +141,6 @@ public abstract class ExletCellEditor extends DefaultCellEditor implements Actio
                 return label;
             }
         });
-
 
         return combo;
     }

@@ -55,21 +55,21 @@ public class ErrorMessageShortener {
         if (msg.startsWith("A conclusion with a 'select'")) {
             list.add(0, "Select not allowed in mixed exlet");
         }
-        if (msg.contains("' is invalid for action '")) {
+        else if (msg.contains("' is invalid for action '")) {
             list.add(0, "Invalid target " + msg.substring(msg.indexOf('[')));
         }
-        if (msg.contains("' is missing a valid")) {
+        else if (msg.contains("' is missing a valid")) {
             list.add(0, "Invalid worklet target " + msg.substring(msg.indexOf('[')));
         }
-        if (msg.contains("a finalized state")) {
+        else if (msg.contains("a finalized state")) {
             list.add(0, msg.substring(0, msg.indexOf('.')) +
                     msg.substring(msg.indexOf('[') -1));
         }
-        if (msg.startsWith("Invalid 'continue' action.")) {
+        else if (msg.startsWith("Invalid 'continue' action.")) {
             list.add(0, msg.substring(0, msg.indexOf('.')) +
                     msg.substring(msg.indexOf('[') -1));
         }
-        if (msg.contains("left in a suspended state")) {
+        else if (msg.contains("left in a suspended state")) {
             list.add(0, "Invalid action set");
         }
         return list;

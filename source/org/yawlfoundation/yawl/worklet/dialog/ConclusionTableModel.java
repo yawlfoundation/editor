@@ -36,7 +36,7 @@
 
 package org.yawlfoundation.yawl.worklet.dialog;
 
-import org.yawlfoundation.yawl.engine.YSpecificationID;
+import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.exception.ExletAction;
 import org.yawlfoundation.yawl.worklet.exception.ExletTarget;
@@ -54,35 +54,20 @@ import java.util.*;
  */
 public class ConclusionTableModel extends AbstractTableModel {
 
-    private List<RdrPrimitive> _primitives;
-    private Map<RdrPrimitive, List<YSpecificationID>> _workletTargets;
-    private final List<WorkletInfo> _infoList = getWorkletList();
-
+    private RdrConclusion _conclusion;
+    private final Map<String, WorkletInfo> _infoMap = getWorkletMap();
 
     private static final String[] COLUMN_LABELS = { "", "Action", "Target" };
 
 
     public ConclusionTableModel() {
         super();
-        _primitives = new ArrayList<RdrPrimitive>();
-        _workletTargets = new HashMap<RdrPrimitive, List<YSpecificationID>>();
-    }
-
-
-    public void setConclusion(List<RdrPrimitive> primitives) {
-        if (primitives != null) {
-            _primitives = primitives;
-            setWorkletTargets();
-        }
-        else {
-            _primitives.clear();
-        }
-        fireTableDataChanged();
+        _conclusion = new RdrConclusion();
     }
 
 
     public int getRowCount() {
-        return (_primitives != null) ? _primitives.size() : 0;
+        return _conclusion.getCount();
     }
 
 
@@ -102,16 +87,15 @@ public class ConclusionTableModel extends AbstractTableModel {
 
     public Object getValueAt(int row, int col) {
         if (row < getRowCount()) {
-            RdrPrimitive primitive =  _primitives.get(row);
+            RdrPrimitive primitive = _conclusion.getPrimitive(row + 1);
             switch (col) {
                 case 0: return String.valueOf(row + 1);
-                case 1: return primitive.getAction();
+                case 1: return getDisplayValue(primitive.getAction());
                 case 2: {
                     if (isWorkletAction(primitive.getAction())) {
                         return getWorkletsForView(primitive);
                     }
-                    String target = primitive.getTarget();
-                    return target.equals("invalid") ? "" : target;
+                    return getDisplayValue(primitive.getTarget());
                 }
             }
         }
@@ -121,53 +105,35 @@ public class ConclusionTableModel extends AbstractTableModel {
 
     public void setValueAt(Object value, int row, int col) {
         if (row < getRowCount() && col > 0) {
-            RdrPrimitive primitive =  _primitives.get(row);
+            RdrPrimitive primitive = _conclusion.getPrimitive(row + 1);
             switch (col) {
                 case 1: primitive.setAction(value.toString()); break;
-                case 2: {
-                    primitive.setTarget(value.toString());
-                    if (isWorkletAction(primitive.getAction())) {
-                        addWorkletTarget(primitive);
-                    }
-                } break;
+                case 2: primitive.setTarget(value.toString()); break;
             }
-            fireTableRowsUpdated(row, row);
+            fireTableRowsUpdated(0, row);
         }
     }
 
 
+    public void setConclusion(RdrConclusion conclusion) {
+        _conclusion = conclusion != null ? conclusion : new RdrConclusion();
+        fireTableDataChanged();
+    }
+
+
+    public RdrConclusion getConclusion() { return _conclusion; }
+
+
     public boolean hasValidContent() {
-        for (RdrPrimitive primitive : _primitives) {
+        for (RdrPrimitive primitive : _conclusion.getPrimitives()) {
             if (! primitive.isValid()) return false;
         }
         return true;
     }
 
 
-    public RdrConclusion getConclusion() {
-        RdrConclusion conclusion = new RdrConclusion();
-        if (getRowCount() > 0) {                              // not null or empty
-            for (RdrPrimitive primitive : _primitives) {
-                String action = primitive.getAction();
-                if (action.equals(ExletAction.Select.toString())) {
-                    conclusion.setSelectionPrimitive(_workletTargets.get(primitive));
-                    break;
-                }
-                else if (action.equals(ExletAction.Compensate.toString())) {
-                    conclusion.addCompensationPrimitive(_workletTargets.get(primitive));
-                }
-                else if (! action.equals(ExletAction.Invalid.toString())) {
-                    conclusion.addPrimitive(action, primitive.getTarget());
-                }
-            }
-        }
-        return conclusion;
-    }
-
-
     public void addRow() {
-        _primitives.add(new RdrPrimitive(getRowCount(),
-                ExletAction.Invalid, ExletTarget.Invalid));
+        _conclusion.addPrimitive(ExletAction.Invalid, ExletTarget.Invalid);
         int newRowIndex = getRowCount() - 1;
         fireTableRowsInserted(newRowIndex, newRowIndex);
     }
@@ -175,47 +141,28 @@ public class ConclusionTableModel extends AbstractTableModel {
 
     public void removeRow(int row) {
         if (getRowCount() == 0 || row >= getRowCount()) return;
-        _primitives.remove(row);
-        fireTableDataChanged();
+        RdrConclusion newConclusion = new RdrConclusion();
+        for (int i=0; i < _conclusion.getCount(); i++) {
+            if (i != row) {
+                RdrPrimitive primitive = _conclusion.getPrimitive(i+1);
+                newConclusion.addPrimitive(primitive.getAction(), primitive.getTarget());
+            }
+        }
+        setConclusion(newConclusion);
     }
 
 
     // list of worklet names to present to user
     private String getWorkletsForView(RdrPrimitive primitive) {
-        List<YSpecificationID> workletIDs = _workletTargets.get(primitive);
-        if (workletIDs != null) {
-            StringBuilder s = new StringBuilder();
-            for (YSpecificationID specID : workletIDs) {
-                if (s.length() > 0) s.append(';');
-                s.append(specID.getUri());
-            }
-            return s.toString();
-        }
-        return primitive.getTarget();
-    }
-
-
-    // converts from spec keys to names for display to user
-    private void setWorkletTargets() {
-        for (RdrPrimitive primitive : _primitives) {
-            if (isWorkletAction(primitive.getAction())) {
-                addWorkletTarget(primitive);
+        List<String> names = new ArrayList<String>();
+        for (String key : extractKeysFromTarget(primitive.getTarget())) {
+            WorkletInfo info = _infoMap.get(key);
+            if (info != null) {
+                names.add(info.getSpecID().getUri());
             }
         }
-    }
-
-
-    private void addWorkletTarget(RdrPrimitive primitive) {
-        List<YSpecificationID> workletIDs = new ArrayList<YSpecificationID>();
-        for (String target : extractKeysFromTarget(primitive.getWorkletTarget())) {
-            for (WorkletInfo info : _infoList) {
-                YSpecificationID specID = info.getSpecID();
-                if (target.equals(specID.getKey())) {
-                    workletIDs.add(specID);
-                }
-            }
-        }
-        _workletTargets.put(primitive, workletIDs);
+        return names.isEmpty() ? getDisplayValue(primitive.getTarget()) :
+                StringUtil.join(names, ';');
     }
 
 
@@ -228,19 +175,27 @@ public class ConclusionTableModel extends AbstractTableModel {
     }
 
 
-    private List<WorkletInfo> getWorkletList() {
+    private Map<String, WorkletInfo> getWorkletMap() {
+        Map<String, WorkletInfo> infoMap = new HashMap<String, WorkletInfo>();
         try {
-            return new WorkletClient().getWorkletInfoList();
+            for (WorkletInfo info : new WorkletClient().getWorkletInfoList()) {
+                infoMap.put(info.getSpecID().getKey(), info);
+            }
         }
-        catch (IOException ioe) {
-            return Collections.emptyList();
-        }
-    }
+        catch (IOException ignore) {
 
+        }
+        return infoMap;
+    }
 
 
     private boolean isWorkletAction(String action) {
         return ExletAction.fromString(action).isWorkletAction();
+    }
+
+
+    private String getDisplayValue(String value) {
+        return value.equals("invalid") ? "<choose>" : value;
     }
 
 }

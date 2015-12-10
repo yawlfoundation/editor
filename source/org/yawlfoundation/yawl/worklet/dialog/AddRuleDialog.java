@@ -154,30 +154,34 @@ public class AddRuleDialog extends AbstractNodeDialog
         String taskID = task != null ? task.getID() : null;
 
         WorkletClient client = new WorkletClient();
+        String title = "Add Worklet Rule";
         try {
             String result = client.addRule(specID, taskID, rule, node);
             if (client.successful(result)) {
-                MessageDialog.info("Rule successfully added.", "Add Worklet Rule");
+                MessageDialog.info("Rule successfully added.", title);
+                if (task != null && rule == RuleType.ItemSelection) {
+                    addServiceToTask(task);
+                }
+                clearInputs();
             }
             else {
-                MessageDialog.error(StringUtil.unwrap(result), "Add Worklet Rule");
+                MessageDialog.error(StringUtil.unwrap(result), title);
             }
         }
         catch (IOException ioe) {
-            MessageDialog.error(ioe.getMessage(), "Add Worklet Rule");
+            MessageDialog.error(ioe.getMessage(), title);
         }
+    }
 
-        // also add service to task for worklet selection
-        if (task != null && rule == RuleType.ItemSelection) {
-            YAWLServiceReference service = getServiceReference();
-            if (service != null) {
-                YDecomposition decomposition = getOrCreateDecomposition(task);
-                if (decomposition != null) {
-                    ((YAWLServiceGateway) decomposition).setYawlService(service);
-                }
+
+    private void addServiceToTask(AtomicTask task) {
+        YAWLServiceReference service = getServiceReference();
+        if (service != null) {
+            YDecomposition decomposition = getOrCreateDecomposition(task);
+            if (decomposition != null) {
+                ((YAWLServiceGateway) decomposition).setYawlService(service);
             }
         }
-        clearInputs();
     }
 
 

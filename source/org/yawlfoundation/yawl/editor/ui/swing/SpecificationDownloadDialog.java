@@ -103,8 +103,8 @@ public class SpecificationDownloadDialog extends AbstractDownloadDialog {
             super(items);
         }
 
-        public YSpecificationID getSelectedID() {
-            return (YSpecificationID) items.get(getSelectedIndex());
+        public YSpecificationID getSelectedID(int index) {
+            return (YSpecificationID) items.get(index);
         }
     }
 

@@ -44,10 +44,10 @@ import org.yawlfoundation.yawl.worklet.support.ExletValidationError;
 
 import javax.swing.*;
 import javax.swing.event.CellEditorListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.util.List;
 
 /**
  * @author Michael Adams
@@ -70,7 +70,8 @@ public class ConclusionTable extends JSingleSelectTable {
         setColumnSelectionAllowed(true);
         setFillsViewportHeight(true);            // to allow drops on empty table
         getColumnModel().getColumn(1).setCellEditor(new ExletActionCellEditor(parent));
-        getColumnModel().getColumn(2).setCellEditor(new ExletTargetCellEditor(parent));
+        getColumnModel().getColumn(2).setCellEditor(
+                new ExletTargetCellEditor(parent, parent.getDialog()));
         fixSelectorColumn();
     }
 
@@ -81,12 +82,15 @@ public class ConclusionTable extends JSingleSelectTable {
     }
 
 
+    public void editingStarted() {
+        _parent.conclusionEditingStarted();
+    }
+
+
     public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
         JComponent component = (JComponent) super.prepareRenderer(renderer, row, col);
-        if (col != 0) {    // value col
-            if (hasError(row)) {
-                component.setBackground(Color.PINK);
-            }
+        if (col > 0 && (hasError(row) || hasInvalidValue(component))) {
+            component.setBackground(Color.PINK);
         }
         return component;
     }
@@ -104,9 +108,11 @@ public class ConclusionTable extends JSingleSelectTable {
     }
 
 
-    public void setConclusion(List<RdrPrimitive> primitives) {
-        getTableModel().setConclusion(primitives);
-        if (primitives == null || primitives.isEmpty()) _errList = null;    // reset
+    public void setConclusion(RdrConclusion conclusion) {
+        getTableModel().setConclusion(conclusion);
+        if (conclusion == null || conclusion.isNullConclusion()) {
+            _errList = null;    // reset
+        }
         updateUI();
     }
 
@@ -167,6 +173,12 @@ public class ConclusionTable extends JSingleSelectTable {
 
     private boolean hasErrors() {
         return ! (_errList == null || _errList.isEmpty());
+    }
+
+
+    private boolean hasInvalidValue(JComponent component) {
+        String text = ((DefaultTableCellRenderer.UIResource) component).getText();
+        return text.equals("<choose>") || text.isEmpty();
     }
 
 }

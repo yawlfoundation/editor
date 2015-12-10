@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.worklet.dialog;
 
 import org.yawlfoundation.yawl.editor.ui.specification.io.SpecificationReader;
 import org.yawlfoundation.yawl.editor.ui.swing.AbstractDownloadDialog;
+import org.yawlfoundation.yawl.editor.ui.swing.SpecificationListModel;
 import org.yawlfoundation.yawl.engine.YSpecificationID;
 import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
@@ -87,8 +88,8 @@ public class WorkletLoadDialog extends AbstractDownloadDialog {
             super(items);
         }
 
-        public YSpecificationID getSelectedID() {
-            return ((WorkletInfo) items.get(getSelectedIndex())).getSpecID();
+        public YSpecificationID getSelectedID(int index) {
+            return ((WorkletInfo) items.get(index)).getSpecID();
         }
     }
 

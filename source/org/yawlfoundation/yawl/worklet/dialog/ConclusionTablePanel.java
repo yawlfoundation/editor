@@ -22,7 +22,6 @@ import org.yawlfoundation.yawl.editor.ui.properties.data.StatusPanel;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.MiniToolBar;
 import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.rdr.RdrConclusion;
-import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
 import org.yawlfoundation.yawl.worklet.support.ExletValidationError;
 import org.yawlfoundation.yawl.worklet.support.ExletValidator;
 import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
@@ -46,6 +45,7 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
     private final ConclusionTable table;
     private final ErrorMessageShortener msgShortener;
     private StatusPanel status;
+    private MiniToolBar toolbar;
 
 
     public ConclusionTablePanel(NodePanel parent) {
@@ -58,13 +58,12 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
         scrollPane.setSize(new Dimension(600, 200));
         add(scrollPane, BorderLayout.CENTER);
         add(populateToolBar(parent), BorderLayout.SOUTH);
-        setConclusion(new ArrayList<RdrPrimitive>());
     }
 
 
-    public void setConclusion(java.util.List<RdrPrimitive> primitives) {
-        table.setConclusion(primitives);
-        if (primitives == null || primitives.isEmpty()) {
+    public void setConclusion(RdrConclusion conclusion) {
+        table.setConclusion(conclusion);
+        if (conclusion == null || conclusion.isNullConclusion()) {
             status.set("Action required");
         }
         table.setPreferredScrollableViewportSize(getPreferredSize());
@@ -91,7 +90,6 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
     }
 
 
-
     public void setVisuals(java.util.List<ExletValidationError> errors) {
         table.setVisuals(errors);
         if (errors.isEmpty()) {
@@ -104,8 +102,6 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
             status.set(shortMsg, msgList);
         }
     }
-
-
 
 
     public boolean hasValidContent() {
@@ -127,8 +123,13 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
     public ConclusionTable getTable() { return table; }
 
 
+    public void enableButtons(boolean enable) {
+        toolbar.enableComponents(enable);
+    }
+
+
     private JToolBar populateToolBar(NodePanel parent) {
-        MiniToolBar toolbar = new MiniToolBar(this);
+        toolbar = new MiniToolBar(this);
         toolbar.addButton("plus", "Add", " Add ");
         toolbar.addButton("minus", "Del", " Remove ");
         toolbar.addSeparator(new Dimension(16, 16));
@@ -142,7 +143,7 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
         Set<String> workletNames = new HashSet<String>();
         try {
             for (WorkletInfo info : new WorkletClient().getWorkletInfoList()) {
-                 workletNames.add(info.getSpecID().getUri());
+                 workletNames.add(info.getSpecID().getKey());
             }
         }
         catch (IOException ioe) {
