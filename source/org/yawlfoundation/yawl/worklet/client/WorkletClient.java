@@ -18,16 +18,22 @@
 
 package org.yawlfoundation.yawl.worklet.client;
 
+import org.yawlfoundation.yawl.editor.core.YConnector;
 import org.yawlfoundation.yawl.editor.core.connection.YConnection;
 import org.yawlfoundation.yawl.elements.YSpecification;
 import org.yawlfoundation.yawl.engine.YSpecificationID;
 import org.yawlfoundation.yawl.engine.interfce.Interface_Client;
+import org.yawlfoundation.yawl.engine.interfce.Marshaller;
+import org.yawlfoundation.yawl.engine.interfce.SpecificationData;
+import org.yawlfoundation.yawl.engine.interfce.TaskInformation;
+import org.yawlfoundation.yawl.engine.interfce.interfaceB.InterfaceB_EnvironmentBasedClient;
 import org.yawlfoundation.yawl.unmarshal.YMarshal;
 import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.util.XNode;
 import org.yawlfoundation.yawl.util.XNodeParser;
 import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
+import org.yawlfoundation.yawl.worklet.selection.WorkletRunner;
 import org.yawlfoundation.yawl.worklet.settings.SettingsStore;
 import org.yawlfoundation.yawl.worklet.support.WorkletGatewayClient;
 import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
@@ -35,7 +41,10 @@ import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @author Michael Adams
@@ -46,13 +55,16 @@ public class WorkletClient extends YConnection {
     private static final String DEFAULT_USERID = "editor";
     private static final String DEFAULT_PASSWORD = "yEditor";
 
+    private static final ClientCache CACHE = new ClientCache();
+    private static final WorkletClient INSTANCE = new WorkletClient();
+
     private String _userid = DEFAULT_USERID;
     private String _password = DEFAULT_PASSWORD;
     private WorkletGatewayClient _client;
     private XNodeParser _xNodeParser;
 
 
-    public WorkletClient() {
+    private WorkletClient() {
         super();
         String host = SettingsStore.getServiceHost();
         int port = SettingsStore.getServicePort();
@@ -65,13 +77,30 @@ public class WorkletClient extends YConnection {
     }
 
 
+    public static WorkletClient getInstance() { return INSTANCE; }
+
+
     // to test connection params
-    public WorkletClient(String host, int port, String userId, String password)
+    public boolean testConnection(String host, int port, String userId, String password)
             throws MalformedURLException {
-        super();
+
+        // save current
+        String id = _userid;
+        String pw = _password;
+        URL url = getURL();
+
+        // set test params & check
         setUserID(userId);
         setPassword(password);
         setURL(new URL("http", host, port, "workletService/gateway"));
+        boolean test = isConnected();
+
+        // restore current
+        setUserID(id);
+        setPassword(pw);
+        setURL(url);
+
+        return test;
     }
 
 
@@ -130,6 +159,9 @@ public class WorkletClient extends YConnection {
     }
 
 
+    public boolean isConnected() { return isConnected(_client); }
+
+
     public boolean isConnected(Interface_Client client) {
         try {
             if (_handle == null) {
@@ -147,7 +179,11 @@ public class WorkletClient extends YConnection {
     }
 
 
-    public boolean isConnected() { return isConnected(_client); }
+    public void connect() throws IOException {
+        if (!isConnected()) {
+            throw new IOException("Unable to connect to Worklet Service");
+        }
+    }
 
 
     public boolean successful(String msg) { return _client.successful(msg); }
@@ -155,59 +191,42 @@ public class WorkletClient extends YConnection {
 
     /********************************************************************************/
 
-    public Vector<String> getWorkletList() throws IOException {
-        if (isConnected()) {
-            String xml = _client.getWorkletNames(_handle);
-            if (_client.successful(xml)) {
-                XNode node = getXNodeParser().parse(xml);
-                if (node != null) {
-                    Vector<String> names = new Vector<String>();
-                    for (XNode child : node.getChildren()) {
-                        names.add(child.getText());
-                    }
-                    Collections.sort(names);
-                    return names;
-                }
-                else throw new IOException("Malformed data returned from service");
-            }
-            else throw new IOException(StringUtil.unwrap(xml));
+    public List<WorkletRunner> getRunningWorkletList() throws IOException {
+        connect();
+        XNode node = toXNode(_client.getRunningWorklets(_handle));
+        List<WorkletRunner> runners = new ArrayList<WorkletRunner>();
+        for (XNode child : node.getChildren()) {
+            runners.add(new WorkletRunner(child));
         }
-        else throw new IOException("Unable to connect to Worklet Service");
+        Collections.sort(runners, new RunnerCaseIdComparator());
+        return runners;
     }
 
 
     public List<WorkletInfo> getWorkletInfoList() throws IOException {
-        if (isConnected()) {
-            XNode root = toXNode(_client.getWorkletInfoList(_handle));
-            List<WorkletInfo> workletList = new ArrayList<WorkletInfo>();
-            for (XNode node : root.getChildren()) {
-                workletList.add(new WorkletInfo(node));
-            }
-            Collections.sort(workletList);
-            return workletList;
+        connect();
+        XNode root = toXNode(_client.getWorkletInfoList(_handle));
+        List<WorkletInfo> workletList = new ArrayList<WorkletInfo>();
+        for (XNode node : root.getChildren()) {
+            workletList.add(new WorkletInfo(node));
         }
-        else throw new IOException("Unable to connect to Worklet Service");
+        Collections.sort(workletList);
+        return workletList;
     }
 
 
-    public String addRule(YSpecificationID specID, String taskID, RuleType rule,
+    public boolean addRule(YSpecificationID specID, String taskID, RuleType rule,
                           RdrNode node) throws IOException {
-        if (isConnected()) {
-            return _client.addNode(specID, taskID, rule, node, _handle);
-        }
-        throw new IOException("Unable to connect to Worklet Service");
+        connect();
+        check(_client.addNode(specID, taskID, rule, node, _handle));
+        return true;
     }
 
 
     public boolean addRuleSet(YSpecificationID specID, String xml) throws IOException {
-        if (isConnected()) {
-            String msg = _client.addRdrSet(specID, xml, _handle);
-            if (! successful(msg)) {
-                throw new IOException(StringUtil.unwrap(msg));
-            }
-            return true;
-        }
-        throw new IOException("Unable to connect to Worklet Service");
+        connect();
+        check(_client.addRdrSet(specID, xml, _handle));
+        return true;
     }
 
 
@@ -218,30 +237,69 @@ public class WorkletClient extends YConnection {
 
     public boolean addWorklet(YSpecificationID specID, String workletXML)
             throws IOException {
-        if (isConnected()) {
-            String msg = _client.addWorklet(specID, workletXML, _handle);
-            if (! successful(msg)) {
-                throw new IOException(StringUtil.unwrap(msg));
-            }
-            return true;
-        }
-        throw new IOException("Unable to connect to Worklet Service");
+        connect();
+        check(_client.addWorklet(specID, workletXML, _handle));
+        return true;
     }
 
 
     public String getWorklet(YSpecificationID specID) throws IOException {
-        if (isConnected()) {
-            return _client.getWorklet(specID, _handle);
+        connect();
+        String workletXML = _client.getWorklet(specID, _handle);
+        check(workletXML);
+        return workletXML;
+    }
+
+
+    public RdrNode getRdrNode(long nodeId) throws IOException {
+        RdrNode node = CACHE.getNode(nodeId);
+        if (node == null) {
+            connect();
+            node = toRdrNode(_client.getNode(nodeId, _handle));
+            CACHE.add(node);
         }
-        throw new IOException("Unable to connect to Worklet Service");
+        return node;
     }
 
 
     public String getRdrSet(YSpecificationID specID) throws IOException {
-        if (isConnected()) {
-            return _client.getRdrSet(specID, _handle);
+        connect();
+        String setXML = _client.getRdrSet(specID, _handle);
+        check(setXML);
+        return setXML;
+    }
+
+
+    public TaskInformation getTaskInfo(YSpecificationID specID, String taskID)
+            throws IOException {
+        TaskInformation taskInfo = CACHE.getTaskInfo(specID, taskID);
+        if (taskInfo == null) {
+            InterfaceB_EnvironmentBasedClient ibClient = YConnector.getInterfaceBClient();
+            String handle = ibClient.connect(_userid, _password);
+            String taskInfoASXML = ibClient.getTaskInformationStr(specID, taskID, handle);
+            check(taskInfoASXML);
+            taskInfo = ibClient.parseTaskInformation(taskInfoASXML);
+            CACHE.add(taskInfo);
         }
-        throw new IOException("Unable to connect to Worklet Service");
+        return taskInfo;
+    }
+
+
+    public SpecificationData getSpecificationInfo(YSpecificationID specID)
+            throws IOException {
+        SpecificationData specData = CACHE.getSpecData(specID);
+        if (specData == null) {
+            InterfaceB_EnvironmentBasedClient ibClient = YConnector.getInterfaceBClient();
+            String handle = ibClient.connect(_userid, _password);
+            String specificationXML = ibClient.getSpecification(specID, handle);
+            check(specificationXML);
+            String wrapped = StringUtil.wrap(specificationXML, "speclist");
+            List<SpecificationData> specList =
+                    Marshaller.unmarshalSpecificationSummary(wrapped);
+            specData = specList.get(0);
+            CACHE.add(specData);
+        }
+        return specData;
     }
 
 
@@ -254,9 +312,7 @@ public class WorkletClient extends YConnection {
 
 
     private XNode toXNode(String result) throws IOException {
-        if (!successful(result)) {
-            throw new IOException(StringUtil.unwrap(result));
-        }
+        check(result);
         XNode root = getXNodeParser().parse(result);
         if (root == null) {
             throw new IOException("Malformed result string:" + result);
@@ -265,15 +321,32 @@ public class WorkletClient extends YConnection {
     }
 
 
+    private RdrNode toRdrNode(String nodeXML) throws IOException {
+        check(nodeXML);
+        return new RdrNode(nodeXML);
+    }
+
+
+    private void check(String xml) throws IOException {
+        if (!successful(xml)) {
+            if (StringUtil.isNullOrEmpty(xml)) xml = "General Engine Error";
+            while (xml.trim().startsWith("<")) xml = StringUtil.unwrap(xml);
+            throw new IOException(xml);
+        }
+    }
+
+
 
     /**************************************************************************/
 
-    class SpecIdComparator implements Comparator<YSpecificationID> {
+    class RunnerCaseIdComparator implements Comparator<WorkletRunner> {
 
-         public int compare(YSpecificationID s1, YSpecificationID s2) {
+         public int compare(WorkletRunner s1, WorkletRunner s2) {
              if (s1 == null) return -1;
              if (s2 == null) return 1;
-             return s1.getUri().compareToIgnoreCase(s2.getUri());
+             int c1 = StringUtil.strToInt(s1.getCaseID(), 0);
+             int c2 = StringUtil.strToInt(s2.getCaseID(), 0);
+             return c1 - c2;
         }
     }
 

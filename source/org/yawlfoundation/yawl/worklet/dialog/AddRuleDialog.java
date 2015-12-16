@@ -26,7 +26,6 @@ import org.yawlfoundation.yawl.elements.YAWLServiceGateway;
 import org.yawlfoundation.yawl.elements.YAWLServiceReference;
 import org.yawlfoundation.yawl.elements.YDecomposition;
 import org.yawlfoundation.yawl.engine.YSpecificationID;
-import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
@@ -153,20 +152,14 @@ public class AddRuleDialog extends AbstractNodeDialog
         AtomicTask task = _nodePanel.getSelectedTask();
         String taskID = task != null ? task.getID() : null;
 
-        WorkletClient client = new WorkletClient();
         String title = "Add Worklet Rule";
         try {
-            String result = client.addRule(specID, taskID, rule, node);
-            if (client.successful(result)) {
-                MessageDialog.info("Rule successfully added.", title);
-                if (task != null && rule == RuleType.ItemSelection) {
-                    addServiceToTask(task);
-                }
-                clearInputs();
+            WorkletClient.getInstance().addRule(specID, taskID, rule, node);
+            MessageDialog.info("Rule successfully added.", title);
+            if (task != null && rule == RuleType.ItemSelection) {
+                addServiceToTask(task);
             }
-            else {
-                MessageDialog.error(StringUtil.unwrap(result), title);
-            }
+            clearInputs();
         }
         catch (IOException ioe) {
             MessageDialog.error(ioe.getMessage(), title);

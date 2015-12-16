@@ -29,18 +29,26 @@ import java.util.List;
  */
 public class DataContextTableModel extends AbstractTableModel {
 
-    private List<VariableRow> variables;
+    private List<VariableRow> _variables;
+    private boolean _editable;
+
 
     private static final String[] COLUMN_LABELS = { "Name", "Type", "Value" };
 
 
-    public DataContextTableModel() { super(); }
+    public DataContextTableModel() {
+        super();
+        _editable = true;
+    }
 
 
     public void setVariables(List<VariableRow> varList) {
-        variables = varList;
+        _variables = varList;
         fireTableDataChanged();
     }
+
+
+    public void setEditable(boolean editable) { _editable = editable; }
 
 
     public int getRowCount() {
@@ -58,7 +66,7 @@ public class DataContextTableModel extends AbstractTableModel {
 
 
     public boolean isCellEditable(int row, int column) {
-        return (column == 2);    // Value
+        return _editable && column == 2;    // Value
     }
 
 
@@ -85,12 +93,12 @@ public class DataContextTableModel extends AbstractTableModel {
     }
 
 
-    public List<VariableRow> getVariables() { return variables; }
+    public List<VariableRow> getVariables() { return _variables; }
 
 
     public VariableRow getVariableAtRow(int row) {
         int count = getRowCount();
-        return count == 0 || row >= count ? null : variables.get(row);
+        return count == 0 || row >= count ? null : _variables.get(row);
     }
 
 }

@@ -56,16 +56,14 @@ public class SettingsPanel extends JPanel {
     public void testConnection() {
         String user = getUser();
         String password = getPassword();
-          _testReply.setForeground(Color.RED);
         try {
-            WorkletClient testClient = new WorkletClient(_hostPanel.getHost(),
-                    _hostPanel.getPort(), user, password);
-            if (testClient.isConnected()) {
+            if (WorkletClient.getInstance().testConnection(_hostPanel.getHost(),
+                    _hostPanel.getPort(), user, password)) {
                 _testReply.setForeground(Color.BLACK);
                 _testReply.setText("Successfully connected to Worklet Service");
-                testClient.disconnect();
             }
             else {
+                _testReply.setForeground(Color.RED);
                 _testReply.setText("Failed to connect to Worklet Service with the " +
                         "parameters provided");
             }

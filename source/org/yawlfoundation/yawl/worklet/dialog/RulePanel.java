@@ -8,7 +8,10 @@ import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.elements.YAWLServiceGateway;
 import org.yawlfoundation.yawl.elements.YAWLServiceReference;
+import org.yawlfoundation.yawl.engine.interfce.WorkItemRecord;
+import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
+import org.yawlfoundation.yawl.worklet.selection.WorkletRunner;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,6 +64,26 @@ public class RulePanel extends JPanel {
 
     public void updateCondition(VariableRow row) {
         _conditionPanel.updateCondition(row);
+    }
+
+
+    public void setNode(WorkletRunner runner, RdrNode ruleNode) {
+        _cbxType.setSelectedItem(runner.getRuleType());
+        WorkItemRecord wir = runner.getWir();
+        if (wir != null) {
+            String taskID = runner.getWir().getTaskID();
+            for (int i = 0; i < _cbxTask.getItemCount(); i++) {
+                if (taskID.equals(((AtomicTask) _cbxTask.getItemAt(0)).getLabel())) {
+                    _cbxTask.setSelectedIndex(i);
+                    break;
+                }
+            }
+        }
+        _conditionPanel.setCondition(ruleNode.getCondition());
+
+        _cbxType.setEnabled(false);
+        _cbxTask.setEnabled(false);
+        _cbxTaskPrompt.setEnabled(false);
     }
 
 

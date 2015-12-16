@@ -66,10 +66,13 @@ public class ConditionPanel extends JPanel implements ActionListener {
 
 
     public void setCondition(String condition) {
+        _txtCondition.setText(condition);
         if (StringUtil.isNullOrEmpty(condition)) {
             _status.set("Condition Required");
         }
-        _txtCondition.setText(condition);
+        else {
+            _txtCondition.getInputVerifier().verify(_txtCondition);
+        }
     }
 
 
@@ -94,7 +97,6 @@ public class ConditionPanel extends JPanel implements ActionListener {
             }
 
             setCondition(newCondition);
-            _txtCondition.getInputVerifier().verify(_txtCondition);
         }
     }
 

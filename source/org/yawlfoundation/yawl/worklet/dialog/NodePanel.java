@@ -7,11 +7,13 @@ import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.util.SplitPaneUtil;
 import org.yawlfoundation.yawl.elements.YDecomposition;
 import org.yawlfoundation.yawl.elements.YNet;
-import org.yawlfoundation.yawl.elements.data.YParameter;
 import org.yawlfoundation.yawl.elements.data.YVariable;
 import org.yawlfoundation.yawl.engine.YSpecificationID;
+import org.yawlfoundation.yawl.util.XNode;
+import org.yawlfoundation.yawl.util.XNodeParser;
 import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
+import org.yawlfoundation.yawl.worklet.selection.WorkletRunner;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -23,6 +25,7 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EventListener;
 
@@ -135,6 +138,16 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     public AtomicTask getSelectedTask() { return _rulePanel.getSelectedTask(); }
 
 
+    public void setNode(java.util.List<? extends YVariable> vars, String id,
+                        WorkletRunner runner, RdrNode ruleNode) {
+        _dataContextPanel.setNode(getDataRows(vars, id, runner),
+                getCornerstoneNode(ruleNode));
+        _conclusionPanel.setNode(ruleNode);
+        _rulePanel.setNode(runner, ruleNode);
+        _txtDescription.setText(ruleNode.getDescription());
+    }
+
+
     private void setContent(AtomicTask task) {
         setLayout(new BorderLayout());
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true);
@@ -191,9 +204,8 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
          if (task == null) {       // case level
              decomposition = SpecificationModel.getNets().getRootNet().getDecomposition();
              if (decomposition != null) {
-                 for (YVariable local : ((YNet) decomposition).getLocalVariables().values()) {
-                     rows.add(new VariableRow(local, false, decomposition.getID()));
-                 }
+                 rows = getDataRows(((YNet) decomposition).getLocalVariables().values(),
+                         decomposition.getID());
              }
          }
          else {
@@ -202,14 +214,47 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
 
          if (decomposition != null) {
              String id = task != null ? task.getID() : decomposition.getID();
-             for (YParameter input : decomposition.getInputParameters().values()) {
-                 rows.add(new VariableRow(input, false, id));
-             }
+             rows = getDataRows(decomposition.getInputParameters().values(), id);
          }
 
          Collections.sort(rows);
          return rows;
      }
+
+
+    private java.util.List<VariableRow> getDataRows(Collection<? extends YVariable> variables,
+                                                    String rootName) {
+        return getDataRows(variables, rootName, null);
+    }
+
+
+    private java.util.List<VariableRow> getDataRows(Collection<? extends YVariable> variables,
+                                                    String rootName, WorkletRunner runner) {
+        java.util.List<VariableRow> rows = new ArrayList<VariableRow>();
+        for (YVariable variable : variables) {
+            rows.add(new VariableRow(variable, false, rootName));
+        }
+        if (! (rows.isEmpty() || runner == null)) {
+            XNodeParser parser = new XNodeParser();
+            XNode dataNode = parser.parse(runner.getDataListString());
+            if (dataNode != null) {
+                for (VariableRow row : rows) {
+                    String name = row.getName();
+                    XNode varNode = dataNode.getChild(name);
+                    if (varNode != null) {
+                        row.setValue(varNode.hasChildren() ? varNode.toPrettyString() :
+                                varNode.getText());
+                    }
+                }
+            }
+        }
+        return rows;
+    }
+
+
+    private XNode getCornerstoneNode(RdrNode ruleNode) {
+        return new XNodeParser().parse(ruleNode.getCornerStone());
+    }
 
 
     protected void clearInputs() {

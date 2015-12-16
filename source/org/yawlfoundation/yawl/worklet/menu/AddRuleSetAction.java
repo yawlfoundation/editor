@@ -27,11 +27,11 @@ class AddRuleSetAction extends YAWLSelectedNetAction {
 
 
     public void actionPerformed(ActionEvent event) {
-        WorkletClient client = new WorkletClient();
         YSpecificationID specID = SpecificationModel.getHandler()
                 .getSpecification().getSpecificationID();
         try {
-            if (client.successful(client.getRdrSet(specID))) {
+            if (WorkletClient.getInstance().successful(
+                    WorkletClient.getInstance().getRdrSet(specID))) {
                 MessageDialog.error(
                         "There is an existing rule set for the current specification.",
                         "Unable to Add Rule Set");
@@ -41,7 +41,7 @@ class AddRuleSetAction extends YAWLSelectedNetAction {
                 if (xrsFile != null) {
                     String xml = StringUtil.fileToString(xrsFile);
                     if (xml != null) {
-                        client.addRuleSet(specID, xml);
+                        WorkletClient.getInstance().addRuleSet(specID, xml);
                         MessageDialog.info("Rule set loaded successfully.", "Success");
                     }
                 }

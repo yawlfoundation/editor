@@ -124,6 +124,9 @@ public class ConclusionTableModel extends AbstractTableModel {
     public RdrConclusion getConclusion() { return _conclusion; }
 
 
+    public Set<String> getWorkletSpecificationKeys() { return _infoMap.keySet(); }
+
+
     public boolean hasValidContent() {
         for (RdrPrimitive primitive : _conclusion.getPrimitives()) {
             if (! primitive.isValid()) return false;
@@ -178,7 +181,7 @@ public class ConclusionTableModel extends AbstractTableModel {
     private Map<String, WorkletInfo> getWorkletMap() {
         Map<String, WorkletInfo> infoMap = new HashMap<String, WorkletInfo>();
         try {
-            for (WorkletInfo info : new WorkletClient().getWorkletInfoList()) {
+            for (WorkletInfo info : WorkletClient.getInstance().getWorkletInfoList()) {
                 infoMap.put(info.getSpecID().getKey(), info);
             }
         }

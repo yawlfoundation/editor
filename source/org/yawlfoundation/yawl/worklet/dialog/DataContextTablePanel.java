@@ -69,6 +69,12 @@ public class DataContextTablePanel extends JPanel implements CellEditorListener 
     public void editingCanceled(ChangeEvent e) { }
 
 
+    public void setNode(java.util.List<VariableRow> rows, XNode cornerstoneNode) {
+        table.setCornerstoneNode(cornerstoneNode);
+        setVariables(rows);
+        setEditable(false);
+    }
+
     public void setVariables(java.util.List<VariableRow> rows) {
         table.getTableModel().setVariables(rows);
         table.setPreferredScrollableViewportSize(getPreferredSize());
@@ -106,6 +112,11 @@ public class DataContextTablePanel extends JPanel implements CellEditorListener 
 
     public boolean hasValidContent() {
         return table.hasValidContent();
+    }
+
+
+    public void setEditable(boolean editable) {
+        table.getTableModel().setEditable(editable);
     }
 
     private DataContextTable createTable(EventListener listener) {

@@ -94,7 +94,7 @@ public class WorkletListModel extends AbstractResourceListModel {
 
     private List<WorkletInfo> getWorkletList() {
         try {
-            return new WorkletClient().getWorkletInfoList();
+            return WorkletClient.getInstance().getWorkletInfoList();
         }
         catch (IOException ioe) {
             return Collections.emptyList();

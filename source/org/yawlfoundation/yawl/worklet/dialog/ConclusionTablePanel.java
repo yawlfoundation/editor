@@ -20,21 +20,17 @@ package org.yawlfoundation.yawl.worklet.dialog;
 
 import org.yawlfoundation.yawl.editor.ui.properties.data.StatusPanel;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.MiniToolBar;
-import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.rdr.RdrConclusion;
+import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
 import org.yawlfoundation.yawl.worklet.support.ExletValidationError;
 import org.yawlfoundation.yawl.worklet.support.ExletValidator;
-import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Michael Adams
@@ -61,10 +57,18 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
     }
 
 
+    public void setNode(RdrNode ruleNode) {
+        setConclusion(ruleNode.getConclusion());
+    }
+
+
     public void setConclusion(RdrConclusion conclusion) {
         table.setConclusion(conclusion);
         if (conclusion == null || conclusion.isNullConclusion()) {
             status.set("Action required");
+        }
+        else {
+            validateConclusion();
         }
         table.setPreferredScrollableViewportSize(getPreferredSize());
     }
@@ -83,7 +87,8 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
             errors.add(new ExletValidationError(0, "Action(s) required"));
         }
         else {
-            errors = new ExletValidator().validate(conclusion, getWorkletList());
+            errors = new ExletValidator().validate(conclusion,
+                    table.getTableModel().getWorkletSpecificationKeys());
         }
         setVisuals(errors);
         return errors;
@@ -137,20 +142,5 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
         toolbar.add(status);
         return toolbar;
     }
-
-
-    private Set<String> getWorkletList() {
-        Set<String> workletNames = new HashSet<String>();
-        try {
-            for (WorkletInfo info : new WorkletClient().getWorkletInfoList()) {
-                 workletNames.add(info.getSpecID().getKey());
-            }
-        }
-        catch (IOException ioe) {
-            // fallthrough
-        }
-        return  workletNames;
-    }
-
 
 }

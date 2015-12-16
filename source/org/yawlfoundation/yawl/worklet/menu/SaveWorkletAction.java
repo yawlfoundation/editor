@@ -32,7 +32,7 @@ class SaveWorkletAction extends YAWLSelectedNetAction {
         YSpecification spec = new SpecificationWriter().cleanSpecification();
         if (isValidSpecification(spec)) {
            try {
-               new WorkletClient().addWorklet(spec.getSpecificationID(),
+               WorkletClient.getInstance().addWorklet(spec.getSpecificationID(),
                        SpecificationModel.getHandler().getSpecificationXML(true));
            }
            catch (IOException ioe) {

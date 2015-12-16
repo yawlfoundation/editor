@@ -45,7 +45,8 @@ public class WorkletLoadDialog extends AbstractDownloadDialog {
     @Override
     protected JList getList() {
         try {
-            java.util.List<WorkletInfo> workletList = getClient().getWorkletInfoList();
+            java.util.List<WorkletInfo> workletList = WorkletClient.getInstance()
+                    .getWorkletInfoList();
             return new JList(new WorkletSpecificationListModel(workletList));
 
         }
@@ -65,19 +66,12 @@ public class WorkletLoadDialog extends AbstractDownloadDialog {
 
     @Override
     protected String getSelectedSpecification(YSpecificationID specID) throws IOException {
-        return getClient().getWorklet(specID);
+        return WorkletClient.getInstance().getWorklet(specID);
     }
 
 
     @Override
     protected String getSourceString() { return "Worklet Service"; }
-
-
-    private WorkletClient getClient() {
-        if (_client == null) _client = new WorkletClient();
-        return _client;
-    }
-
 
 
     /**************************************************************************/

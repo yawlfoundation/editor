@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.worklet.dialog;
 
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.swing.JSingleSelectTable;
+import org.yawlfoundation.yawl.util.XNode;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
@@ -33,6 +34,9 @@ import java.util.List;
  * @date 30/09/2014
  */
 public class DataContextTable extends JSingleSelectTable {
+
+    private XNode _cornerstoneNode;             // for read-only rendering only
+
 
     public DataContextTable() {
         super();
@@ -51,6 +55,11 @@ public class DataContextTable extends JSingleSelectTable {
         getTableModel().setVariables(variables);
         setPreferredScrollableViewportSize(getPreferredSize());
         updateUI();
+    }
+
+
+    public void setCornerstoneNode(XNode node) {
+        _cornerstoneNode = node;
     }
 
 
@@ -74,13 +83,34 @@ public class DataContextTable extends JSingleSelectTable {
 
     public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
         JComponent component = (JComponent) super.prepareRenderer(renderer, row, col);
+        component.setForeground(Color.BLACK);
         if (col == 2) {    // value col
             VariableRow vRow = getTableModel().getVariableAtRow(row);
-            boolean valid = vRow == null || vRow.isValidValue();
-            if (! valid) component.setBackground(Color.PINK);
-            component.setToolTipText(valid ? null : " Invalid value for data type ");
+            if (isCellEditable(row, col)) {
+                boolean valid = vRow == null || vRow.isValidValue();
+                if (! valid) component.setBackground(Color.PINK);
+                component.setToolTipText(valid ? null : " Invalid value for data type ");
+            }
+            else if (vRow != null) {   // value col is not editable
+
+                // colour row value blue where cornerstone value != workitem value
+                String csv = getCornerstoneValue(vRow.getName());
+                boolean matches = csv == null || csv.equals(vRow.getValue());
+                if (! matches) component.setForeground(Color.BLUE);
+                component.setToolTipText(matches ? null : " Cornerstone value: " + csv);
+            }
         }
         return component;
+    }
+
+
+    private String getCornerstoneValue(String name) {
+        if (_cornerstoneNode == null) return null;
+        XNode rowNode = _cornerstoneNode.getChild(name);
+        if (rowNode != null) {
+            return rowNode.hasChildren() ? rowNode.toPrettyString() : rowNode.getText();
+        }
+        return null;
     }
 
 
