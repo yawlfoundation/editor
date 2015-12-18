@@ -97,7 +97,7 @@ public class RunnerTableModel extends AbstractTableModel {
 
 
     public WorkletRunner getRunner(int index) {
-        return index < getRowCount() ? _runnerList.get(index) : null;
+        return index > -1 && index < getRowCount() ? _runnerList.get(index) : null;
     }
 
 }

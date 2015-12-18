@@ -133,6 +133,9 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
     }
 
 
+    public void setStatus(String msg) { status.set(msg); }
+
+
     private JToolBar populateToolBar(NodePanel parent) {
         toolbar = new MiniToolBar(this);
         toolbar.addButton("plus", "Add", " Add ");

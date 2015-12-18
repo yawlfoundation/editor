@@ -1,8 +1,9 @@
 package org.yawlfoundation.yawl.worklet.dialog;
 
+import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
@@ -21,9 +22,12 @@ public class ButtonPanel extends JPanel {
     public JButton addButton(String caption, ActionListener listener) {
         JButton button = new JButton(caption);
         button.setActionCommand(caption);
-        button.setPreferredSize(new Dimension(90, 25));
         button.addActionListener(listener);
         return (JButton) add(button);
+    }
+
+    public void equalise() {
+        ButtonUtil.setEqualWidths(this);
     }
 
 }

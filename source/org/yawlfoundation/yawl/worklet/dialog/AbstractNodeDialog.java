@@ -21,14 +21,34 @@ import java.awt.*;
  */
 public abstract class AbstractNodeDialog extends JDialog implements TableModelListener {
 
-    public AbstractNodeDialog() { super(); }
+    private boolean _isComboListener;
 
-    public AbstractNodeDialog(Frame frame) { super(frame); }
+    public AbstractNodeDialog() { this(null, false); }
+
+    public AbstractNodeDialog(Frame frame) { this(frame, false); }
+
+    public AbstractNodeDialog(Frame frame, boolean isComboListener) {
+        super(frame);
+        _isComboListener = isComboListener;
+        setModal(true);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+
 
     public abstract void enableButtons();
 
 
     public void tableChanged(TableModelEvent e) { enableButtons(); }
+
+
+    public boolean isComboListener() { return _isComboListener; }
+
+
+    protected void setBaseSize(int w, int h) {
+        Dimension d = new Dimension(w, h);
+        setPreferredSize(d);
+        setMinimumSize(d);
+    }
 
 
     protected AtomicTask getSelectedTask() {

@@ -54,14 +54,11 @@ public class AddRuleDialog extends AbstractNodeDialog
 
 
     public AddRuleDialog() {
-        super(YAWLEditor.getInstance());
+        super(YAWLEditor.getInstance(), true);             // listens for combo events
         setTitle("Add Worklet Rule for Specification: " +
                 SpecificationModel.getHandler().getID());
-        setModal(true);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         add(getContent());
-        setPreferredSize(new Dimension(800, 450));
-        setMinimumSize(new Dimension(800, 450));
+        setBaseSize(800, 450);
         pack();
         setLocationRelativeTo(YAWLEditor.getInstance());
     }
@@ -139,7 +136,7 @@ public class AddRuleDialog extends AbstractNodeDialog
         _btnClose = panel.addButton("Add & Close", this);
         _btnAdd.setEnabled(false);
         _btnClose.setEnabled(false);
-        panel.add(_btnClose);
+        panel.equalise();
         return panel;
     }
 

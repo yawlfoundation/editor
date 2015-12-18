@@ -54,7 +54,7 @@ public class ConditionPanel extends JPanel implements ActionListener {
         return label;
     }
 
-    public NodePanel getParent() { return _parent; }
+    public NodePanel getParentPanel() { return _parent; }
 
 
     public Element getDataElement() {
@@ -103,13 +103,17 @@ public class ConditionPanel extends JPanel implements ActionListener {
 
 
     // from ConditionVerifier#validate
+    protected void setValidationResponse(String msg) {
+        setStatus(msg);
+        getParentPanel().getDialog().enableButtons();
+    }
+
     public void setStatus(String text) {
         if (text != null) {
             _status.set(text);
         }
         else _status.clear();
 
-        getParent().getDialog().enableButtons();
     }
 
 

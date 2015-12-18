@@ -47,8 +47,8 @@ import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
 import javax.swing.*;
 import javax.swing.event.CellEditorListener;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -58,10 +58,11 @@ import java.util.Vector;
  */
 public class ExletTargetCellEditor extends ExletCellEditor {
 
-    private final JTextField _fldWorklet;
+    private final JButton _fldWorklet;               // co-opt a button to show dialog
     private final JLabel _emptyLabel;
     private ExletAction _currentAction;
     private final JDialog _owner;
+
 
     public ExletTargetCellEditor(CellEditorListener listener, JDialog owner) {
         super(listener);
@@ -84,7 +85,7 @@ public class ExletTargetCellEditor extends ExletCellEditor {
                                                  boolean isSelected, int row,
                                                  int column) {
         super.getTableCellEditorComponent(table, value, isSelected, row, column);
-        _currentAction = getSelectedAction(table);
+        _currentAction = getActionAtRow(table, row);
         if (_currentAction.isWorkletAction()) {
             _fldWorklet.setText((String) value);
             return _fldWorklet;
@@ -112,8 +113,8 @@ public class ExletTargetCellEditor extends ExletCellEditor {
     }
 
 
-    private ExletAction getSelectedAction(JTable table) {
-        RdrPrimitive primitive = ((ConclusionTable) table).getSelectedPrimitive();
+    private ExletAction getActionAtRow(JTable table, int row) {
+        RdrPrimitive primitive = ((ConclusionTable) table).getPrimitiveAtRow(row);
         return primitive != null ? primitive.getExletAction() : ExletAction.Invalid;
     }
 
@@ -135,16 +136,20 @@ public class ExletTargetCellEditor extends ExletCellEditor {
     }
 
 
-    private JTextField newWorkletField() {
-        JTextField textField = new JTextField();
+    private JButton newWorkletField() {
+        JButton button = new JButton();
+        button.setHorizontalAlignment(SwingConstants.LEFT);
+        button.setBorderPainted(false);
+        button.setBackground(UIManager.getColor("TextField.background"));
 
-        textField.addFocusListener(new FocusAdapter() {
-            public void focusGained(FocusEvent e) {
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 showListDialog();
             }
         });
 
-        return textField;
+        return button;
     }
 
 }

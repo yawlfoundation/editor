@@ -11,6 +11,7 @@ import org.yawlfoundation.yawl.elements.data.YVariable;
 import org.yawlfoundation.yawl.engine.YSpecificationID;
 import org.yawlfoundation.yawl.util.XNode;
 import org.yawlfoundation.yawl.util.XNodeParser;
+import org.yawlfoundation.yawl.worklet.rdr.RdrConclusion;
 import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
 import org.yawlfoundation.yawl.worklet.selection.WorkletRunner;
@@ -62,14 +63,14 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
 
     // combo selection
     public void itemStateChanged(ItemEvent event) {
-        if (event.getStateChange() == ItemEvent.SELECTED) {
+        if (((JComboBox) event.getSource()).isEnabled() &&
+                event.getStateChange() == ItemEvent.SELECTED) {
             java.util.List<VariableRow> variables = null;
             Object item = event.getItem();
 
             // if rule change
             if (item instanceof RuleType) {
                 RuleType selectedType = (RuleType) item;
-                _rulePanel.enabledTaskCombo(selectedType);
 
                 if (selectedType.isCaseLevelType()) {
                     variables = getDataContext(null);  // net level vars
@@ -84,6 +85,8 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
             else {    // task combo
                 variables = getDataContext((AtomicTask) item);
             }
+            if (variables == null) variables = Collections.emptyList();
+
             _dataContextPanel.setVariables(variables);
             clearInputs();
         }
@@ -127,8 +130,17 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
 
 
     public RdrNode getRdrNode() {
-        return new RdrNode(_rulePanel.getCondition(), _conclusionPanel.getConclusion(),
-                _dataContextPanel.getDataElement("cornerstone"));
+        String condition = _rulePanel.getCondition();
+        RdrConclusion conclusion = _conclusionPanel.getConclusion();
+        Element cornerstone = _dataContextPanel.getDataElement("cornerstone");
+
+        if (! (condition == null || (conclusion == null || conclusion.isNullConclusion())
+                || cornerstone == null)) {
+            RdrNode node = new RdrNode(condition, conclusion, cornerstone);
+            node.setDescription(_txtDescription.getText());
+            return node;
+        }
+        return null;
     }
 
 
@@ -148,12 +160,20 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     }
 
 
+    public void setConditionStatus(String status) {
+        _rulePanel.setConditionStatus(status);
+    }
+
+    public void setConclusionStatus(String status) {
+        _conclusionPanel.setStatus(status);
+    }
+
     private void setContent(AtomicTask task) {
         setLayout(new BorderLayout());
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true);
         new SplitPaneUtil().setupDivider(splitPane, false);
+        splitPane.setRightComponent(getDataPanel(task));        // init data panel first
         splitPane.setLeftComponent(getActionPanel(task));
-        splitPane.setRightComponent(getDataPanel(task));
         add(splitPane, BorderLayout.CENTER);
     }
 

@@ -189,6 +189,9 @@ public class WorkletClient extends YConnection {
     public boolean successful(String msg) { return _client.successful(msg); }
 
 
+    public void clearCache() { CACHE.clearAll(); }
+
+
     /********************************************************************************/
 
     public List<WorkletRunner> getRunningWorkletList() throws IOException {
@@ -240,6 +243,14 @@ public class WorkletClient extends YConnection {
         connect();
         check(_client.addWorklet(specID, workletXML, _handle));
         return true;
+    }
+
+
+    public String replaceWorklet(String itemID) throws IOException {
+        connect();
+        String casesStarted = _client.replaceWorklet(itemID, RuleType.ItemSelection, _handle);
+        check(casesStarted);
+        return casesStarted;
     }
 
 

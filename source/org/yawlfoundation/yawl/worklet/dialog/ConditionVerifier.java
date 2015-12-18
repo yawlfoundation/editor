@@ -55,7 +55,7 @@ public class ConditionVerifier extends InputVerifier {
             }
         }
         setVisuals(textField, errMsg);
-        _parent.setStatus(errMsg);
+        _parent.setValidationResponse(errMsg);
     }
 
 

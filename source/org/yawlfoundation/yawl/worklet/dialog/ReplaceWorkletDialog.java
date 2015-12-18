@@ -10,6 +10,7 @@ import org.yawlfoundation.yawl.engine.interfce.TaskInformation;
 import org.yawlfoundation.yawl.engine.interfce.WorkItemRecord;
 import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
+import org.yawlfoundation.yawl.worklet.rdr.RuleType;
 import org.yawlfoundation.yawl.worklet.selection.WorkletRunner;
 
 import javax.swing.*;
@@ -20,6 +21,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Collections;
 
 /**
  * @author Michael Adams
@@ -30,16 +32,19 @@ public class ReplaceWorkletDialog extends AbstractNodeDialog
 
     private NodePanel _nodePanel;
     private RunnerTablePanel _runnerPanel;
+    private JButton _btnAdd;
+    private JButton _btnClose;
+
+    // both these values must be different for a valid replace
+    private String _origCondition;
+    private String _origConclusion;
 
 
     public ReplaceWorkletDialog(java.util.List<WorkletRunner> runners) {
         super(YAWLEditor.getInstance());
         setTitle("Replace Worklet");
-        setModal(true);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setContent(runners);
-        setPreferredSize(new Dimension(800, 700));
-        setMinimumSize(new Dimension(800, 700));
+        setBaseSize(800, 700);
         pack();
         setLocationRelativeTo(YAWLEditor.getInstance());
     }
@@ -47,7 +52,17 @@ public class ReplaceWorkletDialog extends AbstractNodeDialog
 
     @Override
     public void enableButtons() {
+        boolean enable = false;
 
+        if (_nodePanel.hasValidContent()) {
+            RdrNode newNode = _nodePanel.getRdrNode();
+
+            // ensure new node is  different from original
+            enable = !(newNode == null || equalCondition(newNode) || equalConclusion(newNode));
+        }
+
+        _btnAdd.setEnabled(enable);
+        _btnClose.setEnabled(enable);
     }
 
 
@@ -55,16 +70,17 @@ public class ReplaceWorkletDialog extends AbstractNodeDialog
     public void actionPerformed(ActionEvent event) {
         String cmd = event.getActionCommand();
         if (cmd.equals("Cancel")) {
-            // todo clear client cache
-            setVisible(false);
+            close();
+        }
+        else if (cmd.equals("Reset")) {
+            reset();
         }
         else if (cmd.equals("Replace Worklet")) {
             replace();
         }
         else if (cmd.equals("Replace & Close")) {
             replace();
-            // todo clear client cache
-            setVisible(false);
+            close();
         }
     }
 
@@ -74,6 +90,17 @@ public class ReplaceWorkletDialog extends AbstractNodeDialog
         if (!e.getValueIsAdjusting()) {
             updateNodePanel(_runnerPanel.getSelection());
         }
+    }
+
+
+    private void close() {
+        WorkletClient.getInstance().clearCache();
+        setVisible(false);
+    }
+
+
+    private void reset() {
+        updateNodePanel(_runnerPanel.getSelection());
     }
 
 
@@ -97,6 +124,7 @@ public class ReplaceWorkletDialog extends AbstractNodeDialog
 
     private JPanel getNodePanel() {
         _nodePanel = new NodePanel(null, this);
+        _nodePanel.setConditionStatus(null);
         return _nodePanel;
     }
 
@@ -105,17 +133,57 @@ public class ReplaceWorkletDialog extends AbstractNodeDialog
         ButtonPanel panel = new ButtonPanel();
         panel.setBorder(new EmptyBorder(5,5,10,5));
         panel.addButton("Cancel", this);
-        panel.addButton("Clear", this);
-//        _btnAdd = panel.addButton("Add Rule", this);
-//        _btnClose = panel.addButton("Add & Close", this);
-//        _btnAdd.setEnabled(false);
-//        _btnClose.setEnabled(false);
-//        panel.add(_btnClose);
+        panel.addButton("Reset", this);
+        _btnAdd = panel.addButton("Replace Worklet", this);
+        _btnClose = panel.addButton("Replace & Close", this);
+        _btnAdd.setEnabled(false);
+        _btnClose.setEnabled(false);
+        panel.equalise();
         return panel;
     }
 
 
-    private void replace() { }
+    private boolean equalCondition(RdrNode node) {
+        if (_origCondition.equals(node.getCondition())) {
+            _nodePanel.setConditionStatus("Different condition required");
+            return true;
+        }
+        return false;
+    }
+
+
+    private boolean equalConclusion(RdrNode node) {
+        if (_origConclusion.equals(node.getConclusion().toString())) {
+            _nodePanel.setConclusionStatus("Different action set required");
+            return true;
+        }
+        return false;
+    }
+
+
+    private void clearInputs() {
+        _btnAdd.setEnabled(false);
+        _btnClose.setEnabled(false);
+        _nodePanel.clearInputs();
+    }
+
+
+    private void replace() {
+        WorkletRunner runner = _runnerPanel.getSelection();
+        if (addRule(runner)) {
+            try {
+                String caseID = reprocessSelection(runner);
+                MessageDialog.info("Worklet successfully replaced (case: " + caseID + ")",
+                        "Replace Worklet");
+                clearInputs();
+                _runnerPanel.setRows(refreshRunners());
+
+            }
+            catch (IOException ioe) {
+                MessageDialog.error(ioe.getMessage(), "Replace Worklet");
+            }
+        }
+    }
 
 
     private void updateNodePanel(WorkletRunner runner) {
@@ -138,8 +206,9 @@ public class ReplaceWorkletDialog extends AbstractNodeDialog
                 varList = specInfo.getInputParams();
                 id = specInfo.getRootNetID();
             }
-            RdrNode node = WorkletClient.getInstance().getRdrNode(runner.getRuleNodeId());
-            _nodePanel.setNode(varList, id, runner, node);
+            _nodePanel.setNode(varList, id, runner, getRdrNode(runner.getRuleNodeId()));
+            _nodePanel.setConditionStatus("Different condition required");
+            _nodePanel.setConclusionStatus("Different action set required");
         }
         catch (IOException ioe) {
             MessageDialog.error("Unable to get worklet instance detail from service",
@@ -148,6 +217,55 @@ public class ReplaceWorkletDialog extends AbstractNodeDialog
     }
 
 
+    private RdrNode getRdrNode(long id) throws IOException {
+        RdrNode node = WorkletClient.getInstance().getRdrNode(id);
+        if (node != null) {
+            _origCondition = node.getCondition();
+            _origConclusion = node.getConclusion().toString();
+            return new RdrNode(node.toXNode());      // clone it so values can be changed
+        }
+        return null;
+    }
 
+
+    private boolean addRule(WorkletRunner runner) {
+        YSpecificationID specID = runner.getParentSpecID();
+        String taskID = runner.getTaskID();
+        RuleType rule = runner.getRuleType();
+        RdrNode node = _nodePanel.getRdrNode();
+
+        try {
+            WorkletClient.getInstance().addRule(specID, taskID, rule, node);
+            return true;
+        }
+        catch (IOException ioe) {
+            MessageDialog.error(ioe.getMessage(), "Replace worklet rule");
+        }
+        return false;
+    }
+
+
+    private String reprocessSelection(WorkletRunner runner) throws IOException {
+        RuleType ruleType = runner.getRuleType();
+        try {
+            if (ruleType == RuleType.ItemSelection) {
+                return WorkletClient.getInstance().replaceWorklet(runner.getWorkItemID());
+            }
+        }
+        catch (IOException ioe) {
+            MessageDialog.error(ioe.getMessage(), "Replace worklet");
+        }
+        return null;
+    }
+
+
+    private java.util.List<WorkletRunner> refreshRunners() {
+        try {
+            return WorkletClient.getInstance().getRunningWorkletList();
+        }
+        catch (IOException ioe) {
+            return Collections.emptyList();
+        }
+    }
 
 }

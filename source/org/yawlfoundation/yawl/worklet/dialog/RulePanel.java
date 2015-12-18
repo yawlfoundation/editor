@@ -1,33 +1,26 @@
 package org.yawlfoundation.yawl.worklet.dialog;
 
 import org.yawlfoundation.yawl.editor.ui.elements.model.AtomicTask;
-import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLAtomicTask;
-import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
-import org.yawlfoundation.yawl.editor.ui.net.utilities.NetUtilities;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
-import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.elements.YAWLServiceGateway;
 import org.yawlfoundation.yawl.elements.YAWLServiceReference;
-import org.yawlfoundation.yawl.engine.interfce.WorkItemRecord;
 import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
 import org.yawlfoundation.yawl.worklet.selection.WorkletRunner;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Vector;
 
 /**
  * @author Michael Adams
  * @date 4/12/2015
  */
-public class RulePanel extends JPanel {
+public class RulePanel extends JPanel implements ItemListener {
 
     private JComboBox _cbxType;
-    private JComboBox _cbxTask;
+    private TaskComboBox _cbxTask;
     private JLabel _cbxTaskPrompt;
     private ConditionPanel _conditionPanel;
 
@@ -38,9 +31,18 @@ public class RulePanel extends JPanel {
     }
 
 
-    public void enabledTaskCombo(RuleType ruleType) {
-        _cbxTask.setEnabled(ruleType.isItemLevelType());
-        _cbxTaskPrompt.setEnabled(ruleType.isItemLevelType());
+    @Override
+    public void itemStateChanged(ItemEvent e) {            // rule type selection
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+            RuleType selectedType = (RuleType) e.getItem();
+            if (selectedType.isCaseLevelType()) {
+                _cbxTask.setItem(null);              // clear and disable task combo
+            }
+            else {
+                _cbxTask.setItems();                 // load and enable task combo
+            }
+            _cbxTaskPrompt.setEnabled(_cbxTask.isEnabled());
+        }
     }
 
 
@@ -57,8 +59,7 @@ public class RulePanel extends JPanel {
 
 
      public AtomicTask getSelectedTask() {
-         return getSelectedRule().isItemLevelType() ?
-                 (AtomicTask) _cbxTask.getSelectedItem() : null;
+         return getSelectedRule().isItemLevelType() ? _cbxTask.getSelectedTask() : null;
      }
 
 
@@ -67,23 +68,19 @@ public class RulePanel extends JPanel {
     }
 
 
+    // from replace & view dialogs
     public void setNode(WorkletRunner runner, RdrNode ruleNode) {
-        _cbxType.setSelectedItem(runner.getRuleType());
-        WorkItemRecord wir = runner.getWir();
-        if (wir != null) {
-            String taskID = runner.getWir().getTaskID();
-            for (int i = 0; i < _cbxTask.getItemCount(); i++) {
-                if (taskID.equals(((AtomicTask) _cbxTask.getItemAt(0)).getLabel())) {
-                    _cbxTask.setSelectedIndex(i);
-                    break;
-                }
-            }
-        }
-        _conditionPanel.setCondition(ruleNode.getCondition());
-
         _cbxType.setEnabled(false);
         _cbxTask.setEnabled(false);
         _cbxTaskPrompt.setEnabled(false);
+        _cbxType.setSelectedItem(runner.getRuleType());
+        _cbxTask.setItem(runner.getTaskID());
+        _conditionPanel.setCondition(ruleNode.getCondition());
+    }
+
+
+    public void setConditionStatus(String status) {
+        _conditionPanel.setStatus(status);
     }
 
 
@@ -93,6 +90,7 @@ public class RulePanel extends JPanel {
         _cbxType = getTypeCombo(parent);
         addPrompt("Rule Type:", _cbxType);
         _cbxTaskPrompt = addPrompt("Task:", _cbxTask);
+        _cbxTaskPrompt.setEnabled(false);
         _conditionPanel = new ConditionPanel(parent);
         addPrompt(_conditionPanel.getPrompt(), _conditionPanel);
         SpringUtil.makeCompactGrid(this, 3, 2, 6, 6, 8, 8);
@@ -119,7 +117,7 @@ public class RulePanel extends JPanel {
 
 
 
-    private JComboBox getTypeCombo(ItemListener listener) {
+    private JComboBox getTypeCombo(NodePanel parent) {
         JComboBox combo = new JComboBox(RuleType.values());
 
         combo.setRenderer(new ListCellRenderer() {
@@ -134,56 +132,24 @@ public class RulePanel extends JPanel {
             }
         });
 
-        combo.addItemListener(listener);
+        if (parent.getDialog().isComboListener()) {
+            combo.addItemListener(this);
+            combo.addItemListener(parent);
+        }
+        else {
+            combo.setEnabled(false);
+        }
         return combo;
     }
 
 
-    private JComboBox getTaskCombo(AtomicTask task, ItemListener listener) {
-        JComboBox combo = new JComboBox(getTaskList());
-
-        combo.setRenderer(new ListCellRenderer() {
-            protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
-
-            public Component getListCellRendererComponent(JList jList, Object o,
-                                                          int i, boolean b, boolean b1) {
-                JLabel label = (JLabel) defaultRenderer.getListCellRendererComponent(
-                        jList, o, i, b, b1);
-                label.setText(o != null ? ((YAWLAtomicTask) o).getLabel() : null);
-                return label;
-            }
-        });
-
-        if (task != null) {
-            combo.setSelectedItem(task);
+    private TaskComboBox getTaskCombo(AtomicTask task, NodePanel parent) {
+        TaskComboBox combo = new TaskComboBox(task);
+        if (parent.getDialog().isComboListener()) {       // only add dialog listens
+            combo.addItemListener(parent);
+            combo.listenForSelections();
         }
-        combo.addItemListener(listener);
-        combo.setEnabled(false);                    // initially pre-case rule selected
         return combo;
-    }
-
-
-    private Vector<AtomicTask> getTaskList() {
-        Vector<AtomicTask> taskVector = new Vector<AtomicTask>();
-        for (NetGraphModel model : SpecificationModel.getNets()) {
-            for (YAWLAtomicTask netTask : NetUtilities.getAtomicTasks(model)) {
-                 if (netTask instanceof AtomicTask) {
-                     taskVector.add((AtomicTask) netTask);
-                 }
-            }
-        }
-
-        Collections.sort(taskVector, new Comparator<AtomicTask>() {
-            @Override
-            public int compare(AtomicTask t1, AtomicTask t2) {
-                if (t1 == null) return -1;
-                if (t2 == null) return 1;
-                return t1.getID().compareTo(t2.getID());
-            }
-        });
-
-        return taskVector;
-
     }
 
 
@@ -200,6 +166,5 @@ public class RulePanel extends JPanel {
          }
          return false;
      }
-
 
 }

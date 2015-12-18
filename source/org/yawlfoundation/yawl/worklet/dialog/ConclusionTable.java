@@ -103,8 +103,8 @@ public class ConclusionTable extends JSingleSelectTable {
     public RdrConclusion getConclusion() { return getTableModel().getConclusion(); }
 
 
-    public RdrPrimitive getSelectedPrimitive() {
-        return getConclusion().getPrimitive(getSelectedRow() + 1);
+    public RdrPrimitive getPrimitiveAtRow(int row) {
+        return getConclusion().getPrimitive(row + 1);
     }
 
 
