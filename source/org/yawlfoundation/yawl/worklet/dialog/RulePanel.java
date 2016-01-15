@@ -68,7 +68,7 @@ public class RulePanel extends JPanel implements ItemListener {
     }
 
 
-    // from replace & view dialogs
+    // from replace dialog
     public void setNode(WorkletRunner runner, RdrNode ruleNode) {
         _cbxType.setEnabled(false);
         _cbxTask.setEnabled(false);
@@ -78,9 +78,19 @@ public class RulePanel extends JPanel implements ItemListener {
         _conditionPanel.setCondition(ruleNode.getCondition());
     }
 
+    // from view dialog
+    public void setNode(RdrNode ruleNode) {
+        _conditionPanel.setCondition(ruleNode.getCondition());
+    }
+
 
     public void setConditionStatus(String status) {
         _conditionPanel.setStatus(status);
+    }
+
+
+    public void setMode(DialogMode mode) {
+        _conditionPanel.setMode(mode);
     }
 
 

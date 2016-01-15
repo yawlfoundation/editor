@@ -48,7 +48,7 @@ public class DataContextTablePanel extends JPanel implements CellEditorListener 
         setLayout(new BorderLayout());
         setBorder(new TitledBorder("Data Context"));
         JScrollPane scrollPane = new JScrollPane(createTable(listener));
-        scrollPane.setSize(new Dimension(600, 200));
+        scrollPane.setSize(new Dimension(500, 200));
         add(scrollPane, BorderLayout.CENTER);
         add(populateToolBar(), BorderLayout.SOUTH);
     }
@@ -74,6 +74,12 @@ public class DataContextTablePanel extends JPanel implements CellEditorListener 
         setVariables(rows);
         setEditable(false);
     }
+
+
+    public void setMode(DialogMode mode) {
+        setEditable(mode != DialogMode.Viewing);
+    }
+
 
     public void setVariables(java.util.List<VariableRow> rows) {
         table.getTableModel().setVariables(rows);

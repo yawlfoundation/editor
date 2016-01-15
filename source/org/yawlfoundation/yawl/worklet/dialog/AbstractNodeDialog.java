@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 
 /**
  * @author Michael Adams
@@ -42,6 +43,9 @@ public abstract class AbstractNodeDialog extends JDialog implements TableModelLi
 
 
     public boolean isComboListener() { return _isComboListener; }
+
+
+    public void comboChanged(ItemEvent event) { }  // see ViewRuleDialog
 
 
     protected void setBaseSize(int w, int h) {

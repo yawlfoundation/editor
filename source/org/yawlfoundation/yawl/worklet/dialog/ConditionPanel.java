@@ -21,11 +21,13 @@ public class ConditionPanel extends JPanel implements ActionListener {
     private JTextField _txtCondition;
     private StatusPanel _status;
     private NodePanel _parent;
+    private boolean _shouldValidate;
 
 
     public ConditionPanel(NodePanel parent) {
         super();
         _parent = parent;
+        _shouldValidate = true;
         setLayout(new BorderLayout());
         setContent();
         setCondition(null);
@@ -34,15 +36,27 @@ public class ConditionPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {             // enter key pressed
-        _txtCondition.getInputVerifier().verify(_txtCondition);
+        if (_shouldValidate) {
+            _txtCondition.getInputVerifier().verify(_txtCondition);
+        }
     }
 
 
     public void clearInputs() { _txtCondition.setText(null); }
 
 
+    public void setMode(DialogMode mode) {
+        boolean enable = mode != DialogMode.Viewing;
+        _txtCondition.setEditable(enable);
+        _txtCondition.setBackground(Color.WHITE);
+        _shouldValidate = enable;
+        _status.set(null);
+    }
+
+
     public boolean hasValidContent() {
-        return ((ConditionVerifier) _txtCondition.getInputVerifier()).hasValidContent();
+        return !_shouldValidate ||
+                ((ConditionVerifier) _txtCondition.getInputVerifier()).hasValidContent();
     }
 
 
@@ -67,11 +81,13 @@ public class ConditionPanel extends JPanel implements ActionListener {
 
     public void setCondition(String condition) {
         _txtCondition.setText(condition);
-        if (StringUtil.isNullOrEmpty(condition)) {
-            _status.set("Condition Required");
-        }
-        else {
-            _txtCondition.getInputVerifier().verify(_txtCondition);
+        if (_shouldValidate) {
+            if (StringUtil.isNullOrEmpty(condition)) {
+                _status.set("Condition Required");
+            }
+            else {
+                _txtCondition.getInputVerifier().verify(_txtCondition);
+            }
         }
     }
 

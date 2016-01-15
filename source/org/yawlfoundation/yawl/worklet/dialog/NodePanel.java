@@ -42,12 +42,14 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     private JTextArea _txtDescription;
     private ConclusionTablePanel _conclusionPanel;
     private AbstractNodeDialog _parent;
+    private DialogMode _mode;
 
 
-    public NodePanel(AtomicTask task, AbstractNodeDialog parent) {
+    public NodePanel(AtomicTask task, AbstractNodeDialog parent, DialogMode mode) {
         super();
         _parent = parent;
         setContent(task);
+        setMode(mode);
     }
 
 
@@ -65,30 +67,35 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     public void itemStateChanged(ItemEvent event) {
         if (((JComboBox) event.getSource()).isEnabled() &&
                 event.getStateChange() == ItemEvent.SELECTED) {
-            java.util.List<VariableRow> variables = null;
-            Object item = event.getItem();
+            if (_mode == DialogMode.Viewing) {
+                _parent.comboChanged(event);
+            }
+            else {
+                java.util.List<VariableRow> variables = null;
+                Object item = event.getItem();
 
-            // if rule change
-            if (item instanceof RuleType) {
-                RuleType selectedType = (RuleType) item;
+                // if rule change
+                if (item instanceof RuleType) {
+                    RuleType selectedType = (RuleType) item;
 
-                if (selectedType.isCaseLevelType()) {
-                    variables = getDataContext(null);  // net level vars
-                }
-                else {
-                    AtomicTask task = getSelectedTask();
-                    if (task != null) {
-                        variables = getDataContext(task);
+                    if (selectedType.isCaseLevelType()) {
+                        variables = getDataContext(null);  // net level vars
+                    }
+                    else {
+                        AtomicTask task = getSelectedTask();
+                        if (task != null) {
+                            variables = getDataContext(task);
+                        }
                     }
                 }
-            }
-            else {    // task combo
-                variables = getDataContext((AtomicTask) item);
-            }
-            if (variables == null) variables = Collections.emptyList();
+                else {    // task combo
+                    variables = getDataContext((AtomicTask) item);
+                }
+                if (variables == null) variables = Collections.emptyList();
 
-            _dataContextPanel.setVariables(variables);
-            clearInputs();
+                _dataContextPanel.setVariables(variables);
+                clearInputs();
+            }
         }
     }
 
@@ -147,7 +154,8 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     public RuleType getSelectedRule() { return _rulePanel.getSelectedRule(); }
 
 
-    public AtomicTask getSelectedTask() { return _rulePanel.getSelectedTask(); }
+    public AtomicTask getSelectedTask() {
+        return _rulePanel != null ? _rulePanel.getSelectedTask() : null; }
 
 
     public void setNode(java.util.List<? extends YVariable> vars, String id,
@@ -160,6 +168,15 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     }
 
 
+    public void setNode(RdrNode ruleNode) {
+        _dataContextPanel.setNode(getDataContext(getSelectedTask()),
+                getCornerstoneNode(ruleNode));
+        _conclusionPanel.setNode(ruleNode);
+        _rulePanel.setNode(ruleNode);
+        _txtDescription.setText(ruleNode.getDescription());
+    }
+
+
     public void setConditionStatus(String status) {
         _rulePanel.setConditionStatus(status);
     }
@@ -167,6 +184,17 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     public void setConclusionStatus(String status) {
         _conclusionPanel.setStatus(status);
     }
+
+
+    private void setMode(DialogMode mode) {
+        _mode = mode;
+        _dataContextPanel.setMode(mode);
+        _conclusionPanel.setMode(mode);
+        _rulePanel.setMode(mode);
+        _txtDescription.setEditable(mode != DialogMode.Viewing);
+        _txtDescription.setBackground(Color.WHITE);
+    }
+
 
     private void setContent(AtomicTask task) {
         setLayout(new BorderLayout());

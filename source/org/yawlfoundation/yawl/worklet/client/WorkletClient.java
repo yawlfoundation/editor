@@ -246,9 +246,21 @@ public class WorkletClient extends YConnection {
     }
 
 
+    // selection worklets
     public String replaceWorklet(String itemID) throws IOException {
         connect();
-        String casesStarted = _client.replaceWorklet(itemID, RuleType.ItemSelection, _handle);
+        String casesStarted = _client.replaceWorklet(itemID, _handle);
+        check(casesStarted);
+        return casesStarted;
+    }
+
+
+    // exception worklets
+    public String replaceWorklet(String caseID, String itemID, RuleType ruleType,
+                                 String trigger) throws IOException {
+        connect();
+        String casesStarted = _client.replaceWorklet(caseID, itemID, ruleType,
+                trigger, _handle);
         check(casesStarted);
         return casesStarted;
     }

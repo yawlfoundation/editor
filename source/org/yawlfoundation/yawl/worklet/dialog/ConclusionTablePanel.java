@@ -31,6 +31,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * @author Michael Adams
@@ -38,19 +39,21 @@ import java.util.ArrayList;
  */
 public class ConclusionTablePanel extends JPanel implements ActionListener {
 
-    private final ConclusionTable table;
-    private final ErrorMessageShortener msgShortener;
-    private StatusPanel status;
-    private MiniToolBar toolbar;
+    private final ConclusionTable _table;
+    private final ErrorMessageShortener _msgShortener;
+    private StatusPanel _status;
+    private MiniToolBar _toolBar;
+    private boolean _shouldValidate;
 
 
     public ConclusionTablePanel(NodePanel parent) {
         super();
-        msgShortener = new ErrorMessageShortener();
+        _msgShortener = new ErrorMessageShortener();
+        _shouldValidate = true;
         setLayout(new BorderLayout());
         setBorder(new TitledBorder("Actions"));
-        table = new ConclusionTable(parent);
-        JScrollPane scrollPane = new JScrollPane(table);
+        _table = new ConclusionTable(parent);
+        JScrollPane scrollPane = new JScrollPane(_table);
         scrollPane.setSize(new Dimension(600, 200));
         add(scrollPane, BorderLayout.CENTER);
         add(populateToolBar(parent), BorderLayout.SOUTH);
@@ -62,88 +65,99 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
     }
 
 
+    public void setMode(DialogMode mode) {
+        boolean enable = mode != DialogMode.Viewing;
+        _table.getTableModel().setEditable(enable);
+        enableButtons(enable);
+        _shouldValidate = enable;
+    }
+
+
     public void setConclusion(RdrConclusion conclusion) {
-        table.setConclusion(conclusion);
+        _table.setConclusion(conclusion);
         if (conclusion == null || conclusion.isNullConclusion()) {
-            status.set("Action required");
+            if (_shouldValidate) _status.set("Action required");
         }
         else {
             validateConclusion();
         }
-        table.setPreferredScrollableViewportSize(getPreferredSize());
+        _table.setPreferredScrollableViewportSize(getPreferredSize());
     }
 
 
     public RdrConclusion getConclusion() {
-        return table.getConclusion();
+        return _table.getConclusion();
     }
 
 
     public java.util.List<ExletValidationError> validateConclusion() {
-        RdrConclusion conclusion = getConclusion();
-        java.util.List<ExletValidationError> errors;
-        if (conclusion.isNullConclusion()) {
-            errors = new ArrayList<ExletValidationError>();
-            errors.add(new ExletValidationError(0, "Action(s) required"));
+        if (_shouldValidate) {
+            RdrConclusion conclusion = getConclusion();
+            java.util.List<ExletValidationError> errors;
+            if (conclusion.isNullConclusion()) {
+                errors = new ArrayList<ExletValidationError>();
+                errors.add(new ExletValidationError(0, "Action(s) required"));
+            }
+            else {
+                errors = new ExletValidator().validate(conclusion,
+                        _table.getTableModel().getWorkletSpecificationKeys());
+            }
+            setVisuals(errors);
+            return errors;
         }
-        else {
-            errors = new ExletValidator().validate(conclusion,
-                    table.getTableModel().getWorkletSpecificationKeys());
-        }
-        setVisuals(errors);
-        return errors;
+        return Collections.emptyList();
     }
 
 
-    public void setVisuals(java.util.List<ExletValidationError> errors) {
-        table.setVisuals(errors);
+    private void setVisuals(java.util.List<ExletValidationError> errors) {
+        _table.setVisuals(errors);
         if (errors.isEmpty()) {
-            status.clear();
+            _status.clear();
         }
         else {
-            java.util.List<String> msgList = msgShortener.getExletError(
+            java.util.List<String> msgList = _msgShortener.getExletError(
                     errors.get(0).getMessage());
             String shortMsg = msgList.remove(0);
-            status.set(shortMsg, msgList);
+            _status.set(shortMsg, msgList);
         }
     }
 
 
     public boolean hasValidContent() {
-        return table.hasValidContent();
+        return _table.hasValidContent();
     }
 
 
     public void actionPerformed(ActionEvent event) {
         String action = event.getActionCommand();
         if (action.equals("Add")) {
-            table.addRow();
+            _table.addRow();
         }
         else if (action.equals("Del")) {
-            table.removeRow();
+            _table.removeRow();
             validateConclusion();
         }
     }
 
-    public ConclusionTable getTable() { return table; }
+    public ConclusionTable getTable() { return _table; }
 
 
     public void enableButtons(boolean enable) {
-        toolbar.enableComponents(enable);
+        _toolBar.enableComponents(enable);
     }
 
 
-    public void setStatus(String msg) { status.set(msg); }
+    public void setStatus(String msg) { _status.set(msg); }
 
 
     private JToolBar populateToolBar(NodePanel parent) {
-        toolbar = new MiniToolBar(this);
-        toolbar.addButton("plus", "Add", " Add ");
-        toolbar.addButton("minus", "Del", " Remove ");
-        toolbar.addSeparator(new Dimension(16, 16));
-        status = new StatusPanel(parent.getDialog());
-        toolbar.add(status);
-        return toolbar;
+        _toolBar = new MiniToolBar(this);
+        _toolBar.addButton("plus", "Add", " Add ");
+        _toolBar.addButton("minus", "Del", " Remove ");
+        _toolBar.addSeparator(new Dimension(16, 16));
+        _status = new StatusPanel(parent.getDialog());
+        _toolBar.add(_status);
+        return _toolBar;
     }
 
 }

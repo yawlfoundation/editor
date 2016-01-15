@@ -34,7 +34,7 @@ import java.io.IOException;
  */
 public class WorkletLoadDialog extends AbstractDownloadDialog {
 
-    private WorkletClient _client;
+    private static final WorkletClient CLIENT = WorkletClient.getInstance();
 
     public WorkletLoadDialog() {
         super();
@@ -45,8 +45,7 @@ public class WorkletLoadDialog extends AbstractDownloadDialog {
     @Override
     protected JList getList() {
         try {
-            java.util.List<WorkletInfo> workletList = WorkletClient.getInstance()
-                    .getWorkletInfoList();
+            java.util.List<WorkletInfo> workletList = CLIENT.getWorkletInfoList();
             return new JList(new WorkletSpecificationListModel(workletList));
 
         }

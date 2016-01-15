@@ -53,6 +53,7 @@ public abstract class AbstractDownloadDialog extends PropertyDialog
         setResizable(true);
         setPreferredSize(new Dimension(400, 200));
         pack();
+        setLocationRelativeTo(getParent());
     }
 
     public void actionPerformed(ActionEvent e) {

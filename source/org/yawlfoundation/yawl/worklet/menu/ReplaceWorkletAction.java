@@ -16,7 +16,7 @@ class ReplaceWorkletAction extends YAWLSelectedNetAction {
 
     {
         putValue(Action.SHORT_DESCRIPTION, "Replace Worklet");
-        putValue(Action.NAME, "Add Rule");
+        putValue(Action.NAME, "Replace Worklet");
         putValue(Action.LONG_DESCRIPTION, "Replace a Worklet Selection");
         putValue(Action.MNEMONIC_KEY, KeyEvent.VK_R);
     }

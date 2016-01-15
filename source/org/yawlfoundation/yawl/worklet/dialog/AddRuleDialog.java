@@ -120,7 +120,7 @@ public class AddRuleDialog extends AbstractNodeDialog
 
 
     private JPanel getNodePanel() {
-        _nodePanel = new NodePanel(getSelectedTask(), this);
+        _nodePanel = new NodePanel(getSelectedTask(), this, DialogMode.Adding);
         _nodePanel.addConclusionTableCellEditorListener(this);
         _nodePanel.addDataContextEventListener(this);
         return _nodePanel;

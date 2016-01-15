@@ -55,6 +55,7 @@ import java.util.*;
 public class ConclusionTableModel extends AbstractTableModel {
 
     private RdrConclusion _conclusion;
+    private boolean _editable;
     private final Map<String, WorkletInfo> _infoMap = getWorkletMap();
 
     private static final String[] COLUMN_LABELS = { "", "Action", "Target" };
@@ -63,7 +64,11 @@ public class ConclusionTableModel extends AbstractTableModel {
     public ConclusionTableModel() {
         super();
         _conclusion = new RdrConclusion();
+        _editable = true;
     }
+
+
+    public void setEditable(boolean editable) { _editable = editable; }
 
 
     public int getRowCount() {
@@ -81,7 +86,7 @@ public class ConclusionTableModel extends AbstractTableModel {
 
 
     public boolean isCellEditable(int row, int column) {
-        return column > 0;
+        return _editable && column > 0;
     }
 
 

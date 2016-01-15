@@ -1,6 +1,7 @@
 package org.yawlfoundation.yawl.worklet.menu;
 
 import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
+import org.yawlfoundation.yawl.worklet.dialog.ViewTreeDialog;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,7 +17,7 @@ class ViewRuleSetAction extends YAWLSelectedNetAction {
     }
 
     public void actionPerformed(ActionEvent event) {
-    //    new AddRuleDialog(selectedTask).setVisible(true);
+        new ViewTreeDialog().setVisible(true);
     }
 
 }
