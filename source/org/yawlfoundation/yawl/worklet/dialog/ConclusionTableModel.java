@@ -61,10 +61,10 @@ public class ConclusionTableModel extends AbstractTableModel {
     private static final String[] COLUMN_LABELS = { "", "Action", "Target" };
 
 
-    public ConclusionTableModel() {
+    public ConclusionTableModel(DialogMode mode) {
         super();
         _conclusion = new RdrConclusion();
-        _editable = true;
+        _editable = mode != DialogMode.Viewing;
     }
 
 

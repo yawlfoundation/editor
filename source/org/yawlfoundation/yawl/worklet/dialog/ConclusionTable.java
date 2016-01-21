@@ -59,11 +59,13 @@ public class ConclusionTable extends JSingleSelectTable {
     java.util.List<ExletValidationError> _errList;
 
 
-    public ConclusionTable(NodePanel parent) {
+    public ConclusionTable(NodePanel parent, DialogMode mode) {
         super();
         _parent = parent;
-        setModel(new ConclusionTableModel());
-        getModel().addTableModelListener(parent.getDialog());
+        setModel(new ConclusionTableModel(mode));
+//        if (mode != DialogMode.Viewing) {
+            getModel().addTableModelListener(parent.getDialog());
+ //       }
         setRowHeight(getRowHeight() + 5);
         setCellSelectionEnabled(true);
         setRowSelectionAllowed(true);

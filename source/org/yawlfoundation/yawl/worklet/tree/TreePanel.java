@@ -30,11 +30,10 @@ public class TreePanel extends JPanel {
     private static final int NODE_SIZE = 16;
 
 
-    public TreePanel(RdrTree tree, ViewTreeDialog parent) {
+    public TreePanel(ViewTreeDialog parent) {
         super();
         setBackground(Color.WHITE);
         _parent = parent;
-        setTree(tree);
 
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -47,7 +46,7 @@ public class TreePanel extends JPanel {
 
 
     public Dimension getPreferredSize() {
-        return _preferredSize;
+        return new Dimension(150, 300); //_preferredSize;
     }
 
 
@@ -68,14 +67,20 @@ public class TreePanel extends JPanel {
     }
 
 
-    public Point getRootLocation() {
-        return new Point(_rootNode.getX(), _rootNode.getY());
+    public Rectangle getRootNodeRect() {
+        return new Rectangle(_rootNode.getX(), _rootNode.getY(), NODE_SIZE, NODE_SIZE);
     }
 
 
     public void setTree(RdrTree tree) {
         _nodeSet = composeSet(tree);
         _preferredSize = setPreferredSize(_nodeSet);
+        Node firstChild = _rootNode.getNextTrue();
+        if (firstChild != null) {
+            firstChild.setSelected(true);
+            _parent.nodeSelected(firstChild.getRdrNode());
+        }
+        repaint();
     }
 
 

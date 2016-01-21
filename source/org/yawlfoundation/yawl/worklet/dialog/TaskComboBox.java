@@ -13,6 +13,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Set;
 import java.util.Vector;
 
 /**
@@ -26,7 +27,7 @@ public class TaskComboBox extends JComboBox {
     private final Vector<AtomicTask> TASK_LIST = getTaskList();
 
     private AtomicTask _selectedTask;
-    private boolean _adding;
+    private boolean _addingItems;
 
 
     public TaskComboBox(AtomicTask task) {
@@ -36,12 +37,12 @@ public class TaskComboBox extends JComboBox {
     }
 
 
-    // only add dialog listens, and when it does this combo must listen too
+    // add & view dialogs listen, and when they do this combo must listen too
     public void listenForSelections() {
         super.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED && !_adding) {
+                if (e.getStateChange() == ItemEvent.SELECTED && !_addingItems) {
                     _selectedTask = (AtomicTask) getSelectedItem();
                 }
             }
@@ -50,8 +51,8 @@ public class TaskComboBox extends JComboBox {
 
 
     public AtomicTask getSelectedTask() {
-        if (_selectedTask == null && ! TASK_LIST.isEmpty()) {
-            _selectedTask = TASK_LIST.elementAt(0);
+        if (_selectedTask == null && getItemCount() > 0) {
+            _selectedTask = (AtomicTask) getItemAt(0);
             setSelectedItem(_selectedTask);
         }
         return _selectedTask;
@@ -60,31 +61,50 @@ public class TaskComboBox extends JComboBox {
 
     // adding dialog
     public void setItems() {
-        reset();
-        _adding = true;                                 // suppress selection changes
-        for (AtomicTask atomicTask : TASK_LIST) {
-            addItem(atomicTask);
-        }
-        setSelectedItem(_selectedTask);
-        setEnabled(true);
-        switchRenderer(TASK_RENDERER);
-        _adding = false;
+        setItems(TASK_LIST);
     }
 
 
-    // replacing & viewing dialog
+    // viewing dialog
+    public void setItems(Set<String> taskIDs) {
+        Vector<AtomicTask> tasks = new Vector<AtomicTask>();
+        if (taskIDs != null) {
+            for (String taskID : taskIDs) {
+                AtomicTask task = getTask(taskID);
+                if (task != null) {
+                    tasks.add(task);
+                }
+            }
+            sortTaskList(tasks);
+        }
+        setItems(tasks);
+    }
+
+
+    // replacing dialog
     public void setItem(String taskID) {
-        reset();
+        removeAllItems();
         if (taskID != null) {
             addItem(taskID);
         }
+        setEnabled(false);
         switchRenderer(BASIC_RENDERER);
     }
 
 
-    private void reset() {
+    private void setItems(Vector<AtomicTask> tasks) {
         removeAllItems();
-        setEnabled(false);
+        boolean hasItems = ! (tasks == null || tasks.isEmpty());
+        if (hasItems) {
+            _addingItems = true;                          // suppress selection changes
+            for (AtomicTask atomicTask : tasks) {
+                addItem(atomicTask);
+            }
+            setSelectedItem(_selectedTask);
+            switchRenderer(TASK_RENDERER);
+            _addingItems = false;
+        }
+        setEnabled(hasItems);
     }
 
 
@@ -104,7 +124,12 @@ public class TaskComboBox extends JComboBox {
                  }
             }
         }
+        sortTaskList(taskVector);
+        return taskVector;
+    }
 
+
+    private void sortTaskList(Vector<AtomicTask> taskVector) {
         Collections.sort(taskVector, new Comparator<AtomicTask>() {
             @Override
             public int compare(AtomicTask t1, AtomicTask t2) {
@@ -113,8 +138,16 @@ public class TaskComboBox extends JComboBox {
                 return t1.getID().compareTo(t2.getID());
             }
         });
+    }
 
-        return taskVector;
+
+    private AtomicTask getTask(String taskID) {
+        for (AtomicTask task : TASK_LIST) {
+            if (task.getID().equals(taskID)) {
+                return task;
+            }
+        }
+        return null;
     }
 
 

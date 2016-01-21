@@ -163,19 +163,21 @@ public class WorkletClient extends YConnection {
 
 
     public boolean isConnected(Interface_Client client) {
+        boolean connected = false;
         try {
-            if (_handle == null) {
-                return connect(client);
+            if (_handle != null) {
+                String response = _client.checkConnection(_handle);
+                connected = response != null && response.equalsIgnoreCase("true");
             }
-            else {
-                boolean success = _client.successful(_client.checkConnection(_handle));
-                if (! success) _handle = null;
-                return success;
+            if (! connected) {
+                _handle = null;
+                connected = connect(client);
             }
         }
         catch (IOException ioe) {
-            return false;
+            connected = false;
         }
+        return connected;
     }
 
 
@@ -290,6 +292,35 @@ public class WorkletClient extends YConnection {
         String setXML = _client.getRdrSet(specID, _handle);
         check(setXML);
         return setXML;
+    }
+
+
+    public List<RdrSetID> getRdrSetIDs() throws IOException {
+        connect();
+        XNode root = toXNode(_client.getRdrSetIDs(_handle));
+        List<RdrSetID> idList = new ArrayList<RdrSetID>();
+        for (XNode node : root.getChildren()) {
+            RdrSetID rdrSetID;
+            String id = node.getText();
+            if (id.contains(":")) {
+                YSpecificationID specID = new YSpecificationID();
+                specID.fromFullString(id);
+                rdrSetID = new RdrSetID(specID);
+            }
+            else {
+                rdrSetID = new RdrSetID(id);                      // process name
+            }
+            idList.add(rdrSetID);
+        }
+        Collections.sort(idList);
+
+        return idList;
+    }
+
+
+    public void removedRdrSet(RdrSetID rdrSetID) throws IOException {
+        connect();
+        check(_client.removeRdrSet(rdrSetID.getIdentifier(), _handle));
     }
 
 

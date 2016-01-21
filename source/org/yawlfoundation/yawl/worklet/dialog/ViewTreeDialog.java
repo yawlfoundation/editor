@@ -2,14 +2,8 @@ package org.yawlfoundation.yawl.worklet.dialog;
 
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.elements.model.AtomicTask;
-import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.util.SplitPaneUtil;
-import org.yawlfoundation.yawl.engine.YSpecificationID;
-import org.yawlfoundation.yawl.worklet.client.WorkletClient;
-import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
-import org.yawlfoundation.yawl.worklet.rdr.RdrSet;
-import org.yawlfoundation.yawl.worklet.rdr.RdrTree;
-import org.yawlfoundation.yawl.worklet.rdr.RuleType;
+import org.yawlfoundation.yawl.worklet.rdr.*;
 import org.yawlfoundation.yawl.worklet.tree.TreePanel;
 
 import javax.swing.*;
@@ -19,7 +13,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Michael Adams
@@ -30,16 +25,17 @@ public class ViewTreeDialog extends AbstractNodeDialog
 
     private NodePanel _nodePanel;
     private TreePanel _treePanel;
+    private JScrollPane _treeScrollPane;
     private CompositeRulePanel _compositeRulePanel;
     private RdrSet _rdrSet;
 
 
-    public ViewTreeDialog() {
+    public ViewTreeDialog(RdrSet rdrSet) {
         super(YAWLEditor.getInstance(), true);
         setTitle("Rule Tree Viewer");
-        _rdrSet = loadRdrSet();
+        _rdrSet = rdrSet;
         setContent();
-        setBaseSize(800, 650);
+        setBaseSize(800, 550);
         pack();
         setLocationRelativeTo(YAWLEditor.getInstance());
     }
@@ -68,33 +64,25 @@ public class ViewTreeDialog extends AbstractNodeDialog
 
 
     public void comboChanged(ItemEvent event) {
-        RuleType selectedType = _nodePanel.getSelectedRule();
+        Object item = event.getItem();
+        RuleType selectedType;
+        if (item instanceof RuleType) {
+            selectedType = (RuleType) item;
+            _nodePanel.setTaskComboItems(getTasksForRule(selectedType));
+        }
+        else {
+            selectedType = _nodePanel.getSelectedRule();
+        }
+
         AtomicTask task = _nodePanel.getSelectedTask();
         String taskID = task != null ? task.getID() : null;
         _treePanel.setTree(getTree(selectedType, taskID));
+        _treeScrollPane.getViewport().scrollRectToVisible(_treePanel.getRootNodeRect());
     }
 
 
     private void close() {
         setVisible(false);
-    }
-
-
-    private RdrSet loadRdrSet() {
-        try {
-            YSpecificationID specID = new YSpecificationID("Casualty_Treatment");
-            String s = WorkletClient.getInstance().getRdrSet(specID);
-            if (s != null) {
-                RdrSet rdrSet = new RdrSet(specID);
-                rdrSet.fromXML(s);
-                return rdrSet;
-            }
-        }
-        catch (IOException ioe) {
-            MessageDialog.error(this, "Unable to load rule set from worklet service: " +
-                    ioe.getMessage(), "Rule Set Load Error");
-        }
-        return null;
     }
 
 
@@ -105,13 +93,14 @@ public class ViewTreeDialog extends AbstractNodeDialog
 
     private void setContent() {
         setLayout(new BorderLayout());
+
+        _compositeRulePanel = new CompositeRulePanel();
+
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true);
         new SplitPaneUtil().setupDivider(splitPane, false);
         splitPane.setBorder(new EmptyBorder(8, 8, 8, 8));
         splitPane.setLeftComponent(getTreePanel());
         splitPane.setRightComponent(getNodePanel());
-
-        _compositeRulePanel = new CompositeRulePanel();
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(splitPane, BorderLayout.CENTER);
@@ -124,20 +113,19 @@ public class ViewTreeDialog extends AbstractNodeDialog
 
 
     private JPanel getTreePanel() {
-        RdrTree tree = getTree(RuleType.ItemSelection, "3_Treat");
-
-        _treePanel = new TreePanel(tree, this);
-        JScrollPane scrollPane = new JScrollPane(_treePanel);
+        _treePanel = new TreePanel(this);
+        _treeScrollPane = new JScrollPane(_treePanel);
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(new TitledBorder("Rule Tree"));
-        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(_treeScrollPane, BorderLayout.CENTER);
         return panel;
     }
 
 
     private JPanel getNodePanel() {
         _nodePanel = new NodePanel(null, this, DialogMode.Viewing);
+        _nodePanel.setRuleComboItems(_rdrSet.getRules());
         return _nodePanel;
     }
 
@@ -148,6 +136,18 @@ public class ViewTreeDialog extends AbstractNodeDialog
         JButton btnClose = panel.addButton("Done", this);
         btnClose.setPreferredSize(new Dimension(75,25));
         return panel;
+    }
+
+
+    private Set<String> getTasksForRule(RuleType ruleType) {
+        if (ruleType.isCaseLevelType()) return null;
+
+        Set<String> tasks = new HashSet<String>();
+        RdrTreeSet treeSet = _rdrSet.getTreeSet(ruleType);
+        if (treeSet != null) {
+            tasks.addAll(treeSet.getAllTasks());
+        }
+        return tasks;
     }
 
 }

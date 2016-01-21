@@ -36,15 +36,15 @@ import java.util.List;
 public class DataContextTable extends JSingleSelectTable {
 
     private XNode _cornerstoneNode;             // for read-only rendering only
+    private DialogMode _mode;
 
-
-    public DataContextTable() {
+    public DataContextTable(DialogMode mode) {
         super();
+        _mode = mode;
         setModel(new DataContextTableModel());
         setRowHeight(getRowHeight() + 5);
-        setRowSelectionAllowed(true);
-        setFillsViewportHeight(true);            // to allow drops on empty table
         disableMoveOnEnter();
+        setFillsViewportHeight(true);            // to allow drops on empty table
     }
 
 
@@ -68,6 +68,7 @@ public class DataContextTable extends JSingleSelectTable {
         return selectedRow > -1 ? getTableModel().getVariableAtRow(selectedRow) : null;
     }
 
+
     public DataContextTableModel getTableModel() {
         return (DataContextTableModel) getModel();
     }
@@ -86,18 +87,20 @@ public class DataContextTable extends JSingleSelectTable {
         component.setForeground(Color.BLACK);
         if (col == 2) {    // value col
             VariableRow vRow = getTableModel().getVariableAtRow(row);
-            if (isCellEditable(row, col)) {
-                boolean valid = vRow == null || vRow.isValidValue();
-                if (! valid) component.setBackground(Color.PINK);
-                component.setToolTipText(valid ? null : " Invalid value for data type ");
-            }
-            else if (vRow != null) {   // value col is not editable
+            switch (_mode) {
+                case Adding:
+                    boolean valid = vRow == null || vRow.isValidValue();
+                    if (! valid) component.setBackground(Color.PINK);
+                    component.setToolTipText(valid ? null : " Invalid value for data type ");
+                    break;
+                case Replacing:
+                    String csv = getCornerstoneValue(vRow.getName());
 
-                // colour row value blue where cornerstone value != workitem value
-                String csv = getCornerstoneValue(vRow.getName());
-                boolean matches = csv == null || csv.equals(vRow.getValue());
-                if (! matches) component.setForeground(Color.BLUE);
-                component.setToolTipText(matches ? null : " Cornerstone value: " + csv);
+                    // colour row value blue where cornerstone value != workitem value
+                    boolean matches = csv == null || csv.equals(vRow.getValue());
+                    if (! matches) component.setForeground(Color.BLUE);
+                    component.setToolTipText(matches ? null : " Cornerstone value: " + csv);
+                    break;
             }
         }
         return component;

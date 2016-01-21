@@ -24,12 +24,13 @@ public class ConditionPanel extends JPanel implements ActionListener {
     private boolean _shouldValidate;
 
 
-    public ConditionPanel(NodePanel parent) {
+    public ConditionPanel(NodePanel parent, DialogMode mode) {
         super();
         _parent = parent;
         _shouldValidate = true;
         setLayout(new BorderLayout());
-        setContent();
+        setContent(mode);
+        setMode(mode);
         setCondition(null);
     }
 
@@ -45,7 +46,7 @@ public class ConditionPanel extends JPanel implements ActionListener {
     public void clearInputs() { _txtCondition.setText(null); }
 
 
-    public void setMode(DialogMode mode) {
+    private void setMode(DialogMode mode) {
         boolean enable = mode != DialogMode.Viewing;
         _txtCondition.setEditable(enable);
         _txtCondition.setBackground(Color.WHITE);
@@ -120,8 +121,10 @@ public class ConditionPanel extends JPanel implements ActionListener {
 
     // from ConditionVerifier#validate
     protected void setValidationResponse(String msg) {
-        setStatus(msg);
-        getParentPanel().getDialog().enableButtons();
+        if (_shouldValidate) {
+            setStatus(msg);
+            getParentPanel().getDialog().enableButtons();
+        }
     }
 
     public void setStatus(String text) {
@@ -129,40 +132,44 @@ public class ConditionPanel extends JPanel implements ActionListener {
             _status.set(text);
         }
         else _status.clear();
-
     }
 
 
-    private void setContent() {
-        _txtCondition = getConditionField();
+    private void setContent(DialogMode mode) {
+        _txtCondition = getConditionField(mode);
         add(_txtCondition, BorderLayout.CENTER);
         add(populateToolBar(), BorderLayout.SOUTH);
     }
 
 
-    private JTextField getConditionField() {
+    private JTextField getConditionField(DialogMode mode) {
         final JTextField field = new JTextField();
-        field.setInputVerifier(new ConditionVerifier(this));
-        field.addActionListener(this);
+        if (mode != DialogMode.Viewing) {
+            field.setInputVerifier(new ConditionVerifier(this));
+            field.addActionListener(this);
 
-        field.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                super.focusGained(e);
-                field.setBackground(Color.WHITE);
-                _status.clear();
-            }
-        });
+            field.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    super.focusGained(e);
+                    field.setBackground(Color.WHITE);
+                    _status.clear();
+                }
+            });
 
-        field.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                super.keyPressed(e);
-                field.setBackground(Color.WHITE);
-                _status.clear();
-            }
-        });
+            field.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    super.keyPressed(e);
+                    field.setBackground(Color.WHITE);
+                    _status.clear();
+                }
+            });
 
+        }
+        else {
+            field.setBackground(Color.LIGHT_GRAY);
+        }
         return field;
     }
 

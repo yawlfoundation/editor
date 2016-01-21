@@ -1,11 +1,17 @@
 package org.yawlfoundation.yawl.worklet.menu;
 
 import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
+import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
+import org.yawlfoundation.yawl.engine.YSpecificationID;
+import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.dialog.ViewTreeDialog;
+import org.yawlfoundation.yawl.worklet.rdr.RdrSet;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 class ViewRuleSetAction extends YAWLSelectedNetAction {
 
@@ -17,7 +23,30 @@ class ViewRuleSetAction extends YAWLSelectedNetAction {
     }
 
     public void actionPerformed(ActionEvent event) {
-        new ViewTreeDialog().setVisible(true);
+        RdrSet rdrSet = loadRdrSet();
+        if (rdrSet != null) {
+            new ViewTreeDialog(rdrSet).setVisible(true);
+        }
     }
+
+
+    private RdrSet loadRdrSet() {
+        try {
+            YSpecificationID specID = SpecificationModel.getHandler().getID();
+            String s = WorkletClient.getInstance().getRdrSet(specID);
+            if (s != null) {
+                RdrSet rdrSet = new RdrSet(specID);
+                rdrSet.fromXML(s);
+                return rdrSet;
+            }
+
+        }
+        catch (IOException ioe) {
+            MessageDialog.error("Unable to load rule set from worklet service: " +
+                    ioe.getMessage(), "Rule Set Load Error");
+        }
+        return null;
+    }
+
 
 }

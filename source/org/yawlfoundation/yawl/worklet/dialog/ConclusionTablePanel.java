@@ -46,30 +46,22 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
     private boolean _shouldValidate;
 
 
-    public ConclusionTablePanel(NodePanel parent) {
+    public ConclusionTablePanel(NodePanel parent, DialogMode mode) {
         super();
         _msgShortener = new ErrorMessageShortener();
-        _shouldValidate = true;
+        _shouldValidate = mode != DialogMode.Viewing;
         setLayout(new BorderLayout());
         setBorder(new TitledBorder("Actions"));
-        _table = new ConclusionTable(parent);
+        _table = new ConclusionTable(parent, mode);
         JScrollPane scrollPane = new JScrollPane(_table);
         scrollPane.setSize(new Dimension(600, 200));
         add(scrollPane, BorderLayout.CENTER);
-        add(populateToolBar(parent), BorderLayout.SOUTH);
+        add(populateToolBar(parent, mode), BorderLayout.SOUTH);
     }
 
 
     public void setNode(RdrNode ruleNode) {
         setConclusion(ruleNode.getConclusion());
-    }
-
-
-    public void setMode(DialogMode mode) {
-        boolean enable = mode != DialogMode.Viewing;
-        _table.getTableModel().setEditable(enable);
-        enableButtons(enable);
-        _shouldValidate = enable;
     }
 
 
@@ -150,13 +142,14 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
     public void setStatus(String msg) { _status.set(msg); }
 
 
-    private JToolBar populateToolBar(NodePanel parent) {
+    private JToolBar populateToolBar(NodePanel parent, DialogMode mode) {
         _toolBar = new MiniToolBar(this);
         _toolBar.addButton("plus", "Add", " Add ");
         _toolBar.addButton("minus", "Del", " Remove ");
         _toolBar.addSeparator(new Dimension(16, 16));
         _status = new StatusPanel(parent.getDialog());
         _toolBar.add(_status);
+        _toolBar.enableComponents(mode != DialogMode.Viewing);
         return _toolBar;
     }
 

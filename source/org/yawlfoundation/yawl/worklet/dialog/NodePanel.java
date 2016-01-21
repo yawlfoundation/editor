@@ -25,10 +25,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EventListener;
+import java.util.*;
 
 /**
  * @author Michael Adams
@@ -48,7 +45,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     public NodePanel(AtomicTask task, AbstractNodeDialog parent, DialogMode mode) {
         super();
         _parent = parent;
-        setContent(task);
+        setContent(task, mode);
         setMode(mode);
     }
 
@@ -168,9 +165,9 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     }
 
 
+    // from view dialog
     public void setNode(RdrNode ruleNode) {
-        _dataContextPanel.setNode(getDataContext(getSelectedTask()),
-                getCornerstoneNode(ruleNode));
+        _dataContextPanel.setNode(getCornerstoneRows(ruleNode), null);
         _conclusionPanel.setNode(ruleNode);
         _rulePanel.setNode(ruleNode);
         _txtDescription.setText(ruleNode.getDescription());
@@ -186,44 +183,49 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     }
 
 
+    public void setRuleComboItems(Set<RuleType> items) {
+        _rulePanel.setRuleComboItems(items);
+    }
+
+    public void setTaskComboItems(Set<String> items) {
+        _rulePanel.setTaskComboItems(items);
+    }
+
     private void setMode(DialogMode mode) {
         _mode = mode;
-        _dataContextPanel.setMode(mode);
-        _conclusionPanel.setMode(mode);
-        _rulePanel.setMode(mode);
         _txtDescription.setEditable(mode != DialogMode.Viewing);
         _txtDescription.setBackground(Color.WHITE);
     }
 
 
-    private void setContent(AtomicTask task) {
+    private void setContent(AtomicTask task, DialogMode mode) {
         setLayout(new BorderLayout());
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true);
         new SplitPaneUtil().setupDivider(splitPane, false);
-        splitPane.setRightComponent(getDataPanel(task));        // init data panel first
-        splitPane.setLeftComponent(getActionPanel(task));
+        splitPane.setRightComponent(getDataPanel(task, mode));  // init data panel first
+        splitPane.setLeftComponent(getActionPanel(task, mode));
         add(splitPane, BorderLayout.CENTER);
     }
 
 
-    private JPanel getActionPanel(AtomicTask task) {
+    private JPanel getActionPanel(AtomicTask task, DialogMode mode) {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(getRulePanel(task), BorderLayout.NORTH);
+        panel.add(getRulePanel(task, mode), BorderLayout.NORTH);
         panel.add(getDescriptionPanel(), BorderLayout.SOUTH);
-        panel.add(getConclusionPanel(), BorderLayout.CENTER);
+        panel.add(getConclusionPanel(mode), BorderLayout.CENTER);
         return panel;
     }
 
 
-    private JPanel getDataPanel(AtomicTask task) {
-        _dataContextPanel = new DataContextTablePanel(this);
+    private JPanel getDataPanel(AtomicTask task, DialogMode mode) {
+        _dataContextPanel = new DataContextTablePanel(this, mode);
         _dataContextPanel.setVariables(getDataContext(task));
         return _dataContextPanel;
     }
 
 
-    private JPanel getRulePanel(AtomicTask task) {
-        _rulePanel = new RulePanel(task, this);
+    private JPanel getRulePanel(AtomicTask task, DialogMode mode) {
+        _rulePanel = new RulePanel(task, this, mode);
         return _rulePanel;
     }
 
@@ -240,8 +242,8 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     }
 
 
-    private JPanel getConclusionPanel() {
-        _conclusionPanel = new ConclusionTablePanel(this);
+    private JPanel getConclusionPanel(DialogMode mode) {
+        _conclusionPanel = new ConclusionTablePanel(this, mode);
         return _conclusionPanel;
     }
 
@@ -322,15 +324,31 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     }
 
 
-     protected Element getDataElement(YSpecificationID specID, RuleType rule, String taskID) {
-         String dataRootName = rule.isCaseLevelType() ? specID.getUri() : taskID;
-         return _dataContextPanel.getDataElement(dataRootName);
-     }
+    protected Element getDataElement(YSpecificationID specID, RuleType rule, String taskID) {
+        String dataRootName = rule.isCaseLevelType() ? specID.getUri() : taskID;
+        return _dataContextPanel.getDataElement(dataRootName);
+    }
+
+
+    private java.util.List<VariableRow> getCornerstoneRows(RdrNode rdrNode) {
+        java.util.List<VariableRow> rows = getDataContext(getSelectedTask());
+        XNode cornerstoneNode = getCornerstoneNode(rdrNode);
+        if (cornerstoneNode != null) {
+            for (VariableRow row : rows) {
+                XNode rowNode = cornerstoneNode.getChild(row.getName());
+                if (rowNode != null) {
+                    String value = rowNode.hasChildren() ? rowNode.toPrettyString() :
+                            rowNode.getText();
+                    row.setValue(value);
+                }
+            }
+        }
+        return rows;
+    }
 
 
     private void validateConclusion() {
         _conclusionPanel.validateConclusion();
     }
-
 
 }

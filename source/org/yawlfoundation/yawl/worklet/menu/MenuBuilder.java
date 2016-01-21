@@ -61,7 +61,7 @@ public class MenuBuilder {
         actions.add(new MenuAction(new LoadWorkletAction(), "load"));
         actions.add(new MenuAction(new SaveWorkletAction(), "save"));
         actions.add(null);
-        actions.add(new MenuAction(new ReplaceWorkletAction(), "settings"));
+        actions.add(new MenuAction(new ReplaceWorkletAction(), "replace"));
         actions.add(null);
         actions.add(new MenuAction(new AddRuleAction(), "add"));
         actions.add(new MenuAction(new AddRuleSetAction(), "addSet"));

@@ -43,14 +43,15 @@ public class DataContextTablePanel extends JPanel implements CellEditorListener 
     private StatusPanel status;
 
 
-    public DataContextTablePanel(EventListener listener) {
+    public DataContextTablePanel(EventListener listener, DialogMode mode) {
         super();
         setLayout(new BorderLayout());
         setBorder(new TitledBorder("Data Context"));
-        JScrollPane scrollPane = new JScrollPane(createTable(listener));
+        JScrollPane scrollPane = new JScrollPane(createTable(listener, mode));
         scrollPane.setSize(new Dimension(500, 200));
         add(scrollPane, BorderLayout.CENTER);
         add(populateToolBar(), BorderLayout.SOUTH);
+        setEditable(mode != DialogMode.Viewing);
     }
 
 
@@ -73,11 +74,6 @@ public class DataContextTablePanel extends JPanel implements CellEditorListener 
         table.setCornerstoneNode(cornerstoneNode);
         setVariables(rows);
         setEditable(false);
-    }
-
-
-    public void setMode(DialogMode mode) {
-        setEditable(mode != DialogMode.Viewing);
     }
 
 
@@ -125,12 +121,15 @@ public class DataContextTablePanel extends JPanel implements CellEditorListener 
         table.getTableModel().setEditable(editable);
     }
 
-    private DataContextTable createTable(EventListener listener) {
-        table = new DataContextTable();
+    private DataContextTable createTable(EventListener listener, DialogMode mode) {
+        table = new DataContextTable(mode);
         DataContextValueEditor editor = new DataContextValueEditor(this);
         editor.addCellEditorListener((CellEditorListener) listener);
         table.setDefaultEditor(String.class, editor);
-        table.getSelectionModel().addListSelectionListener((ListSelectionListener) listener);
+        if (mode != DialogMode.Viewing) {
+            table.getSelectionModel().addListSelectionListener(
+                    (ListSelectionListener) listener);
+        }
         return table;
     }
 

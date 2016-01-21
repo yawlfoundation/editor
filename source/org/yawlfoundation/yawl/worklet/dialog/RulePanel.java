@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Set;
 
 /**
  * @author Michael Adams
@@ -23,11 +24,13 @@ public class RulePanel extends JPanel implements ItemListener {
     private TaskComboBox _cbxTask;
     private JLabel _cbxTaskPrompt;
     private ConditionPanel _conditionPanel;
+    private DialogMode _mode;
 
 
-    public RulePanel(AtomicTask task, NodePanel parent) {
+    public RulePanel(AtomicTask task, NodePanel parent, DialogMode mode) {
         super();
-        setContent(task, parent);
+        _mode = mode;
+        setContent(task, parent, mode);
     }
 
 
@@ -35,11 +38,14 @@ public class RulePanel extends JPanel implements ItemListener {
     public void itemStateChanged(ItemEvent e) {            // rule type selection
         if (e.getStateChange() == ItemEvent.SELECTED) {
             RuleType selectedType = (RuleType) e.getItem();
-            if (selectedType.isCaseLevelType()) {
-                _cbxTask.setItem(null);              // clear and disable task combo
-            }
-            else {
-                _cbxTask.setItems();                 // load and enable task combo
+
+            if (_mode != DialogMode.Viewing) {
+                if (selectedType.isCaseLevelType()) {
+                    _cbxTask.setItem(null);              // clear and disable task combo
+                }
+                else {
+                    _cbxTask.setItems();                 // load and enable task combo
+                }
             }
             _cbxTaskPrompt.setEnabled(_cbxTask.isEnabled());
         }
@@ -89,19 +95,24 @@ public class RulePanel extends JPanel implements ItemListener {
     }
 
 
-    public void setMode(DialogMode mode) {
-        _conditionPanel.setMode(mode);
+    public void setRuleComboItems(Set<RuleType> items) {
+        _cbxType.removeAllItems();
+        for (RuleType item : items) { _cbxType.addItem(item); };
+    }
+
+    public void setTaskComboItems(Set<String> items) {
+        _cbxTask.setItems(items);
     }
 
 
-    private void setContent(AtomicTask task, NodePanel parent) {
+    private void setContent(AtomicTask task, NodePanel parent, DialogMode mode) {
         setLayout(new SpringLayout());
         _cbxTask = getTaskCombo(task, parent);
         _cbxType = getTypeCombo(parent);
         addPrompt("Rule Type:", _cbxType);
         _cbxTaskPrompt = addPrompt("Task:", _cbxTask);
         _cbxTaskPrompt.setEnabled(false);
-        _conditionPanel = new ConditionPanel(parent);
+        _conditionPanel = new ConditionPanel(parent, mode);
         addPrompt(_conditionPanel.getPrompt(), _conditionPanel);
         SpringUtil.makeCompactGrid(this, 3, 2, 6, 6, 8, 8);
 
@@ -124,7 +135,6 @@ public class RulePanel extends JPanel implements ItemListener {
         add(c);
         return label;
     }
-
 
 
     private JComboBox getTypeCombo(NodePanel parent) {
@@ -155,7 +165,7 @@ public class RulePanel extends JPanel implements ItemListener {
 
     private TaskComboBox getTaskCombo(AtomicTask task, NodePanel parent) {
         TaskComboBox combo = new TaskComboBox(task);
-        if (parent.getDialog().isComboListener()) {       // only add dialog listens
+        if (parent.getDialog().isComboListener()) {       // add & view dialogs listen
             combo.addItemListener(parent);
             combo.listenForSelections();
         }

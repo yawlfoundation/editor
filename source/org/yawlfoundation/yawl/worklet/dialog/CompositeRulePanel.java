@@ -5,6 +5,8 @@ import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
 import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.ArrayList;
@@ -24,7 +26,8 @@ public class CompositeRulePanel extends JPanel {
     public CompositeRulePanel() {
         super();
         setLayout(new BorderLayout());
-        setBorder(new TitledBorder("Effective Composite Rule"));
+        setBorder(new CompoundBorder(new EmptyBorder(0,8,0,8),
+                new TitledBorder("Effective Composite Rule")));
         add(new JScrollPane(createTextArea()), BorderLayout.CENTER);
     }
 

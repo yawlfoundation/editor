@@ -34,16 +34,27 @@ class ReplaceWorkletAction extends YAWLSelectedNetAction {
         try {
             java.util.List<WorkletRunner> runners =
                     WorkletClient.getInstance().getRunningWorkletList();
-            if (runners == null || runners.isEmpty()) {
-                MessageDialog.info("There are no currently executing worklets to replace.",
-                        "Service Information");
+            if (! (runners == null || runners.isEmpty())) {
+                return runners;
             }
-            return runners;
+            showNoWorkletsInfo();
         }
         catch (IOException ioe) {
-            MessageDialog.error(ioe.getMessage(), "Service Error");
-            return Collections.emptyList();
+            String msg = ioe.getMessage();
+            if ("No worklet instances currently running".equals(msg)) {
+                showNoWorkletsInfo();
+            }
+            else {
+                MessageDialog.error(msg, "Service Error");
+            }
         }
+        return Collections.emptyList();
+    }
+
+
+    private void showNoWorkletsInfo() {
+        MessageDialog.info("There are no currently executing worklets to replace.",
+                "Service Information");
     }
 
 }
