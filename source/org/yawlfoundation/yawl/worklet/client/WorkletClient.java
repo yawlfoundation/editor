@@ -41,10 +41,7 @@ import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Michael Adams
@@ -210,13 +207,7 @@ public class WorkletClient extends YConnection {
 
     public List<WorkletInfo> getWorkletInfoList() throws IOException {
         connect();
-        XNode root = toXNode(_client.getWorkletInfoList(_handle));
-        List<WorkletInfo> workletList = new ArrayList<WorkletInfo>();
-        for (XNode node : root.getChildren()) {
-            workletList.add(new WorkletInfo(node));
-        }
-        Collections.sort(workletList);
-        return workletList;
+        return getWorkletInfoList(_client.getWorkletInfoList(_handle));
     }
 
 
@@ -231,6 +222,13 @@ public class WorkletClient extends YConnection {
     public boolean addRuleSet(YSpecificationID specID, String xml) throws IOException {
         connect();
         check(_client.addRdrSet(specID, xml, _handle));
+        return true;
+    }
+
+
+    public boolean addRuleSet(String processName, String xml) throws IOException {
+        connect();
+        check(_client.addRdrSet(processName, xml, _handle));
         return true;
     }
 
@@ -273,6 +271,12 @@ public class WorkletClient extends YConnection {
         String workletXML = _client.getWorklet(specID, _handle);
         check(workletXML);
         return workletXML;
+    }
+
+
+    public List<WorkletInfo> getOrphanedWorklets() throws IOException {
+        connect();
+        return getWorkletInfoList(_client.getOrphanedWorklets(_handle));
     }
 
 
@@ -324,6 +328,29 @@ public class WorkletClient extends YConnection {
     }
 
 
+    public void removeWorklet(String specKey) throws IOException {
+        connect();
+        check(_client.removeWorklet(specKey, _handle));
+    }
+
+
+    public List<String> loadFile(String path, String type) throws IOException {
+        connect();
+        String result = _client.loadFile(path, type, _handle);
+        if (successful(result)) {
+            return Collections.emptyList();
+        }
+        else {
+            List<String> errors = new ArrayList<String>();
+            XNode root = getXNodeParser().parse(result);
+            for (XNode errorNode : root.getChild("errors").getChildren()) {
+                 errors.add(errorNode.getText());
+            }
+            return errors;
+        }
+    }
+
+
     public TaskInformation getTaskInfo(YSpecificationID specID, String taskID)
             throws IOException {
         TaskInformation taskInfo = CACHE.getTaskInfo(specID, taskID);
@@ -354,6 +381,17 @@ public class WorkletClient extends YConnection {
             CACHE.add(specData);
         }
         return specData;
+    }
+
+
+    private List<WorkletInfo> getWorkletInfoList(String xml) throws IOException {
+        XNode root = toXNode(xml);
+        List<WorkletInfo> workletList = new ArrayList<WorkletInfo>();
+        for (XNode node : root.getChildren()) {
+            workletList.add(new WorkletInfo(node));
+        }
+        Collections.sort(workletList);
+        return workletList;
     }
 
 

@@ -46,7 +46,7 @@ import java.io.IOException;
 public abstract class AbstractDownloadDialog extends PropertyDialog
         implements ActionListener, ListSelectionListener {
 
-    private JList listBox;
+    protected JList listBox;
 
     public AbstractDownloadDialog() {
         super(YAWLEditor.getInstance());
@@ -56,6 +56,7 @@ public abstract class AbstractDownloadDialog extends PropertyDialog
         setLocationRelativeTo(getParent());
     }
 
+
     public void actionPerformed(ActionEvent e) {
         setVisible(false);
         if (e.getActionCommand().equals("OK")) {
@@ -63,9 +64,16 @@ public abstract class AbstractDownloadDialog extends PropertyDialog
         }
     }
 
+
     public void valueChanged(ListSelectionEvent listSelectionEvent) {
         getOKButton().setEnabled(true);
     }
+
+
+    public void setSelectionMode(int mode) {
+        listBox.setSelectionMode(mode);
+    }
+
 
     protected JPanel getContent() {
         JPanel content = new JPanel(new BorderLayout());
@@ -85,6 +93,7 @@ public abstract class AbstractDownloadDialog extends PropertyDialog
 
     private JScrollPane createListBox() {
         listBox = getList();
+        listBox.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         listBox.addListSelectionListener(this);
         listBox.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent mouseEvent) {

@@ -12,7 +12,7 @@ class SettingsAction extends YAWLBaseAction {
     {
         putValue(Action.SHORT_DESCRIPTION, "Settings");
         putValue(Action.NAME, "Settings");
-        putValue(Action.LONG_DESCRIPTION, "Worklet Service Connection Settings");
+        putValue(Action.LONG_DESCRIPTION, "Worklet Service connection settings");
         putValue(Action.MNEMONIC_KEY, KeyEvent.VK_S);
     }
 

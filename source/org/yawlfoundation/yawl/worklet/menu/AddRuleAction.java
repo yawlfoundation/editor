@@ -12,7 +12,8 @@ class AddRuleAction extends YAWLSelectedNetAction {
     {
         putValue(Action.SHORT_DESCRIPTION, "Add Rule");
         putValue(Action.NAME, "Add Rule");
-        putValue(Action.LONG_DESCRIPTION, "Add Rule to Worklet Rule Set");
+        putValue(Action.LONG_DESCRIPTION,
+                "Add a rule to the rule set for the current specification");
         putValue(Action.MNEMONIC_KEY, KeyEvent.VK_A);
     }
 

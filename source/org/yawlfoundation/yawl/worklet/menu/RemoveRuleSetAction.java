@@ -18,7 +18,7 @@ class RemoveRuleSetAction extends YAWLSelectedNetAction {
     {
         putValue(Action.SHORT_DESCRIPTION, "Remove Rule Set");
         putValue(Action.NAME, "Remove Rule Set");
-        putValue(Action.LONG_DESCRIPTION, "Remove an existing Rule Set from the Worklet Service");
+        putValue(Action.LONG_DESCRIPTION, "Remove an existing rule set");
         putValue(Action.MNEMONIC_KEY, KeyEvent.VK_R);
     }
 

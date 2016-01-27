@@ -35,13 +35,14 @@ public class YSplashScreen {
     private Rectangle2D.Double progressArea;
     private Graphics2D graphics;
 
+
     public void init() {
         if (splash != null) {
             int height = splash.getSize().height;
             int width = splash.getSize().width;
 
             textArea = new Rectangle2D.Double(15., height * 0.88, width * .45, 32.);
-            progressArea = new Rectangle2D.Double(8., height * .92, width - 8., 4.);
+            progressArea = new Rectangle2D.Double(70., height * .97, width - 8., 4.);
 
             // create the Graphics environment for drawing status info
             graphics = splash.createGraphics();

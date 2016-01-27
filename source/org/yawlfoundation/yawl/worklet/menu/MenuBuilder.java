@@ -63,11 +63,11 @@ public class MenuBuilder {
         actions.add(null);
         actions.add(new MenuAction(new ReplaceWorkletAction(), "replace"));
         actions.add(null);
-        actions.add(new MenuAction(new AddRuleAction(), "add"));
-        actions.add(new MenuAction(new AddRuleSetAction(), "addSet"));
         actions.add(new MenuAction(new ViewRuleSetAction(), "view"));
-        actions.add(new MenuAction(new RemoveOrphanWorkletsAction(), "removeOrphans"));
+        actions.add(new MenuAction(new AddRuleAction(), "add"));
+        actions.add(new MenuAction(new LoadFileAction(), "upload"));
         actions.add(new MenuAction(new RemoveRuleSetAction(), "removeSet"));
+        actions.add(new MenuAction(new RemoveOrphanWorkletsAction(), "removeOrphans"));
         actions.add(null);
         actions.add(new MenuAction(new SettingsAction(), "settings"));
         return actions;

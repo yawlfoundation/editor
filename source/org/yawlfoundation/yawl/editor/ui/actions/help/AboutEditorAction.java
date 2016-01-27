@@ -33,6 +33,7 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Calendar;
 
 
 public class AboutEditorAction extends YAWLBaseAction {
@@ -52,8 +53,7 @@ public class AboutEditorAction extends YAWLBaseAction {
 
 class AboutEditorDialog extends JDialog {
 
-    private static final String DEFAULT_VERSION = "3.0.1";
-    private static final String DEFAULT_YEAR = "2015";
+    private static final String DEFAULT_VERSION = "4.0";
     private static final Color BACK_COLOUR = new Color(254,254,240);
     private static final String FORUM_URL = "http://yawlfoundation.org/forum";
     private static final String ISSUES_URL = "https://github.com/yawlfoundation/yawl/issues";
@@ -150,7 +150,7 @@ class AboutEditorDialog extends JDialog {
 
     private String getCopyrightText(BuildProperties buildProperties) {
         String buildDate = buildProperties.getTimestamp();
-        String year = buildDate != null ? buildDate.substring(0,4) : DEFAULT_YEAR;
+        String year = buildDate != null ? buildDate.substring(0,4) : getDefaultYear();
         return "\u00a9 " + year + " The YAWL Foundation";
     }
 
@@ -197,6 +197,10 @@ class AboutEditorDialog extends JDialog {
         throw new IOException("Cannot launch browser from editor on this platform");
     }
 
+
+    private String getDefaultYear() {
+        return String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+    }
 
     private void addMouseListener(Component c) {
         c.addMouseListener(new MouseAdapter() {

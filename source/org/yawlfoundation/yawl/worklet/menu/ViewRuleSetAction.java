@@ -18,7 +18,7 @@ class ViewRuleSetAction extends YAWLSelectedNetAction {
     {
         putValue(Action.SHORT_DESCRIPTION, "View Rule Set");
         putValue(Action.NAME, "View Rule Set");
-        putValue(Action.LONG_DESCRIPTION, "View the Rule Set for the current specification");
+        putValue(Action.LONG_DESCRIPTION, "View the rule set for the current specification");
         putValue(Action.MNEMONIC_KEY, KeyEvent.VK_V);
     }
 

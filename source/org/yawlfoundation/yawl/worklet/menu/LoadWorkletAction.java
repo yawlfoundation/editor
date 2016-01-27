@@ -12,7 +12,7 @@ class LoadWorkletAction extends YAWLSpecificationAction {
     {
         putValue(Action.SHORT_DESCRIPTION, "Load Worklet");
         putValue(Action.NAME, "Load");
-        putValue(Action.LONG_DESCRIPTION, "Load a stored Worklet into the editor");
+        putValue(Action.LONG_DESCRIPTION, "Download a stored worklet into the editor");
         putValue(Action.MNEMONIC_KEY, KeyEvent.VK_L);
     }
 
