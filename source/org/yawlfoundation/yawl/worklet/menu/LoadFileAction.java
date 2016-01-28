@@ -64,22 +64,25 @@ class LoadFileAction extends YAWLSelectedNetAction {
         if (! errors.isEmpty()) {
             s.append(errors.size()).append(" files could not be loaded.\n");
             s.append("Please refer to the problem list below for details.\n");
-            showProblems(errors);
         }
         if (s.length() == 0) {
             s.append("No worklet specifications or rule sets\nfound in the selected directory.");
         }
+
+        // show success or error messages in problems pane
+        YAWLEditor.getInstance().showProblemList("Worklet Upload", getResults(errors));
+
         MessageDialog.info(s.toString(), "Upload Result");
     }
 
 
 
-    private void showProblems(java.util.List<String> errors) {
+    private java.util.List<ValidationMessage> getResults(java.util.List<String> errors) {
         java.util.List<ValidationMessage> msgList = new ArrayList<ValidationMessage>();
         for (String error : errors) {
              msgList.add(new ValidationMessage(error));
         }
-        YAWLEditor.getInstance().showProblemList("Worklet Upload Errors", msgList);
+        return msgList;
     }
 
 }
