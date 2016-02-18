@@ -85,9 +85,6 @@ public class CaseParamValueDialog extends JDialog implements ActionListener {
         if (action.equals("OK")) {
             setValueAndClose(_editorPane.getText());
         }
-//        else if (action.equals("generate")) {
-//            generateDefaultValue();
-//        }
         else if (action.equals("reset")) {
             _editorPane.getEditor().setText(_value);
         }
@@ -119,7 +116,6 @@ public class CaseParamValueDialog extends JDialog implements ActionListener {
 
     private JPanel createToolBar() {
         MiniToolBar toolBar = new MiniToolBar(this);
-//        toolBar.addButton("generate", "generate", " Generate sample value ");
         toolBar.addButton("reset", "reset", " Reset to original value ");
         toolBar.addButton("format", "format", " Format text ");
         JPanel panel = new JPanel(new BorderLayout());
@@ -135,12 +131,6 @@ public class CaseParamValueDialog extends JDialog implements ActionListener {
         _editorPane.setParentOKButton(_buttonBar.getOK());
         return _buttonBar;
     }
-
-
-//    private void generateDefaultValue() {
-//        String value = new SampleValueGenerator().generate(_row);
-//        if (value != null) _editorPane.getEditor().setText(format(value));
-//    }
 
 
     private String format(String text) {

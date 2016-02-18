@@ -83,6 +83,10 @@ public class ListDialog extends JDialog implements ActionListener, CaretListener
         return getListModel().getSelections(listBox.getSelectedIndices());
     }
 
+    public void setSelections(Object o) {
+        listBox.setSelectedIndices(getListModel().getIndicesFor(o));
+    }
+
 
     private void initialise() {
         setModal(true);

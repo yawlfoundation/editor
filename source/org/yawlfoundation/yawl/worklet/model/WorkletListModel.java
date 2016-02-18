@@ -19,6 +19,7 @@
 package org.yawlfoundation.yawl.worklet.model;
 
 import org.yawlfoundation.yawl.editor.ui.resourcing.listmodel.AbstractResourceListModel;
+import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
 
@@ -76,6 +77,24 @@ public class WorkletListModel extends AbstractResourceListModel {
                 selections.add(filteredList.get(index));
         }
         return selections;
+    }
+
+
+    public int[] getIndicesFor(Object o) {
+        if (o != null) {
+            List<String> selections = StringUtil.splitToList((String) o, ";");
+            if (! selections.isEmpty()) {
+                int[] indices = new int[selections.size()];
+                int index = 0;
+                for (int i=0; i < fullList.size(); i++) {
+                    if (selections.contains(fullList.get(i).getSpecID().getKey())) {
+                        indices[index++] = i;
+                    }
+                }
+                return indices;
+            }
+        }
+        return new int[0];
     }
 
 

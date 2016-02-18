@@ -187,8 +187,8 @@ public class UpdateDialog extends JDialog
         _progressBar.setIndeterminate(true);
 
         if (saveToDir == null) saveToDir = getTmpDir();
-        _downloader = new UpdateDownloader(UpdateChecker.SOURCE_URL,
-                UpdateChecker.SF_DOWNLOAD_SUFFIX, _differ, saveToDir);
+        _downloader = new UpdateDownloader(UpdateConstants.getBasePath(),
+                UpdateConstants.URL_SUFFIX, _differ, saveToDir);
         _downloader.addPropertyChangeListener(this);
         _downloader.execute();
     }
@@ -340,9 +340,9 @@ public class UpdateDialog extends JDialog
         }
 
         // copy downloaded checksums.xml to lib
-        File source = new File(tmpDir, UpdateChecker.CHECKSUM_FILE);
+        File source = new File(tmpDir, UpdateConstants.CHECK_FILE);
         File target = FileUtil.makeFile(editorDir.getAbsolutePath() + "/lib",
-                UpdateChecker.CHECKSUM_FILE);
+                UpdateConstants.CHECK_FILE);
         FileUtil.copy(source, target);
     }
 

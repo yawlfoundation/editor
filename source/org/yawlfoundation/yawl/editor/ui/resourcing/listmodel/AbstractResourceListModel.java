@@ -31,4 +31,6 @@ public abstract class AbstractResourceListModel extends AbstractListModel {
 
     public abstract List<Object> getSelections(int[] selectedIndices);
 
+    public int[] getIndicesFor(Object o) { return new int[0]; }
+
 }

@@ -256,11 +256,10 @@ public class WorkletClient extends YConnection {
 
 
     // exception worklets
-    public String replaceWorklet(String caseID, String itemID, RuleType ruleType,
-                                 String trigger) throws IOException {
+    public String replaceWorklet(String caseID, String itemID, RuleType ruleType)
+            throws IOException {
         connect();
-        String casesStarted = _client.replaceWorklet(caseID, itemID, ruleType,
-                trigger, _handle);
+        String casesStarted = _client.replaceWorklet(caseID, itemID, ruleType, _handle);
         check(casesStarted);
         return casesStarted;
     }

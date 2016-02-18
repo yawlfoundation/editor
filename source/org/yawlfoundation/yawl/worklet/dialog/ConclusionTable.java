@@ -37,10 +37,10 @@
 package org.yawlfoundation.yawl.worklet.dialog;
 
 import org.yawlfoundation.yawl.editor.ui.swing.JSingleSelectTable;
+import org.yawlfoundation.yawl.worklet.exception.ExletValidationError;
 import org.yawlfoundation.yawl.worklet.rdr.RdrConclusion;
 import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
-import org.yawlfoundation.yawl.worklet.support.ExletValidationError;
 
 import javax.swing.*;
 import javax.swing.event.CellEditorListener;

@@ -84,7 +84,7 @@ public class CompositeRulePanel extends JPanel {
     private String getConclusionLine(RdrConclusion conclusion) {
         StringBuilder s = new StringBuilder();
         for (RdrPrimitive p : conclusion.getPrimitives()) {
-            if (s.length() > 0) s.append("|");
+            if (s.length() > 0) s.append(" -> ");
              s.append(p.getAction()).append(" ").append(p.getTarget());
         }
         return s.toString();

@@ -2,6 +2,7 @@ package org.yawlfoundation.yawl.editor.ui.specification.io;
 
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
+import org.yawlfoundation.yawl.editor.ui.util.BuildProperties;
 import org.yawlfoundation.yawl.editor.ui.util.ErrorReporter;
 import org.yawlfoundation.yawl.reporter.Report;
 
@@ -52,12 +53,25 @@ public class FileSaveErrorNotifier {
                 ErrorReporter er = new ErrorReporter();
                 Report report = er.prepare("Failed to save", e);
                 report.addContent("FileName", fileName);
+                report.add("Version", getVersion());
                 er.send(report);
             }
             catch (IOException ioe) {
                 //
             }
         }
+    }
+
+
+    private String getVersion() {
+        BuildProperties props = new BuildProperties();
+        String version = props.getVersion();
+        String buildNumber = props.getBuild();
+        String versString = version != null ? version : YAWLEditor.DEFAULT_VERSION;
+        if (buildNumber != null) {
+            versString += " (build " + buildNumber + ")";
+        }
+        return versString;
     }
 
 }

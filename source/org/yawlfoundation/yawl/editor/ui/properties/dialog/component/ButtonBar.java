@@ -52,6 +52,13 @@ public class ButtonBar extends JPanel {
     public boolean isOKEnabled() { return _btnOK.isEnabled(); }
 
 
+    public JButton addButton(String label, ActionListener listener) {
+        JButton btn = createButton(label, listener);
+        add(btn);
+        return btn;
+    }
+
+
     private JButton createButton(String label, ActionListener listener) {
         JButton button = new JButton(label);
         button.setActionCommand(label);

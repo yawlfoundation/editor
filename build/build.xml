@@ -332,6 +332,9 @@
         <copy toDir="${classes.dir}/${package.base.dir}/worklet/menu/icon">
             <fileset dir="${source.dir}/${package.base.dir}/worklet/menu/icon"/>
         </copy>
+        <copy toDir="${classes.dir}/${package.base.dir}/worklet/graph/icon">
+            <fileset dir="${source.dir}/${package.base.dir}/worklet/graph/icon"/>
+        </copy>
 
         <jar jarfile="${output.dir}/plugins/${worklet.plugin.jar.name}"
              basedir="${classes.dir}"

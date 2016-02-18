@@ -38,12 +38,12 @@ public class ConditionPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {             // enter key pressed
         if (_shouldValidate) {
-            _txtCondition.getInputVerifier().verify(_txtCondition);
+            getConditionVerifier().verify(_txtCondition);
         }
     }
 
 
-    public void clearInputs() { _txtCondition.setText(null); }
+    public void clearInputs() { setCondition(null); }
 
 
     private void setMode(DialogMode mode) {
@@ -56,8 +56,7 @@ public class ConditionPanel extends JPanel implements ActionListener {
 
 
     public boolean hasValidContent() {
-        return !_shouldValidate ||
-                ((ConditionVerifier) _txtCondition.getInputVerifier()).hasValidContent();
+        return !_shouldValidate || getConditionVerifier().hasValidContent();
     }
 
 
@@ -85,9 +84,10 @@ public class ConditionPanel extends JPanel implements ActionListener {
         if (_shouldValidate) {
             if (StringUtil.isNullOrEmpty(condition)) {
                 _status.set("Condition Required");
+                getConditionVerifier().invalidate();
             }
             else {
-                _txtCondition.getInputVerifier().verify(_txtCondition);
+                getConditionVerifier().verify(_txtCondition);
             }
         }
     }
@@ -180,6 +180,11 @@ public class ConditionPanel extends JPanel implements ActionListener {
         _status = new StatusPanel(null);
         toolbar.add(_status);
         return toolbar;
+    }
+
+
+    private ConditionVerifier getConditionVerifier() {
+        return (ConditionVerifier) _txtCondition.getInputVerifier();
     }
 
 }

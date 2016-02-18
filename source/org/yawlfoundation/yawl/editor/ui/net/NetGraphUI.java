@@ -38,7 +38,7 @@ import java.awt.image.ImageObserver;
 public class NetGraphUI extends BasicGraphUI {
 
     private NetOverlay overlay;
-    private int i;
+
 
     public NetGraphUI() {
         super();

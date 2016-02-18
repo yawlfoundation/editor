@@ -1,7 +1,7 @@
 package org.yawlfoundation.yawl.worklet.dialog;
 
+import org.yawlfoundation.yawl.worklet.rdrutil.RdrConditionException;
 import org.yawlfoundation.yawl.worklet.support.ConditionEvaluator;
-import org.yawlfoundation.yawl.worklet.support.RdrConditionException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,6 +33,8 @@ public class ConditionVerifier extends InputVerifier {
 
 
     public boolean hasValidContent() { return _valid; }
+
+    public void invalidate() { _valid = false; }
 
 
     private void validateCondition(JTextField textField) {

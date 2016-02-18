@@ -39,7 +39,7 @@ public class StatusPanel extends JPanel {
     public static final Color ERROR = Color.RED;
     public static final Color WARNING = Color.YELLOW;
     public static final Color INFO = Color.BLUE;
-    public static final Color OK = Color.GREEN;
+    public static final Color OK = Color.GREEN.darker().darker();
 
 
     public StatusPanel(Window owner) {
@@ -61,6 +61,8 @@ public class StatusPanel extends JPanel {
     public void set(String text) {
         set(text, ERROR);
     }
+
+    public void setOK(String text) { set(text, OK); }
 
     public void set(String text, Color foreColor) {
         set(text, foreColor, null);
@@ -88,13 +90,15 @@ public class StatusPanel extends JPanel {
         _btnMore.setFocusPainted(false);
         _btnMore.setActionCommand("more");
         _btnMore.setVisible(false);
-        _btnMore.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                MoreDialog dialog = new MoreDialog(_owner, _moreText);
-                dialog.setLocationAdjacentTo(_btnMore, _btnMore.getVisibleRect());
-                dialog.setVisible(true);
-            }
-        });
+        if (_owner != null) {
+            _btnMore.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent actionEvent) {
+                    MoreDialog dialog = new MoreDialog(_owner, _moreText);
+                    dialog.setLocationAdjacentTo(_btnMore, _btnMore.getVisibleRect());
+                    dialog.setVisible(true);
+                }
+            });
+        }
 
         return _btnMore;
     }

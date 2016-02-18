@@ -18,7 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.util;
 
-import org.yawlfoundation.yawl.editor.ui.update.UpdateChecker;
+import org.yawlfoundation.yawl.editor.ui.update.UpdateConstants;
 import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.util.XNode;
 import org.yawlfoundation.yawl.util.XNodeParser;
@@ -39,7 +39,7 @@ public class BuildProperties {
 
     // default constructor - uses checksums.xml file in lib dir of this installation
     public BuildProperties() {
-        load(new File(FileLocations.getLibPath(), UpdateChecker.CHECKSUM_FILE));
+        load(new File(FileLocations.getLibPath(), UpdateConstants.CHECK_FILE));
     }
 
     public BuildProperties(String fileName) { load(new File(fileName)); }

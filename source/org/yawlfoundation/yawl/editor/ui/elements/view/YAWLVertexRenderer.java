@@ -88,8 +88,7 @@ abstract class YAWLVertexRenderer extends VertexRenderer {
             YAWLTask task = (YAWLTask) view.getCell();
             String iconPath = task.getIconPath();
             if (iconPath != null) {
-                Icon icon = IconList.getInstance().getIcon(
-                        ((YAWLTask) view.getCell()).getIconPath());
+                Icon icon = IconList.getInstance().getIcon(iconPath);
                 if (icon != null) {
                     icon.paintIcon(null, graphics,
                             getIconHorizontalOffset(size, icon),

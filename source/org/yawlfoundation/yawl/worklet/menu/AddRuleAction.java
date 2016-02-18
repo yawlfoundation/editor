@@ -1,6 +1,8 @@
 package org.yawlfoundation.yawl.worklet.menu;
 
 import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
+import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.dialog.AddRuleDialog;
 
 import javax.swing.*;
@@ -19,7 +21,14 @@ class AddRuleAction extends YAWLSelectedNetAction {
 
 
     public void actionPerformed(ActionEvent event) {
-        new AddRuleDialog().setVisible(true);
+        if (WorkletClient.getInstance().isConnected()) {
+            new AddRuleDialog().setVisible(true);
+        }
+        else {
+            MessageDialog.error(
+                    "Cannot add rule: No current connection to the Worklet Service",
+                    "Worklet Service Connection Error");
+        }
     }
 
 }

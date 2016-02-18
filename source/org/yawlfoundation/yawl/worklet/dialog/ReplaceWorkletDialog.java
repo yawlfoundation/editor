@@ -206,7 +206,7 @@ public class ReplaceWorkletDialog extends AbstractNodeDialog
                 varList = specInfo.getInputParams();
                 id = specInfo.getRootNetID();
             }
-            _nodePanel.setNode(varList, id, runner, getRdrNode(runner.getRuleNodeId()));
+            _nodePanel.setNode(varList, id, runner, getRdrNode(runner.getRuleNodeID()));
             _nodePanel.setConditionStatus("Different condition required");
             _nodePanel.setConclusionStatus("Different action set required");
         }
@@ -222,7 +222,12 @@ public class ReplaceWorkletDialog extends AbstractNodeDialog
         if (node != null) {
             _origCondition = node.getCondition();
             _origConclusion = node.getConclusion().toString();
-            return new RdrNode(node.toXNode());      // clone it so values can be changed
+            try {
+                return node.clone();      // clone it so values can be changed
+            }
+            catch (CloneNotSupportedException cnse) {
+                throw new IOException("Failed to get cloned node");
+            }
         }
         return null;
     }
@@ -253,7 +258,7 @@ public class ReplaceWorkletDialog extends AbstractNodeDialog
             }
             else {
                 return CLIENT.replaceWorklet(runner.getParentCaseID(),
-                        runner.getWorkItemID(), ruleType, runner.getTrigger());
+                        runner.getWorkItemID(), ruleType);
             }
         }
         catch (IOException ioe) {

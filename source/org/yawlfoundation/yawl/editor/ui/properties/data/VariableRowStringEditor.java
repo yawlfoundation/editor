@@ -38,10 +38,9 @@ import java.util.Vector;
 /**
  * @author Michael Adams
  */
-public class VariableRowStringEditor extends AbstractCellEditor
+public class VariableRowStringEditor extends DefaultCellEditor
         implements TableCellEditor, ActionListener, PopupMenuListener {
 
-    private JTextField nameField;
     private JComboBox dataTypeCombo;
     private JCheckBox checkBox;
     private ValueField valuePanel;
@@ -53,7 +52,7 @@ public class VariableRowStringEditor extends AbstractCellEditor
     private Vector<String> dataTypeNames;
 
 
-    public VariableRowStringEditor() {  }
+    public VariableRowStringEditor() { super(new JTextField()); }
 
 
     public VariableRowStringEditor(VariableTablePanel panel) {
@@ -66,12 +65,12 @@ public class VariableRowStringEditor extends AbstractCellEditor
 
 
     public Object getCellEditorValue() {
+        if (editingColumnName.equals("Name")) return super.getCellEditorValue();
         if (editingColumnName.equals("Type")) return dataTypeCombo.getSelectedItem();
         if (editingColumnName.endsWith("Value")) {
             return isBooleanValueRow() ? String.valueOf(checkBox.isSelected())
                     : valuePanel.getText();
         }
-        if (editingColumnName.equals("Name")) return nameField.getText();
         return null;
     }
 
@@ -100,10 +99,8 @@ public class VariableRowStringEditor extends AbstractCellEditor
             valuePanel.setText((String) value);
             return valuePanel;
         }
-        else {
-            nameField = new JTextField();
-            nameField.setText((String) value);
-            return nameField;
+        else {      // name field
+            return super.getTableCellEditorComponent(table, value, isSelected, row, column);
         }
     }
 

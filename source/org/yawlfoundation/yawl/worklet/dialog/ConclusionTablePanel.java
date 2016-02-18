@@ -20,10 +20,11 @@ package org.yawlfoundation.yawl.worklet.dialog;
 
 import org.yawlfoundation.yawl.editor.ui.properties.data.StatusPanel;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.MiniToolBar;
+import org.yawlfoundation.yawl.worklet.exception.ExletValidationError;
+import org.yawlfoundation.yawl.worklet.exception.ExletValidator;
+import org.yawlfoundation.yawl.worklet.graph.NetDialog;
 import org.yawlfoundation.yawl.worklet.rdr.RdrConclusion;
 import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
-import org.yawlfoundation.yawl.worklet.support.ExletValidationError;
-import org.yawlfoundation.yawl.worklet.support.ExletValidator;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -129,7 +130,16 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
             _table.removeRow();
             validateConclusion();
         }
+        else if (action.equals("Net")) {
+            NetDialog dialog = new NetDialog(getConclusion());
+            dialog.setVisible(true);
+            RdrConclusion conclusion = dialog.getConclusion();
+            if (conclusion != null) {                           // dialog not cancelled
+                setConclusion(conclusion);
+            }
+        }
     }
+
 
     public ConclusionTable getTable() { return _table; }
 
@@ -146,6 +156,7 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
         _toolBar = new MiniToolBar(this);
         _toolBar.addButton("plus", "Add", " Add ");
         _toolBar.addButton("minus", "Del", " Remove ");
+        _toolBar.addButton("mapping", "Net", " Graphical Editor ");
         _toolBar.addSeparator(new Dimension(16, 16));
         _status = new StatusPanel(parent.getDialog());
         _toolBar.add(_status);

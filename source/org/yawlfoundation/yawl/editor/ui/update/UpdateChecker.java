@@ -19,15 +19,12 @@
 package org.yawlfoundation.yawl.editor.ui.update;
 
 import org.yawlfoundation.yawl.editor.ui.util.FileLocations;
-import org.yawlfoundation.yawl.util.HttpURLValidator;
+import org.yawlfoundation.yawl.util.HttpUtil;
 
 import javax.swing.*;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
 
 /**
 * @author Michael Adams
@@ -38,18 +35,12 @@ public class UpdateChecker extends SwingWorker<Void, Void> {
     private VersionDiffer _differ;
     private String _error;
 
-    public static final String CHECKSUM_FILE = "checksums.xml";
-    protected static final String BASE_URL = "http://sourceforge.net/";
-    protected static final String SOURCE_URL =
-            BASE_URL + "projects/yawl/files/updatecache4/editor/";
-    protected static final String SF_DOWNLOAD_SUFFIX = "/download";
-
-    public UpdateChecker() { }
+    public UpdateChecker() { super(); }
 
 
     public Void doInBackground() {
         try {
-            checkURLAvailable(BASE_URL);
+            UpdateConstants.init();
             _differ = new VersionDiffer(loadLatestCheckSums(), loadCurrentCheckSums());
         }
         catch (IOException ioe) {
@@ -93,7 +84,7 @@ public class UpdateChecker extends SwingWorker<Void, Void> {
 
 
     private File loadCurrentCheckSums() throws IOException {
-        File current = new File(FileLocations.getLibPath(), CHECKSUM_FILE);
+        File current = new File(FileLocations.getLibPath(), UpdateConstants.CHECK_FILE);
         if (! current.exists()) {
             throw new IOException("Unable to determine current build version");
         }
@@ -101,8 +92,9 @@ public class UpdateChecker extends SwingWorker<Void, Void> {
     }
 
     private File loadLatestCheckSums() throws IOException {
-        File latest = new File(getTmpDir(), CHECKSUM_FILE);
-        download(SOURCE_URL + "lib/" + CHECKSUM_FILE + SF_DOWNLOAD_SUFFIX, latest);
+        File latest = new File(getTmpDir(), UpdateConstants.CHECK_FILE);
+        URL url = UpdateConstants.getCheckUrl();
+        HttpUtil.download(url, latest);
         if (! latest.exists()) {
             throw new IOException("Unable to determine latest build version");
         }
@@ -110,24 +102,8 @@ public class UpdateChecker extends SwingWorker<Void, Void> {
     }
 
 
-    public void download(String fromURL, File toFile) throws IOException {
-        URL webFile = new URL(fromURL);
-        ReadableByteChannel rbc = Channels.newChannel(webFile.openStream());
-        FileOutputStream fos = new FileOutputStream(toFile);
-        fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-    }
-
-
     private File getTmpDir() {
         return new File(System.getProperty("java.io.tmpdir"));
-    }
-
-
-    private void checkURLAvailable(String urlStr) throws IOException {
-        if (! HttpURLValidator.validate(urlStr).equals("<success/>")) {
-            throw new IOException("Update server is offline or unavailable.\n" +
-                    "Please try again later.");
-        }
     }
 
 
