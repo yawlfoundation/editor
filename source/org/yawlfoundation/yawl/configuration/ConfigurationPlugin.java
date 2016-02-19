@@ -36,6 +36,7 @@ import org.yawlfoundation.yawl.elements.YTask;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -99,6 +100,11 @@ public class ConfigurationPlugin implements YEditorPlugin {
         configureTasksOnLoad();
         ConfigurationImporter.ApplyConfiguration();
     }
+
+
+    public void identifiersRationalised(Map<String, String> changeMap) { }
+
+    public void identifierChanged(String oldID, String newID) { }
 
 
     public void performPreCellRenderingTasks(Graphics2D g2, VertexView view) {

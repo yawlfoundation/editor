@@ -47,51 +47,31 @@ public abstract class YEditorPluginAdapter implements YEditorPlugin {
         return null;
     }
 
-    public void performPreFileSaveTasks() {
+    public void performPreFileSaveTasks() { }
 
-    }
+    public void performPostFileSaveTasks() { }
 
-    public void performPostFileSaveTasks() {
+    public void performPreFileOpenTasks() { }
 
-    }
+    public void performPostFileOpenTasks() { }
 
-    public void performPreFileOpenTasks() {
+    public void identifiersRationalised(Map<String, String> changeMap) { }
 
-    }
+    public void identifierChanged(String oldID, String newID) { }
 
-    public void performPostFileOpenTasks() {
+    public void performPreCellRenderingTasks(Graphics2D g2, VertexView cell) { }
 
-    }
+    public void netElementAdded(NetGraphModel model, YAWLVertex element) { }
 
-    public void performPreCellRenderingTasks(Graphics2D g2, VertexView cell) {
+    public void netElementsRemoved(NetGraphModel model, Set<Object> cellsAndTheirEdges) { }
 
-    }
+    public void portsConnected(NetGraphModel model, YAWLPort source, YAWLPort target) { }
 
-    public void netElementAdded(NetGraphModel model, YAWLVertex element) {
+    public void closeSpecification() { }
 
-    }
+    public void openSpecification() { }
 
-    public void netElementsRemoved(NetGraphModel model, Set<Object> cellsAndTheirEdges) {
+    public void netAdded(NetGraphModel model) { }
 
-    }
-
-    public void portsConnected(NetGraphModel model, YAWLPort source, YAWLPort target) {
-
-    }
-
-    public void closeSpecification() {
-
-    }
-
-    public void openSpecification() {
-
-    }
-
-    public void netAdded(NetGraphModel model) {
-
-    }
-
-    public void netRemoved(NetGraphModel model) {
-
-    }
+    public void netRemoved(NetGraphModel model) { }
 }

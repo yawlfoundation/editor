@@ -26,6 +26,7 @@ import org.yawlfoundation.yawl.editor.core.resourcing.TaskResourceSet;
 import org.yawlfoundation.yawl.editor.core.resourcing.YResourceHandler;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.elements.model.*;
+import org.yawlfoundation.yawl.editor.ui.plugin.YPluginHandler;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.GraphState;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.Publisher;
 import org.yawlfoundation.yawl.editor.ui.swing.net.YAWLEditorNetPanel;
@@ -580,9 +581,11 @@ public class CellProperties extends NetProperties {
             }
             if (! vertex.getID().equals(validID)) {
                 try {
-                    validID = flowHandler.replaceID(vertex.getID(), validID);
+                    String oldID = vertex.getID();
+                    validID = flowHandler.replaceID(oldID, validID);
                     if (vertex instanceof YAWLTask) {
-                        specHandler.getResourceHandler().replaceID(vertex.getID(), validID);
+                        specHandler.getResourceHandler().replaceID(oldID, validID);
+                        YPluginHandler.getInstance().identifierChanged(oldID, validID);
                     }
                     vertex.setID(validID);
                     firePropertyChange("id", getId());

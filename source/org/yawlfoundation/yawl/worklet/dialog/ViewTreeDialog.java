@@ -3,6 +3,7 @@ package org.yawlfoundation.yawl.worklet.dialog;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.elements.model.AtomicTask;
 import org.yawlfoundation.yawl.editor.ui.util.SplitPaneUtil;
+import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.rdr.*;
 import org.yawlfoundation.yawl.worklet.tree.TreePanel;
 
@@ -87,6 +88,7 @@ public class ViewTreeDialog extends AbstractNodeDialog
 
 
     private RdrTree getTree(RuleType ruleType, String taskID) {
+        taskID = WorkletClient.getInstance().getOldTaskID(taskID);
         return _rdrSet != null ? _rdrSet.getTree(ruleType, taskID) : null;
     }
 
@@ -145,7 +147,9 @@ public class ViewTreeDialog extends AbstractNodeDialog
         Set<String> tasks = new HashSet<String>();
         RdrTreeSet treeSet = _rdrSet.getTreeSet(ruleType);
         if (treeSet != null) {
-            tasks.addAll(treeSet.getAllTasks());
+            for (String taskID : treeSet.getAllTasks()) {
+                tasks.add(WorkletClient.getInstance().getUpdatedTaskID(taskID));
+            }
         }
         return tasks;
     }

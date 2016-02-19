@@ -26,6 +26,7 @@ import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -88,6 +89,23 @@ public interface YEditorPlugin {
      * Called by the editor immediately after a specification file is saved
      */
     void performPostFileOpenTasks();
+
+
+    /**
+     * Called when a specification is loaded and it was necessary to update
+     * unique identifiers to the new uniquify naming mechanism. Usually affects
+     * only pre-2.3 version specifications.
+     * @param changeMap a map of [old id -> new id] pairs
+     */
+    void identifiersRationalised(Map<String, String> changeMap);
+
+
+    /**
+     * Called when a user changes the value of a unique identifier
+     * @param oldID the previous value
+     * @param newID the new value
+     */
+    void identifierChanged(String oldID, String newID);
 
     /**
      * Called by the editor immediately before a task or condition is

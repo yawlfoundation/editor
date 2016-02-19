@@ -191,6 +191,7 @@ public class SpecificationReader extends SwingWorker<Boolean, Void> {
                 _handler.getControlFlowHandler().rationaliseIdentifiers();
         if (! changes.isEmpty()) {
             _handler.getResourceHandler().updateRationalisedReferences(changes);
+            YPluginHandler.getInstance().identifiersRationalised(changes);
         }
     }
 

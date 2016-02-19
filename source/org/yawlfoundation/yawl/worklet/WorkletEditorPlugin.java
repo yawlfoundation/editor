@@ -20,9 +20,12 @@ package org.yawlfoundation.yawl.worklet;
 
 import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
 import org.yawlfoundation.yawl.editor.ui.plugin.YEditorPluginAdapter;
+import org.yawlfoundation.yawl.worklet.client.TaskIDChangeMap;
+import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.menu.MenuBuilder;
 
 import javax.swing.*;
+import java.util.Map;
 
 /**
  * @author Michael Adams
@@ -51,4 +54,27 @@ public class WorkletEditorPlugin extends YEditorPluginAdapter {
 
     @Override
     public JToolBar getToolbar() { return new MenuBuilder().getToolBar(); }
+
+    @Override
+    public void performPostFileSaveTasks() {
+        TaskIDChangeMap changeMap = WorkletClient.getInstance().getTaskIdChangeMap();
+        if (changeMap != null) changeMap.saveChanges();
+    }
+
+    @Override
+    public void identifiersRationalised(Map<String, String> changeMap) {
+        WorkletClient.getInstance().setTaskIdChangeMap(new TaskIDChangeMap(changeMap));
+    }
+
+    @Override
+    public void identifierChanged(String oldID, String newID) {
+        TaskIDChangeMap changeMap = WorkletClient.getInstance().getTaskIdChangeMap();
+        if (changeMap != null) changeMap.add(oldID, newID);
+    }
+
+    @Override
+    public void closeSpecification() {
+        WorkletClient.getInstance().setTaskIdChangeMap(null);
+    }
+
 }

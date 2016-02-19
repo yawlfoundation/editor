@@ -32,10 +32,7 @@ import org.yawlfoundation.yawl.editor.ui.swing.menu.YAWLMenuBar;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -105,6 +102,30 @@ public class YPluginHandler {
         for (YEditorPlugin plugin : plugins) {
             try {
                 plugin.performPostFileSaveTasks();
+            }
+            catch (Exception e) {
+                warn(plugin, e);
+            }
+        }
+    }
+
+
+    public void identifiersRationalised(Map<String, String> changeMap) {
+        for (YEditorPlugin plugin : plugins) {
+            try {
+                plugin.identifiersRationalised(changeMap);
+            }
+            catch (Exception e) {
+                warn(plugin, e);
+            }
+        }
+    }
+
+
+    public void identifierChanged(String oldID, String newID) {
+        for (YEditorPlugin plugin : plugins) {
+            try {
+                plugin.identifierChanged(oldID, newID);
             }
             catch (Exception e) {
                 warn(plugin, e);

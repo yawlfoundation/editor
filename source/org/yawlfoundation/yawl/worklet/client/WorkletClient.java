@@ -59,6 +59,7 @@ public class WorkletClient extends YConnection {
     private String _password = DEFAULT_PASSWORD;
     private WorkletGatewayClient _client;
     private XNodeParser _xNodeParser;
+    private TaskIDChangeMap _taskIdChanges;
 
 
     private WorkletClient() {
@@ -191,6 +192,20 @@ public class WorkletClient extends YConnection {
     public void clearCache() { CACHE.clearAll(); }
 
 
+    public void setTaskIdChangeMap(TaskIDChangeMap map) { _taskIdChanges = map; }
+
+    public TaskIDChangeMap getTaskIdChangeMap() { return _taskIdChanges; }
+
+
+    public String getUpdatedTaskID(String taskID) {
+        return _taskIdChanges != null ? _taskIdChanges.getID(taskID) : taskID;
+    }
+
+    public String getOldTaskID(String taskID) {
+        return _taskIdChanges != null ? _taskIdChanges.getOldID(taskID) : taskID;
+    }
+
+
     /********************************************************************************/
 
     public List<WorkletRunner> getRunningWorkletList() throws IOException {
@@ -214,7 +229,7 @@ public class WorkletClient extends YConnection {
     public boolean addRule(YSpecificationID specID, String taskID, RuleType rule,
                           RdrNode node) throws IOException {
         connect();
-        check(_client.addNode(specID, taskID, rule, node, _handle));
+        check(_client.addNode(specID, getOldTaskID(taskID), rule, node, _handle));
         return true;
     }
 
@@ -350,6 +365,14 @@ public class WorkletClient extends YConnection {
     }
 
 
+    public boolean updateRdrSetTaskIDs(YSpecificationID specID, Map<String, String> updates)
+            throws IOException {
+        connect();
+        return successful(_client.updateRdrSetTaskIDs(specID, updates, _handle));
+    }
+
+
+    // only used by replace dialog, so we know the engine has the spec loaded
     public TaskInformation getTaskInfo(YSpecificationID specID, String taskID)
             throws IOException {
         TaskInformation taskInfo = CACHE.getTaskInfo(specID, taskID);
@@ -365,6 +388,7 @@ public class WorkletClient extends YConnection {
     }
 
 
+    // only used by replace dialog, so we know the engine has the spec loaded
     public SpecificationData getSpecificationInfo(YSpecificationID specID)
             throws IOException {
         SpecificationData specData = CACHE.getSpecData(specID);
