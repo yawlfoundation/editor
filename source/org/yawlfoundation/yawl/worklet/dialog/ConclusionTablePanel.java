@@ -45,6 +45,7 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
     private final ErrorMessageShortener _msgShortener;
     private StatusPanel _status;
     private MiniToolBar _toolBar;
+    private JButton _btnGraph;
     private boolean _shouldValidate;
 
 
@@ -93,7 +94,8 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
                 errors.add(new ExletValidationError(0, "Action(s) required"));
             }
             else {
-                errors = new ExletValidator().validate(conclusion,
+                errors = new ExletValidator().validate(_table.getSelectedRuleType(),
+                        conclusion,
                         WorkletClient.getInstance().getWorkletCache().getKeySet());
             }
             setVisuals(errors);
@@ -131,8 +133,8 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
             _table.removeRow();
             validateConclusion();
         }
-        else if (action.equals("Net")) {
-            NetDialog dialog = new NetDialog(getConclusion());
+        else if (action.equals("Graph")) {
+            NetDialog dialog = new NetDialog(getConclusion(), _table.getSelectedRuleType());
             dialog.setVisible(true);
             RdrConclusion conclusion = dialog.getConclusion();
             if (conclusion != null) {                           // dialog not cancelled
@@ -150,6 +152,9 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
     }
 
 
+    public void enableGraphButton(boolean enable) { _btnGraph.setEnabled(enable); }
+
+
     public void setStatus(String msg) { _status.set(msg); }
 
 
@@ -157,7 +162,7 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
         _toolBar = new MiniToolBar(this);
         _toolBar.addButton("plus", "Add", " Add ");
         _toolBar.addButton("minus", "Del", " Remove ");
-        _toolBar.addButton("mapping", "Net", " Graphical Editor ");
+        _btnGraph = _toolBar.addButton("mapping", "Graph", " Graphical Editor ");
         _toolBar.addSeparator(new Dimension(16, 16));
         _status = new StatusPanel(parent.getDialog());
         _toolBar.add(_status);

@@ -7,6 +7,7 @@ import org.yawlfoundation.yawl.worklet.exception.ExletValidationError;
 import org.yawlfoundation.yawl.worklet.exception.ExletValidator;
 import org.yawlfoundation.yawl.worklet.rdr.RdrConclusion;
 import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
+import org.yawlfoundation.yawl.worklet.rdr.RuleType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,22 +20,22 @@ import java.util.Set;
 public class ExletNetValidator {
 
     private final ExletValidator _exletValidator = new ExletValidator();
+    private final RuleType _ruleType;
 
-
-    public ExletNetValidator() { }
+    public ExletNetValidator(RuleType ruleType) { _ruleType = ruleType; }
 
 
     public String validate(List<AbstractNetCell> cells) {
         if (! reachable(cells)) {
-            return "End not reachable from start.";
+            return "End not reachable from start";
         }
         if (anyDetached(cells)) {
-            return "Not all actions are on a path from start to end.";
+            return "Not all actions are on a path from start to end";
         }
 
         RdrConclusion conclusion = new RdrConclusion();
         conclusion.setPrimitives(getPrimitiveList(cells));
-        List<ExletValidationError> errors = _exletValidator.validate(conclusion,
+        List<ExletValidationError> errors = _exletValidator.validate(_ruleType, conclusion,
                 getWorkletList());
         return errors.isEmpty() ? "ok" : errors.get(0).getMessage();
     }

@@ -7,10 +7,12 @@ import org.jgraph.plaf.basic.BasicGraphUI;
 import org.yawlfoundation.yawl.editor.ui.net.NetOverlay;
 import org.yawlfoundation.yawl.editor.ui.resourcing.subdialog.ListDialog;
 import org.yawlfoundation.yawl.util.StringUtil;
+import org.yawlfoundation.yawl.worklet.exception.ExletTarget;
 import org.yawlfoundation.yawl.worklet.model.WorkletListModel;
 import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
 import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Line2D;
@@ -62,6 +64,9 @@ public class ExletGraphUI extends BasicGraphUI implements ActionListener {
          public void mouseClicked(MouseEvent e) {
              if (e.getClickCount() == 2 && !e.isConsumed()) {
                  editCompensator(e);
+             }
+             else if (SwingUtilities.isRightMouseButton(e)) {
+                 showAncestorCasesPopup(e);
              }
              else {
                  switch (_paletteSelection) {
@@ -197,6 +202,17 @@ public class ExletGraphUI extends BasicGraphUI implements ActionListener {
         }
 
 
+        private void showAncestorCasesPopup(MouseEvent e) {
+            Object cell = getCellAt(e.getX(), e.getY());
+            if (cell instanceof PrimitiveCell) {
+                PrimitiveCell pCell = (PrimitiveCell) cell;
+                if (pCell.shouldShowAncestorPopup()) {
+                    new AncestorCasesPopup(pCell, e);
+                }
+            }
+        }
+
+
         private String showWorkletListDialog(Point location, String targets) {
             ListDialog dialog = new ListDialog(null, new WorkletListModel(), "Worklets");
             dialog.setResizable(true);
@@ -278,6 +294,26 @@ public class ExletGraphUI extends BasicGraphUI implements ActionListener {
             }
         }
 
+    }
+
+
+    /*******************************************************************************/
+
+    class AncestorCasesPopup extends JPopupMenu {
+
+        public AncestorCasesPopup(final PrimitiveCell pCell, MouseEvent e) {
+            final JCheckBoxMenuItem item = new JCheckBoxMenuItem("Ancestor cases only");
+            item.setSelected(pCell.getTarget() == ExletTarget.AncestorCases);
+
+            item.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    pCell.setAncestorCasesTarget(item.isSelected());
+                }
+            });
+
+            add(item);
+            show(e.getComponent(), e.getX(), e.getY());
+        }
     }
 
 }

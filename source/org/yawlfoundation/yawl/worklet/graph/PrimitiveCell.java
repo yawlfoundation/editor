@@ -1,5 +1,7 @@
 package org.yawlfoundation.yawl.worklet.graph;
 
+import org.yawlfoundation.yawl.worklet.exception.ExletAction;
+import org.yawlfoundation.yawl.worklet.exception.ExletTarget;
 import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
 
 import java.awt.geom.Rectangle2D;
@@ -22,9 +24,30 @@ public class PrimitiveCell extends AbstractNetCell {
 
     public RdrPrimitive getPrimitive() { return _primitive; }
 
+    public ExletTarget getTarget() { return _primitive.getExletTarget(); }
+
 
     public boolean isCompensator() {
-        return getPrimitive().getAction().equals("compensate");
+        return getPrimitive().getExletAction() == ExletAction.Compensate;
+    }
+
+
+    public void setAncestorCasesTarget(boolean isAncestorCases) {
+        if (isAncestorCases && getTarget() == ExletTarget.AllCases) {
+            _primitive.setExletTarget(ExletTarget.AncestorCases);
+        }
+        else if (!isAncestorCases && getTarget() == ExletTarget.AncestorCases) {
+            _primitive.setExletTarget(ExletTarget.AllCases);
+        }
+    }
+
+
+    public boolean shouldShowAncestorPopup() {
+        switch (getTarget()) {
+            case AllCases:
+            case AncestorCases: return true;
+            default: return false;
+        }
     }
 
 

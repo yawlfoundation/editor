@@ -27,6 +27,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.*;
 
+import static org.yawlfoundation.yawl.worklet.rdr.RuleType.ItemSelection;
+
 /**
  * @author Michael Adams
  * @date 3/12/2015
@@ -68,7 +70,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
                 _parent.comboChanged(event);
             }
             else {
-                java.util.List<VariableRow> variables = null;
+                java.util.List<VariableRow> variables;
                 Object item = event.getItem();
 
                 // if rule change
@@ -79,22 +81,23 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
                         variables = getDataContext(null);  // net level vars
                     }
                     else {
-                        AtomicTask task = getSelectedTask();
-                        if (task != null) {
-                            variables = getDataContext(task);
-                        }
+                        variables = getVariables(getSelectedTask());
+                    }
+
+                    if (_conclusionPanel != null) {
+                        _conclusionPanel.enableGraphButton(selectedType != ItemSelection);
                     }
                 }
                 else {    // task combo
-                    variables = getDataContext((AtomicTask) item);
+                    variables = getVariables((AtomicTask) item);
                 }
-                if (variables == null) variables = Collections.emptyList();
 
                 _dataContextPanel.setVariables(variables);
                 clearInputs();
             }
         }
     }
+
 
     // data table selection
     public void valueChanged(ListSelectionEvent event) {
@@ -113,6 +116,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
         if (e.getSource() instanceof ExletCellEditor) {
             validateConclusion();
             _conclusionPanel.enableButtons(true);
+            _conclusionPanel.enableGraphButton(_rulePanel.getSelectedRule() != ItemSelection);
         }
         else {
             _rulePanel.updateCondition(_dataContextPanel.getSelectedVariable());
@@ -205,13 +209,14 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
         splitPane.setRightComponent(getDataPanel(task, mode));  // init data panel first
         splitPane.setLeftComponent(getActionPanel(task, mode));
         add(splitPane, BorderLayout.CENTER);
+        _dataContextPanel.setVariables(getVariables(getSelectedTask()));
     }
 
 
     private JPanel getActionPanel(AtomicTask task, DialogMode mode) {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(getRulePanel(task, mode), BorderLayout.NORTH);
         panel.add(getDescriptionPanel(), BorderLayout.SOUTH);
+        panel.add(getRulePanel(task, mode), BorderLayout.NORTH);
         panel.add(getConclusionPanel(mode), BorderLayout.CENTER);
         return panel;
     }
@@ -244,32 +249,39 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
 
     private JPanel getConclusionPanel(DialogMode mode) {
         _conclusionPanel = new ConclusionTablePanel(this, mode);
+        _conclusionPanel.enableGraphButton(_rulePanel.getSelectedRule() != ItemSelection);
         return _conclusionPanel;
     }
 
 
-     private java.util.List<VariableRow> getDataContext(AtomicTask task) {
-         java.util.List<VariableRow> rows = new ArrayList<VariableRow>();
-         YDecomposition decomposition;
-         if (task == null) {       // case level
-             decomposition = SpecificationModel.getNets().getRootNet().getDecomposition();
-             if (decomposition != null) {
-                 rows = getDataRows(((YNet) decomposition).getLocalVariables().values(),
-                         decomposition.getID());
-             }
-         }
-         else {
-             decomposition = task.getDecomposition();
-         }
 
-         if (decomposition != null) {
-             String id = task != null ? task.getID() : decomposition.getID();
-             rows = getDataRows(decomposition.getInputParameters().values(), id);
-         }
+    private java.util.List<VariableRow> getVariables(AtomicTask task) {
+        return task != null ? getDataContext(task) : Collections.<VariableRow>emptyList();
+    }
 
-         Collections.sort(rows);
-         return rows;
-     }
+
+    private java.util.List<VariableRow> getDataContext(AtomicTask task) {
+        java.util.List<VariableRow> rows = new ArrayList<VariableRow>();
+        YDecomposition decomposition;
+        if (task == null) {       // case level
+            decomposition = SpecificationModel.getNets().getRootNet().getDecomposition();
+            if (decomposition != null) {
+                rows = getDataRows(((YNet) decomposition).getLocalVariables().values(),
+                        decomposition.getID());
+            }
+        }
+        else {
+            decomposition = task.getDecomposition();
+        }
+
+        if (decomposition != null) {
+            String id = task != null ? task.getID() : decomposition.getID();
+            rows = getDataRows(decomposition.getInputParameters().values(), id);
+        }
+
+        Collections.sort(rows);
+        return rows;
+    }
 
 
     private java.util.List<VariableRow> getDataRows(Collection<? extends YVariable> variables,
@@ -309,8 +321,8 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
 
     protected void clearInputs() {
         _txtDescription.setText(null);
-        _rulePanel.clearInputs();
-        _conclusionPanel.setConclusion(null);
+        if (_rulePanel != null) _rulePanel.clearInputs();
+        if (_conclusionPanel != null) _conclusionPanel.setConclusion(null);
     }
 
 

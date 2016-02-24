@@ -3,6 +3,7 @@ package org.yawlfoundation.yawl.worklet.graph;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.ButtonBar;
 import org.yawlfoundation.yawl.worklet.rdr.RdrConclusion;
+import org.yawlfoundation.yawl.worklet.rdr.RuleType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,13 +22,13 @@ public class NetDialog extends JDialog implements ActionListener {
     private RdrConclusion _conclusion;
 
 
-    public NetDialog(RdrConclusion conclusion) {
+    public NetDialog(RdrConclusion conclusion, RuleType ruleType) {
         super(YAWLEditor.getInstance());
-        setTitle("Rules Action Editor");
+        setTitle("Rules Action Editor: " + ruleType.toLongString());
         setModal(true);
         setResizable(true);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        add(getContent(conclusion));
+        add(getContent(conclusion, ruleType));
         pack();
         setLocationRelativeTo(YAWLEditor.getInstance());
     }
@@ -61,9 +62,9 @@ public class NetDialog extends JDialog implements ActionListener {
 
 
 
-    private JPanel getContent(RdrConclusion conclusion) {
+    private JPanel getContent(RdrConclusion conclusion, RuleType ruleType) {
         JPanel panel = new JPanel(new BorderLayout());
-        _netPanel = new NetPanel(this, conclusion);
+        _netPanel = new NetPanel(this, conclusion, ruleType);
         panel.add(getPalettePanel(), BorderLayout.WEST);
         panel.add(getButtonBar(), BorderLayout.SOUTH);
         panel.add(_netPanel, BorderLayout.CENTER);

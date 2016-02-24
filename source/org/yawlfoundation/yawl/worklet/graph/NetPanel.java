@@ -9,6 +9,7 @@ import org.yawlfoundation.yawl.editor.ui.properties.data.StatusPanel;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.MiniToolBar;
 import org.yawlfoundation.yawl.worklet.rdr.RdrConclusion;
 import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
+import org.yawlfoundation.yawl.worklet.rdr.RuleType;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -34,7 +35,7 @@ public class NetPanel extends JPanel implements GraphModelListener {
     private StatusPanel _status;
 
 
-    public NetPanel(NetDialog dialog, RdrConclusion conclusion) {
+    public NetPanel(NetDialog dialog, RdrConclusion conclusion, RuleType ruleType) {
         super();
         init();
         _dialog = dialog;
@@ -42,7 +43,7 @@ public class NetPanel extends JPanel implements GraphModelListener {
         add(createStatusBar(), BorderLayout.SOUTH);
         _graph = createGraph(_model);
         new NetRenderer(getPreferredSize()).render(_graph, conclusion);
-        _validator = new ExletNetValidator();
+        _validator = new ExletNetValidator(ruleType);
         add(new JScrollPane(_graph), BorderLayout.CENTER);
     }
 

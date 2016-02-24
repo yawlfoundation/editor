@@ -119,7 +119,6 @@ public class RulePanel extends JPanel implements ItemListener {
         if (isWorkletTask(task)) {
             _cbxType.setSelectedItem(RuleType.ItemSelection);
         }
-
     }
 
     private JLabel addPrompt(String prompt, Component c) {

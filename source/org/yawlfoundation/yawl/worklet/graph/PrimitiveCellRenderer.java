@@ -66,8 +66,8 @@ class PrimitiveCellRenderer extends VertexRenderer {
     private String getIconSuffix(ExletTarget target) {
         switch (target) {
             case Case: return "All";
-            case AllCases: return "AllCases";
-            case AncestorCases: return "AncestorCases";
+            case AllCases:
+            case AncestorCases: return "AllCases";
             default: return "";  // work items
         }
     }

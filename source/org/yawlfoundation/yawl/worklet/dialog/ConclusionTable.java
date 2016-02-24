@@ -63,9 +63,7 @@ public class ConclusionTable extends JSingleSelectTable {
         super();
         _parent = parent;
         setModel(new ConclusionTableModel(mode));
-//        if (mode != DialogMode.Viewing) {
-            getModel().addTableModelListener(parent.getDialog());
- //       }
+        getModel().addTableModelListener(parent.getDialog());
         setRowHeight(getRowHeight() + 5);
         setCellSelectionEnabled(true);
         setRowSelectionAllowed(true);
