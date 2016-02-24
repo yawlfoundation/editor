@@ -23,9 +23,7 @@ import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -112,11 +110,6 @@ public class WorkletListModel extends AbstractResourceListModel {
 
 
     private List<WorkletInfo> getWorkletList() {
-        try {
-            return WorkletClient.getInstance().getWorkletInfoList();
-        }
-        catch (IOException ioe) {
-            return Collections.emptyList();
-        }
+        return WorkletClient.getInstance().getWorkletCache().getWorkletList();
     }
 }

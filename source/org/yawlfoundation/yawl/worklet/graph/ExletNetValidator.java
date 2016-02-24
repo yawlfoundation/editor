@@ -7,10 +7,10 @@ import org.yawlfoundation.yawl.worklet.exception.ExletValidationError;
 import org.yawlfoundation.yawl.worklet.exception.ExletValidator;
 import org.yawlfoundation.yawl.worklet.rdr.RdrConclusion;
 import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
-import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Michael Adams
@@ -19,7 +19,6 @@ import java.util.*;
 public class ExletNetValidator {
 
     private final ExletValidator _exletValidator = new ExletValidator();
-    private final Set<String> _workletList = getWorkletList();
 
 
     public ExletNetValidator() { }
@@ -35,7 +34,8 @@ public class ExletNetValidator {
 
         RdrConclusion conclusion = new RdrConclusion();
         conclusion.setPrimitives(getPrimitiveList(cells));
-        List<ExletValidationError> errors = _exletValidator.validate(conclusion, _workletList);
+        List<ExletValidationError> errors = _exletValidator.validate(conclusion,
+                getWorkletList());
         return errors.isEmpty() ? "ok" : errors.get(0).getMessage();
     }
 
@@ -115,17 +115,7 @@ public class ExletNetValidator {
 
 
     private Set<String> getWorkletList() {
-        try {
-            Set<String> workletList = new HashSet<String>();
-            for (WorkletInfo workletInfo :
-                    WorkletClient.getInstance().getWorkletInfoList()) {
-                 workletList.add(workletInfo.getSpecID().getKey());
-            }
-            return workletList;
-        }
-        catch (IOException ioe) {
-            return Collections.emptySet();
-        }
+        return WorkletClient.getInstance().getWorkletCache().getKeySet();
     }
 
 }

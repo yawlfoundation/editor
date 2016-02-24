@@ -1,5 +1,8 @@
 package org.yawlfoundation.yawl.worklet.dialog;
 
+import org.yawlfoundation.yawl.util.StringUtil;
+import org.yawlfoundation.yawl.worklet.client.WorkletClient;
+import org.yawlfoundation.yawl.worklet.exception.ExletAction;
 import org.yawlfoundation.yawl.worklet.rdr.RdrConclusion;
 import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
 import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
@@ -83,9 +86,10 @@ public class CompositeRulePanel extends JPanel {
 
     private String getConclusionLine(RdrConclusion conclusion) {
         StringBuilder s = new StringBuilder();
-        for (RdrPrimitive p : conclusion.getPrimitives()) {
+        for (RdrPrimitive primitive : conclusion.getPrimitives()) {
             if (s.length() > 0) s.append(" -> ");
-             s.append(p.getAction()).append(" ").append(p.getTarget());
+            s.append(primitive.getAction()).append(" ")
+                    .append(getTarget(primitive));
         }
         return s.toString();
     }
@@ -106,6 +110,14 @@ public class CompositeRulePanel extends JPanel {
         _textArea.setEditable(false);
         _textArea.setBackground(Color.WHITE);
         return _textArea;
+    }
+
+
+    private String getTarget(RdrPrimitive primitive) {
+        return ExletAction.fromString(primitive.getAction()).isWorkletAction() ?
+                StringUtil.join(WorkletClient.getInstance().getWorkletCache()
+                        .getURIsForTarget(primitive.getTarget()), ';') :
+                primitive.getTarget();
     }
 
 }

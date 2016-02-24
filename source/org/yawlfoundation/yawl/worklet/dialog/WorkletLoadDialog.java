@@ -44,15 +44,8 @@ public class WorkletLoadDialog extends AbstractDownloadDialog {
 
     @Override
     protected JList getList() {
-        try {
-            java.util.List<WorkletInfo> workletList = CLIENT.getWorkletInfoList();
-            return new JList(new WorkletSpecificationListModel(workletList));
-
-        }
-        catch (IOException ioe) {
-            showError("Failed to get list of worklets from the Worklet Service: ", ioe);
-        }
-        return new JList();
+        java.util.List<WorkletInfo> workletList = CLIENT.getWorkletCache().getWorkletList();
+        return new JList(new WorkletSpecificationListModel(workletList));
     }
 
 

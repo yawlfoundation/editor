@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.worklet.dialog;
 
 import org.yawlfoundation.yawl.editor.ui.properties.data.StatusPanel;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.MiniToolBar;
+import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.exception.ExletValidationError;
 import org.yawlfoundation.yawl.worklet.exception.ExletValidator;
 import org.yawlfoundation.yawl.worklet.graph.NetDialog;
@@ -93,7 +94,7 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
             }
             else {
                 errors = new ExletValidator().validate(conclusion,
-                        _table.getTableModel().getWorkletSpecificationKeys());
+                        WorkletClient.getInstance().getWorkletCache().getKeySet());
             }
             setVisuals(errors);
             return errors;

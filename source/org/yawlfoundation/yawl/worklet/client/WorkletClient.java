@@ -53,6 +53,7 @@ public class WorkletClient extends YConnection {
     private static final String DEFAULT_PASSWORD = "yEditor";
 
     private static final ClientCache CACHE = new ClientCache();
+    private static final WorkletInfoCache _workletInfoCache = new WorkletInfoCache();
     private static final WorkletClient INSTANCE = new WorkletClient();
 
     private String _userid = DEFAULT_USERID;
@@ -192,6 +193,9 @@ public class WorkletClient extends YConnection {
     public void clearCache() { CACHE.clearAll(); }
 
 
+    public WorkletInfoCache getWorkletCache() { return _workletInfoCache; }
+
+
     public void setTaskIdChangeMap(TaskIDChangeMap map) { _taskIdChanges = map; }
 
     public TaskIDChangeMap getTaskIdChangeMap() { return _taskIdChanges; }
@@ -257,6 +261,7 @@ public class WorkletClient extends YConnection {
             throws IOException {
         connect();
         check(_client.addWorklet(specID, workletXML, _handle));
+        _workletInfoCache.invalidate();
         return true;
     }
 

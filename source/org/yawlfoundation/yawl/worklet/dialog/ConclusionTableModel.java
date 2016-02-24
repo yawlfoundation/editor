@@ -42,11 +42,9 @@ import org.yawlfoundation.yawl.worklet.exception.ExletAction;
 import org.yawlfoundation.yawl.worklet.exception.ExletTarget;
 import org.yawlfoundation.yawl.worklet.rdr.RdrConclusion;
 import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
-import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
 
 import javax.swing.table.AbstractTableModel;
-import java.io.IOException;
-import java.util.*;
+import java.util.List;
 
 /**
  * @author Michael Adams
@@ -56,7 +54,6 @@ public class ConclusionTableModel extends AbstractTableModel {
 
     private RdrConclusion _conclusion;
     private boolean _editable;
-    private final Map<String, WorkletInfo> _infoMap = getWorkletMap();
 
     private static final String[] COLUMN_LABELS = { "", "Action", "Target" };
 
@@ -129,9 +126,6 @@ public class ConclusionTableModel extends AbstractTableModel {
     public RdrConclusion getConclusion() { return _conclusion; }
 
 
-    public Set<String> getWorkletSpecificationKeys() { return _infoMap.keySet(); }
-
-
     public boolean hasValidContent() {
         for (RdrPrimitive primitive : _conclusion.getPrimitives()) {
             if (! primitive.isValid()) return false;
@@ -162,38 +156,9 @@ public class ConclusionTableModel extends AbstractTableModel {
 
     // list of worklet names to present to user
     private String getWorkletsForView(RdrPrimitive primitive) {
-        List<String> names = new ArrayList<String>();
-        for (String key : extractKeysFromTarget(primitive.getTarget())) {
-            WorkletInfo info = _infoMap.get(key);
-            if (info != null) {
-                names.add(info.getSpecID().getUri());
-            }
-        }
+        List<String> names = getURIs(primitive.getTarget());
         return names.isEmpty() ? getDisplayValue(primitive.getTarget()) :
                 StringUtil.join(names, ';');
-    }
-
-
-    private List<String> extractKeysFromTarget(String target) {
-        String[] keys = target.split(";");
-        for (int i=0; i < keys.length; i++) {
-             keys[i] = keys[i].trim();
-        }
-        return Arrays.asList(keys);
-    }
-
-
-    private Map<String, WorkletInfo> getWorkletMap() {
-        Map<String, WorkletInfo> infoMap = new HashMap<String, WorkletInfo>();
-        try {
-            for (WorkletInfo info : WorkletClient.getInstance().getWorkletInfoList()) {
-                infoMap.put(info.getSpecID().getKey(), info);
-            }
-        }
-        catch (IOException ignore) {
-
-        }
-        return infoMap;
     }
 
 
@@ -204,6 +169,11 @@ public class ConclusionTableModel extends AbstractTableModel {
 
     private String getDisplayValue(String value) {
         return value.equals("invalid") ? "<choose>" : value;
+    }
+
+
+    private List<String> getURIs(String target) {
+        return WorkletClient.getInstance().getWorkletCache().getURIsForTarget(target);
     }
 
 }
