@@ -33,6 +33,7 @@ import org.yawlfoundation.yawl.util.XNode;
 import org.yawlfoundation.yawl.util.XNodeParser;
 import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
+import org.yawlfoundation.yawl.worklet.rdrutil.RdrResult;
 import org.yawlfoundation.yawl.worklet.selection.WorkletRunner;
 import org.yawlfoundation.yawl.worklet.settings.SettingsStore;
 import org.yawlfoundation.yawl.worklet.support.WorkletGatewayClient;
@@ -235,6 +236,16 @@ public class WorkletClient extends YConnection {
         connect();
         check(_client.addNode(specID, getOldTaskID(taskID), rule, node, _handle));
         return true;
+    }
+
+
+    public RdrResult removeRule(YSpecificationID specID, String taskID, RuleType rule,
+                                RdrNode node) throws IOException {
+        connect();
+        String result = _client.removeNode(specID, getOldTaskID(taskID), rule,
+                node.getNodeId(), _handle);
+        check(result);
+        return getRdrResult(result);
     }
 
 
@@ -452,6 +463,16 @@ public class WorkletClient extends YConnection {
             if (StringUtil.isNullOrEmpty(xml)) xml = "General Engine Error";
             while (xml.trim().startsWith("<")) xml = StringUtil.unwrap(xml);
             throw new IOException(xml);
+        }
+    }
+
+
+    private RdrResult getRdrResult(String value) {
+        try {
+            return RdrResult.valueOf(value);
+        }
+        catch (IllegalArgumentException iae) {
+            return RdrResult.Unknown;
         }
     }
 

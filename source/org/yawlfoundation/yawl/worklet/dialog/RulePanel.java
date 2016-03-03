@@ -63,10 +63,14 @@ public class RulePanel extends JPanel implements ItemListener {
 
     public RuleType getSelectedRule() { return (RuleType) _cbxType.getSelectedItem(); }
 
+    public void setSelectedRule(int index) { _cbxType.setSelectedIndex(index); }
+
 
      public AtomicTask getSelectedTask() {
          return getSelectedRule().isItemLevelType() ? _cbxTask.getSelectedTask() : null;
      }
+
+    public void setSelectedTask(int index) { _cbxTask.setSelectedIndex(index); }
 
 
     public void updateCondition(VariableRow row) {

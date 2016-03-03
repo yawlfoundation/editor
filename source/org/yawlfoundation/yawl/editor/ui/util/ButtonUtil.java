@@ -9,6 +9,8 @@ import java.awt.*;
  */
 public class ButtonUtil {
 
+    private static final int PREFERRED_HEIGHT = 25;
+
     public static void setEqualWidths(JPanel panel) {
         Component widestButton = null;
         for (Component component : panel.getComponents()) {
@@ -22,9 +24,11 @@ public class ButtonUtil {
         }
 
         if (widestButton != null) {
+            Dimension correctedSize = new Dimension(
+                    widestButton.getPreferredSize().width, PREFERRED_HEIGHT);
             for (Component component : panel.getComponents()) {
-                if (component instanceof JButton && !component.equals(widestButton)) {
-                    component.setPreferredSize(widestButton.getPreferredSize());
+                if (component instanceof JButton) {
+                    component.setPreferredSize(correctedSize);
                 }
             }
         }

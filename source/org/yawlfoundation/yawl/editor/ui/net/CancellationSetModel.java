@@ -129,10 +129,11 @@ public class CancellationSetModel implements GraphSelectionListener {
     }
 
     public YAWLTask getTriggeringTask() {
-        if (_currentSet != null) {
-            return _currentSet.getOwnerTask();
-        }
-        return null;
+        return _currentSet != null ? _currentSet.getOwnerTask() : null;
+    }
+
+    public Color getTriggeringTaskBackground() {
+        return _currentSet != null ? _currentSet.getOwnerTaskBackground() : null;
     }
 
     private void notify(CancellationSetModelListener listener, int notificationType) {

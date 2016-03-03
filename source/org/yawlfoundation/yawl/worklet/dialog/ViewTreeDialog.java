@@ -2,9 +2,12 @@ package org.yawlfoundation.yawl.worklet.dialog;
 
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.elements.model.AtomicTask;
+import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.util.SplitPaneUtil;
 import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.rdr.*;
+import org.yawlfoundation.yawl.worklet.rdrutil.RdrResult;
 import org.yawlfoundation.yawl.worklet.tree.TreePanel;
 
 import javax.swing.*;
@@ -14,6 +17,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,11 +33,12 @@ public class ViewTreeDialog extends AbstractNodeDialog
     private JScrollPane _treeScrollPane;
     private CompositeRulePanel _compositeRulePanel;
     private RdrSet _rdrSet;
+    private RdrNode _selectedNode;
 
 
     public ViewTreeDialog(RdrSet rdrSet) {
         super(YAWLEditor.getInstance(), true);
-        setTitle("Rule Tree Viewer");
+        setTitle("Rule Viewer");
         _rdrSet = rdrSet;
         setContent();
         setBaseSize(800, 550);
@@ -49,6 +54,9 @@ public class ViewTreeDialog extends AbstractNodeDialog
     @Override
     public void actionPerformed(ActionEvent event) {
         String cmd = event.getActionCommand();
+        if (cmd.equals("Remove")) {
+            removeRule();
+        }
         if (cmd.equals("Done")) {
             close();
         }
@@ -57,6 +65,7 @@ public class ViewTreeDialog extends AbstractNodeDialog
 
     // from TreePanel
     public void nodeSelected(RdrNode ruleNode) {
+        _selectedNode = ruleNode;
         if (ruleNode != null) {
             _nodePanel.setNode(ruleNode);
             _compositeRulePanel.setCondition(ruleNode);
@@ -75,10 +84,7 @@ public class ViewTreeDialog extends AbstractNodeDialog
             selectedType = _nodePanel.getSelectedRule();
         }
 
-        AtomicTask task = _nodePanel.getSelectedTask();
-        String taskID = task != null ? task.getID() : null;
-        _treePanel.setTree(getTree(selectedType, taskID));
-        _treeScrollPane.getViewport().scrollRectToVisible(_treePanel.getRootNodeRect());
+        setTree(getTree(selectedType, getSelectedTaskID()), null);
     }
 
 
@@ -90,6 +96,76 @@ public class ViewTreeDialog extends AbstractNodeDialog
     private RdrTree getTree(RuleType ruleType, String taskID) {
         taskID = WorkletClient.getInstance().getOldTaskID(taskID);
         return _rdrSet != null ? _rdrSet.getTree(ruleType, taskID) : null;
+    }
+
+
+    private void removeRule() {
+        if (_selectedNode != null) {
+            int confirm = JOptionPane.showConfirmDialog(this,
+                    "Remove selected rule - are you sure?",
+                    "Remove Rule Confirmation", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.NO_OPTION) {
+                return;
+            }
+            RuleType rType = _nodePanel.getSelectedRule();
+            String taskID = getSelectedTaskID();
+            RdrTree tree = getTree(rType, taskID);
+            if (tree != null) {
+                RdrNode parent = _selectedNode.getParent();
+                RdrNode node = tree.removeNode(_selectedNode.getNodeId());
+                if (node != null) {
+                    try {
+                        RdrResult result = WorkletClient.getInstance().removeRule(
+                                SpecificationModel.getHandler().getID(), taskID,
+                                rType, node);
+                        switch (result) {
+                            case RdrSetRemoved: // no rules left in set
+                                MessageDialog.info("The rule set is now empty. " +
+                                        "This dialog will close.", "Remove Rule Success");
+                                close();
+                                break;
+                            case RdrTreeSetRemoved: // no more trees for rule
+                                _rdrSet.removeTreeSet(rType);
+                                MessageDialog.info("There are no more " +
+                                        rType + " rules.", "Remove Rule Success");
+                                _nodePanel.setSelectedRule(0);
+                                break;
+                            case RdrTreeRemoved:
+                                _rdrSet.getTreeSet(rType).remove(taskID);
+                                MessageDialog.info("There are no more " + rType +
+                                                 " rules for task '" + taskID + "'.",
+                                        "Remove Rule Success");
+                                _nodePanel.setSelectedTask(0);
+                                break;
+                            case RdrNodeRemoved:
+                                setTree(tree, parent); break;   // refresh the tree panel
+                        }
+                    }
+                    catch (IOException ioe) {
+                        MessageDialog.error("Failed to remove rule from Worklet Service: " +
+                                ioe.getMessage(), "Remove Rule Error");
+                    }
+                }
+                else {
+                    MessageDialog.warn("The selected rule cannot be removed",
+                            "Remove Rule Error" );
+                }
+            }
+        }
+    }
+
+
+    private String getSelectedTaskID() {
+        AtomicTask task = _nodePanel.getSelectedTask();
+        return task != null ? task.getID() : null;
+    }
+
+
+    private void setTree(RdrTree tree, RdrNode newSelection) {
+        if (_treePanel != null) {
+            _treePanel.setTree(tree, newSelection);
+            _treeScrollPane.getViewport().scrollRectToVisible(_treePanel.getRootNodeRect());
+        }
     }
 
 
@@ -135,8 +211,9 @@ public class ViewTreeDialog extends AbstractNodeDialog
     private JPanel getButtonPanel() {
         ButtonPanel panel = new ButtonPanel();
         panel.setBorder(new EmptyBorder(5,5,10,5));
-        JButton btnClose = panel.addButton("Done", this);
-        btnClose.setPreferredSize(new Dimension(75,25));
+        panel.addButton("Remove", this);
+        panel.addButton("Done", this);
+        panel.equalise();
         return panel;
     }
 

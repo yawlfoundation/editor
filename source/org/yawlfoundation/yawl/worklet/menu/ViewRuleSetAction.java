@@ -36,7 +36,7 @@ class ViewRuleSetAction extends YAWLSelectedNetAction {
             String s = WorkletClient.getInstance().getRdrSet(specID);
             if (s != null) {
                 RdrSet rdrSet = new RdrSet(specID);
-                rdrSet.fromXML(s);
+                rdrSet.fromXML(s, false);
                 return rdrSet;
             }
 

@@ -27,6 +27,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.*;
 
+import static org.yawlfoundation.yawl.worklet.dialog.DialogMode.Viewing;
 import static org.yawlfoundation.yawl.worklet.rdr.RuleType.ItemSelection;
 
 /**
@@ -66,7 +67,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     public void itemStateChanged(ItemEvent event) {
         if (((JComboBox) event.getSource()).isEnabled() &&
                 event.getStateChange() == ItemEvent.SELECTED) {
-            if (_mode == DialogMode.Viewing) {
+            if (_mode == Viewing) {
                 _parent.comboChanged(event);
             }
             else {
@@ -85,7 +86,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
                     }
 
                     if (_conclusionPanel != null) {
-                        _conclusionPanel.enableGraphButton(selectedType != ItemSelection);
+                        enableGraphicalRuleEditing(selectedType);
                     }
                 }
                 else {    // task combo
@@ -116,7 +117,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
         if (e.getSource() instanceof ExletCellEditor) {
             validateConclusion();
             _conclusionPanel.enableButtons(true);
-            _conclusionPanel.enableGraphButton(_rulePanel.getSelectedRule() != ItemSelection);
+            enableGraphicalRuleEditing(_rulePanel.getSelectedRule());
         }
         else {
             _rulePanel.updateCondition(_dataContextPanel.getSelectedVariable());
@@ -154,9 +155,13 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
 
     public RuleType getSelectedRule() { return _rulePanel.getSelectedRule(); }
 
+    public void setSelectedRule(int index) { }
+
 
     public AtomicTask getSelectedTask() {
         return _rulePanel != null ? _rulePanel.getSelectedTask() : null; }
+
+    public void setSelectedTask(int index) { }
 
 
     public void setNode(java.util.List<? extends YVariable> vars, String id,
@@ -249,10 +254,20 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
 
     private JPanel getConclusionPanel(DialogMode mode) {
         _conclusionPanel = new ConclusionTablePanel(this, mode);
-        _conclusionPanel.enableGraphButton(_rulePanel.getSelectedRule() != ItemSelection);
+        enableGraphicalRuleEditing(mode, _rulePanel.getSelectedRule());
         return _conclusionPanel;
     }
 
+
+    private void enableGraphicalRuleEditing(RuleType selectedRule) {
+        enableGraphicalRuleEditing(_mode, selectedRule);
+    }
+
+
+    private void enableGraphicalRuleEditing(DialogMode mode, RuleType selectedRule) {
+        _conclusionPanel.enableGraphButton(mode != DialogMode.Viewing  &&
+                selectedRule != ItemSelection);
+    }
 
 
     private java.util.List<VariableRow> getVariables(AtomicTask task) {

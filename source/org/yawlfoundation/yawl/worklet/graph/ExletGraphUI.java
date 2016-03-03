@@ -1,6 +1,7 @@
 package org.yawlfoundation.yawl.worklet.graph;
 
 import org.jgraph.graph.DefaultEdge;
+import org.jgraph.graph.DefaultGraphModel;
 import org.jgraph.graph.DefaultPort;
 import org.jgraph.graph.GraphConstants;
 import org.jgraph.plaf.basic.BasicGraphUI;
@@ -308,11 +309,17 @@ public class ExletGraphUI extends BasicGraphUI implements ActionListener {
             item.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     pCell.setAncestorCasesTarget(item.isSelected());
+                    fireCellChanged(pCell);                    // to revalidate exlet
                 }
             });
 
             add(item);
             show(e.getComponent(), e.getX(), e.getY());
+        }
+
+
+        public void fireCellChanged(Object cell) {
+            ((DefaultGraphModel) graph.getModel()).cellsChanged(new Object[]{ cell });
         }
     }
 

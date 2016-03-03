@@ -24,6 +24,7 @@ import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.elements.YCondition;
 import org.yawlfoundation.yawl.elements.YExternalNetElement;
 
+import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,6 +35,7 @@ public class CancellationSet implements Serializable, Cloneable {
 
     private YAWLTask _ownerTask;
     private Set<YAWLCell> _members;
+    private Color _ownerTaskBackground;
 
     // only called internally
     private CancellationSet() {
@@ -42,7 +44,7 @@ public class CancellationSet implements Serializable, Cloneable {
 
     public CancellationSet(YAWLTask task) {
         this();
-        _ownerTask = task;
+        setOwnerTask(task);
     }
 
     public YAWLTask getOwnerTask() {
@@ -51,7 +53,10 @@ public class CancellationSet implements Serializable, Cloneable {
 
     public void setOwnerTask(YAWLTask task) {
         _ownerTask = task;
+        _ownerTaskBackground = task.getBackgroundColor();
     }
+
+    public Color getOwnerTaskBackground() { return _ownerTaskBackground; }
 
 
     public Set<YAWLCell> getMembers() {

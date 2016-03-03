@@ -143,7 +143,7 @@ public class ConditionPanel extends JPanel implements ActionListener {
 
 
     private JTextField getConditionField(DialogMode mode) {
-        final JTextField field = new JTextField();
+        final JTextField field = new JTextField(36);
         if (mode != DialogMode.Viewing) {
             field.setInputVerifier(new ConditionVerifier(this));
             field.addActionListener(this);

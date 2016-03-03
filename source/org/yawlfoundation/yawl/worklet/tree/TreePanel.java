@@ -21,7 +21,6 @@ public class TreePanel extends JPanel {
     private Node _rootNode;
     private Set<Node> _nodeSet;
     private ViewTreeDialog _parent;
-    private Dimension _preferredSize;
 
     private static final int H_SPACE = 20;
     private static final int V_SPACE = 30;
@@ -72,15 +71,26 @@ public class TreePanel extends JPanel {
     }
 
 
-    public void setTree(RdrTree tree) {
+    public void setTree(RdrTree tree, RdrNode selection) {
         _nodeSet = composeSet(tree);
-        _preferredSize = setPreferredSize(_nodeSet);
-        Node firstChild = _rootNode.getNextTrue();
-        if (firstChild != null) {
-            firstChild.setSelected(true);
-            _parent.nodeSelected(firstChild.getRdrNode());
+        setPreferredSize(_nodeSet);
+
+        Node toSelect = selection != null ? getNodeFor(selection) : _rootNode.getNextTrue();
+        if (toSelect != null) {
+            toSelect.setSelected(true);
+            _parent.nodeSelected(toSelect.getRdrNode());
         }
         repaint();
+    }
+
+
+    private Node getNodeFor(RdrNode rdrNode) {
+        for (Node node : _nodeSet) {
+            if (node.getRdrNode().equals(rdrNode)) {
+                return node;
+            }
+        }
+        return null;
     }
 
 

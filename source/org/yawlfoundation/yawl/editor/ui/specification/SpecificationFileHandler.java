@@ -26,6 +26,7 @@ import org.yawlfoundation.yawl.editor.ui.specification.io.SpecificationReader;
 import org.yawlfoundation.yawl.editor.ui.specification.io.SpecificationWriter;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.Publisher;
 import org.yawlfoundation.yawl.editor.ui.swing.FileChooserFactory;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.swing.YStatusBar;
 import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
 import org.yawlfoundation.yawl.util.StringUtil;
@@ -34,6 +35,7 @@ import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.IOException;
 
 public class SpecificationFileHandler {
 
@@ -43,6 +45,19 @@ public class SpecificationFileHandler {
     private static final String EXTENSION = ".yawl";
 
     private boolean _closeAfterSave;
+
+    enum SaveMode {
+        Save("Save Specification", "Save"),
+        SaveAs("Save Specification As", "Save As");
+
+        String dialogTitle;
+        String buttonText;
+
+        SaveMode(String title, String btnText) {
+            dialogTitle = title;
+            buttonText = btnText;
+        }
+    }
 
 
     public SpecificationFileHandler() {
@@ -76,7 +91,7 @@ public class SpecificationFileHandler {
     public boolean saveFile() {
         String fileName = getFileName();
         if (StringUtil.isNullOrEmpty(fileName) || ! fileName.endsWith(EXTENSION)) {
-            fileName = promptForSaveFileName();
+            fileName = promptForSaveFileName(SaveMode.Save);
             if (fileName == null) {
                 return false;
             }
@@ -90,7 +105,7 @@ public class SpecificationFileHandler {
      *  Saves the currently open specification to a new file.
      */
     public void saveFileAs() {
-        String fileName = promptForSaveFileName();
+        String fileName = promptForSaveFileName(SaveMode.SaveAs);
         if (fileName != null) {
             saveSpecification(fileName);
         }
@@ -170,18 +185,22 @@ public class SpecificationFileHandler {
     }
 
 
-    private String promptForSaveFileName() {
+    private String promptForSaveFileName(SaveMode mode) {
         JFileChooser dialog = FileChooserFactory.build(EXTENSION, "YAWL Specification",
-                        "Save specification");
+                        mode.dialogTitle);
 
         dialog.setSelectedFile(getSuggestedFileName());
-        int response = dialog.showDialog(YAWLEditor.getInstance(), "Save");
+        int response = dialog.showDialog(YAWLEditor.getInstance(), mode.buttonText);
         if (response == JFileChooser.CANCEL_OPTION) {
             return null;
         }
 
-        // make sure the selected file name has the correct '.yawl' extension
         File file = dialog.getSelectedFile();
+        if (! validateFileName(file.getAbsoluteFile())) {
+            return promptForSaveFileName(mode);      // try again
+        }
+
+        // make sure the selected file name has the correct '.yawl' extension
         if (! file.getName().endsWith(EXTENSION)) {
             file = new File(file.getName() + EXTENSION);
         }
@@ -212,6 +231,23 @@ public class SpecificationFileHandler {
     }
 
 
+    private boolean validateFileName(File file) {
+        if (file.exists()) {
+            return true;
+        }
+        try {
+            if (file.createNewFile()) {
+                file.delete();
+            }
+            return true;
+        }
+        catch (IOException ioe) {
+            MessageDialog.error("Invalid file path: " + file.getAbsolutePath(),
+                    "File Error");
+            return false;
+        }
+    }
+
     private int getSaveOnCloseConfirmation() {
         return JOptionPane.showConfirmDialog(
                 YAWLEditor.getInstance(),
@@ -241,7 +277,7 @@ public class SpecificationFileHandler {
     private boolean saveWhilstClosing() {
         String fileName = getFileName();
         if (StringUtil.isNullOrEmpty(fileName) || ! fileName.endsWith(EXTENSION)) {
-            fileName = promptForSaveFileName();
+            fileName = promptForSaveFileName(SaveMode.Save);
             if (fileName == null) {
                 return false;
             }

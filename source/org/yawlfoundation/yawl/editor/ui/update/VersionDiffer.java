@@ -23,10 +23,7 @@ import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.util.XNode;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Michael Adams
@@ -168,12 +165,17 @@ public class VersionDiffer {
         }
 
         // if current entry not in latest, add to delete list
+        List<String> staticFiles = getStaticFileSet();
         for (String fileName : currentMap.keySet()) {
-            if (! latestMap.containsKey(fileName)) {
+            if (! (latestMap.containsKey(fileName) || staticFiles.contains(fileName))) {
                 _deleteList.add(currentMap.get(fileName));
             }
         }
+    }
 
+
+    private List<String> getStaticFileSet() {
+        return Collections.singletonList("log4j2.xml");
     }
 
     /******************************************************************************/

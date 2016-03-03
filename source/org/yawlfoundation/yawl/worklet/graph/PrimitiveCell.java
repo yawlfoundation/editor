@@ -32,6 +32,7 @@ public class PrimitiveCell extends AbstractNetCell {
     }
 
 
+    // toggle ancestor cases <--> all cases (other targets ignored)
     public void setAncestorCasesTarget(boolean isAncestorCases) {
         if (isAncestorCases && getTarget() == ExletTarget.AllCases) {
             _primitive.setExletTarget(ExletTarget.AncestorCases);
