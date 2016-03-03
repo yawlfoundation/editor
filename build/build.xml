@@ -248,7 +248,7 @@
              includes="${package.base.dir}/configuration/**"
              excludes="**/Test*.class" />
         <copy file="${output.dir}/plugins/${configuration.plugin.jar.name}"
-              todir="${deploy.dir}"/>
+              todir="${deploy.dir}/plugins"/>
         <delete file="config.mf"/>
     </target>
 
@@ -293,7 +293,7 @@
              manifest="decobar.mf"
              includes="${package.base.dir}/decobar/**" />
         <copy file="${output.dir}/plugins/${decoratortoolbar.plugin.jar.name}"
-              todir="${deploy.dir}"/>
+              todir="${deploy.dir}/plugins"/>
         <delete file="decobar.mf"/>
     </target>
 
@@ -341,7 +341,7 @@
              manifest="worklet.mf"
              includes="${package.base.dir}/worklet/**" />
         <copy file="${output.dir}/plugins/${worklet.plugin.jar.name}"
-              todir="${deploy.dir}"/>
+              todir="${deploy.dir}/plugins"/>
         <delete file="worklet.mf"/>
     </target>
 
@@ -366,7 +366,7 @@
              basedir="${classes.dir}"
              includes="${package.base.dir}/analyser/**"
              excludes="**/Test*.class" />
-        <copy file="${output.dir}/lib/${analyser.jar.name}" todir="${deploy.dir}"/>
+        <copy file="${output.dir}/lib/${analyser.jar.name}" todir="${deploy.dir}/lib"/>
     </target>
 
 
@@ -390,7 +390,7 @@
         <jar jarfile="${output.dir}/lib/${icons.jar.name}"
              basedir="${source.dir}"
              includes="${package.dir}/ui/resources/taskicons/**"/>
-        <copy file="${output.dir}/lib/${icons.jar.name}" todir="${deploy.dir}"/>
+        <copy file="${output.dir}/lib/${icons.jar.name}" todir="${deploy.dir}/lib"/>
     </target>
 
 
@@ -415,7 +415,7 @@
              basedir="${classes.dir}"
              includes="${package.dir}/core/**"
              excludes="**/Test*.class" />
-        <copy file="${output.dir}/lib/${core.jar.name}" todir="${deploy.dir}"/>
+        <copy file="${output.dir}/lib/${core.jar.name}" todir="${deploy.dir}/lib"/>
     </target>
 
 
@@ -440,7 +440,7 @@
              basedir="${classes.dir}"
              includes="org/jgraph/**"
              excludes="**/Test*.class" />
-        <copy file="${output.dir}/lib/${jgraph.jar.name}" todir="${deploy.dir}"/>
+        <copy file="${output.dir}/lib/${jgraph.jar.name}" todir="${deploy.dir}/lib"/>
     </target>
 
     <!--
@@ -463,7 +463,7 @@
         <jar jarfile="${output.dir}/lib/${bounce.jar.name}"
              basedir="${classes.dir}"
              includes="org/bounce/**" />
-        <copy file="${output.dir}/lib/${bounce.jar.name}" todir="${deploy.dir}"/>
+        <copy file="${output.dir}/lib/${bounce.jar.name}" todir="${deploy.dir}/lib"/>
     </target>
 
 
@@ -507,10 +507,8 @@
             <zipfileset dir="${output.dir}" includes="${ui.jar.name}"/>
    	  	    <zipfileset dir="${output.dir}/lib" prefix="lib"/>
             <zipfileset dir="${output.dir}/plugins" prefix="plugins"/>
-            <!--<zipfileset dir="${manual.dir}" prefix="manual"/>-->
    		</zip>
-        <copy file="${output.dir}/lib/checksums.xml" todir="${deploy.dir}"/>
-        <copy file="${output.dir}/${release.zip}" todir="${deploy.dir}"/>
+        <copy file="${output.dir}/lib/checksums.xml" todir="${deploy.dir}/lib"/>
     </target>
 
 
@@ -589,6 +587,8 @@
         <mkdir dir="${output.dir}" />
         <mkdir dir="${output.dir}/lib" />
         <mkdir dir="${deploy.dir}" />
+        <mkdir dir="${deploy.dir}/plugins" />
+        <mkdir dir="${deploy.dir}/lib" />
     </target>
 
 	<!--
