@@ -19,7 +19,6 @@
 package org.yawlfoundation.yawl.editor.ui.update;
 
 import org.yawlfoundation.yawl.editor.ui.util.BuildProperties;
-import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.util.XNode;
 
 import java.io.File;
@@ -35,12 +34,14 @@ public class VersionDiffer {
     private BuildProperties _current;
     private List<FileNode> _downloadList;
     private List<FileNode> _deleteList;
+    private PathResolver _pathResolver;
     private boolean _newVersion;
 
 
     public VersionDiffer(File latest, File current) {
         _latest = new BuildProperties(latest);
         _current = new BuildProperties(current);
+        _pathResolver = new PathResolver(_latest.getNode("paths"));
         _downloadList = new ArrayList<FileNode>();
         _deleteList = new ArrayList<FileNode>();
         execute();
@@ -70,12 +71,13 @@ public class VersionDiffer {
         return _latest.getEditorJarName();
     }
 
-    public List<String> getDownloadList() {
-        List<String> list = new ArrayList<String>();
-        for (FileNode node : _downloadList) {
-            list.add(node.name);
-        }
-        return list;
+    public List<FileNode> getDownloadList() {
+        return _downloadList;
+//        List<String> list = new ArrayList<String>();
+//        for (FileNode node : _downloadList) {
+//            list.add(node.name);
+//        }
+//        return list;
     }
 
 
@@ -140,7 +142,8 @@ public class VersionDiffer {
     private Map<String, FileNode> getFileMap(List<XNode> fileList) {
         Map<String, FileNode> fileMap = new HashMap<String, FileNode>();
         for (XNode child : fileList) {
-            FileNode fileNode = new FileNode(child);
+            String path = _pathResolver.get(child.getAttributeValue("path"));
+            FileNode fileNode = new FileNode(child, path);
             fileMap.put(fileNode.name, fileNode);
         }
         return fileMap;
@@ -178,20 +181,39 @@ public class VersionDiffer {
         return Collections.singletonList("log4j2.xml");
     }
 
+
     /******************************************************************************/
 
-    class FileNode {
-        String name;
-        String md5;
-        int size;
+    class PathResolver {
+        String host;
+        String base;
+        Map<String, String> paths;
 
-        FileNode(XNode node) {
-            name = node.getAttributeValue("name");
-            md5 = node.getAttributeValue("md5");
-            size = StringUtil.strToInt(node.getAttributeValue("size"), 0);
+        PathResolver(XNode pathsNode) {
+            paths = new HashMap<String, String>();
+            if (pathsNode != null) {
+                for (XNode pathNode : pathsNode.getChildren()) {
+                    String id = pathNode.getAttributeValue("id");
+                    String value = pathNode.getText();
+                    if ("host".equals(id)) {
+                        host = value;
+                    }
+                    else if ("base".equals(id)) {
+                        base = value;
+                    }
+                    else {
+                        paths.put(id, value);
+                    }
+                }
+            }
         }
 
-        boolean matches(FileNode other) { return md5.equals(other.md5); }
+
+        String get(String id) {
+            String path = paths.get(id);
+            return path != null ? host + base + path : "";
+        }
+
     }
 
 }

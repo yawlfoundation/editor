@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<locations>
+    <paths>
+        <path id="host">https://github.com/</path>
+        <path id="base">yawlfoundation/</path>
+        <path id="A">editor/blob/master/</path>
+        <path id="B">editor/blob/master/deploy/</path>
+        <path id="C">yawl/blob/master/build/3rdParty/</path>
+    </paths>
+    <files>
+        <file name="lib/automaton.jar" path="A"/>
+        <file name="lib/commons-codec-1.9.jar" path="C"/>
+        <file name="lib/commons-lang-2.3.jar" path="C"/>
+        <file name="lib/dom4j-1.6.1.jar" path="C"/>
+        <file name="lib/forms_rt.jar" path="A"/>
+        <file name="lib/imgscalr-lib-4.2.jar" path="A"/>
+        <file name="lib/jaxen-1.1.6.jar" path="C"/>
+        <file name="lib/jcalendar-1.4.jar" path="A"/>
+        <file name="lib/jdom-2.0.5.jar" path="C"/>
+        <file name="lib/jgoodies-common-1.8.1.jar" path="A"/>
+        <file name="lib/jgoodies-looks-2.7.0.jar" path="A"/>
+        <file name="lib/jgraph4yawl-4.0.jar" path="B"/>
+        <file name="lib/l2fprod-common-all.jar" path="A"/>
+        <file name="lib/log4j-1.2-api-2.3.jar" path="C"/>
+        <file name="lib/log4j-api-2.3.jar" path="C"/>
+        <file name="lib/log4j-core-2.3.jar" path="C"/>
+        <file name="lib/log4j-slf4j-impl-2.3.jar" path="C"/>
+        <file name="lib/macify-1.4.jar" path="A"/>
+        <file name="lib/saxon9-dom.jar" path="C"/>
+        <file name="lib/saxon9-s9api.jar" path="C"/>
+        <file name="lib/saxon9.jar" path="C"/>
+        <file name="lib/servlet-api.jar" path="A"/>
+        <file name="lib/xercesImpl.jar" path="C"/>
+        <file name="lib/xmleditorkit.jar" path="B"/>
+        <file name="lib/yawl-lib-4.0.jar" path="B"/>
+        <file name="lib/YAWLEditor-analyser-4.0.jar" path="B"/>
+        <file name="lib/YAWLEditor-core-4.0.jar" path="B"/>
+        <file name="lib/YAWLEditor-icons.jar" path="B"/>
+        <file name="plugins/YAWLEditor-configuration-4.0.jar" path="B"/>
+        <file name="plugins/YAWLEditor-decobar-4.0.jar" path="B"/>
+        <file name="plugins/YAWLEditor-worklet-4.0.jar" path="B"/>
+        <file name="YAWLEditor4.0.jar" path="B"/>
+    </files>
+</locations>

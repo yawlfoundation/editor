@@ -76,9 +76,9 @@ public class UpdateDownloader extends SwingWorker<Void, Void> implements Propert
     protected Void doInBackground() {
         _workerMap = new HashMap<DownloadWorker, Integer>();
         setProgress(0);
-        for (String fileName : _differ.getDownloadList()) {
-            DownloadWorker worker = new DownloadWorker(_urlBase, _urlSuffix,
-                     fileName, _differ.getDownloadSize(), _targetDir);
+        for (FileNode fileNode : _differ.getDownloadList()) {
+            DownloadWorker worker = new DownloadWorker(fileNode,
+                    _differ.getDownloadSize(), _targetDir);
             worker.addPropertyChangeListener(this);
             _workerMap.put(worker, 0);
             worker.execute();

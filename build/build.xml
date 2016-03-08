@@ -476,6 +476,7 @@
     		<fileset refid="neededEngineDeps" />
     		<fileset file="${engine.lib.jar.path}" />
     	</copy>
+        <copy file="${engine.lib.jar.path}" todir="${deploy.dir}/lib"/>
     </target>
 
 
@@ -690,7 +691,7 @@
     <!--build checksums.xml for future update comparisons-->
     <target name="checksums">
         <checkSums rootdir="../${output.dir}" todir="../${output.dir}/lib"
-                   includes="*.jar *.pdf"/>
+                   locations="../${build.dir}/locations.xml"  includes="*.jar *.pdf"/>
     </target>
 
 	<!--

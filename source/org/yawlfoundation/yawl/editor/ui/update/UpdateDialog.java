@@ -329,9 +329,9 @@ public class UpdateDialog extends JDialog
     private void replaceApp() throws URISyntaxException, IOException {
         File editorDir = getJarFile().getParentFile();
         File tmpDir = getTmpDir();
-        for (String fileName : _differ.getDownloadList()) {
-            File source = FileUtil.makeFile(tmpDir.getAbsolutePath(), fileName);
-            File target = FileUtil.makeFile(editorDir.getAbsolutePath(), fileName);
+        for (FileNode fileNode : _differ.getDownloadList()) {
+            File source = FileUtil.makeFile(tmpDir.getAbsolutePath(), fileNode.name);
+            File target = FileUtil.makeFile(editorDir.getAbsolutePath(), fileNode.name);
             FileUtil.copy(source, target);
         }
         for (String fileName : _differ.getDeleteList()) {

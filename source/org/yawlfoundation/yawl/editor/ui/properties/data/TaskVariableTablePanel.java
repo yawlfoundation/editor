@@ -35,6 +35,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 /**
  * @author Michael Adams
@@ -76,12 +77,12 @@ public class TaskVariableTablePanel extends VariableTablePanel
     public void showMIButton(boolean show) { btnMIVar.setVisible(show); }
 
 
-    public java.util.List<String> getScopeNames() {
-        java.util.List<String> names = super.getScopeNames();
+    public Vector<VariableScope> getScopes() {
+        Vector<VariableScope> scopes = super.getScopes();
         if (! parent.isCompositeTask()) {
-            names.remove("Local");
+            scopes.remove(VariableScope.LOCAL);
         }
-        return names;
+        return scopes;
     }
 
 

@@ -85,7 +85,10 @@ public class TaskComboBox extends JComboBox {
     public void setItem(String taskID) {
         removeAllItems();
         if (taskID != null) {
-            addItem(taskID);
+            AtomicTask task = getTask(taskID);
+            if (task != null) {
+                addItem(task);
+            }
         }
         setEnabled(false);
         switchRenderer(BASIC_RENDERER);

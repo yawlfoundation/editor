@@ -68,7 +68,7 @@ class NetVariableTableModel extends VariableTableModel {
                                              MI_INDICATOR : SELECTOR_INDICATOR;
             case NAME_COLUMN:     return selected.getName();
             case TYPE_COLUMN:     return selected.getDataType();
-            case SCOPE_COLUMN:    return selected.getUsage();
+            case SCOPE_COLUMN:    return VariableScope.getScope(selected.getUsage());
             case VALUE_COLUMN:    return selected.getValue();
             default: return null;
         }
@@ -84,7 +84,7 @@ class NetVariableTableModel extends VariableTableModel {
                 selected.setDataType((String) value); break;
             }
             case SCOPE_COLUMN:  {
-                selected.setUsage((Integer) value); break;
+                selected.setUsage(((VariableScope) value).getValue()); break;
             }
             case VALUE_COLUMN:  {
                 selected.setValue((String) value); break;

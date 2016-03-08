@@ -36,6 +36,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.util.Collections;
+import java.util.Vector;
 
 /**
  * The basic, net-level variable table panel
@@ -113,8 +115,10 @@ public class VariableTablePanel extends JPanel
 
 
 
-    public java.util.List<String> getScopeNames() {
-        return YDataHandler.getScopeNames();
+    public Vector<VariableScope> getScopes() {
+        Vector<VariableScope> scopes = new Vector<VariableScope>();
+        Collections.addAll(scopes, VariableScope.values());
+        return scopes;
     }
 
 

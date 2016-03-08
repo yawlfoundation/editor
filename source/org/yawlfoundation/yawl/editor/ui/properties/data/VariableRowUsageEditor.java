@@ -18,8 +18,6 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.data;
 
-import org.yawlfoundation.yawl.editor.core.data.YDataHandler;
-
 import javax.swing.*;
 import javax.swing.table.TableCellEditor;
 import java.awt.*;
@@ -37,18 +35,29 @@ public class VariableRowUsageEditor extends AbstractCellEditor
     private final VariableTablePanel tablePanel;
     private final JComboBox usageCombo;
 
-    private static final int SCOPE_COUNT = YDataHandler.getScopeNames().size();
-
 
     public VariableRowUsageEditor(VariableTablePanel panel) {
         tablePanel = panel;
-        usageCombo = new JComboBox(new Vector<String>(panel.getScopeNames()));
+        usageCombo = new JComboBox(new Vector<VariableScope>(panel.getScopes()));
+
+        usageCombo.setRenderer(new ListCellRenderer() {
+            protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
+
+            public Component getListCellRendererComponent(JList jList, Object o,
+                                                          int i, boolean b, boolean b1) {
+                JLabel label = (JLabel) defaultRenderer.getListCellRendererComponent(
+                        jList, o, i, b, b1);
+                label.setText(((VariableScope) o).getLabel());
+                return label;
+            }
+        });
+
         usageCombo.addActionListener(this);
     }
 
 
     public Object getCellEditorValue() {
-        return usageCombo.getSelectedIndex() + adjustIndex(-1);
+        return usageCombo.getSelectedItem(); // + adjustIndex(-1);
     }
 
 
@@ -56,7 +65,7 @@ public class VariableRowUsageEditor extends AbstractCellEditor
                                                  boolean isSelected, int row,
                                                  int column) {
         tablePanel.setEditMode(true);
-        usageCombo.setSelectedItem(((Integer) value) + adjustIndex(1));
+        usageCombo.setSelectedItem(value);
         return usageCombo;
     }
 
@@ -68,14 +77,7 @@ public class VariableRowUsageEditor extends AbstractCellEditor
 
     public void actionPerformed(ActionEvent actionEvent) {
         stopCellEditing();
-        tablePanel.notifyUsageChange((Integer) getCellEditorValue());
-    }
-
-
-    private int adjustIndex(int adjustment) {
-
-        // scope values start at -1 for net tables (with 'Local'), 0 for task tables
-        return SCOPE_COUNT == usageCombo.getItemCount() ? adjustment : 0;
+        tablePanel.notifyUsageChange(((VariableScope) getCellEditorValue()).getValue());
     }
 
 }

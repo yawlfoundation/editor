@@ -101,7 +101,10 @@ public class NetTaskPair {
         if (decomposition instanceof YNet) {
             int locals = ((YNet) decomposition).getLocalVariables().size();
             if (locals > 0) {
-                s.append("Local(").append(locals).append(") ");
+
+                // outputs also locals, so decrement
+                int outputs = decomposition.getOutputParameters().size();
+                s.append("Local(").append(locals - outputs).append(") ");
             }
         }
         s.append(getIOText(decomposition));
@@ -125,4 +128,3 @@ public class NetTaskPair {
     }
 
 }
-

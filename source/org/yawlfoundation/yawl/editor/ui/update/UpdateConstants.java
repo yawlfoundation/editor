@@ -11,9 +11,13 @@ import static org.yawlfoundation.yawl.util.HttpUtil.resolveURL;
  */
 public class UpdateConstants {
 
-    private static final String BASE_1 = "http://sourceforge.net";
-    private static final String PATH_1 = "/projects/yawl/files/updatecache4/editor/";
-    private static final String SUFFIX_1 = "/download";
+//    private static final String BASE_1 = "http://sourceforge.net";
+//    private static final String PATH_1 = "/projects/yawl/files/updatecache4/editor/";
+//    private static final String SUFFIX_1 = "/download";
+
+    private static final String BASE_1 = "https://github.com";
+    private static final String PATH_1 = "/yawlfoundation/editor/blob/master/";
+    private static final String SUFFIX_1 = "";
 
     private static final String BASE_2 = "http://yawlfoundation.org";
     private static final String PATH_2 = "/yawl/updates/editor/";

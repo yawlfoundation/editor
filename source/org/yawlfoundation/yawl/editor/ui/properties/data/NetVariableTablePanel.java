@@ -30,6 +30,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 /**
  * The basic, net-level variable table panel
@@ -66,12 +67,12 @@ public class NetVariableTablePanel extends VariableTablePanel
     }
 
 
-    public java.util.List<String> getScopeNames() {
-        java.util.List<String> names = super.getScopeNames();
+    public Vector<VariableScope> getScopes() {
+        Vector<VariableScope> scopes = super.getScopes();
         if (isRootNet(parent.getNet())) {
-            names.remove("InputOutput");
+            scopes.remove(VariableScope.INPUT_OUTPUT);
         }
-        return names;
+        return scopes;
     }
 
 

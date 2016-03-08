@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.editor.ui.util;
 
 import org.yawlfoundation.yawl.util.AbstractCheckSumTask;
 import org.yawlfoundation.yawl.util.CheckSummer;
+import org.yawlfoundation.yawl.util.XNode;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,30 +31,30 @@ import java.io.IOException;
  */
 public class CheckSumTask extends AbstractCheckSumTask {
 
-    public String toXML(File checkDir, CheckSummer summer) throws IOException {
-        StringBuilder s = new StringBuilder();
-        s.append(XML_HEADER).append('\n');
-        s.append(COMMENT).append('\n');
-        s.append("<release>\n");
-        s.append("\t<version>").append(getProjectProperty("version"))
-                .append("</version>\n");
-        s.append("\t<build>").append(getBuildNumber()).append("</build>\n");
-        s.append("\t<timestamp>").append(now()).append("</timestamp>\n");
-        s.append("\t<files>\n");
+    public String toXML(File checkDir, CheckSummer summer,
+                        AbstractCheckSumTask.FileLocations locations)
+            throws IOException {
+        XNode root = new XNode("release");
+        root.addOpeningComment(COMMENT);
+        root.addChild("version", getProjectProperty("version"));
+        root.addChild("build", getBuildNumber());
+        root.addChild("timestamp", now());
+        root.addChild(locations.getPaths());
+
+        XNode filesNode = root.addChild("files");
         for (File file : getFileList(checkDir)) {
             if (shouldBeIncluded(file)) {
-                s.append("\t\t<file name=\"")
-                 .append(getRelativePath(checkDir, file.getAbsolutePath()))
-                 .append("\" md5=\"").append(summer.getMD5Hex(file))
-                 .append("\" size=\"").append(file.length())
-                 .append("\" timestamp=\"")
-                 .append(formatTimestamp(file.lastModified()))
-                 .append("\"/>\n");
+                String relPath = getRelativePath(checkDir, file.getAbsolutePath());
+                XNode fileNode = filesNode.addChild("file");
+                fileNode.addAttribute("name", relPath);
+                fileNode.addAttribute("md5", summer.getMD5Hex(file));
+                fileNode.addAttribute("size", file.length());
+                fileNode.addAttribute("timestamp", formatTimestamp(file.lastModified()));
+                fileNode.addAttribute("path", locations.get(relPath));
             }
         }
-        s.append("\t</files>\n");
-        s.append("</release>");
-        return s.toString();
+
+        return root.toPrettyString(true);
     }
 
 
@@ -66,6 +67,5 @@ public class CheckSumTask extends AbstractCheckSumTask {
             return 0;
         }
     }
-
 
 }
