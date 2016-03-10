@@ -72,7 +72,7 @@ public class DownloadWorker extends SwingWorker<Void, Void> {
         byte[] buffer = new byte[bufferSize];
         int progress = 0;
         try {
-            URL webFile = new URL(_fileNode.url);
+            URL webFile = _fileNode.getAbsoluteURL();
             makeDir(_fileNode.name);
             String fileTo = _tmpDir + File.separator + _fileNode.name;
             BufferedInputStream inStream = new BufferedInputStream(webFile.openStream());
