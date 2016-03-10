@@ -23,6 +23,7 @@ import org.yawlfoundation.yawl.editor.ui.data.Validity;
 import org.yawlfoundation.yawl.editor.ui.data.editorpane.ValidityEditorPane;
 import org.yawlfoundation.yawl.editor.ui.properties.data.validation.ExpressionMatcher;
 import org.yawlfoundation.yawl.elements.predicate.PredicateEvaluatorCache;
+import org.yawlfoundation.yawl.util.JDOMUtil;
 import org.yawlfoundation.yawl.util.SaxonUtil;
 
 import java.util.ArrayList;
@@ -65,6 +66,9 @@ public class XQueryStyledDocument extends AbstractXMLStyledDocument {
 
             // replace external predicate references with dummy values for validation
             text = substituteExternals(text);
+
+            // dereference reserved XML chars
+            text = JDOMUtil.encodeEscapes(text);
 
             try {
                 SaxonUtil.compileXQuery(preEditorText + text + postEditorText);
