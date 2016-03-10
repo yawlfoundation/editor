@@ -15,14 +15,13 @@ public class UpdateConstants {
 //    private static final String PATH_1 = "/projects/yawl/files/updatecache4/editor/";
 //    private static final String SUFFIX_1 = "/download";
 
-    private static final String BASE_1 = "https://github.com";
-    private static final String PATH_1 = "/yawlfoundation/editor/blob/master/";
+    private static final String BASE_1 = "https://raw.githubusercontent.com";
+    private static final String PATH_1 = "/yawlfoundation/editor/master/";
     private static final String SUFFIX_1 = "";
 
     private static final String BASE_2 = "http://yawlfoundation.org";
     private static final String PATH_2 = "/yawl/updates/editor/";
     private static final String SUFFIX_2 = "";
-
 
     public static String URL_BASE;
     public static String URL_PATH;
@@ -45,7 +44,7 @@ public class UpdateConstants {
 
     public static URL getCheckUrl() throws IOException {
         checkInitSuccess();
-        return new URL(URL_BASE + URL_PATH + "lib/" + CHECK_FILE + URL_SUFFIX);
+        return new URL(URL_BASE + URL_PATH + "deploy/lib/" + CHECK_FILE + URL_SUFFIX);
     }
 
 
@@ -56,13 +55,12 @@ public class UpdateConstants {
 
     private static boolean resolve(String base, String path, String suffix) {
         try {
-            URL url = resolveURL(base + path + "lib/" + CHECK_FILE + suffix);
+            URL url = resolveURL(base + path + "deploy/lib/" + CHECK_FILE + suffix);
             if (url != null) {
                 URL_BASE = url.getProtocol() + "://" + url.getAuthority();
                 String fullPath = url.getPath();
-                URL_PATH = fullPath.substring(0, fullPath.indexOf("lib/"));
-                URL_SUFFIX = fullPath.substring(fullPath.indexOf(CHECK_FILE) +
-                        CHECK_FILE.length());
+                URL_PATH = fullPath.substring(0, fullPath.indexOf("deploy/lib/"));
+                URL_SUFFIX = fullPath.substring(fullPath.indexOf(CHECK_FILE) + CHECK_FILE.length());
             }
             return url != null;
         }

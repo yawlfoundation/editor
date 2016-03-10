@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <locations>
     <paths>
-        <path id="host">https://github.com/</path>
+        <path id="host">https://raw.githubusercontent.com/</path>
         <path id="base">yawlfoundation/</path>
-        <path id="A">editor/blob/master/</path>
-        <path id="B">editor/blob/master/deploy/</path>
-        <path id="C">yawl/blob/master/build/3rdParty/</path>
+        <path id="A">editor/master/</path>
+        <path id="B">editor/master/deploy/</path>
+        <path id="C">yawl/master/build/3rdParty/</path>
     </paths>
     <files>
         <file name="lib/automaton.jar" path="A"/>
