@@ -187,8 +187,7 @@ public class UpdateDialog extends JDialog
         _progressBar.setIndeterminate(true);
 
         if (saveToDir == null) saveToDir = getTmpDir();
-        _downloader = new UpdateDownloader(UpdateConstants.getBasePath(),
-                UpdateConstants.URL_SUFFIX, _differ, saveToDir);
+        _downloader = new UpdateDownloader(_differ, saveToDir);
         _downloader.addPropertyChangeListener(this);
         _downloader.execute();
     }

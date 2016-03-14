@@ -31,9 +31,8 @@ import java.io.IOException;
  */
 public class CheckSumTask extends AbstractCheckSumTask {
 
-    public String toXML(File checkDir, CheckSummer summer,
-                        AbstractCheckSumTask.FileLocations locations)
-            throws IOException {
+    public String toXML(File checkDir, CheckSummer summer) throws IOException {
+        EditorFileLocations locations = new EditorFileLocations(_antLocations);
         XNode root = new XNode("release");
         root.addOpeningComment(COMMENT);
         root.addChild("version", getProjectProperty("version"));
@@ -66,6 +65,26 @@ public class CheckSumTask extends AbstractCheckSumTask {
         catch (NumberFormatException nfe) {
             return 0;
         }
+    }
+
+    /******************************************************************************/
+
+    class EditorFileLocations extends FileLocations {
+
+        EditorFileLocations(String fileName) {
+            super(fileName);
+        }
+
+
+        public void loadLocations(XNode root) {
+            XNode files = root.getChild("files");
+            for (XNode fNode : files.getChildren()) {
+                String name = fNode.getAttributeValue("name");
+                String path = fNode.getAttributeValue("path");
+                locations.put(name, path);
+            }
+        }
+
     }
 
 }

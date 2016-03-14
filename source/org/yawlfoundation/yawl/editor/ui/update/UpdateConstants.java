@@ -1,5 +1,10 @@
 package org.yawlfoundation.yawl.editor.ui.update;
 
+import org.yawlfoundation.yawl.editor.ui.util.BuildProperties;
+import org.yawlfoundation.yawl.editor.ui.util.FileLocations;
+import org.yawlfoundation.yawl.util.XNode;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -17,14 +22,17 @@ public class UpdateConstants {
 
     private static final String BASE_1 = "https://raw.githubusercontent.com";
     private static final String PATH_1 = "/yawlfoundation/editor/master/";
+    private static final String CHECK_1 = "deploy/lib/";
     private static final String SUFFIX_1 = "";
 
     private static final String BASE_2 = "http://yawlfoundation.org";
     private static final String PATH_2 = "/yawl/updates/editor/";
+    private static final String CHECK_2 = "deploy/lib/";
     private static final String SUFFIX_2 = "";
 
     public static String URL_BASE;
     public static String URL_PATH;
+    public static String CHECK_PATH;
     public static String URL_SUFFIX;
 
     public static final String CHECK_FILE = "checksums.xml";
@@ -34,9 +42,9 @@ public class UpdateConstants {
     // If neither set of values is responsive, leaves the values as null.
     public static void init() throws IOException {
         if (URL_BASE == null) {
-            if (!resolve(BASE_1, PATH_1, SUFFIX_1)) {
-                resolve(BASE_2, PATH_2, SUFFIX_2);
-            }
+            boolean ignore = initFromChecksums() ||
+                    resolve(BASE_1, PATH_1, CHECK_1, SUFFIX_1) ||
+                    resolve(BASE_2, PATH_2, CHECK_2, SUFFIX_2);
         }
         checkInitSuccess();
     }
@@ -44,7 +52,7 @@ public class UpdateConstants {
 
     public static URL getCheckUrl() throws IOException {
         checkInitSuccess();
-        return new URL(URL_BASE + URL_PATH + "deploy/lib/" + CHECK_FILE + URL_SUFFIX);
+        return new URL(URL_BASE + URL_PATH + CHECK_PATH + CHECK_FILE + URL_SUFFIX);
     }
 
 
@@ -53,13 +61,14 @@ public class UpdateConstants {
     }
 
 
-    private static boolean resolve(String base, String path, String suffix) {
+    private static boolean resolve(String base, String path, String checkPath, String suffix) {
         try {
-            URL url = resolveURL(base + path + "deploy/lib/" + CHECK_FILE + suffix);
+            URL url = resolveURL(base + path + checkPath + CHECK_FILE + suffix);
             if (url != null) {
                 URL_BASE = url.getProtocol() + "://" + url.getAuthority();
                 String fullPath = url.getPath();
-                URL_PATH = fullPath.substring(0, fullPath.indexOf("deploy/lib/"));
+                CHECK_PATH = checkPath;
+                URL_PATH = fullPath.substring(0, fullPath.indexOf(checkPath));
                 URL_SUFFIX = fullPath.substring(fullPath.indexOf(CHECK_FILE) + CHECK_FILE.length());
             }
             return url != null;
@@ -71,9 +80,39 @@ public class UpdateConstants {
 
 
     private static void checkInitSuccess() throws IOException {
-        if (URL_BASE == null || URL_PATH == null || URL_SUFFIX == null) {
-            throw new IOException("Update servers are offline or unavailable");
+        if (anyAreNull(URL_BASE, URL_PATH, CHECK_PATH, URL_SUFFIX)) {
+            throw new IOException("Update servers are currently offline or unavailable");
         }
     }
+
+
+    private static boolean initFromChecksums() {
+        File current = new File(FileLocations.getLibPath(), UpdateConstants.CHECK_FILE);
+        if (current.exists()) {
+            BuildProperties props = new BuildProperties(current);
+            XNode pathsNode = props.getNode("paths");
+            if (pathsNode != null) {
+                PathResolver resolver = new PathResolver(pathsNode);
+                String base = resolver.get("host");
+                String path = resolver.get("base");
+                String check = resolver.get("check");
+                String suffix = resolver.get("suffix");
+                if (! anyAreNull(base, path, check)) {
+                    if (suffix == null) suffix = "";
+                    return resolve(base, path, check, suffix);
+                }
+            }
+        }
+        return false;
+    }
+
+
+    private static boolean anyAreNull(String... strings) {
+        for (String s : strings) {
+            if (s == null) return true;
+        }
+        return false;
+    }
+
 
 }

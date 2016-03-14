@@ -35,18 +35,12 @@ import java.util.Map;
  */
 public class UpdateDownloader extends SwingWorker<Void, Void> implements PropertyChangeListener {
 
-    private String _urlBase;
-    private String _urlSuffix;
     private VersionDiffer _differ;
     private File _targetDir;
     private Map<DownloadWorker, Integer> _workerMap;
-    private final Object _lock = new Object();
 
 
-    public UpdateDownloader(String urlBase, String urlSuffix, VersionDiffer differ,
-                            File targetDir) {
-        _urlBase = urlBase;
-        _urlSuffix = urlSuffix;
+    public UpdateDownloader(VersionDiffer differ, File targetDir) {
         _differ = differ;
         _targetDir = targetDir;
     }

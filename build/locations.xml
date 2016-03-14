@@ -3,6 +3,7 @@
     <paths>
         <path id="host">https://raw.githubusercontent.com/</path>
         <path id="base">yawlfoundation/</path>
+        <path id="check">deploy/lib/</path>
         <path id="A">editor/master/</path>
         <path id="B">editor/master/deploy/</path>
         <path id="C">yawl/master/build/3rdParty/</path>
