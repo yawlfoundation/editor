@@ -42,6 +42,7 @@ import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLMultipleInstanceTask;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLTask;
 import org.yawlfoundation.yawl.editor.ui.swing.TooltipTogglingWidget;
+import org.yawlfoundation.yawl.elements.YMultiInstanceAttributes;
 
 import javax.swing.*;
 import java.awt.*;
@@ -114,7 +115,7 @@ public class MultipleInstanceConfigurationAction extends ProcessConfigurationAct
 		private long maxInstance;
 		private long minInstance;
 		private long threshhold;
-		private int createType;
+		private String createType;
 
 	    /** Creates new form MultipleInstanceConfigureJDialog */
 	    public MultipleInstanceConfigureJDialog(Frame parent, YAWLMultipleInstanceTask task) {
@@ -243,7 +244,7 @@ public class MultipleInstanceConfigurationAction extends ProcessConfigurationAct
 	    			&& (newThreshold >=this.threshhold) && (newThreshold >= newMin)
 	    			&& (newThreshold<= newMax)){
 			    	if(this.ForbidDynamiccheckbox.getState()){
-			    		this.task.setInstanceCreationType(YAWLMultipleInstanceTask.STATIC_INSTANCE_CREATION);
+			    		this.task.setInstanceCreationType(YMultiInstanceAttributes.CREATION_MODE_STATIC);
 			    	}
                 TaskConfiguration config = TaskConfigurationCache.getInstance()
                         .get(net.getNetModel(), (YAWLTask) task);

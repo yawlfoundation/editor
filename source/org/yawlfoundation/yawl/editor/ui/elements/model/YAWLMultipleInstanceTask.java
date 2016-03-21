@@ -18,42 +18,23 @@
 
 package org.yawlfoundation.yawl.editor.ui.elements.model;
 
-import org.yawlfoundation.yawl.elements.data.YVariable;
-
 public interface YAWLMultipleInstanceTask {
 
-  public static final long INFINITY = Integer.MAX_VALUE;
+  long getMinimumInstances();
+  void setMinimumInstances(long instanceBound);
+  
+  long getMaximumInstances();
+  void setMaximumInstances(long instanceBound);
+  
+  long getContinuationThreshold();
+  void setContinuationThreshold(long continuationThreshold);
+  
+  String getInstanceCreationType();
+  void setInstanceCreationType(String instanceCreationType);
 
-  public static final int STATIC_INSTANCE_CREATION  = -2;
-  public static final int DYNAMIC_INSTANCE_CREATION = -3;
+  String getSplitterQuery();
+  void setSplitterQuery(String query);
 
-  abstract public long getMinimumInstances();
-  abstract public void setMinimumInstances(long instanceBound);
-  
-  abstract public long getMaximumInstances();
-  abstract public void setMaximumInstances(long instanceBound);
-  
-  abstract public long getContinuationThreshold();
-  abstract public void setContinuationThreshold(long continuationThreshold);
-  
-  abstract public int  getInstanceCreationType();
-  abstract public void setInstanceCreationType(int instanceCreationType);
-  
-  abstract public YVariable getMultipleInstanceVariable();
-  abstract public void setMultipleInstanceVariable(YVariable parameter);
-
-  abstract public String getAccessorQuery();
-  abstract public void setAccessorQuery(String query);
-
-  abstract public String getSplitterQuery();
-  abstract public void setSplitterQuery(String query);
-
-  abstract public String getInstanceQuery();
-  abstract public void setInstanceQuery(String query);
-  
-  abstract public String getAggregateQuery();
-  abstract public void setAggregateQuery(String query);
-  
-  abstract public YVariable getResultNetVariable();
-  abstract public void setResultNetVariable(YVariable variable);
+  String getAggregateQuery();
+  void setAggregateQuery(String query);
 }

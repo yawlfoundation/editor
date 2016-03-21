@@ -61,6 +61,7 @@ import org.yawlfoundation.yawl.editor.ui.specification.FileOperations;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationUndoManager;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.SpecificationState;
+import org.yawlfoundation.yawl.elements.YMultiInstanceAttributes;
 import org.yawlfoundation.yawl.elements.YTask;
 
 import javax.swing.*;
@@ -252,7 +253,7 @@ public class ApplyProcessConfigurationAction extends YAWLSelectedNetAction {
         task.setMinimumInstances(configureSet.getIncreaseMin());
         task.setContinuationThreshold(configureSet.getIncreaseThreshold());
         if (configureSet.isForbidDynamic()) {
-            task.setInstanceCreationType(YAWLMultipleInstanceTask.STATIC_INSTANCE_CREATION);
+            task.setInstanceCreationType(YMultiInstanceAttributes.CREATION_MODE_STATIC);
         }
     }
 

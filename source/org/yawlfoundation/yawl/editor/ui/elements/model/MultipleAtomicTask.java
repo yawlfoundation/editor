@@ -21,24 +21,23 @@ package org.yawlfoundation.yawl.editor.ui.elements.model;
 import org.yawlfoundation.yawl.elements.YDecomposition;
 import org.yawlfoundation.yawl.elements.YMultiInstanceAttributes;
 import org.yawlfoundation.yawl.elements.YTask;
-import org.yawlfoundation.yawl.elements.data.YVariable;
 
 import java.awt.geom.Point2D;
 
+/**
+ * Properties for this class are managed through its YMultiInstanceAttributes
+ * instance. The accessors and mutators are provided for third party plugins
+ * (such as the configuration plugin).
+ */
 public class MultipleAtomicTask extends YAWLTask
         implements YAWLMultipleInstanceTask, YAWLAtomicTask {
 
     private YMultiInstanceAttributes _miAttributes;
 
-    private long _minimumInstances;
-    private long _maximumInstances;
-    private long _continuationThreshold;
-    private int _instanceCreationType;
-    private YVariable _multipleInstanceVariable;
-    private String _splitterQuery;
-    private String _aggregateQuery;
-    private YVariable _resultNetVariable;
-
+    private String _minimumInstances;
+    private String _maximumInstances;
+    private String _continuationThreshold;
+    private String _instanceCreationType;
 
 
     /**
@@ -46,27 +45,12 @@ public class MultipleAtomicTask extends YAWLTask
      * multiple atomic task from scratch. It also creates the correct ports needed for
      * the task  as an intended side-effect.
      */
-
-    public MultipleAtomicTask(Point2D startPoint) {
-        this(startPoint, (String) null);
-    }
-
     public MultipleAtomicTask(Point2D startPoint, YTask yTask) {
-        this(startPoint, (String) null);
+        super(startPoint, null);
         setYAWLElement(yTask);
-    }
-
-
-    /**
-     * This constructor is to be invoked whenever we are creating a new
-     * atomic task from scratch with an icon. It also creates the correct
-     * ports needed for the task as an intended side-effect.
-     */
-
-    public MultipleAtomicTask(Point2D startPoint, String iconPath) {
-        super(startPoint, iconPath);
         initialise();
     }
+
 
     public void setYAWLElement(YTask shadow) {
         super.setTask(shadow);
@@ -80,127 +64,66 @@ public class MultipleAtomicTask extends YAWLTask
 
 
     private void initialise() {
-        setMinimumInstances(1);
-        setMaximumInstances(2);
-        setContinuationThreshold(1);
-        setInstanceCreationType(STATIC_INSTANCE_CREATION);
+        _minimumInstances = "1";
+        _maximumInstances = "2";
+        _continuationThreshold = "1";
+        _instanceCreationType = YMultiInstanceAttributes.CREATION_MODE_STATIC;
     }
 
 
     public long getMinimumInstances() { return _miAttributes.getMinInstances(); }
 
     public void setMinimumInstances(long instanceBound) {
-//        _minimumInstances = instanceBound;
+        _minimumInstances = String.valueOf(instanceBound);
+        setProperties();
     }
 
 
     public long getMaximumInstances() {
-        return _maximumInstances;
+        return _miAttributes.getMaxInstances();
     }
 
     public void setMaximumInstances(long instanceBound) {
-        _maximumInstances = instanceBound;
+        _maximumInstances = String.valueOf(instanceBound);
+        setProperties();
     }
 
 
     public long getContinuationThreshold() {
-        return _continuationThreshold;
+        return _miAttributes.getThreshold();
     }
 
     public void setContinuationThreshold(long threshold) {
-        _continuationThreshold = threshold;
+        _continuationThreshold = String.valueOf(threshold);
+        setProperties();
     }
 
 
-    public int getInstanceCreationType() {
+    public String getInstanceCreationType() {
         return _instanceCreationType;
     }
 
-    public void setInstanceCreationType(int creationType) {
+    public void setInstanceCreationType(String creationType) {
         _instanceCreationType = creationType;
+        setProperties();
     }
 
 
-    public YVariable getMultipleInstanceVariable() {
-        return _multipleInstanceVariable;
-    }
-
-    public void setMultipleInstanceVariable(YVariable variable) {
-
-        if (! ((_multipleInstanceVariable == null) ||
-               _multipleInstanceVariable.equals(variable))) {
-
-            // destroy now defunct accessor query for multiple instance variable */
-//            getParameterLists().getInputParameters().remove(_multipleInstanceVariable);
-        }
-
-        _multipleInstanceVariable = variable;
-    }
-
-
-    public String getAccessorQuery() {
-//        return getParameterLists().getInputParameters().getQueryFor(
-//                getMultipleInstanceVariable()
-//        );
-        return "";
-    }
-
-    public void setAccessorQuery(String query) {
-        if (getMultipleInstanceVariable() != null) {
-//            getParameterLists().getInputParameters().setQueryFor(
-//                    getMultipleInstanceVariable(), query
-//            );
-        }
-    }
-
-
-    public String getSplitterQuery() {
-        return _splitterQuery;
+     public String getSplitterQuery() {
+        return _miAttributes.getMISplittingQuery();
     }
 
     public void setSplitterQuery(String query) {
-        _splitterQuery = query;
-    }
-
-
-    public String getInstanceQuery() {
-//        return getParameterLists().getOutputParameters().getQueryFor(
-//                getResultNetVariable()
-//        );
-        return null;
-    }
-
-    public void setInstanceQuery(String query) {
-        if (getResultNetVariable() != null) {
-//            getParameterLists().getOutputParameters().setQueryFor(
-//                    getResultNetVariable(), query
-//            );
-        }
+        _miAttributes.setUniqueInputMISplittingQuery(query);
     }
 
 
     public String getAggregateQuery() {
-        return _aggregateQuery;
+        return _miAttributes.getMIJoiningQuery();
     }
 
     public void setAggregateQuery(String query) {
-        _aggregateQuery = query;
-    }
-
-
-    public YVariable getResultNetVariable() {
-        return _resultNetVariable;
-    }
-
-    public void setResultNetVariable(YVariable variable) {
-        if (! ((_resultNetVariable == null) ||
-               _resultNetVariable.equals(variable))) {
-
-            // destroy now defunct instance query for result net variable */
-   //         getParameterLists().getOutputParameters().remove(_resultNetVariable);
-        }
-
-        _resultNetVariable = variable;
+        _miAttributes.setUniqueOutputMIJoiningQuery(query);
     }
 
 
@@ -214,6 +137,12 @@ public class MultipleAtomicTask extends YAWLTask
 
     public String getType() {
         return "Multiple Atomic Task";
+    }
+
+
+    private void setProperties() {
+        _miAttributes.setProperties(_minimumInstances, _maximumInstances,
+                _continuationThreshold, _instanceCreationType);
     }
 
 }

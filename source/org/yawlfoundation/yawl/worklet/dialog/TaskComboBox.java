@@ -103,7 +103,11 @@ public class TaskComboBox extends JComboBox {
             for (AtomicTask atomicTask : tasks) {
                 addItem(atomicTask);
             }
-            setSelectedItem(_selectedTask);
+            if (_selectedTask != null) {
+                setSelectedItem(_selectedTask);
+            }
+            else setSelectedIndex(0);                     // show first item
+
             switchRenderer(TASK_RENDERER);
             _addingItems = false;
         }

@@ -41,6 +41,7 @@
 package org.yawlfoundation.yawl.configuration;
 
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLMultipleInstanceTask;
+import org.yawlfoundation.yawl.elements.YMultiInstanceAttributes;
 
 public class MultipleInstanceTaskConfigSet {
 	
@@ -56,9 +57,9 @@ public class MultipleInstanceTaskConfigSet {
 		reduceMax = task.getMaximumInstances();
 		this.increaseMin = task.getMinimumInstances();
 		this.increaseThreshold = task.getContinuationThreshold();
-		if(task.getInstanceCreationType() == YAWLMultipleInstanceTask.DYNAMIC_INSTANCE_CREATION){
+		if(task.getInstanceCreationType() == YMultiInstanceAttributes.CREATION_MODE_DYNAMIC){
 			this.forbidDynamic = false;
-		} else if(task.getInstanceCreationType() == YAWLMultipleInstanceTask.STATIC_INSTANCE_CREATION){
+		} else if(task.getInstanceCreationType() == YMultiInstanceAttributes.CREATION_MODE_STATIC){
 			this.forbidDynamic = true;
 		}
 	}

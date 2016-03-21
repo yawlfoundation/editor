@@ -19,23 +19,20 @@
 package org.yawlfoundation.yawl.editor.ui.elements.model;
 
 import org.yawlfoundation.yawl.elements.YDecomposition;
+import org.yawlfoundation.yawl.elements.YMultiInstanceAttributes;
 import org.yawlfoundation.yawl.elements.YTask;
-import org.yawlfoundation.yawl.elements.data.YVariable;
 
 import java.awt.geom.Point2D;
 
 public class MultipleCompositeTask extends YAWLTask
         implements YAWLMultipleInstanceTask, YAWLCompositeTask {
 
-    private long _minimumInstances;
-    private long _maximumInstances;
-    private long _continuationThreshold;
-    private int _instanceCreationType;
-    private YVariable _multipleInstanceVariable;
-    private String _splitterQuery;
-    private String _aggregateQuery;
-    private YVariable _resultNetVariable;
+    private YMultiInstanceAttributes _miAttributes;
 
+    private String _minimumInstances;
+    private String _maximumInstances;
+    private String _continuationThreshold;
+    private String _instanceCreationType;
 
 
     /**
@@ -43,156 +40,107 @@ public class MultipleCompositeTask extends YAWLTask
      * multiple composite task from scratch. It also creates the correct ports
      * needed for the task as an intended side-effect.
      */
-
-    public MultipleCompositeTask(Point2D startPoint) {
+    public MultipleCompositeTask(Point2D startPoint, YTask yTask) {
         super(startPoint);
+        setYAWLElement(yTask);
         initialise();
     }
 
-    public MultipleCompositeTask(Point2D startPoint, YTask yTask) {
-        super(startPoint);
-        setTask(yTask);
+
+    public void setYAWLElement(YTask shadow) {
+        super.setTask(shadow);
+        _miAttributes = shadow.getMultiInstanceAttributes();
+
+        // needs this to allow analysis of nets containing MI tasks with no data settings
+        if (_miAttributes.getMIFormalInputParam() == null) {
+            _miAttributes.setMIFormalInputParam("null");
+        }
     }
 
 
     private void initialise() {
-        setMinimumInstances(1);
-        setMaximumInstances(1);
-        setContinuationThreshold(1);
-        setInstanceCreationType(STATIC_INSTANCE_CREATION);
-        setMultipleInstanceVariable(null);
-        setResultNetVariable(null);
-        setSplitterQuery("true()");
-        setAggregateQuery("true()");
+        _minimumInstances = "1";
+        _maximumInstances = "2";
+        _continuationThreshold = "1";
+        _instanceCreationType = YMultiInstanceAttributes.CREATION_MODE_STATIC;
     }
+
 
     public String getUnfoldingNetName() {
         return getDecomposition() != null ? getDecomposition().getID() : "";
     }
 
     public void setDecomposition(YDecomposition decomposition) {
-        if (getDecomposition() == null ||
-                !getDecomposition().equals(decomposition)) {
+        if (getDecomposition() == null || !getDecomposition().equals(decomposition)) {
             super.setDecomposition(decomposition);
         }
     }
 
-    public long getMinimumInstances() { return _minimumInstances; }
+    public long getMinimumInstances() { return _miAttributes.getMinInstances(); }
 
     public void setMinimumInstances(long instanceBound) {
-        _minimumInstances = instanceBound;
+        _minimumInstances = String.valueOf(instanceBound);
+        setProperties();
     }
 
 
     public long getMaximumInstances() {
-        return _maximumInstances;
-    }
+         return _miAttributes.getMaxInstances();
+     }
 
-    public void setMaximumInstances(long instanceBound) {
-        _maximumInstances = instanceBound;
-    }
+     public void setMaximumInstances(long instanceBound) {
+         _maximumInstances = String.valueOf(instanceBound);
+         setProperties();
+     }
 
 
     public long getContinuationThreshold() {
-        return _continuationThreshold;
+        return _miAttributes.getThreshold();
     }
 
     public void setContinuationThreshold(long threshold) {
-        _continuationThreshold = threshold;
+        _continuationThreshold = String.valueOf(threshold);
+        setProperties();
     }
 
 
-    public int getInstanceCreationType() {
+    public String getInstanceCreationType() {
         return _instanceCreationType;
     }
 
-    public void setInstanceCreationType(int creationType) {
+    public void setInstanceCreationType(String creationType) {
         _instanceCreationType = creationType;
-    }
-
-
-    public YVariable getMultipleInstanceVariable() {
-        return _multipleInstanceVariable;
-    }
-
-    public void setMultipleInstanceVariable(YVariable variable) {
-
-        if (! ((_multipleInstanceVariable == null) ||
-               _multipleInstanceVariable.equals(variable))) {
-
-        }
-
-        _multipleInstanceVariable = variable;
-    }
-
-
-    public String getAccessorQuery() {
-//        return getParameterLists().getInputParameters().getQueryFor(
-//                getMultipleInstanceVariable()
-//        );
-        return null;
-    }
-
-    public void setAccessorQuery(String query) {
-        if (getMultipleInstanceVariable() != null) {
-//            getParameterLists().getInputParameters().setQueryFor(
-//                    getMultipleInstanceVariable(), query
-//            );
-        }
+        setProperties();
     }
 
 
     public String getSplitterQuery() {
-        return _splitterQuery;
-    }
+       return _miAttributes.getMISplittingQuery();
+   }
 
-    public void setSplitterQuery(String query) {
-        _splitterQuery = query;
-    }
-
-
-    public String getInstanceQuery() {
-//        return getParameterLists().getOutputParameters().getQueryFor(
-//                getResultNetVariable()
-//        );
-        return null;
-    }
-
-    public void setInstanceQuery(String query) {
-        if (getResultNetVariable() != null) {
-//            getParameterLists().getOutputParameters().setQueryFor(
-//                    getResultNetVariable(), query
-//            );
-        }
-    }
+   public void setSplitterQuery(String query) {
+       _miAttributes.setUniqueInputMISplittingQuery(query);
+   }
 
 
-    public String getAggregateQuery() {
-        return _aggregateQuery;
-    }
+   public String getAggregateQuery() {
+       return _miAttributes.getMIJoiningQuery();
+   }
 
-    public void setAggregateQuery(String query) {
-        _aggregateQuery = query;
-    }
+   public void setAggregateQuery(String query) {
+       _miAttributes.setUniqueOutputMIJoiningQuery(query);
+   }
 
-
-    public YVariable getResultNetVariable() {
-        return _resultNetVariable;
-    }
-
-    public void setResultNetVariable(YVariable variable) {
-        if (! ((_resultNetVariable == null) ||
-               _resultNetVariable.equals(variable))) {
-
-            // destroy now defunct instance query for result net variable */
-//            getParameterLists().getOutputParameters().remove(_resultNetVariable);
-        }
-
-        _resultNetVariable = variable;
-    }
 
     public String getType() {
         return "Multiple Composite Task";
     }
+
+
+    private void setProperties() {
+        _miAttributes.setProperties(_minimumInstances, _maximumInstances,
+                _continuationThreshold, _instanceCreationType);
+    }
+
 
 }

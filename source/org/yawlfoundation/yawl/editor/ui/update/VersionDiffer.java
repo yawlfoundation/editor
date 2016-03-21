@@ -176,5 +176,4 @@ public class VersionDiffer {
         return Collections.singletonList("log4j2.xml");
     }
 
-
 }
