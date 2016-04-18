@@ -52,15 +52,17 @@ public class TreePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for (Node node : _nodeSet) {
-            g.drawRoundRect(node.getX(), node.getY(), NODE_SIZE, NODE_SIZE, 5, 5);
-            drawArc(g, node, node.getNextTrue());
-            drawArc(g, node, node.getNextFalse());
-            if (node.isSelected()) {
-                Color orig = g.getColor();
-                g.setColor(Color.LIGHT_GRAY);
-                g.fillRoundRect(node.getX(), node.getY(), NODE_SIZE, NODE_SIZE, 5, 5);
-                g.setColor(orig);
+        if (_nodeSet != null) {
+            for (Node node : _nodeSet) {
+                g.drawRoundRect(node.getX(), node.getY(), NODE_SIZE, NODE_SIZE, 5, 5);
+                drawArc(g, node, node.getNextTrue());
+                drawArc(g, node, node.getNextFalse());
+                if (node.isSelected()) {
+                    Color orig = g.getColor();
+                    g.setColor(Color.LIGHT_GRAY);
+                    g.fillRoundRect(node.getX(), node.getY(), NODE_SIZE, NODE_SIZE, 5, 5);
+                    g.setColor(orig);
+                }
             }
         }
     }
@@ -75,7 +77,8 @@ public class TreePanel extends JPanel {
         _nodeSet = composeSet(tree);
         setPreferredSize(_nodeSet);
 
-        Node toSelect = selection != null ? getNodeFor(selection) : _rootNode.getNextTrue();
+        Node toSelect = selection != null ? getNodeFor(selection) :
+                _rootNode != null ? _rootNode.getNextTrue() : null;
         if (toSelect != null) {
             toSelect.setSelected(true);
             _parent.nodeSelected(toSelect.getRdrNode());

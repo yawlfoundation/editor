@@ -28,7 +28,7 @@ import java.awt.event.ItemListener;
 import java.util.*;
 
 import static org.yawlfoundation.yawl.worklet.dialog.DialogMode.Viewing;
-import static org.yawlfoundation.yawl.worklet.rdr.RuleType.ItemSelection;
+
 
 /**
  * @author Michael Adams
@@ -168,8 +168,8 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
                         WorkletRunner runner, RdrNode ruleNode) {
         _dataContextPanel.setNode(getDataRows(vars, id, runner),
                 getCornerstoneNode(ruleNode));
-        _conclusionPanel.setNode(ruleNode);
         _rulePanel.setNode(runner, ruleNode);
+        _conclusionPanel.setNode(ruleNode);
         _txtDescription.setText(ruleNode.getDescription());
     }
 
@@ -177,8 +177,8 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     // from view dialog
     public void setNode(RdrNode ruleNode) {
         _dataContextPanel.setNode(getCornerstoneRows(ruleNode), null);
-        _conclusionPanel.setNode(ruleNode);
         _rulePanel.setNode(ruleNode);
+        _conclusionPanel.setNode(ruleNode);
         _txtDescription.setText(ruleNode.getDescription());
     }
 
@@ -265,8 +265,8 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
 
 
     private void enableGraphicalRuleEditing(DialogMode mode, RuleType selectedRule) {
-        _conclusionPanel.enableGraphButton(mode != DialogMode.Viewing  &&
-                selectedRule != ItemSelection);
+        _conclusionPanel.enableGraphButton(mode != Viewing  &&
+                selectedRule != RuleType.ItemSelection);
     }
 
 
@@ -338,6 +338,9 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
         _txtDescription.setText(null);
         if (_rulePanel != null) _rulePanel.clearInputs();
         if (_conclusionPanel != null) _conclusionPanel.setConclusion(null);
+        if (_mode == DialogMode.Replacing && _dataContextPanel != null) {
+            _dataContextPanel.removeAll();
+        }
     }
 
 

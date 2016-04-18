@@ -52,7 +52,10 @@ public class VariableRowStringEditor extends DefaultCellEditor
     private Vector<String> dataTypeNames;
 
 
-    public VariableRowStringEditor() { super(new JTextField()); }
+    public VariableRowStringEditor() {
+        super(new JTextField());
+        setClickCountToStart(1);
+    }
 
 
     public VariableRowStringEditor(VariableTablePanel panel) {

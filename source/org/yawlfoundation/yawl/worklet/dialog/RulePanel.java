@@ -113,7 +113,7 @@ public class RulePanel extends JPanel implements ItemListener {
         setLayout(new SpringLayout());
         _cbxTask = getTaskCombo(task, parent);
         _cbxType = getTypeCombo(parent);
-        addPrompt("Rule Type:", _cbxType);
+        addPrompt("Rule Type:", _cbxType).setEnabled(mode != DialogMode.Replacing);
         _cbxTaskPrompt = addPrompt("Task:", _cbxTask);
         _cbxTaskPrompt.setEnabled(false);
         _conditionPanel = new ConditionPanel(parent, mode);

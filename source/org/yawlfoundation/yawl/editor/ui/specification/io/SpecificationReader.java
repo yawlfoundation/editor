@@ -394,6 +394,7 @@ public class SpecificationReader extends SwingWorker<Boolean, Void> {
 
 
     private void showLoadError(String errorMsg) {
+        YAWLEditor.getStatusBar().freeze();
         if (errorMsg == null) errorMsg = "Invalid or corrupt content.";
         MessageDialog.error("Failed to load specification.\n" +
                 (errorMsg.length() > 0 ? "Reason: " + errorMsg : ""),
@@ -402,6 +403,7 @@ public class SpecificationReader extends SwingWorker<Boolean, Void> {
 
 
     private void showLayoutParseWarning() {
+        YAWLEditor.getStatusBar().freeze();
         MessageDialog.warn(
                 "The specification loaded successfully, but the layout data is invalid.\n" +
                 "A basic default layout will be applied.",

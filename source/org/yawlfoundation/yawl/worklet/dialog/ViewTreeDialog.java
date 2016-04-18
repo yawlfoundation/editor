@@ -38,7 +38,7 @@ public class ViewTreeDialog extends AbstractNodeDialog
 
     public ViewTreeDialog(RdrSet rdrSet) {
         super(YAWLEditor.getInstance(), true);
-        setTitle("Rule Viewer");
+        setTitle("Rule Browser");
         _rdrSet = rdrSet;
         setContent();
         setBaseSize(800, 550);
@@ -162,7 +162,7 @@ public class ViewTreeDialog extends AbstractNodeDialog
 
 
     private void setTree(RdrTree tree, RdrNode newSelection) {
-        if (_treePanel != null) {
+        if (! (_treePanel == null || tree == null)) {
             _treePanel.setTree(tree, newSelection);
             _treeScrollPane.getViewport().scrollRectToVisible(_treePanel.getRootNodeRect());
         }

@@ -23,6 +23,7 @@ import org.yawlfoundation.yawl.editor.ui.properties.data.StatusPanel;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.MiniToolBar;
 import org.yawlfoundation.yawl.util.JDOMUtil;
+import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.util.XNode;
 
 import javax.swing.*;
@@ -31,6 +32,7 @@ import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.EventListener;
 
 /**
@@ -95,7 +97,7 @@ public class DataContextTablePanel extends JPanel implements CellEditorListener 
 
 
     public Element getDataElement(String rootName) {
-        XNode root = new XNode(rootName);
+        XNode root = new XNode(validateXMLLabel(rootName));
         for (VariableRow row : table.getTableModel().getVariables()) {
             XNode rowNode = new XNode(JDOMUtil.encodeEscapes(row.getName()),
                     JDOMUtil.encodeEscapes(row.getValue()));
@@ -121,6 +123,10 @@ public class DataContextTablePanel extends JPanel implements CellEditorListener 
         table.getTableModel().setEditable(editable);
     }
 
+
+    public void clearVariables() { table.setVariables(new ArrayList<VariableRow>()); }
+
+
     private DataContextTable createTable(EventListener listener, DialogMode mode) {
         table = new DataContextTable(mode);
         DataContextValueEditor editor = new DataContextValueEditor(this);
@@ -140,6 +146,14 @@ public class DataContextTablePanel extends JPanel implements CellEditorListener 
         status = new StatusPanel(null);
         toolbar.add(status);
         return toolbar;
+    }
+
+
+    private String validateXMLLabel(String label) {
+        if (StringUtil.isNullOrEmpty(label)) {
+            return "data";
+        }
+        return Character.isJavaIdentifierStart(label.charAt(0)) ? label : ("_" + label);
     }
 
 }

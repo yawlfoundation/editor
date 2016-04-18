@@ -46,7 +46,7 @@ public class ConditionVerifier extends InputVerifier {
         else {
             try {
                 _valid = _conditionEvaluator.evaluate(textField.getText(),
-                        _parent.getDataElement());
+                        _parent.getDataElement(), true);
                 if (!_valid) {
                     errMsg = "Condition does not evaluate to true";
                 }

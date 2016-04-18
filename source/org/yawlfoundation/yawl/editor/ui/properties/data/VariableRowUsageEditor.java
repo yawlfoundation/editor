@@ -57,7 +57,7 @@ public class VariableRowUsageEditor extends AbstractCellEditor
 
 
     public Object getCellEditorValue() {
-        return usageCombo.getSelectedItem(); // + adjustIndex(-1);
+        return usageCombo.getSelectedItem();
     }
 
 

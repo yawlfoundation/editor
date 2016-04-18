@@ -7,7 +7,6 @@ import org.yawlfoundation.yawl.editor.ui.net.utilities.NetUtilities;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -22,8 +21,6 @@ import java.util.Vector;
  */
 public class TaskComboBox extends JComboBox {
 
-    private final ListCellRenderer BASIC_RENDERER = new BasicComboBoxRenderer();
-    private final ListCellRenderer TASK_RENDERER = new AtomicTaskRenderer();
     private final Vector<AtomicTask> TASK_LIST = getTaskList();
 
     private AtomicTask _selectedTask;
@@ -33,6 +30,7 @@ public class TaskComboBox extends JComboBox {
     public TaskComboBox(AtomicTask task) {
         super();
         _selectedTask = task;
+        setRenderer(new AtomicTaskRenderer());
         setEnabled(false);
     }
 
@@ -91,7 +89,6 @@ public class TaskComboBox extends JComboBox {
             }
         }
         setEnabled(false);
-        switchRenderer(BASIC_RENDERER);
     }
 
 
@@ -108,17 +105,9 @@ public class TaskComboBox extends JComboBox {
             }
             else setSelectedIndex(0);                     // show first item
 
-            switchRenderer(TASK_RENDERER);
             _addingItems = false;
         }
         setEnabled(hasItems);
-    }
-
-
-    private void switchRenderer(ListCellRenderer renderer) {
-        if (! renderer.equals(getRenderer())) {
-            setRenderer(renderer);
-        }
     }
 
 
