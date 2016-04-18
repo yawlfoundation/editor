@@ -2,12 +2,12 @@
 <!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
 <release>
   <version>4.0</version>
-  <build>673</build>
-  <timestamp>2016-04-18 15.52.45</timestamp>
+  <build>674</build>
+  <timestamp>2016-04-18 16.11.56</timestamp>
   <paths>
     <path id="host">https://raw.githubusercontent.com/</path>
     <path id="base">yawlfoundation/</path>
-    <path id="check">deploy/lib/</path>
+    <path id="check">editor/master/deploy/lib/</path>
     <path id="A">editor/master/</path>
     <path id="B">editor/master/deploy/</path>
     <path id="C">yawl/master/build/3rdParty/</path>
