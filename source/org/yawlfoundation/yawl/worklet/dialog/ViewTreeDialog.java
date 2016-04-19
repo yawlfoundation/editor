@@ -162,9 +162,12 @@ public class ViewTreeDialog extends AbstractNodeDialog
 
 
     private void setTree(RdrTree tree, RdrNode newSelection) {
-        if (! (_treePanel == null || tree == null)) {
+        if (_treePanel != null) {
             _treePanel.setTree(tree, newSelection);
-            _treeScrollPane.getViewport().scrollRectToVisible(_treePanel.getRootNodeRect());
+            Rectangle rootNodeRect = _treePanel.getRootNodeRect();
+            if (rootNodeRect != null) {
+                _treeScrollPane.getViewport().scrollRectToVisible(rootNodeRect);
+            }
         }
     }
 

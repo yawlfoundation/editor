@@ -1,6 +1,6 @@
 package org.yawlfoundation.yawl.worklet.menu;
 
-import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
+import org.yawlfoundation.yawl.editor.ui.actions.YAWLBaseAction;
 import org.yawlfoundation.yawl.editor.ui.resourcing.subdialog.ListDialog;
 import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.worklet.client.RdrSetID;
@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
-class RemoveRuleSetAction extends YAWLSelectedNetAction {
+class RemoveRuleSetAction extends YAWLBaseAction {
 
     {
         putValue(Action.SHORT_DESCRIPTION, "Remove Rule Set");

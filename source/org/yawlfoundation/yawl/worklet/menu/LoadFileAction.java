@@ -2,7 +2,7 @@ package org.yawlfoundation.yawl.worklet.menu;
 
 import com.l2fprod.common.swing.JDirectoryChooser;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
-import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
+import org.yawlfoundation.yawl.editor.ui.actions.YAWLBaseAction;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.ValidationMessage;
 import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.worklet.settings.SettingsStore;
@@ -14,7 +14,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 
-class LoadFileAction extends YAWLSelectedNetAction {
+class LoadFileAction extends YAWLBaseAction {
 
     {
         putValue(Action.SHORT_DESCRIPTION, "Upload Files");

@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -101,7 +103,9 @@ public class RulePanel extends JPanel implements ItemListener {
 
     public void setRuleComboItems(Set<RuleType> items) {
         _cbxType.removeAllItems();
-        for (RuleType item : items) { _cbxType.addItem(item); };
+        java.util.List<RuleType> sortedItems = new ArrayList<RuleType>(items);
+        Collections.sort(sortedItems);
+        for (RuleType item : sortedItems) { _cbxType.addItem(item); };
     }
 
     public void setTaskComboItems(Set<String> items) {

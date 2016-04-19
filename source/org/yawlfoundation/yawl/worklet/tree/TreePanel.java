@@ -69,7 +69,8 @@ public class TreePanel extends JPanel {
 
 
     public Rectangle getRootNodeRect() {
-        return new Rectangle(_rootNode.getX(), _rootNode.getY(), NODE_SIZE, NODE_SIZE);
+        return _rootNode == null ? null :
+                new Rectangle(_rootNode.getX(), _rootNode.getY(), NODE_SIZE, NODE_SIZE);
     }
 
 

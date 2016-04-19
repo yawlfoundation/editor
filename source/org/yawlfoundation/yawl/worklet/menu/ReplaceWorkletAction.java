@@ -1,6 +1,6 @@
 package org.yawlfoundation.yawl.worklet.menu;
 
-import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
+import org.yawlfoundation.yawl.editor.ui.actions.YAWLBaseAction;
 import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.dialog.ReplaceWorkletDialog;
@@ -12,7 +12,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Collections;
 
-class ReplaceWorkletAction extends YAWLSelectedNetAction {
+class ReplaceWorkletAction extends YAWLBaseAction {
 
     {
         putValue(Action.SHORT_DESCRIPTION, "Replace Worklet");
