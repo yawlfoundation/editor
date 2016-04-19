@@ -42,12 +42,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
-import java.util.jar.Attributes;
-import java.util.jar.Manifest;
 
 /**
  * The core executable class of the YAWL Editor, responsible for bootstrapping the editor
@@ -68,7 +64,7 @@ public class YAWLEditor extends JFrame implements FileStateListener {
     private static YAWLEditor INSTANCE;
 
     public static final String DEFAULT_VERSION = "4.0";
-    private static final String BUILD_VERSION = getVersionFromManifest();
+    private static final String BUILD_VERSION = getBuildVersion();
 
 
     private YAWLEditor() {
@@ -430,21 +426,12 @@ public class YAWLEditor extends JFrame implements FileStateListener {
     }
 
 
-    private static String getVersionFromManifest() {
-        String thisClassName = YAWLEditor.class.getSimpleName() + ".class";
-        String classPath = YAWLEditor.class.getResource(thisClassName).toString();
-        String manifestPath = classPath.substring(0, classPath.lastIndexOf("!") + 1) +
-            "/META-INF/MANIFEST.MF";
-        try {
-            Manifest manifest = new Manifest(new URL(manifestPath).openStream());
-            Attributes attr = manifest.getMainAttributes();
-            String value = attr.getValue("Implementation-Version");
-            if (value != null) return value;
-        }
-        catch (IOException ioe) {
-            // fall through to default
-        }
-        return DEFAULT_VERSION;
+    private static String getBuildVersion() {
+        BuildProperties props = new BuildProperties();
+        String version = props.getVersion();
+        String buildNumber = props.getBuild();
+        return (version != null ? version : DEFAULT_VERSION) +
+                (buildNumber != null ? "." + buildNumber : "");
     }
 
 }
