@@ -41,6 +41,7 @@ public class SettingsStore {
     private static final int DEFAULT_PORT = 8080;
 
     private static final String LAST_LOAD_FILE_PATH = "lastLoadFilePath";
+    private static final String LAST_SAVE_FILE_PATH = "lastSaveFilePath";
 
 
     public static void setServiceUserId(String id) {
@@ -85,6 +86,14 @@ public class SettingsStore {
 
     public static void setLastLoadFilePath(String path) {
         _prefs.put(LAST_LOAD_FILE_PATH, path);
+    }
+
+    public static String getLastSaveFilePath() {
+        return _prefs.get(LAST_SAVE_FILE_PATH, null);
+    }
+
+    public static void setLastSaveFilePath(String path) {
+        _prefs.put(LAST_SAVE_FILE_PATH, path);
     }
 
 }

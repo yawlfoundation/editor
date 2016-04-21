@@ -115,9 +115,9 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     // conclusion & data tables value edit
     public void editingStopped(ChangeEvent e) {
         if (e.getSource() instanceof ExletCellEditor) {
-            validateConclusion();
+            boolean valid = validateConclusion();
             _conclusionPanel.enableButtons(true);
-            enableGraphicalRuleEditing(_rulePanel.getSelectedRule());
+            enableGraphicalRuleEditing(_mode, _rulePanel.getSelectedRule(), valid);
         }
         else {
             _rulePanel.updateCondition(_dataContextPanel.getSelectedVariable());
@@ -254,18 +254,19 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
 
     private JPanel getConclusionPanel(DialogMode mode) {
         _conclusionPanel = new ConclusionTablePanel(this, mode);
-        enableGraphicalRuleEditing(mode, _rulePanel.getSelectedRule());
+        enableGraphicalRuleEditing(mode, _rulePanel.getSelectedRule(), true);
         return _conclusionPanel;
     }
 
 
     private void enableGraphicalRuleEditing(RuleType selectedRule) {
-        enableGraphicalRuleEditing(_mode, selectedRule);
+        enableGraphicalRuleEditing(_mode, selectedRule, true);
     }
 
 
-    private void enableGraphicalRuleEditing(DialogMode mode, RuleType selectedRule) {
-        _conclusionPanel.enableGraphButton(mode != Viewing  &&
+    private void enableGraphicalRuleEditing(DialogMode mode,
+                                            RuleType selectedRule, boolean valid) {
+        _conclusionPanel.enableGraphButton(valid && mode != Viewing &&
                 selectedRule != RuleType.ItemSelection);
     }
 
@@ -377,8 +378,8 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     }
 
 
-    private void validateConclusion() {
-        _conclusionPanel.validateConclusion();
+    private boolean validateConclusion() {
+        return _conclusionPanel.validateConclusion().isEmpty();
     }
 
 }

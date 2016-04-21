@@ -56,16 +56,18 @@ public class MenuBuilder {
      }
 
 
+    // populates both the menubar and toolbar
     private List<MenuAction> getMenuActions() {
         List<MenuAction> actions = new ArrayList<MenuAction>();
         actions.add(new MenuAction(new LoadWorkletAction(), "load"));
         actions.add(new MenuAction(new SaveWorkletAction(), "save"));
         actions.add(null);
         actions.add(new MenuAction(new ReplaceWorkletAction(), "replace"));
-        actions.add(null);
         actions.add(new MenuAction(new ViewRuleSetAction(), "view"));
+        actions.add(null);
         actions.add(new MenuAction(new AddRuleAction(), "add"));
         actions.add(new MenuAction(new LoadFileAction(), "upload"));
+        actions.add(new MenuAction(new ExportRuleSetAction(), "exportSet"));
         actions.add(new MenuAction(new RemoveRuleSetAction(), "removeSet"));
         actions.add(new MenuAction(new RemoveOrphanWorkletsAction(), "removeOrphans"));
         actions.add(null);

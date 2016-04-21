@@ -31,6 +31,7 @@ public class NetDialog extends JDialog implements ActionListener {
         add(getContent(conclusion, ruleType));
         pack();
         setLocationRelativeTo(YAWLEditor.getInstance());
+        _netPanel.graphChanged(null);                              // initial validation
     }
 
 

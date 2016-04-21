@@ -12,7 +12,7 @@ enum ExletActions {
     SuspendAll("suspend", "case"),
     SuspendAllCases("suspend", "allcases"),
     Continue("continue", "workitem"),
-    ContinueAll("continue", "all"),
+    ContinueAll("continue", "case"),
     ContinueAllCases("continue", "allcases"),
     Restart("restart", "workitem"),
     ForceComplete("complete", "workitem"),

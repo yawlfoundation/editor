@@ -352,7 +352,7 @@ public class WorkletClient extends YConnection {
     }
 
 
-    public void removedRdrSet(RdrSetID rdrSetID) throws IOException {
+    public void removeRdrSet(RdrSetID rdrSetID) throws IOException {
         connect();
         check(_client.removeRdrSet(rdrSetID.getIdentifier(), _handle));
     }
