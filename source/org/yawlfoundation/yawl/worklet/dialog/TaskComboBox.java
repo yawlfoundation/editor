@@ -1,6 +1,5 @@
 package org.yawlfoundation.yawl.worklet.dialog;
 
-import org.yawlfoundation.yawl.editor.ui.elements.model.AtomicTask;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLAtomicTask;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 import org.yawlfoundation.yawl.editor.ui.net.utilities.NetUtilities;
@@ -21,13 +20,13 @@ import java.util.Vector;
  */
 public class TaskComboBox extends JComboBox {
 
-    private final Vector<AtomicTask> TASK_LIST = getTaskList();
+    private final Vector<YAWLAtomicTask> TASK_LIST = getTaskList();
 
-    private AtomicTask _selectedTask;
+    private YAWLAtomicTask _selectedTask;
     private boolean _addingItems;
 
 
-    public TaskComboBox(AtomicTask task) {
+    public TaskComboBox(YAWLAtomicTask task) {
         super();
         _selectedTask = task;
         setRenderer(new AtomicTaskRenderer());
@@ -41,16 +40,16 @@ public class TaskComboBox extends JComboBox {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED && !_addingItems) {
-                    _selectedTask = (AtomicTask) getSelectedItem();
+                    _selectedTask = (YAWLAtomicTask) getSelectedItem();
                 }
             }
         });
     }
 
 
-    public AtomicTask getSelectedTask() {
+    public YAWLAtomicTask getSelectedTask() {
         if (_selectedTask == null && getItemCount() > 0) {
-            _selectedTask = (AtomicTask) getItemAt(0);
+            _selectedTask = (YAWLAtomicTask) getItemAt(0);
             setSelectedItem(_selectedTask);
         }
         return _selectedTask;
@@ -65,10 +64,10 @@ public class TaskComboBox extends JComboBox {
 
     // viewing dialog
     public void setItems(Set<String> taskIDs) {
-        Vector<AtomicTask> tasks = new Vector<AtomicTask>();
+        Vector<YAWLAtomicTask> tasks = new Vector<YAWLAtomicTask>();
         if (taskIDs != null) {
             for (String taskID : taskIDs) {
-                AtomicTask task = getTask(taskID);
+                YAWLAtomicTask task = getTask(taskID);
                 if (task != null) {
                     tasks.add(task);
                 }
@@ -83,7 +82,7 @@ public class TaskComboBox extends JComboBox {
     public void setItem(String taskID) {
         removeAllItems();
         if (taskID != null) {
-            AtomicTask task = getTask(taskID);
+            YAWLAtomicTask task = getTask(taskID);
             if (task != null) {
                 addItem(task);
             }
@@ -92,12 +91,12 @@ public class TaskComboBox extends JComboBox {
     }
 
 
-    private void setItems(Vector<AtomicTask> tasks) {
+    private void setItems(Vector<YAWLAtomicTask> tasks) {
         removeAllItems();
         boolean hasItems = ! (tasks == null || tasks.isEmpty());
         if (hasItems) {
             _addingItems = true;                          // suppress selection changes
-            for (AtomicTask atomicTask : tasks) {
+            for (YAWLAtomicTask atomicTask : tasks) {
                 addItem(atomicTask);
             }
             if (_selectedTask != null) {
@@ -111,13 +110,11 @@ public class TaskComboBox extends JComboBox {
     }
 
 
-    private Vector<AtomicTask> getTaskList() {
-        Vector<AtomicTask> taskVector = new Vector<AtomicTask>();
+    private Vector<YAWLAtomicTask> getTaskList() {
+        Vector<YAWLAtomicTask> taskVector = new Vector<YAWLAtomicTask>();
         for (NetGraphModel model : SpecificationModel.getNets()) {
             for (YAWLAtomicTask netTask : NetUtilities.getAtomicTasks(model)) {
-                 if (netTask instanceof AtomicTask) {
-                     taskVector.add((AtomicTask) netTask);
-                 }
+                taskVector.add(netTask);
             }
         }
         sortTaskList(taskVector);
@@ -125,10 +122,10 @@ public class TaskComboBox extends JComboBox {
     }
 
 
-    private void sortTaskList(Vector<AtomicTask> taskVector) {
-        Collections.sort(taskVector, new Comparator<AtomicTask>() {
+    private void sortTaskList(Vector<YAWLAtomicTask> taskVector) {
+        Collections.sort(taskVector, new Comparator<YAWLAtomicTask>() {
             @Override
-            public int compare(AtomicTask t1, AtomicTask t2) {
+            public int compare(YAWLAtomicTask t1, YAWLAtomicTask t2) {
                 if (t1 == null) return -1;
                 if (t2 == null) return 1;
                 return t1.getID().compareTo(t2.getID());
@@ -137,8 +134,8 @@ public class TaskComboBox extends JComboBox {
     }
 
 
-    private AtomicTask getTask(String taskID) {
-        for (AtomicTask task : TASK_LIST) {
+    private YAWLAtomicTask getTask(String taskID) {
+        for (YAWLAtomicTask task : TASK_LIST) {
             if (task.getID().equals(taskID)) {
                 return task;
             }

@@ -1,7 +1,7 @@
 package org.yawlfoundation.yawl.worklet.dialog;
 
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
-import org.yawlfoundation.yawl.editor.ui.elements.model.AtomicTask;
+import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLAtomicTask;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.util.SplitPaneUtil;
@@ -156,7 +156,7 @@ public class ViewTreeDialog extends AbstractNodeDialog
 
 
     private String getSelectedTaskID() {
-        AtomicTask task = _nodePanel.getSelectedTask();
+        YAWLAtomicTask task = _nodePanel.getSelectedTask();
         return task != null ? task.getID() : null;
     }
 

@@ -50,6 +50,9 @@ public class SettingsPanel extends JPanel {
         SettingsStore.setServicePort(_hostPanel.getPort());
         SettingsStore.setServiceUserId(getUser());
         SettingsStore.setServicePassword(getPassword());
+
+        // also update settings in the worklet client
+        WorkletClient.getInstance().refreshSettings();
     }
 
 

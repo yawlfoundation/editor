@@ -1,6 +1,6 @@
 package org.yawlfoundation.yawl.worklet.dialog;
 
-import org.yawlfoundation.yawl.editor.ui.elements.model.AtomicTask;
+import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLAtomicTask;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.elements.YAWLServiceGateway;
 import org.yawlfoundation.yawl.elements.YAWLServiceReference;
@@ -29,7 +29,7 @@ public class RulePanel extends JPanel implements ItemListener {
     private DialogMode _mode;
 
 
-    public RulePanel(AtomicTask task, NodePanel parent, DialogMode mode) {
+    public RulePanel(YAWLAtomicTask task, NodePanel parent, DialogMode mode) {
         super();
         _mode = mode;
         setContent(task, parent, mode);
@@ -68,7 +68,7 @@ public class RulePanel extends JPanel implements ItemListener {
     public void setSelectedRule(int index) { _cbxType.setSelectedIndex(index); }
 
 
-     public AtomicTask getSelectedTask() {
+     public YAWLAtomicTask getSelectedTask() {
          return getSelectedRule().isItemLevelType() ? _cbxTask.getSelectedTask() : null;
      }
 
@@ -113,7 +113,7 @@ public class RulePanel extends JPanel implements ItemListener {
     }
 
 
-    private void setContent(AtomicTask task, NodePanel parent, DialogMode mode) {
+    private void setContent(YAWLAtomicTask task, NodePanel parent, DialogMode mode) {
         setLayout(new SpringLayout());
         _cbxTask = getTaskCombo(task, parent);
         _cbxType = getTypeCombo(parent);
@@ -170,7 +170,7 @@ public class RulePanel extends JPanel implements ItemListener {
     }
 
 
-    private TaskComboBox getTaskCombo(AtomicTask task, NodePanel parent) {
+    private TaskComboBox getTaskCombo(YAWLAtomicTask task, NodePanel parent) {
         TaskComboBox combo = new TaskComboBox(task);
         if (parent.getDialog().isComboListener()) {       // add & view dialogs listen
             combo.addItemListener(parent);
@@ -180,7 +180,7 @@ public class RulePanel extends JPanel implements ItemListener {
     }
 
 
-    private boolean isWorkletTask(AtomicTask task) {
+    private boolean isWorkletTask(YAWLAtomicTask task) {
          if (task == null) return false;
          YAWLServiceGateway decomposition =
                  (YAWLServiceGateway) task.getDecomposition();

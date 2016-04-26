@@ -1,7 +1,7 @@
 package org.yawlfoundation.yawl.worklet.dialog;
 
 import org.jdom2.Element;
-import org.yawlfoundation.yawl.editor.ui.elements.model.AtomicTask;
+import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLAtomicTask;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.util.SplitPaneUtil;
@@ -45,7 +45,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     private DialogMode _mode;
 
 
-    public NodePanel(AtomicTask task, AbstractNodeDialog parent, DialogMode mode) {
+    public NodePanel(YAWLAtomicTask task, AbstractNodeDialog parent, DialogMode mode) {
         super();
         _parent = parent;
         setContent(task, mode);
@@ -90,7 +90,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
                     }
                 }
                 else {    // task combo
-                    variables = getVariables((AtomicTask) item);
+                    variables = getVariables((YAWLAtomicTask) item);
                 }
 
                 _dataContextPanel.setVariables(variables);
@@ -158,7 +158,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     public void setSelectedRule(int index) { }
 
 
-    public AtomicTask getSelectedTask() {
+    public YAWLAtomicTask getSelectedTask() {
         return _rulePanel != null ? _rulePanel.getSelectedTask() : null; }
 
     public void setSelectedTask(int index) { }
@@ -207,7 +207,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     }
 
 
-    private void setContent(AtomicTask task, DialogMode mode) {
+    private void setContent(YAWLAtomicTask task, DialogMode mode) {
         setLayout(new BorderLayout());
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true);
         new SplitPaneUtil().setupDivider(splitPane, false);
@@ -218,7 +218,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     }
 
 
-    private JPanel getActionPanel(AtomicTask task, DialogMode mode) {
+    private JPanel getActionPanel(YAWLAtomicTask task, DialogMode mode) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(getDescriptionPanel(), BorderLayout.SOUTH);
         panel.add(getRulePanel(task, mode), BorderLayout.NORTH);
@@ -227,14 +227,14 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     }
 
 
-    private JPanel getDataPanel(AtomicTask task, DialogMode mode) {
+    private JPanel getDataPanel(YAWLAtomicTask task, DialogMode mode) {
         _dataContextPanel = new DataContextTablePanel(this, mode);
         _dataContextPanel.setVariables(getDataContext(task));
         return _dataContextPanel;
     }
 
 
-    private JPanel getRulePanel(AtomicTask task, DialogMode mode) {
+    private JPanel getRulePanel(YAWLAtomicTask task, DialogMode mode) {
         _rulePanel = new RulePanel(task, this, mode);
         return _rulePanel;
     }
@@ -271,12 +271,12 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     }
 
 
-    private java.util.List<VariableRow> getVariables(AtomicTask task) {
+    private java.util.List<VariableRow> getVariables(YAWLAtomicTask task) {
         return task != null ? getDataContext(task) : Collections.<VariableRow>emptyList();
     }
 
 
-    private java.util.List<VariableRow> getDataContext(AtomicTask task) {
+    private java.util.List<VariableRow> getDataContext(YAWLAtomicTask task) {
         java.util.List<VariableRow> rows = new ArrayList<VariableRow>();
         YDecomposition decomposition;
         if (task == null) {       // case level
@@ -349,7 +349,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
         YSpecificationID specID = SpecificationModel.getHandler()
                 .getSpecification().getSpecificationID();
         RuleType rule = getSelectedRule();
-        AtomicTask task = getSelectedTask();
+        YAWLAtomicTask task = getSelectedTask();
         String taskID = task != null ? task.getID() : null;
         return getDataElement(specID, rule, taskID);
     }

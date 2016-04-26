@@ -3,8 +3,8 @@ package org.yawlfoundation.yawl.worklet.dialog;
 import org.yawlfoundation.yawl.editor.core.YConnector;
 import org.yawlfoundation.yawl.editor.core.controlflow.YControlFlowHandlerException;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
-import org.yawlfoundation.yawl.editor.ui.elements.model.AtomicTask;
 import org.yawlfoundation.yawl.editor.ui.elements.model.VertexContainer;
+import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLAtomicTask;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraph;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.elements.YAWLServiceReference;
@@ -55,13 +55,13 @@ public abstract class AbstractNodeDialog extends JDialog implements TableModelLi
     }
 
 
-    protected AtomicTask getSelectedTask() {
+    protected YAWLAtomicTask getSelectedTask() {
         NetGraph selectedGraph = YAWLEditor.getNetsPane().getSelectedGraph();
         Object cell = selectedGraph.getSelectionCell();
         if (cell instanceof VertexContainer) {
             cell = ((VertexContainer) cell).getVertex();
         }
-        return (cell instanceof AtomicTask) ? (AtomicTask) cell : null;
+        return (cell instanceof YAWLAtomicTask) ? (YAWLAtomicTask) cell : null;
     }
 
 
@@ -76,7 +76,7 @@ public abstract class AbstractNodeDialog extends JDialog implements TableModelLi
     }
 
 
-    protected YDecomposition getOrCreateDecomposition(AtomicTask task) {
+    protected YDecomposition getOrCreateDecomposition(YAWLAtomicTask task) {
         YDecomposition decomposition = task.getDecomposition();
         if (decomposition == null) {
             try {

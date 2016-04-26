@@ -50,15 +50,14 @@ import java.util.*;
  */
 public class WorkletClient extends YConnection {
 
-    private static final String DEFAULT_USERID = "editor";
-    private static final String DEFAULT_PASSWORD = "yEditor";
-
     private static final ClientCache CACHE = new ClientCache();
     private static final WorkletInfoCache _workletInfoCache = new WorkletInfoCache();
     private static final WorkletClient INSTANCE = new WorkletClient();
+    private static final String URL_FILE_PATH = "/workletService/gateway";
 
-    private String _userid = DEFAULT_USERID;
-    private String _password = DEFAULT_PASSWORD;
+    private String _userid;
+    private String _password;
+    private String _connectionError;
     private WorkletGatewayClient _client;
     private XNodeParser _xNodeParser;
     private TaskIDChangeMap _taskIdChanges;
@@ -66,14 +65,9 @@ public class WorkletClient extends YConnection {
 
     private WorkletClient() {
         super();
-        String host = SettingsStore.getServiceHost();
-        int port = SettingsStore.getServicePort();
-        try {
-            setURL(new URL("http", host, port, "workletService/gateway"));
-        }
-        catch (Exception e) {
-            //
-        }
+        _userid = SettingsStore.getServiceUserId();
+        _password = SettingsStore.getServicePassword();
+        setURL();
     }
 
 
@@ -92,7 +86,7 @@ public class WorkletClient extends YConnection {
         // set test params & check
         setUserID(userId);
         setPassword(password);
-        setURL(new URL("http", host, port, "workletService/gateway"));
+        setURL(host, port);
         boolean test = isConnected();
 
         // restore current
@@ -105,12 +99,12 @@ public class WorkletClient extends YConnection {
 
 
     @Override
-    protected void init() { _client = new WorkletGatewayClient(); }
+    protected void init() {
+        _client = new WorkletGatewayClient(getURL().toExternalForm());
+    }
 
     @Override
-    protected String getURLFilePath() {
-        return null;
-    }
+    protected String getURLFilePath() { return URL_FILE_PATH; }
 
     @Override
     protected Interface_Client getClient() { return _client; }
@@ -133,6 +127,25 @@ public class WorkletClient extends YConnection {
     }
 
 
+    private void setURL() {
+        String host = SettingsStore.getServiceHost();
+        int port = SettingsStore.getServicePort();
+        try {
+            setURL(host, port);
+        }
+        catch (Exception e) {
+            //
+        }
+    }
+
+
+    public void refreshSettings() {
+        setUserID(SettingsStore.getServiceUserId());
+        setPassword(SettingsStore.getServicePassword());
+        setURL();
+    }
+
+
     public void disconnect() {
         if (_handle != null) {
             try {
@@ -150,7 +163,9 @@ public class WorkletClient extends YConnection {
         super.connect(client);
         if (_handle == null) {
             _handle = _client.connect(_userid, _password);
+            _connectionError = null;
             if (! client.successful(_handle)) {
+                _connectionError = StringUtil.unwrap(_handle);
                 _handle = null;
                 return false;
             }
@@ -183,7 +198,9 @@ public class WorkletClient extends YConnection {
 
     public void connect() throws IOException {
         if (!isConnected()) {
-            throw new IOException("Unable to connect to Worklet Service");
+            String errMsg = "Unable to connect to Worklet Service";
+            if (_connectionError != null) errMsg += ": " + _connectionError;
+            throw new IOException(errMsg);
         }
     }
 

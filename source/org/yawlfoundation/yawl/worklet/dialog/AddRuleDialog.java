@@ -19,7 +19,7 @@
 package org.yawlfoundation.yawl.worklet.dialog;
 
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
-import org.yawlfoundation.yawl.editor.ui.elements.model.AtomicTask;
+import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLAtomicTask;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.elements.YAWLServiceGateway;
@@ -146,7 +146,7 @@ public class AddRuleDialog extends AbstractNodeDialog
                 .getSpecification().getSpecificationID();
         RdrNode node = _nodePanel.getRdrNode();
         RuleType rule = _nodePanel.getSelectedRule();
-        AtomicTask task = _nodePanel.getSelectedTask();
+        YAWLAtomicTask task = _nodePanel.getSelectedTask();
         String taskID = task != null ? task.getID() : null;
 
         String title = "Add Worklet Rule";
@@ -164,7 +164,7 @@ public class AddRuleDialog extends AbstractNodeDialog
     }
 
 
-    private void addServiceToTask(AtomicTask task) {
+    private void addServiceToTask(YAWLAtomicTask task) {
         YAWLServiceReference service = getServiceReference();
         if (service != null) {
             YDecomposition decomposition = getOrCreateDecomposition(task);

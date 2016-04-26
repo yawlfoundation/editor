@@ -64,8 +64,8 @@ public class MenuBuilder {
         actions.add(null);
         actions.add(new MenuAction(new ReplaceWorkletAction(), "replace"));
         actions.add(new MenuAction(new ViewRuleSetAction(), "view"));
-        actions.add(null);
         actions.add(new MenuAction(new AddRuleAction(), "add"));
+        actions.add(null);
         actions.add(new MenuAction(new LoadFileAction(), "upload"));
         actions.add(new MenuAction(new ExportRuleSetAction(), "exportSet"));
         actions.add(new MenuAction(new RemoveRuleSetAction(), "removeSet"));

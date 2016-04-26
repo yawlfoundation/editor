@@ -21,9 +21,15 @@ package org.yawlfoundation.yawl.editor.ui.elements.model;
 import org.yawlfoundation.yawl.elements.YDecomposition;
 
 public interface YAWLAtomicTask {
-  public void setDecomposition(YDecomposition decomposition);
-  public YDecomposition getDecomposition();
 
-  public String getLabel();
+    public void setDecomposition(YDecomposition decomposition);
+
+    public YDecomposition getDecomposition();
+
+    public String getID();
+
+    public String getName();
+
+    public String getLabel();
 
 }
