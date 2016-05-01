@@ -166,6 +166,7 @@ public class ViewTreeDialog extends AbstractNodeDialog
             _treePanel.setTree(tree, newSelection);
             Rectangle rootNodeRect = _treePanel.getRootNodeRect();
             if (rootNodeRect != null) {
+                _treeScrollPane.setViewportView(_treePanel);
                 _treeScrollPane.getViewport().scrollRectToVisible(rootNodeRect);
             }
         }
@@ -196,6 +197,7 @@ public class ViewTreeDialog extends AbstractNodeDialog
     private JPanel getTreePanel() {
         _treePanel = new TreePanel(this);
         _treeScrollPane = new JScrollPane(_treePanel);
+        _treeScrollPane.setPreferredSize(new Dimension(300, 300));
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(new TitledBorder("Rule Tree"));
