@@ -8,9 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Michael Adams
@@ -18,14 +15,13 @@ import java.util.Set;
  */
 public class TreePanel extends JPanel {
 
-    private TreeNode _rootNode;             // actually the first child node of rdr tree
-    private Set<TreeNode> _nodeSet;
     private ViewTreeDialog _parent;
 
-    private static final int V_SPACE = 30;
-    private static final int X_OFFSET = 10;
-    private static final int Y_OFFSET = 10;
-    private static final int NODE_SIZE = 16;
+    // actually a representation of the first child node of rdr tree
+    private TreeNode _rootNode;
+
+    private static final TreeRenderer RENDERER = new TreeRenderer();
+    private static final TreeLayout LAYOUT = new TreeLayout();
 
 
     public TreePanel(ViewTreeDialog parent) {
@@ -46,97 +42,79 @@ public class TreePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (_nodeSet != null) {
-            for (TreeNode node : _nodeSet) {
-                int x = getScreenX(node);
-                int y = getScreenY(node);
-                g.drawRoundRect(x, y, NODE_SIZE, NODE_SIZE, 5, 5);
-                drawArc(g, node, node.getTrueChild());
-                drawArc(g, node, node.getFalseChild());
-                if (node.isSelected()) {
-                    Color orig = g.getColor();
-                    g.setColor(Color.LIGHT_GRAY);
-                    g.fillRoundRect(x, y, NODE_SIZE, NODE_SIZE, 5, 5);
-                    g.setColor(orig);
-                }
-            }
-        }
+        RENDERER.paint(g, _rootNode);
     }
 
 
     public Rectangle getRootNodeRect() {
         return _rootNode == null ? null :
-                new Rectangle(_rootNode.getX(), _rootNode.getY(), NODE_SIZE, NODE_SIZE);
+                new Rectangle(_rootNode.getX(), _rootNode.getY(),
+                        TreeRenderer.NODE_SIZE, TreeRenderer.NODE_SIZE);
     }
 
 
     public void setTree(RdrTree tree, RdrNode selection) {
-        _nodeSet = composeSet(tree);
+        _rootNode = buildTree(tree);
         layoutNodes();
+        makeInitialSelection(selection);
+        repaint();
+    }
 
-        TreeNode toSelect = selection != null ? getNodeFor(selection) :
+
+    private void makeInitialSelection(RdrNode selection) {
+        TreeNode toSelect = selection != null ? getNodeFor(_rootNode, selection) :
                 _rootNode != null ? _rootNode : null;
         if (toSelect != null) {
             toSelect.setSelected(true);
             _parent.nodeSelected(toSelect.getRdrNode());
         }
-        repaint();
     }
 
 
-    private TreeNode getNodeFor(RdrNode rdrNode) {
-        for (TreeNode node : _nodeSet) {
+    private TreeNode getNodeFor(TreeNode node, RdrNode rdrNode) {
+        TreeNode found = null;
+        if (! (node == null || rdrNode == null)) {
             if (node.getRdrNode().equals(rdrNode)) {
-                return node;
+                found = node;
+            }
+            else {
+                found = getNodeFor(node.getFalseChild(), rdrNode);
+                if (found == null) found = getNodeFor(node.getTrueChild(), rdrNode);
             }
         }
-        return null;
+        return found;
     }
 
 
-    private Set<TreeNode> composeSet(RdrTree tree) {
+    private TreeNode buildTree(RdrTree tree) {
         RdrNode firstChild = getFirstChildNode(tree);
         if (firstChild == null) {
-            return Collections.emptySet();
+            return null;
         }
-        Set<TreeNode> nodeSet = new HashSet<TreeNode>();
-        _rootNode = addNode(nodeSet, null, firstChild);
-        return nodeSet;
+        return addNode(null, firstChild);
     }
 
 
-    private TreeNode addNode(Set<TreeNode> nodeSet, TreeNode parent, RdrNode rdrNode) {
+    private TreeNode addNode(TreeNode parent, RdrNode rdrNode) {
         TreeNode node = null;
         if (rdrNode != null) {
             node = new TreeNode(parent, rdrNode);
-            nodeSet.add(node);
-            node.setTrueChild(addNode(nodeSet, node, rdrNode.getTrueChild()));
-            node.setFalseChild(addNode(nodeSet, node, rdrNode.getFalseChild()));
+            node.setTrueChild(addNode(node, rdrNode.getTrueChild()));
+            node.setFalseChild(addNode(node, rdrNode.getFalseChild()));
         }
         return node;
     }
 
 
     private void layoutNodes() {
-        TreeLayout layout = new TreeLayout();
-        layout.positionNodes(_rootNode);
-        int width = layout.getMaxX() * NODE_SIZE + X_OFFSET;
-        int height = layout.getMaxY() * V_SPACE + Y_OFFSET;
-        setPreferredSize(new Dimension(width, height));
-    }
-
-
-    private void drawArc(Graphics g, TreeNode parent, TreeNode child) {
-        if (! (parent == null || child == null)) {
-            g.drawLine(getScreenX(parent) + NODE_SIZE / 2, getScreenY(parent) + NODE_SIZE,
-                    getScreenX(child) + NODE_SIZE / 2, getScreenY(child));
-        }
+        LAYOUT.positionNodes(_rootNode);
+        setPreferredSize(RENDERER.getSize(LAYOUT.getMaxX(), LAYOUT.getMaxY()));
     }
 
 
     private TreeNode setSelectedNode(MouseEvent e) {
-        clearSelection();
-        TreeNode node = getNodeAt(e.getX(), e.getY());
+        clearSelection(_rootNode);
+        TreeNode node = getNodeAt(_rootNode, e.getX(), e.getY());
         if (node != null) {
             node.setSelected(true);
             repaint();
@@ -145,23 +123,30 @@ public class TreePanel extends JPanel {
     }
 
 
-    private TreeNode getNodeAt(int x, int y) {
-        for (TreeNode node : _nodeSet) {
-            int left = getScreenX(node);
-            int right = left + NODE_SIZE;
-            int top = getScreenY(node);
-            int bottom = top + NODE_SIZE;
-             if (x >= left && x <= right && y >= top && y <= bottom) {
-                 return node;
-             }
+    private TreeNode getNodeAt(TreeNode node, int x, int y) {
+        TreeNode found = null;
+        if (node != null) {
+            int left = RENDERER.getScreenX(node);
+            int right = left + TreeRenderer.NODE_SIZE;
+            int top = RENDERER.getScreenY(node);
+            int bottom = top + TreeRenderer.NODE_SIZE;
+            if (x >= left && x <= right && y >= top && y <= bottom) {
+                found = node;
+            }
+            else {
+                found = getNodeAt(node.getFalseChild(), x, y);
+                if (found == null) found = getNodeAt(node.getTrueChild(), x, y);
+            }
         }
-        return null;
+        return found;
     }
 
 
-    private void clearSelection() {
-        for (TreeNode node : _nodeSet) {
+    private void clearSelection(TreeNode node) {
+        if (node != null) {
             node.setSelected(false);
+            clearSelection(node.getFalseChild());
+            clearSelection(node.getTrueChild());
         }
     }
 
@@ -170,16 +155,6 @@ public class TreePanel extends JPanel {
         if (tree == null) return null;
         RdrNode rootNode = tree.getRootNode();
         return rootNode != null ? rootNode.getTrueChild() : null;
-    }
-
-
-    private int getScreenX(TreeNode node) {
-        return node.getX() * NODE_SIZE + X_OFFSET;
-    }
-
-
-    private int getScreenY(TreeNode node) {
-        return node.getY() * V_SPACE + Y_OFFSET;
     }
 
 }

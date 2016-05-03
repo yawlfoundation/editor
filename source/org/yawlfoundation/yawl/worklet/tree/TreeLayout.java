@@ -6,13 +6,15 @@ package org.yawlfoundation.yawl.worklet.tree;
  */
 public class TreeLayout {
 
-    private int _minX = Integer.MAX_VALUE;
-    private int _maxX = Integer.MIN_VALUE;
-    private int _maxY = 0;
+    // track final tree dimensions
+    private int _minX;
+    private int _maxX;
+    private int _maxY;
+
 
     public void positionNodes(TreeNode root) {
-        setDepths(root, 0);
-        setSlots(root);
+        initDimensions();
+        positionNodes(root, 0);
         slideTreeLeft(root);
     }
 
@@ -22,33 +24,52 @@ public class TreeLayout {
     public int getMaxY() { return _maxY; }
 
 
-    private void setDepths(TreeNode node, int depth) {
-        if (node != null) {
-            node.setY(depth);
-            _maxY = depth;
-            setDepths(node.getFalseChild(), depth + 1);
-            setDepths(node.getTrueChild(), depth + 1);
-        }
+    private void initDimensions() {
+        _minX = Integer.MAX_VALUE;
+        _maxX = Integer.MIN_VALUE;
+        _maxY = 0;
     }
 
 
-    private void setSlots(TreeNode node) {
+    /**
+     * Set the depth (y coordinate) and initial column (x coordinate) of a node
+     * @param node the node to position
+     * @param depth the row ordinal for the node
+     */
+    private void positionNodes(TreeNode node, int depth) {
         if (node != null) {
-            setSlots(node.getFalseChild());
-            setSlots(node.getTrueChild());
 
+            // set the node's row, and save the widest row value
+            node.setY(depth);
+            _maxY = depth;
+
+            // do a post order traversal of the tree (handle leaf nodes first)
+            positionNodes(node.getFalseChild(), depth + 1);
+            positionNodes(node.getTrueChild(), depth + 1);
+
+            // set the node's ordinal column, and if it's a true branch move it
+            // left as far as possible (if any) without overlapping other branches
             node.setInitialX();
             if (! (node.isLeaf() || node.isFalseChild())) {
                 compressTree(node);
             }
 
-            int x = node.getX();
-            if (x < _minX) _minX = x;
-            if (x > _maxX) _maxX = x;
+            // save the minimum and maximum column values
+            updateWidth(node.getX());
         }
     }
 
 
+    private void updateWidth(int x) {
+        if (x < _minX) _minX = x;
+        if (x > _maxX) _maxX = x;
+    }
+
+
+    /**
+     * Move entire tree left, so that the left-most node is in column 0
+     * @param node
+     */
     private void slideTreeLeft(TreeNode node) {
         if (_minX > 0) {
             node.moveBranch(_minX * -1);
