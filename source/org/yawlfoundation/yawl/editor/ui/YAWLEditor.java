@@ -224,6 +224,7 @@ public class YAWLEditor extends JFrame implements FileStateListener {
         if (UserSettings.getCheckForUpdatesOnStart()) {
             new BackgroundUpdateChecker().execute();
         }
+        YPluginHandler.getInstance().initCompleted();
     }
 
     private static void loadChosenSpecification(String fileName) {

@@ -167,8 +167,10 @@ public class ConclusionTableModel extends AbstractTableModel {
     }
 
 
+    // a value of "UID..." means the worklet referred to is not currently loaded
     private String getDisplayValue(String value) {
-        return value.equals("invalid") ? "<choose>" : value;
+        return value.equals("invalid") ? "<choose>" :
+                value.startsWith("UID") ? "*UNLOADED*: " + value : value;
     }
 
 

@@ -49,7 +49,7 @@ public class ConfigurationPlugin implements YEditorPlugin {
 
     private static final int CONFIGURED_TASK_STOKE_WIDTH = 3;
 
-
+    public void initCompleted() { }
 
     public String getName() {
         return null;

@@ -62,6 +62,17 @@ public class YPluginHandler {
     }
 
 
+    public void initCompleted() {
+        for (YEditorPlugin plugin : plugins) {
+            try {
+                plugin.initCompleted();
+            }
+            catch (Exception e) {
+                warn(plugin, e);
+            }
+        }
+    }
+
     public void preOpenFile() {
         for (YEditorPlugin plugin : plugins) {
             try {

@@ -71,6 +71,11 @@ public interface YEditorPlugin {
     JToolBar getToolbar();
 
     /**
+     * Notification that the editor has completed initialisation
+     */
+    void initCompleted();
+
+    /**
      * Called by the editor immediately before a specification file is saved
      */
     void performPreFileSaveTasks();

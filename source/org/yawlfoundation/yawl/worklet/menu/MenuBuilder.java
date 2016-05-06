@@ -19,6 +19,7 @@ public class MenuBuilder {
         JToolBar toolBar = new JToolBar("Worklet Mgt", JToolBar.HORIZONTAL);
         toolBar.setRollover(true);
         addButtons(toolBar);
+        SettingsIconHelper.setButton(toolBar);
         return toolBar;
     }
 
@@ -28,6 +29,7 @@ public class MenuBuilder {
         addItems(menu);
         menu.setIcon(getWorkletMenuIcon("worklet"));
         menu.setMnemonic('W');
+        SettingsIconHelper.setItem(menu);
         return menu;
     }
 
@@ -71,7 +73,7 @@ public class MenuBuilder {
         actions.add(new MenuAction(new RemoveRuleSetAction(), "removeSet"));
         actions.add(new MenuAction(new RemoveOrphanWorkletsAction(), "removeOrphans"));
         actions.add(null);
-        actions.add(new MenuAction(new SettingsAction(), "settings"));
+        actions.add(new MenuAction(new SettingsAction(), "gear"));
         return actions;
     }
 

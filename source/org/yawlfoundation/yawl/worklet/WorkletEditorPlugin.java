@@ -23,6 +23,7 @@ import org.yawlfoundation.yawl.editor.ui.plugin.YEditorPluginAdapter;
 import org.yawlfoundation.yawl.worklet.client.TaskIDChangeMap;
 import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.menu.MenuBuilder;
+import org.yawlfoundation.yawl.worklet.menu.SettingsIconHelper;
 
 import javax.swing.*;
 import java.util.Map;
@@ -54,6 +55,9 @@ public class WorkletEditorPlugin extends YEditorPluginAdapter {
 
     @Override
     public JToolBar getToolbar() { return new MenuBuilder().getToolBar(); }
+
+    @Override
+    public void initCompleted() { SettingsIconHelper.checkConnection(); }
 
     @Override
     public void performPostFileSaveTasks() {

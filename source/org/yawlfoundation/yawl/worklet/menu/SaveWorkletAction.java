@@ -34,6 +34,7 @@ class SaveWorkletAction extends YAWLSelectedNetAction {
            try {
                WorkletClient.getInstance().addWorklet(spec.getSpecificationID(),
                        SpecificationModel.getHandler().getSpecificationXML(true));
+               MessageDialog.info("Worklet successfully added.", "Upload Worklet");
            }
            catch (IOException ioe) {
                MessageDialog.error(ioe.getMessage(), "Worklet Add Error");

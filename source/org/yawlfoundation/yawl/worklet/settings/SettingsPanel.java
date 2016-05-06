@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.worklet.settings;
 
 import org.yawlfoundation.yawl.editor.ui.preferences.ConnectionPanel;
 import org.yawlfoundation.yawl.worklet.client.WorkletClient;
+import org.yawlfoundation.yawl.worklet.menu.SettingsIconHelper;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -53,6 +54,9 @@ public class SettingsPanel extends JPanel {
 
         // also update settings in the worklet client
         WorkletClient.getInstance().refreshSettings();
+
+        // and set the settings icon to show valid connection (or not)
+        SettingsIconHelper.checkConnection();
     }
 
 
@@ -70,7 +74,6 @@ public class SettingsPanel extends JPanel {
                 _testReply.setText("Failed to connect to Worklet Service with the " +
                         "parameters provided");
             }
-
         }
         catch (MalformedURLException mue) {
             _testReply.setText("Invalid host");

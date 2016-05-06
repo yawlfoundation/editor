@@ -47,6 +47,8 @@ public abstract class YEditorPluginAdapter implements YEditorPlugin {
         return null;
     }
 
+    public void initCompleted() { }
+
     public void performPreFileSaveTasks() { }
 
     public void performPostFileSaveTasks() { }
