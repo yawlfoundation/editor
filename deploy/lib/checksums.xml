@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
 <release>
-  <version>4.0</version>
-  <build>681</build>
-  <timestamp>2016-05-06 12.06.58</timestamp>
+  <version>4.1</version>
+  <build>683</build>
+  <timestamp>2016-05-10 12.19.28</timestamp>
   <paths>
     <path id="host">https://raw.githubusercontent.com/</path>
     <path id="base">yawlfoundation/</path>
@@ -24,7 +24,7 @@
     <file name="lib/jdom-2.0.5.jar" md5="302db3c65c38d3c10ef31bca76bd76b4" size="299658" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/jgoodies-common-1.8.1.jar" md5="7e6bc1cd169e4f78d9529af34a876f00" size="37807" timestamp="2015-08-13T13:38:33" path="A"/>
     <file name="lib/jgoodies-looks-2.7.0.jar" md5="f6f746ee51c49a2d91e30bdfc8043443" size="400791" timestamp="2015-08-13T13:38:33" path="A"/>
-    <file name="lib/jgraph4yawl-4.0.jar" md5="c8afb05c49a1cc8f4b4e0e0a31f43b84" size="240850" timestamp="2016-01-27T14:01:39" path="B"/>
+    <file name="lib/jgraph4yawl-4.1.jar" md5="d67d74f914d9764c8bc0d3b4db99b1b3" size="240850" timestamp="2016-05-10T12:16:23" path="B"/>
     <file name="lib/l2fprod-common-all.jar" md5="1be2480cc16abf1d26f2c8d8fe63e270" size="457525" timestamp="2015-08-13T13:38:33" path="A"/>
     <file name="lib/log4j-1.2-api-2.3.jar" md5="97f562c4f299dc5f5f72e66ded465416" size="36875" timestamp="2015-08-25T16:58:07" path="C"/>
     <file name="lib/log4j-api-2.3.jar" md5="94241ab3197b95a813d896820b3f6a87" size="135903" timestamp="2015-08-13T13:38:33" path="C"/>
@@ -37,14 +37,13 @@
     <file name="lib/servlet-api.jar" md5="8b0753b8fa779bc80c3f8db57b8b6372" size="88224" timestamp="2015-08-13T13:38:33" path="A"/>
     <file name="lib/xercesImpl.jar" md5="da09b75b562ca9a8e9a535d2148be8e4" size="1229289" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/xmleditorkit.jar" md5="3d08ad29e38824929c5101bc61ce8816" size="72326" timestamp="2015-08-18T18:45:08" path="B"/>
-    <file name="lib/yawl-lib-4.0.jar" md5="7dba88a4766bab97bf13baabfb0233a4" size="2497883" timestamp="2016-05-06T12:06:50" path="B"/>
-    <file name="lib/YAWLEditor-analyser-4.0.jar" md5="588c58b93821d71f9bbcc5d1871024da" size="81647" timestamp="2016-01-27T14:01:39" path="B"/>
-    <file name="lib/YAWLEditor-core-4.0.jar" md5="e7e396a42de0463f17816380448e4b14" size="176343" timestamp="2016-04-18T14:49:43" path="B"/>
+    <file name="lib/yawl-lib-4.1.jar" md5="be3687b2fee68a1bde3b53f174f1c427" size="2498618" timestamp="2016-05-10T12:16:17" path="B"/>
+    <file name="lib/YAWLEditor-analyser-4.1.jar" md5="d54b6e888f602462d19e8a3866adffbb" size="81647" timestamp="2016-05-10T12:16:23" path="B"/>
+    <file name="lib/YAWLEditor-core-4.1.jar" md5="72fa957a6a8a92532a4cc7b278cb32d2" size="176343" timestamp="2016-05-10T12:16:23" path="B"/>
     <file name="lib/YAWLEditor-icons.jar" md5="79e9718b2713b9c70fb2bfd60dddcdfc" size="363754" timestamp="2015-08-18T18:45:08" path="B"/>
-    <file name="plugins/YAWLEditor-configuration-4.0.jar" md5="acdcb12b12707b67e35fae58bca7f0cd" size="163154" timestamp="2016-05-06T12:06:58" path="B"/>
-    <file name="plugins/YAWLEditor-decobar-4.0.jar" md5="810b1a2735e61823a9dc9d15b9888e84" size="25616" timestamp="2016-01-27T14:01:40" path="B"/>
-    <file name="plugins/YAWLEditor-worklet-4.0.jar" md5="7ce1d4977148c7c6043fba6fbfbcc66f" size="220299" timestamp="2016-05-06T12:06:58" path="B"/>
-    <file name="YAWLEditor4.0.jar" md5="5a3a7b6038e4302ec36ceb45a3310f6c" size="1610004" timestamp="2016-05-06T12:06:58" path="B"/>
+    <file name="plugins/YAWLEditor-configuration-4.1.jar" md5="02a46f23c7ba54956b2d441bceadbf78" size="163172" timestamp="2016-05-10T12:16:24" path="B"/>
+    <file name="plugins/YAWLEditor-decobar-4.1.jar" md5="d3fa1bfb4a2992dd1d2354b5e78fc671" size="25615" timestamp="2016-05-10T12:16:24" path="B"/>
+    <file name="plugins/YAWLEditor-worklet-4.1.jar" md5="6611449ccd3c74d80acce0dec1836f39" size="220317" timestamp="2016-05-10T12:16:24" path="B"/>
   </files>
 </release>
 

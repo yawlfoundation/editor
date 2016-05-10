@@ -53,7 +53,6 @@ public class AboutEditorAction extends YAWLBaseAction {
 
 class AboutEditorDialog extends JDialog {
 
-    private static final String DEFAULT_VERSION = "4.0";
     private static final Color BACK_COLOUR = new Color(254,254,240);
     private static final String FORUM_URL = "http://yawlfoundation.org/forum";
     private static final String ISSUES_URL = "https://github.com/yawlfoundation/yawl/issues";
@@ -134,7 +133,7 @@ class AboutEditorDialog extends JDialog {
     private String getVersionText(BuildProperties buildProperties) {
         String version = buildProperties.getVersion();
         String buildNumber = buildProperties.getBuild();
-        String result = "Version " + (version != null ? version : DEFAULT_VERSION);
+        String result = "Version " + (version != null ? version : YAWLEditor.DEFAULT_VERSION);
         if (buildNumber != null) {
             result += " (build " + buildNumber + ")";
         }

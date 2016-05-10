@@ -63,7 +63,7 @@ public class YAWLEditor extends JFrame implements FileStateListener {
     private static ToolBarMenu toolBarMenu;
     private static YAWLEditor INSTANCE;
 
-    public static final String DEFAULT_VERSION = "4.0";
+    public static final String DEFAULT_VERSION = "4.1";
     private static final String BUILD_VERSION = getBuildVersion();
 
 
