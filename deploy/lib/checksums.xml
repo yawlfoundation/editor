@@ -2,8 +2,8 @@
 <!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
 <release>
   <version>4.1</version>
-  <build>683</build>
-  <timestamp>2016-05-10 12.19.28</timestamp>
+  <build>684</build>
+  <timestamp>2016-05-10 13.27.34</timestamp>
   <paths>
     <path id="host">https://raw.githubusercontent.com/</path>
     <path id="base">yawlfoundation/</path>
@@ -37,13 +37,14 @@
     <file name="lib/servlet-api.jar" md5="8b0753b8fa779bc80c3f8db57b8b6372" size="88224" timestamp="2015-08-13T13:38:33" path="A"/>
     <file name="lib/xercesImpl.jar" md5="da09b75b562ca9a8e9a535d2148be8e4" size="1229289" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/xmleditorkit.jar" md5="3d08ad29e38824929c5101bc61ce8816" size="72326" timestamp="2015-08-18T18:45:08" path="B"/>
-    <file name="lib/yawl-lib-4.1.jar" md5="be3687b2fee68a1bde3b53f174f1c427" size="2498618" timestamp="2016-05-10T12:16:17" path="B"/>
+    <file name="lib/yawl-lib-4.1.jar" md5="c88ec968d0d7071bcafd92d9346c029c" size="2498618" timestamp="2016-05-10T13:27:25" path="B"/>
     <file name="lib/YAWLEditor-analyser-4.1.jar" md5="d54b6e888f602462d19e8a3866adffbb" size="81647" timestamp="2016-05-10T12:16:23" path="B"/>
     <file name="lib/YAWLEditor-core-4.1.jar" md5="72fa957a6a8a92532a4cc7b278cb32d2" size="176343" timestamp="2016-05-10T12:16:23" path="B"/>
     <file name="lib/YAWLEditor-icons.jar" md5="79e9718b2713b9c70fb2bfd60dddcdfc" size="363754" timestamp="2015-08-18T18:45:08" path="B"/>
     <file name="plugins/YAWLEditor-configuration-4.1.jar" md5="02a46f23c7ba54956b2d441bceadbf78" size="163172" timestamp="2016-05-10T12:16:24" path="B"/>
     <file name="plugins/YAWLEditor-decobar-4.1.jar" md5="d3fa1bfb4a2992dd1d2354b5e78fc671" size="25615" timestamp="2016-05-10T12:16:24" path="B"/>
     <file name="plugins/YAWLEditor-worklet-4.1.jar" md5="6611449ccd3c74d80acce0dec1836f39" size="220317" timestamp="2016-05-10T12:16:24" path="B"/>
+    <file name="YAWLEditor4.1.jar" md5="b2980d181f0e899750925923b66bdc61" size="1609153" timestamp="2016-05-10T13:27:34" path="B"/>
   </files>
 </release>
 
