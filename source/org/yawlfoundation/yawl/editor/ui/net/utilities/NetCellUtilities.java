@@ -469,10 +469,14 @@ public class NetCellUtilities {
         Point2D.Double targetPoint = new Point2D.Double(flowView.getPoint(1).getX(),
                 flowView.getPoint(1).getY());
 
-        adjustPortLocation(sourcePoint,
-                sourceTask.getSplitDecorator().getCardinalPosition());
-        adjustPortLocation(targetPoint,
-                sourceTask.getJoinDecorator().getCardinalPosition());
+        if (sourceTask.getSplitDecorator() != null) {
+            adjustPortLocation(sourcePoint,
+                    sourceTask.getSplitDecorator().getCardinalPosition());
+        }
+        if (sourceTask.getJoinDecorator() != null) {
+            adjustPortLocation(targetPoint,
+                    sourceTask.getJoinDecorator().getCardinalPosition());
+        }
 
         flowView.addPoint(1, sourcePoint);
         flowView.addPoint(2, targetPoint);
