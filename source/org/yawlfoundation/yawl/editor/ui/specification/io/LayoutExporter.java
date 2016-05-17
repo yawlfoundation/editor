@@ -142,17 +142,19 @@ public class LayoutExporter {
     private void addFlowLayout(YAWLFlowRelation flow, YNetLayout netLayout) {
         String sourceID = NetUtilities.getPortID((YAWLPort) flow.getSource());
         String targetID = NetUtilities.getPortID((YAWLPort) flow.getTarget());
-        YFlowLayout layout = netLayout.newFlowLayoutInstance(sourceID, targetID);
+        if (! (sourceID == null || targetID == null)) {
+            YFlowLayout layout = netLayout.newFlowLayoutInstance(sourceID, targetID);
 
-        layout.setSourcePort(getFlowPortPosition(flow, true));
-        layout.setTargetPort(getFlowPortPosition(flow, false));
+            layout.setSourcePort(getFlowPortPosition(flow, true));
+            layout.setTargetPort(getFlowPortPosition(flow, false));
 
-        String label = (String) flow.getUserObject();
-        if (label != null) {
-            layout.setLabel(label);
+            String label = (String) flow.getUserObject();
+            if (label != null) {
+                layout.setLabel(label);
+            }
+            getFlowAttributes(flow, layout);
+            netLayout.addFlowLayout(layout);
         }
-        getFlowAttributes(flow, layout);
-        netLayout.addFlowLayout(layout);
     }
 
 

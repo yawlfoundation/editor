@@ -168,6 +168,7 @@ public final class NetUtilities {
 
 
     public static String getPortID(YAWLPort port) {
+        if (port == null) return null;
         YAWLCell cell = (YAWLCell) port.getParent();
         if (cell instanceof Decorator) {
             Decorator decorator = (Decorator) cell;

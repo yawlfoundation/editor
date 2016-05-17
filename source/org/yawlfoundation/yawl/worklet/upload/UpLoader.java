@@ -149,10 +149,11 @@ public class UpLoader {
             return addRuleSet(specID, doc);
         }
 
-        String processName = getProcessName(doc);
-        if (processName != null) {
-            return addRuleSet(processName, doc);
-        }
+        // non-spec rules not supported by the editor
+//        String processName = getProcessName(doc);
+//        if (processName != null) {
+//            return addRuleSet(processName, doc);
+//        }
 
         return "Missing required specification or process attributes in file: " +
                 f.getAbsolutePath();
