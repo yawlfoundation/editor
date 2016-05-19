@@ -115,17 +115,20 @@ public class BindingTypeValidator extends TypeValueBuilder {
     public List<String> validate(String binding) {
         if (shouldValidate(binding)) {
             try {
-                String query = evaluateQuery(prepareBinding(binding), _dataDocument);
-                if (isValidQuery(query)) {
-                    List<String> errors = getDataHandler().validate(_dataTypeName, query);
-                    if (! errors.isEmpty()) {
-                        errors.add(0, "Invalid value for target data type '" +
-                                                        _dataTypeName + "'");
-                        return errors;
+                String prepared = prepareBinding(binding);
+                if (! StringUtil.isNullOrEmpty(prepared)) {
+                    String query = evaluateQuery(prepared, _dataDocument);
+                    if (isValidQuery(query)) {
+                        List<String> errors = getDataHandler().validate(_dataTypeName, query);
+                        if (!errors.isEmpty()) {
+                            errors.add(0, "Invalid value for target data type '" +
+                                    _dataTypeName + "'");
+                            return errors;
+                        }
                     }
-                }
-                else {
-                    return Collections.singletonList("Invalid expression (perhaps spelling?)");
+                    else {
+                        return Collections.singletonList("Invalid expression (perhaps spelling?)");
+                    }
                 }
             }
             catch (Exception e) {
