@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.dialog;
 
+import org.yawlfoundation.yawl.editor.core.data.DataUtil;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.data.editorpane.XMLSchemaEditorPane;
 import org.yawlfoundation.yawl.editor.ui.swing.AbstractDoneDialog;
@@ -46,7 +47,14 @@ public class DataDefinitionDialog extends AbstractDoneDialog
 
 
     public String getContent() {
-        return cancelButtonSelected() ? null : editorPane.getText();
+        if (cancelButtonSelected()) {
+            return null;
+        }
+        String content = editorPane.getText();
+        if (content.isEmpty()) {
+            content = DataUtil.DEFAULT_SCHEMA;
+        }
+        return content;
     }
 
     public void setContent(String content) {

@@ -39,6 +39,9 @@ import javax.swing.event.TableModelListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -105,6 +108,7 @@ public class DataVariableDialog extends JDialog
 
     public void tableChanged(TableModelEvent e) {
         dirty = true;
+        enableButtonsIfValid();
     }
 
 
@@ -113,8 +117,9 @@ public class DataVariableDialog extends JDialog
 
     public void enableButtonsIfValid() {
         boolean allRowsValid = !isEditing && allRowsValid();
-        btnApply.setEnabled(allRowsValid && dirty);
-        btnOK.setEnabled(allRowsValid);
+        boolean miValid = !isEditing && isMIValid();
+        btnApply.setEnabled(allRowsValid && miValid && dirty);
+        btnOK.setEnabled(allRowsValid && miValid);
     }
 
     protected void setEditing(boolean editing, TableType tableType) {
@@ -167,6 +172,29 @@ public class DataVariableDialog extends JDialog
 
     protected void cancelCellEditing(JTable table) {
         if (table != null && table.isEditing()) table.getCellEditor().cancelCellEditing();
+    }
+
+    protected java.util.List<VariableRow> getNetVariables() {
+        return netTablePanel != null ? netTablePanel.getTable().getVariables() :
+                Collections.<VariableRow>emptyList();
+    }
+
+
+    protected java.util.List<VariableRow> getUnboundNetVariables(String selected) {
+        java.util.List<VariableRow> netVars = new ArrayList<VariableRow>(getNetVariables());
+        if (task != null) {
+            String targetedNetVar = outputBindings.getTarget(selected);
+            Collection<String> boundNames = outputBindings.getBindingsSummary().values();
+            java.util.List<VariableRow> boundVars = new ArrayList<VariableRow>();
+            for (VariableRow netVar : netVars) {
+                String netVarName = netVar.getName();
+                if (!netVarName.equals(targetedNetVar) && boundNames.contains(netVarName)) {
+                    boundVars.add(netVar);
+                }
+            }
+            netVars.removeAll(boundVars);
+        }
+        return netVars;
     }
 
 
@@ -242,6 +270,30 @@ public class DataVariableDialog extends JDialog
             return true;
         }
         return false;
+    }
+
+
+    // checks that an MI task with data vars has one var that is set as multi instance.
+    // returns true if there is no task, or the task isn't MI, or there are no task
+    // variables, or there's one MI-set variable
+    private boolean isMIValid() {
+        return !isMITask() || getTaskTable().isEmpty() || hasMIRow();
+    }
+
+
+    private boolean isMITask() {
+        return task != null && task.isMultiInstance();
+    }
+
+    // checks one variable is marked as MI for an MI task. Shows error if not.
+    // pre: MI task with at least one variable
+    private boolean hasMIRow() {
+        boolean miRow = getTaskTable().hasMultiInstanceRow();
+        if (!miRow) {
+            getTaskTablePanel().showErrorStatus(
+                    "One variable must be marked as multiple instance", null);
+        }
+        return miRow;
     }
 
 

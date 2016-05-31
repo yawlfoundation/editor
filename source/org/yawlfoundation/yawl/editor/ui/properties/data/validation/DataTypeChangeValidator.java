@@ -276,6 +276,7 @@ public class DataTypeChangeValidator {
     private void validateInputBinding(BindingTypeValidator validator, VariableRow taskVar) {
         if (taskVar.isInput() || taskVar.isInputOutput()) {
             validator.setDataType(taskVar.getDataType());
+            if (taskVar.isMultiInstance()) validator.setMultiInstance();
             taskVar.setValidInputBinding(validateBinding(validator, taskVar.getBinding()));
         }
     }

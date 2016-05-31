@@ -60,16 +60,14 @@ public class VariableTable extends JSingleSelectTable {
 
     public void setDecompositionID(String name) { decompositionID = name; }
 
+    public List<VariableRow> getVariables() {
+        return getTableModel().getVariables();
+    }
 
     public void setVariables(List<VariableRow> variables) {
         getTableModel().setVariables(variables);
         setPreferredScrollableViewportSize(getPreferredSize());
         updateUI();
-    }
-
-
-    public List<VariableRow> getVariables() {
-        return getTableModel().getVariables();
     }
 
     public List<VariableRow> getRemovedVariables() {
@@ -84,6 +82,10 @@ public class VariableTable extends JSingleSelectTable {
 
     public boolean allRowsValid() {
         return getTableModel().allRowsValid();
+    }
+
+    public boolean isEmpty() {
+        return getVariables().isEmpty();
     }
 
 

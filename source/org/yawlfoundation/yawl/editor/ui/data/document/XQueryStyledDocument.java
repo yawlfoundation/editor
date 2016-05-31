@@ -48,6 +48,25 @@ public class XQueryStyledDocument extends AbstractXMLStyledDocument {
 
     }
 
+    // only strict encodes required
+    public static String encodeEscapes(String s) {
+        if (s == null) return s;
+        StringBuilder sb = new StringBuilder(s.length());
+        for (char c : s.toCharArray()) {
+            switch (c) {
+                case '<':
+                    sb.append("&lt;");
+                    break;
+                case '&':
+                    sb.append("&amp;");
+                    break;
+                default:
+                    sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
     public void setPreAndPostEditorText(String preEditorText, String postEditorText) {
         this.preEditorText = preEditorText;
         this.postEditorText = postEditorText;
@@ -66,8 +85,8 @@ public class XQueryStyledDocument extends AbstractXMLStyledDocument {
             // replace external predicate references with dummy values for validation
             text = substituteExternals(text);
 
-            // dereference reserved XML chars
-            text = encodeEscapes(text);
+            // dereference reserved XML chars when not a splitter or joiner query
+            if (!text.startsWith("for $")) text = encodeEscapes(text);
 
             try {
                 SaxonUtil.compileXQuery(preEditorText + text + postEditorText);
@@ -93,21 +112,6 @@ public class XQueryStyledDocument extends AbstractXMLStyledDocument {
         }
         return binding;
     }
-
-    // only strict encodes required
-    public static String encodeEscapes(String s) {
-        if (s == null) return s;
-        StringBuilder sb = new StringBuilder(s.length());
-        for (char c : s.toCharArray()) {
-            switch(c) {
-                case '<'  : sb.append("&lt;"); break;
-                case '&'  : sb.append("&amp;"); break;
-                default   : sb.append(c);
-            }
-        }
-        return sb.toString();
-    }
-
 
     public List<String> getProblemList() {
         return errorList;

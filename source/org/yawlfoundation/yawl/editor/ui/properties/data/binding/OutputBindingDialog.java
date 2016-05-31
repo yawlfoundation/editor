@@ -35,11 +35,11 @@ import java.util.Map;
  */
 public class OutputBindingDialog extends AbstractDataBindingDialog {
 
-    private TaskVariablePanel _generatePanel;
-    private NetVariablePanel _targetPanel;
     private final OutputBindings _outputBindings;
     private final WorkingSelection _workingSelection;
     private final Map<String, String> _externalUndoMap;
+    private TaskVariablePanel _generatePanel;
+    private NetVariablePanel _targetPanel;
 
 
     public OutputBindingDialog(String taskID, VariableRow row,
@@ -235,11 +235,13 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
     private void handleNetVarSelection() {
         if (savePreviousSelection(false) != JOptionPane.CANCEL_OPTION) {
             VariableRow row = getSelectedNetVariableRow();
-            updateValidator(row);
-            setTargetVariableName(row.getName());
-            String binding = _outputBindings.getBinding(row.getName());
-            setEditorText(binding);
-            _workingSelection.set(row.getName(), binding, false);
+            if (row != null) {
+                updateValidator(row);
+                setTargetVariableName(row.getName());
+                String binding = _outputBindings.getBinding(row.getName());
+                setEditorText(binding);
+                _workingSelection.set(row.getName(), binding, false);
+            }
         }
         else {
             _targetPanel.setSelectedItem(_workingSelection.item);
@@ -305,11 +307,11 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
                 userChoice = confirmSaveOnComboChange(
                         YDataHandler.OUTPUT, _workingSelection.item);
             }
-//            if (userChoice == JOptionPane.YES_OPTION) {
-//                if (_outputBindings.getBinding(_workingSelection.item) != null) {
-//                    userChoice = confirmSaveOnDialogClosing();
-//                }
-//            }
+            else {
+                if (_outputBindings.hasBinding(_workingSelection.item)) {
+                    userChoice = confirmSaveOnDialogClosing();
+                }
+            }
             if (userChoice == JOptionPane.YES_OPTION) {
                 _workingSelection.save(binding);
             }
@@ -324,7 +326,6 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
                      "output binding.\n Overwrite it with the updated binding?";
         return JOptionPane.showConfirmDialog(this, msg);
     }
-
 
 
     class WorkingSelection {

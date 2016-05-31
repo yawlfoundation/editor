@@ -52,24 +52,18 @@ public class OutputBindings {
 
 
     public Map<String, String> getBindingsSummary() {
-        Map<String, String> bindings = new HashMap<String, String>();
-        bindings.putAll(_task.getDataMappingsForTaskCompletion());
+        Map<String, String> bindings = new HashMap<String, String>(
+                _task.getDataMappingsForTaskCompletion());
         for (String binding : _orphanedBindings) {
             bindings.remove(binding);
         }
-        for (String binding : _netVarBindings.keySet()) {
-            String netVar = _netVarBindings.get(binding);
-            String currentMapping = _task.getDataBindingForOutputParam(netVar);
-            if (currentMapping != null) {
-                bindings.remove(currentMapping);
-            }
-            bindings.put(binding, netVar);
-        }
+        updateTaskBindings(bindings);
         for (String binding : _externalBindings.values()) {
             bindings.put(binding, "");
         }
         return bindings;
     }
+
 
     /**
      * Gets the binding targeting the named net-level variable, with its outer tags
@@ -251,6 +245,14 @@ public class OutputBindings {
     }
 
 
+    public void removedAddedBindingForSource(String taskVarName) {
+        String target = getTarget(_netVarBindings, taskVarName);
+        if (target != null) {
+            removeAddedBinding(target);
+        }
+    }
+
+
     public boolean renameTarget(String oldName, String newName) {
         return renameNetVarTarget(oldName, newName) ||
                 renameExternalTarget(oldName, newName);
@@ -286,19 +288,13 @@ public class OutputBindings {
         for (String binding : _orphanedBindings) {
             currentBindings.remove(binding);
         }
-        for (String binding : _netVarBindings.keySet()) {
-            String netVar = _netVarBindings.get(binding);
-            String currentMapping = _task.getDataBindingForOutputParam(netVar);
-            if (currentMapping != null) {
-                currentBindings.remove(currentMapping);
-            }
-            currentBindings.put(binding, netVar);
-        }
+        updateTaskBindings(currentBindings);
         for (String binding : _externalBindings.values()) {
             currentBindings.put(binding, "");
         }
         clear();
     }
+
 
     public void rollback() {
         _externalBindings = _rollbackPoint.externalBindings;
@@ -317,6 +313,18 @@ public class OutputBindings {
 
     public boolean hasChanges() {
         return ! (_netVarBindings.isEmpty() && _externalBindings.isEmpty());
+    }
+
+
+    private void updateTaskBindings(Map<String, String> currentBindings) {
+        for (String binding : _netVarBindings.keySet()) {
+            String netVar = _netVarBindings.get(binding);
+            String currentMapping = _task.getDataBindingForOutputParam(netVar);
+            if (currentMapping != null) {
+                currentBindings.remove(currentMapping);
+            }
+            currentBindings.put(binding, netVar);
+        }
     }
 
 
@@ -349,6 +357,7 @@ public class OutputBindings {
 
 
     private String getTarget(Map<String, String> bindings, String taskVarName) {
+        if (taskVarName == null) return null;
         String varTag = '<' + taskVarName + '>';
 
         // if query starts with var tag, we have a match

@@ -161,7 +161,15 @@ public class VariableRowTransferHandler extends TransferHandler {
             taskRow.setBinding(DataUtils.createBinding(netRow));
         }
         if (taskRow.isOutput() || taskRow.isInputOutput()) {
-            _outputBindings.setBinding(netRow.getName(), DataUtils.createBinding(taskRow));
+            if (_outputBindings.getBinding(netRow.getName()) == null) {
+                _outputBindings.setBinding(netRow.getName(),
+                        DataUtils.createBinding(taskRow));
+            }
+            else {
+                MessageDialog.warn(_table, "Output binding was not generated -\n" +
+                                "net variable '" + netRow.getName() + "' is already bound.",
+                        "Output Binding Warning");
+            }
         }
     }
 

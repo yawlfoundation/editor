@@ -41,7 +41,15 @@ public abstract class DialogPropertyEditor extends AbstractPropertyEditor {
         JButton button = ComponentFactory.Helper.getFactory().createMiniButton();
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                showDialog();
+
+                // must invoke later to allow rendering to complete before dialog shows
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        showDialog();
+                    }
+                });
+
             }
         });
 

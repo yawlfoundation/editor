@@ -52,20 +52,16 @@ public class MultiInstanceHandler {
         return query != null ? query : getTaskAttributes().getMIJoiningQuery();
     }
 
-    public String getJoinQueryUnwrapped() {
-        return DataUtils.unwrapBinding(getJoinQuery());
-    }
-
     public void setJoinQuery(String query) {
         _attributes.setUniqueOutputMIJoiningQuery(query);
     }
 
-    public void setJoinQueryUnwrapped(String query) {
-        setJoinQuery(DataUtils.wrapBinding(getOutputTarget(), query));
+    public String getJoinQueryUnwrapped() {
+        return DataUtils.unwrapBinding(getJoinQuery());
     }
 
-    public void setOutputTarget(String netVarName) {
-        _netVarTarget = netVarName;
+    public void setJoinQueryUnwrapped(String query) {
+        setJoinQuery(DataUtils.wrapBinding(getOutputTarget(), query));
     }
 
     public void renameItem(VariableRow row, String newName) {
@@ -77,6 +73,10 @@ public class MultiInstanceHandler {
         if (_netVarTarget != null) return _netVarTarget;
         String target = _attributes.getMIOutputAssignmentVar();
         return target != null ? target : getTaskAttributes().getMIOutputAssignmentVar();
+    }
+
+    public void setOutputTarget(String netVarName) {
+        _netVarTarget = netVarName;
     }
 
     public String getOutputQuery() {
@@ -106,10 +106,10 @@ public class MultiInstanceHandler {
             return true;
         }
 
+        _netVarTarget = getNetVarTarget(row.getName());
         String inputBinding = row.getBinding();
         String[] itemNameAndType = getItemNameAndType(row.getDataType());
         _dataItemName = itemNameAndType[0];
-        _netVarTarget = _outputBindings.getTarget(row.getName());
         row.setBinding(getAdjustedInputBinding(inputBinding));
 
         String actualRowName = row.getName();
@@ -150,10 +150,12 @@ public class MultiInstanceHandler {
         row.setDataType(netVarRow.getDataType());
         row.setBinding(generateBinding(netVarRow));
 
+        // undo task output binding
         if (row.isInputOutput()) {
             _outputBindings.removeBindingForTarget(_dataItemName);
             _outputBindings.setBinding(netVarRow.getName(), generateBinding(row));
         }
+
         table.setMultiInstanceRow(null);
         clear();
     }
@@ -183,6 +185,17 @@ public class MultiInstanceHandler {
     }
 
 
+    private String getNetVarTarget(String varName) {
+        String netVarTarget = _outputBindings.getTarget(varName);
+        if (netVarTarget == null) {
+            throw new IllegalArgumentException(
+                    "Cannot set variable as multiple instance.\n" +
+                            "Missing or invalid output binding");
+        }
+        return netVarTarget;
+    }
+
+
     public String[] getItemNameAndType(String complexType) {
         String[] itemNameAndType;
         try {
@@ -197,7 +210,6 @@ public class MultiInstanceHandler {
         }
         return itemNameAndType;
     }
-
 
 
     private String getUniqueRowName(VariableTable table, String rowName) {
@@ -230,14 +242,21 @@ public class MultiInstanceHandler {
 
     private String setAdjustedOutputBinding(String unsplitName, VariableRow row) {
         String oldBinding = _outputBindings.getBindingFromSource(unsplitName);
-        String newBinding = oldBinding.replace(
-                "/" + unsplitName + "/*",
-                "/" + row.getName() + "/" + getXQuerySuffix(row));
+        String newBinding;
+        if (oldBinding != null) {
+            newBinding = oldBinding.replace(
+                    "/" + unsplitName + "/*",
+                    "/" + row.getName() + "/" + getXQuerySuffix(row));
 
-        // need to replace binding key first, to enable the set call to succeed
-        _outputBindings.replaceBinding(unsplitName, oldBinding, newBinding);
+            // need to replace binding key first, to enable the set call to succeed
+            _outputBindings.replaceBinding(unsplitName, oldBinding, newBinding);
+        }
+        else {   // oldBinding is null if another var refs same net var
+            newBinding = "/" + _task.getID() + "/" + row.getName() + "/" +
+                    getXQuerySuffix(row);
+        }
         _outputBindings.setBinding(_netVarTarget, DataUtils.wrapBinding(_dataItemName,
-                        newBinding), false);
+                newBinding), false);
         return newBinding;
     }
 

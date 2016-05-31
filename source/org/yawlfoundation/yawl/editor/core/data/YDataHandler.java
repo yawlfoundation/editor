@@ -35,13 +35,12 @@ import java.util.*;
  */
 public class YDataHandler {
 
-    private YSpecification _specification;
-    private DataUtil _utils;
-
     public static final int LOCAL = -1;
     public static final int INPUT = YParameter._INPUT_PARAM_TYPE;       // 0
     public static final int OUTPUT = YParameter._OUTPUT_PARAM_TYPE;     // 1
     public static final int INPUT_OUTPUT = 2;
+    private YSpecification _specification;
+    private DataUtil _utils;
 
 
 
@@ -59,13 +58,42 @@ public class YDataHandler {
         setSpecification(specification);
     }
 
+    /**
+     * A static method to convert a scope identifier into its corresponding name
+     *
+     * @param scope the scope identifier
+     * @return the name for that scope, or the empty String if 'scope' is invalid
+     */
+    public static String getScopeName(int scope) {
+        switch (scope) {
+            case LOCAL:
+                return "Local";
+            case INPUT:
+                return "Input";
+            case OUTPUT:
+                return "Output";
+            case INPUT_OUTPUT:
+                return "InputOutput";
+        }
+        return "";
+    }
+
+    /**
+     * A static method to get all scope names
+     *
+     * @return a list of all the current scope names
+     */
+    public static List<String> getScopeNames() {
+        List<String> names = new ArrayList<String>();
+        for (int i = LOCAL; i <= INPUT_OUTPUT; i++) names.add(getScopeName(i));
+        return names;
+    }
 
     /**
      * Gets the current specification
      * @return the specification that this handler is working with
      */
     public YSpecification getSpecification() { return _specification; }
-
 
     /**
      * Sets the current specification
@@ -78,7 +106,6 @@ public class YDataHandler {
         }
     }
 
-
     /**
      * Disassociates this object from a specification
      */
@@ -86,7 +113,6 @@ public class YDataHandler {
         _specification = null;
         _utils = null;
     }
-
 
     /**
      * Updates the id of a net or task decomposition
@@ -105,7 +131,6 @@ public class YDataHandler {
         updateDecompositionReferences(currentID, newID);
         return current;
     }
-
 
     /**
      * Updates all references to a net or task decomposition in task mappings, when
@@ -158,7 +183,6 @@ public class YDataHandler {
         _specification.getDecompositions().remove(decomposition);
     }
 
-
     /**
      * Removes a variable from the set of variables of a net or task decomposition.
      * If the decompositionID refers to a net, any task mappings that input from or
@@ -183,7 +207,6 @@ public class YDataHandler {
             removeTaskDecompositionVariable(decomposition, variableName, scope);
         }
     }
-
 
     /**
      * Renames a variable contained by a net or task decomposition. Any task mappings
@@ -211,7 +234,6 @@ public class YDataHandler {
         }
     }
 
-
     /**
      * Sets the sorting index of an input or output variable for either a net or a task
      * decomposition
@@ -231,7 +253,6 @@ public class YDataHandler {
         return setVariableOrdering(getDecomposition(decompositionID), variableName,
                 scope, index);
     }
-
 
     /**
      * Sets the initial value for a local (net-level) variable
@@ -255,7 +276,6 @@ public class YDataHandler {
 
         return true;
     }
-
 
     /**
      * Sets the default value for an output-only variable (i.e. an output variable
@@ -281,7 +301,6 @@ public class YDataHandler {
 
         return true;
     }
-
 
     /**
      * Creates a new variable and adds it to a net or task decomposition. Note: An output
@@ -331,7 +350,6 @@ public class YDataHandler {
         }
     }
 
-
     /**
      * Changes the scope of a variable.
      * @param decompositionID the id of the net or task decomposition
@@ -362,7 +380,6 @@ public class YDataHandler {
         }
         return false;
     }
-
 
     /**
      * Changes the data type of a variable.
@@ -403,7 +420,6 @@ public class YDataHandler {
         return success;
     }
 
-
     /**
         * Changes the data type and value of a variable at the same time.
         * @param decompositionID the id of the net or task decomposition
@@ -428,7 +444,7 @@ public class YDataHandler {
            if (scope == LOCAL || ((decomposition instanceof YNet) && scope == OUTPUT)) {
                YVariable variable = getVariableFromMap(((YNet) decomposition).getLocalVariables(),
                        variableName);
-               success = setVariableDataType(variable, dataType, variable.getInitialValue());
+               success = setVariableDataType(variable, dataType, value);
                if (success) variable.setInitialValue(value);
            }
            if (scope == INPUT || scope == INPUT_OUTPUT) {
@@ -439,13 +455,11 @@ public class YDataHandler {
            if (scope == OUTPUT || scope == INPUT_OUTPUT) {
                YVariable variable = getVariableFromMap(decomposition.getOutputParameters(),
                        variableName);
-               success = success && setVariableDataType(variable, dataType,
-                       variable.getDefaultValue());
+               success = success && setVariableDataType(variable, dataType, value);
                if (success) variable.setDefaultValue(value);
            }
            return success;
        }
-
 
     /**
       * Sets or updates the extended attributes of a task-level variable.
@@ -474,7 +488,6 @@ public class YDataHandler {
         return success;
     }
 
-
     /**
       * Sets or updates the log predicate of a task-level variable.
       * @param decompositionID the id of the net or task decomposition
@@ -501,7 +514,6 @@ public class YDataHandler {
          }
          return success;
     }
-
 
     /**
      * Sets a mapping for a task variable
@@ -535,7 +547,6 @@ public class YDataHandler {
         else raise("No task found with id: " + taskID);
     }
 
-
     /**
      * Sets a multi-instance query for a task - splitter query if scope is INPUT or
      * joiner query if scope is OUTPUT
@@ -565,33 +576,6 @@ public class YDataHandler {
             else raise("Invalid scope parameter: " + scope);
         }
         else raise("No task found with id: " + taskID);
-    }
-
-
-    /**
-     * A static method to convert a scope identifier into its corresponding name
-     * @param scope the scope identifier
-     * @return the name for that scope, or the empty String if 'scope' is invalid
-     */
-    public static String getScopeName(int scope) {
-        switch (scope) {
-            case LOCAL : return "Local";
-            case INPUT : return "Input";
-            case OUTPUT : return "Output";
-            case INPUT_OUTPUT : return "InputOutput";
-        }
-        return "";
-    }
-
-
-    /**
-     * A static method to get all scope names
-     * @return a list of all the current scope names
-     */
-    public static List<String> getScopeNames() {
-        List<String> names = new ArrayList<String>();
-        for (int i = LOCAL; i <= INPUT_OUTPUT; i++) names.add(getScopeName(i));
-        return names;
     }
 
 

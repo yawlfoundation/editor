@@ -23,6 +23,7 @@ import org.yawlfoundation.yawl.editor.core.data.YDataHandlerException;
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.AbstractDataBindingDialog;
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.InputBindingDialog;
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.OutputBindingDialog;
+import org.yawlfoundation.yawl.editor.ui.properties.data.binding.OutputBindings;
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.view.BindingViewDialog;
 import org.yawlfoundation.yawl.editor.ui.properties.data.validation.BindingTypeValidator;
 import org.yawlfoundation.yawl.editor.ui.properties.data.validation.DataTypeChangeValidator;
@@ -70,6 +71,9 @@ public class TaskVariableTablePanel extends VariableTablePanel
     // table change event
     public void tableChanged(TableModelEvent e) {
         super.tableChanged(e);
+        if (e != null && e.getType() == TableModelEvent.UPDATE) {
+            removeAddedOutputBindings();
+        }
         setBindingIconsForSelection();
     }
 
@@ -148,8 +152,7 @@ public class TaskVariableTablePanel extends VariableTablePanel
     private void showBindingDialog(int scope) {
         int selectedRow = table.getSelectedRow();
         VariableRow selectedVar = table.getSelectedVariable();
-        java.util.List<VariableRow> netVars =
-                parent.getNetTablePanel().getTable().getVariables();
+        java.util.List<VariableRow> netVars = parent.getNetVariables();
         java.util.List<VariableRow> taskVars = table.getVariables();
         String taskID = parent.getTask().getID();
         AbstractDataBindingDialog dialog = null;
@@ -276,11 +279,18 @@ public class TaskVariableTablePanel extends VariableTablePanel
     }
 
 
+    private void removeAddedOutputBindings() {
+        OutputBindings bindings = parent.getOutputBindings();
+        for (VariableRow removed : table.getRemovedVariables()) {
+            bindings.removedAddedBindingForSource(removed.getName());
+        }
+    }
+
     protected void setEditMode(boolean editing) {
         if (isEditing != editing) {
             super.setEditMode(editing);
             if (! editing && tableType == TableType.Task) {
-                    showBindingStatus(getTable().getSelectedVariable());
+                showBindingStatus(getTable().getSelectedVariable());
             }
         }
     }

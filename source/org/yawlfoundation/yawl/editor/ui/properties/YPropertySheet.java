@@ -23,16 +23,14 @@ import org.yawlfoundation.yawl.editor.ui.properties.editor.*;
 import org.yawlfoundation.yawl.editor.ui.util.Pauser;
 import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.beans.PropertyEditor;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Michael Adams
@@ -40,12 +38,12 @@ import java.util.Set;
  */
 public class YPropertySheet extends PropertySheetPanel {
 
-    private final Set<String> _readOnlyProperties;
+    private final Map<String, Integer> _readOnlyProperties;
 
     public YPropertySheet() {
         super();
         setTable(new YPropertySheetTable());
-        _readOnlyProperties = new HashSet<String>();
+        _readOnlyProperties = new HashMap<String, Integer>();
         setMode(PropertySheet.VIEW_AS_CATEGORIES);
         setDescriptionVisible(UserSettings.getShowPropertyDescriptions());
         setSortingCategories(true);
@@ -61,7 +59,15 @@ public class YPropertySheet extends PropertySheetPanel {
 
 
     public void addReadOnly(String propertyName) {
-        _readOnlyProperties.add(propertyName);
+        int i = 1;
+        for (Property property : getProperties()) {
+            if (property.getName().equals(propertyName)) {
+                break;
+            }
+            i++;
+        }
+
+        _readOnlyProperties.put(propertyName, i);
     }
 
     public void removeReadOnly(String propertyName) {
@@ -124,7 +130,7 @@ public class YPropertySheet extends PropertySheetPanel {
 
         // override to allow checking against read-only list
         public boolean isCellEditable(int row, int column) {
-            return super.isCellEditable(row, column) && ! isReadOnly(row);
+            return !isReadOnly(row) && super.isCellEditable(row, column);
         }
 
 
@@ -134,7 +140,9 @@ public class YPropertySheet extends PropertySheetPanel {
 
         // override to avoid IndexOutOFBoundsExceptions in super class
         public TableCellRenderer getCellRenderer(int row, int column, int threshold) {
-            if (threshold >= 2) return new DefaultTableCellRenderer();
+            if (threshold >= 2) {
+                return new DefaultTableCellRenderer();
+            }
             try {
                 return super.getCellRenderer(row, column);
             }
@@ -147,55 +155,27 @@ public class YPropertySheet extends PropertySheetPanel {
 
         // override to flag property being read for user-defined attributes
         public TableCellEditor getCellEditor(int row, int column) {
-            if (column == 0) { return null; }
-
-            PropertySheetTableModel.Item item = getSheetModel().getPropertySheetElement(row);
-            if (!item.isProperty()) return null;
-
-            TableCellEditor result = null;
-            Property property = item.getProperty();
-            PropertyEditor editor = getEditorFactory().createPropertyEditor(property);
+            TableCellEditor editor = super.getCellEditor(row, column);
             if (editor != null) {
-                result = new CellEditorAdapter(editor);
 
                 // Remove 'Rename' item from decomposition name combo if name is 'None'
                 if (editor instanceof DecompositionNameEditor) {
-                    ((DecompositionNameEditor) editor).rationaliseItems(property);
+                    ((DecompositionNameEditor) editor).rationaliseItems(getProperty(row));
                 }
-                if (editor instanceof SubNetNameEditor) {
-                    ((SubNetNameEditor) editor).rationaliseItems(property);
+                else if (editor instanceof SubNetNameEditor) {
+                    ((SubNetNameEditor) editor).rationaliseItems(getProperty(row));
                 }
             }
-            return result;
+
+            return editor;
         }
+
 
         // override to allow checking against read-only list
         public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
-            Component component = null;
-            if (getSheetModel().getPropertyCount() > 0) {
-                component = renderer.getTableCellRendererComponent(this,
-                    getValueAt(row, column), isCellSelected(row, column),
-                    false, row, column);
-
-                // disable for read-only
-                PropertySheetTableModel.Item item = null;
-                int threshold = 0;
-                while (item == null && threshold < 10) {
-                    try {
-                        item = getSheetModel().getPropertySheetElement(row);
-                    }
-                    catch (IndexOutOfBoundsException ioobe) {
-                        Pauser.pause(100);
-                        threshold++;
-                    }
-                }
-
-                if (item != null && item.isProperty()) {
-                    component.setEnabled(item.getProperty().isEditable() && !isReadOnly(row));
-                }
-            }
-
-            return component != null ? component : new JLabel();
+            Component component = super.prepareRenderer(renderer, row, column);
+            component.setEnabled(!isReadOnly(row) && component.isEnabled());
+            return component;
         }
 
 
@@ -206,9 +186,13 @@ public class YPropertySheet extends PropertySheetPanel {
          * @return true if this row is read-only
          */
         protected boolean isReadOnly(int row) {
+            return _readOnlyProperties.values().contains(row);
+        }
+
+
+        protected Property getProperty(int row) {
             PropertySheetTableModel.Item item = getSheetModel().getPropertySheetElement(row);
-            return item.isProperty() &&
-                    _readOnlyProperties.contains(item.getProperty().getName());
+            return item.isProperty() ? item.getProperty() : null;
         }
 
     }
