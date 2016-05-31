@@ -29,8 +29,8 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Michael Adams
@@ -38,12 +38,12 @@ import java.util.Map;
  */
 public class YPropertySheet extends PropertySheetPanel {
 
-    private final Map<String, Integer> _readOnlyProperties;
+    private final Set<String> _readOnlyProperties;
 
     public YPropertySheet() {
         super();
         setTable(new YPropertySheetTable());
-        _readOnlyProperties = new HashMap<String, Integer>();
+        _readOnlyProperties = new HashSet<String>();
         setMode(PropertySheet.VIEW_AS_CATEGORIES);
         setDescriptionVisible(UserSettings.getShowPropertyDescriptions());
         setSortingCategories(true);
@@ -59,15 +59,7 @@ public class YPropertySheet extends PropertySheetPanel {
 
 
     public void addReadOnly(String propertyName) {
-        int i = 1;
-        for (Property property : getProperties()) {
-            if (property.getName().equals(propertyName)) {
-                break;
-            }
-            i++;
-        }
-
-        _readOnlyProperties.put(propertyName, i);
+        _readOnlyProperties.add(propertyName);
     }
 
     public void removeReadOnly(String propertyName) {
@@ -186,7 +178,8 @@ public class YPropertySheet extends PropertySheetPanel {
          * @return true if this row is read-only
          */
         protected boolean isReadOnly(int row) {
-            return _readOnlyProperties.values().contains(row);
+            Property property = getProperty(row);
+            return property != null && _readOnlyProperties.contains(property.getName());
         }
 
 
