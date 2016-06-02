@@ -274,6 +274,8 @@ public class YNetElementEdit {
                 }
                 else if (netElement instanceof YAtomicTask) {
                     handler.removeAtomicTask(netId, id);
+                    SpecificationModel.getHandler().getResourceHandler()
+                            .removeTaskResources(netId, id);
                 }
             }
         }

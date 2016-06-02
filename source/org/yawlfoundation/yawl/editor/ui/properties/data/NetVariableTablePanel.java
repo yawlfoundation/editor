@@ -21,9 +21,7 @@ package org.yawlfoundation.yawl.editor.ui.properties.data;
 import org.yawlfoundation.yawl.editor.core.data.BindingReference;
 import org.yawlfoundation.yawl.editor.core.data.YDataHandlerException;
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.references.BindingReferencesDialog;
-import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
-import org.yawlfoundation.yawl.elements.YNet;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -89,12 +87,6 @@ public class NetVariableTablePanel extends VariableTablePanel
             MessageDialog.error(this, "Error: " + ydhe.getMessage(),
                     "Get Binding References Error");
         }
-    }
-
-
-    private boolean isRootNet(YNet net) {
-        return SpecificationModel.getHandler().getControlFlowHandler()
-                .getRootNet().equals(net);
     }
 
 }
