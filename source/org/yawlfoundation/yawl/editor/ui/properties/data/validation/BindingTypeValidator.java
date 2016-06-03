@@ -39,6 +39,7 @@ public class BindingTypeValidator extends TypeValueBuilder {
     private boolean _multiInstance;
     private ExpressionMatcher _externalMatcher;
     private ExpressionMatcher _timerMatcher;
+    private ExpressionMatcher _xpathMatcher;
 
 
     /**
@@ -117,6 +118,7 @@ public class BindingTypeValidator extends TypeValueBuilder {
             try {
                 String prepared = prepareBinding(binding);
                 if (! StringUtil.isNullOrEmpty(prepared)) {
+                    checkPathsExist(prepared, _dataDocument);
                     String query = evaluateQuery(prepared, _dataDocument);
                     if (isValidQuery(query)) {
                         List<String> errors = getDataHandler().validate(_dataTypeName, query);
@@ -173,10 +175,11 @@ public class BindingTypeValidator extends TypeValueBuilder {
             @Override
             protected Void doInBackground() throws Exception {
 
-                // create matchers for external binding strings
+                // create matchers for external binding and xpath strings
                 _externalMatcher = new ExpressionMatcher("#external:\\w+\\s*:\\w+\\s*");
                 _timerMatcher = new ExpressionMatcher("timer\\(\\w+\\)\\s*!?=\\s*" +
                                    "'(dormant|active|closed|expired)'");
+                _xpathMatcher = new ExpressionMatcher("/\\w*(/\\w*)*(/text\\(\\)|/\\*|$)");
 
                 _rootName = getNet().getRootDataElementName();
                 _dataTypeName = dataTypeName != null ? dataTypeName : "boolean";
@@ -306,6 +309,26 @@ public class BindingTypeValidator extends TypeValueBuilder {
 
         return wrapped ? StringUtil.unwrap(evaluated) : evaluated;
     }
+
+
+    /**
+     * Checks that all XPath expressions in a binding refer to an existing element
+     *
+     * @param binding      the binding
+     * @param dataDocument the document of sample data
+     * @throws SaxonApiException if an XPath in the binding is to a non-existent element
+     */
+    private void checkPathsExist(String binding, Document dataDocument)
+            throws SaxonApiException {
+        for (String path : _xpathMatcher.getMatches(binding)) {
+            String query = "fn:exists(" + path + ")";
+            String found = SaxonUtil.evaluateQuery(query, dataDocument);
+            if (!"true".equalsIgnoreCase(found)) {
+                throw new SaxonApiException("Invalid or unknown XPath in expression");
+            }
+        }
+    }
+
 
     /**
      * Sets the decompositionID from a list of variable rows, for task variable

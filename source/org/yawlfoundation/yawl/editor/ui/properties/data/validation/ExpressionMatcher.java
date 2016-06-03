@@ -18,6 +18,9 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.data.validation;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -43,4 +46,15 @@ public class ExpressionMatcher {
         return pattern.matcher(predicate).replaceAll(value);
     }
 
+
+    public List<String> getMatches(String binding) {
+        List<String> matches = new ArrayList<String>();
+        Matcher matcher = pattern.matcher(binding);
+        while (matcher.find()) {
+            matches.add(matcher.group());
+        }
+        return matches;
+    }
+
 }
+

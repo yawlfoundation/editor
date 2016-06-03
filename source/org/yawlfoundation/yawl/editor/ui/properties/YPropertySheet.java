@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
+import java.beans.PropertyEditor;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -145,21 +146,25 @@ public class YPropertySheet extends PropertySheetPanel {
         }
 
 
-        // override to flag property being read for user-defined attributes
+        // override to amend combo lists for decompositions
         public TableCellEditor getCellEditor(int row, int column) {
-            TableCellEditor editor = super.getCellEditor(row, column);
-            if (editor != null) {
+            if (column == 0) return null;
 
-                // Remove 'Rename' item from decomposition name combo if name is 'None'
-                if (editor instanceof DecompositionNameEditor) {
-                    ((DecompositionNameEditor) editor).rationaliseItems(getProperty(row));
-                }
-                else if (editor instanceof SubNetNameEditor) {
-                    ((SubNetNameEditor) editor).rationaliseItems(getProperty(row));
-                }
+            Property property = getProperty(row);
+            if (property == null) return null;
+
+            PropertyEditor editor = getEditorFactory().createPropertyEditor(property);
+            if (editor == null) return null;
+
+            // Remove 'Rename' item from decomposition name combo if name is 'None'
+            if (editor instanceof DecompositionNameEditor) {
+                ((DecompositionNameEditor) editor).rationaliseItems(property);
+            }
+            else if (editor instanceof SubNetNameEditor) {
+                ((SubNetNameEditor) editor).rationaliseItems(property);
             }
 
-            return editor;
+            return new CellEditorAdapter(editor);
         }
 
 
