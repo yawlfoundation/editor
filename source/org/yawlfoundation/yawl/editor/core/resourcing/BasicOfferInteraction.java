@@ -74,19 +74,27 @@ public class BasicOfferInteraction extends AbstractInteraction {
 
     public ConstraintSet getConstraintSet() { return _constraints; }
 
-
+    public String getFamiliarParticipantTask() {
+        return _familiarParticipantTask;
+    }
 
     public void setFamiliarParticipantTask(String taskid) {
        _familiarParticipantTask = taskid ;
     }
 
-    public String getFamiliarParticipantTask() {
-        return _familiarParticipantTask;
-    }
-
     public void clearFamiliarParticipantTask() {
         _familiarParticipantTask = null;
      }
+
+
+    // returns participant, but only if there is exactly one participant and no
+    // roles or dyn params
+    public Participant getSingleParticipant() {
+        if (_participants.size() == 1 && _roles.isEmpty() && _dynParams.isEmpty()) {
+            return _participants.getAll().iterator().next();
+        }
+        return null;
+    }
 
 
     protected Set<InvalidReference> getInvalidReferences() {

@@ -29,6 +29,7 @@ import org.yawlfoundation.yawl.editor.ui.elements.model.*;
 import org.yawlfoundation.yawl.editor.ui.plugin.YPluginHandler;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.GraphState;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.Publisher;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.swing.net.YAWLEditorNetPanel;
 import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
 import org.yawlfoundation.yawl.editor.ui.util.XMLUtilities;
@@ -48,15 +49,13 @@ import java.net.URL;
  */
 public class CellProperties extends NetProperties {
 
-    protected YAWLVertex vertex;
-
     protected static final String[] DECORATOR = new String[] {"AND", "OR", "XOR", "None"};
     protected static final String[] DECORATOR_POS =
             new String[] {"North", "South", "West", "East", "None"};
     protected static final int DECORATOR_POS_OFFSET = 10;
     protected static final int DEFAULT_JOIN_POS = 12;
     protected static final int DEFAULT_SPLIT_POS = 13;
-
+    protected YAWLVertex vertex;
     private String currentSplitType;
     private String currentJoinType;
 
@@ -66,11 +65,11 @@ public class CellProperties extends NetProperties {
         idLabelSynch = true;
     }
 
+    protected YAWLVertex getVertex() {
+        return vertex;
+    }
 
     protected void setVertex(YAWLVertex v) { vertex = v; }
-
-    protected YAWLVertex getVertex() { return vertex; }
-
 
     public String getId() { return vertex.getID(); }         // read only
 
@@ -270,6 +269,7 @@ public class CellProperties extends NetProperties {
             try {
                 YDecomposition decomposition;
                 String id = XMLUtilities.toValidNCName(newName);
+                warnOnIdChange(newName, id);
                 if (isComposite) {
                     YAWLEditorNetPanel panel = YAWLEditor.getNetsPane().newNet(false, id);
                     decomposition = panel.getNet().getNetModel().getDecomposition();
@@ -300,6 +300,7 @@ public class CellProperties extends NetProperties {
             String newName = getDecompositionNameInput("Rename", isComposite);
             String newID = XMLUtilities.toValidNCName(newName);
             if (newID == null || oldID.equals(newID)) break;
+            warnOnIdChange(newName, newID);
             try {
                 newID = flowHandler.checkDecompositionID(newID);
                 specHandler.getDataHandler().renameDecomposition(oldID, newID);
@@ -373,47 +374,6 @@ public class CellProperties extends NetProperties {
         return currentSplitType;
     }
 
-    public String getJoin() {
-        Decorator decorator = ((YAWLTask) vertex).getJoinDecorator();
-        setReadOnly("joinPosition", decorator == null);
-        currentJoinType = decorator != null ? DECORATOR[decorator.getType()] : "None";
-        return currentJoinType;
-    }
-
-
-    public String getSplitPosition() {
-        Decorator decorator = ((YAWLTask) vertex).getSplitDecorator();
-        return (decorator != null) ?
-                DECORATOR_POS[decorator.getCardinalPosition() - DECORATOR_POS_OFFSET] :
-                "None";
-    }
-
-    public String getJoinPosition() {
-        Decorator decorator = ((YAWLTask) vertex).getJoinDecorator();
-        return decorator != null ?
-                DECORATOR_POS[decorator.getCardinalPosition() - DECORATOR_POS_OFFSET] :
-                "None";
-    }
-
-    public NetTaskPair getSplitConditions() {
-        YAWLTask task = (YAWLTask) vertex;
-        NetTaskPair pair = new NetTaskPair(task, graph);
-        if (! task.hasSplitDecorator() ||
-                task.getSplitDecorator().getType() == Decorator.AND_TYPE) {
-            pair.setSimpleText("n/a");
-        }
-        else {
-            int flowCount = task.getOutgoingFlowCount();
-            pair.setSimpleText(flowCount < 2 ? "None" : flowCount + " flows");
-        }
-        return pair;
-    }
-
-    public void setSplitConditions(NetTaskPair pair) {
-        pair.setSimpleText(((YAWLTask) vertex).getOutgoingFlowCount() + " flows");
-    }
-
-
     public void setSplit(String value) {
         if (! value.equals(currentSplitType)) {
             try {
@@ -433,6 +393,13 @@ public class CellProperties extends NetProperties {
                 YAWLEditor.getStatusBar().setText("Error: " + ycfhe.getMessage());
             }
         }
+    }
+
+    public String getJoin() {
+        Decorator decorator = ((YAWLTask) vertex).getJoinDecorator();
+        setReadOnly("joinPosition", decorator == null);
+        currentJoinType = decorator != null ? DECORATOR[decorator.getType()] : "None";
+        return currentJoinType;
     }
 
     public void setJoin(String value) {
@@ -455,6 +422,13 @@ public class CellProperties extends NetProperties {
         }
     }
 
+    public String getSplitPosition() {
+        Decorator decorator = ((YAWLTask) vertex).getSplitDecorator();
+        return (decorator != null) ?
+                DECORATOR_POS[decorator.getCardinalPosition() - DECORATOR_POS_OFFSET] :
+                "None";
+    }
+
     public void setSplitPosition(String value) throws PropertyVetoException {
         if (! value.equals(getSplitPosition())) {
             validateDecoratorPosition("splitPos", getSplitPosition(), value);
@@ -464,6 +438,13 @@ public class CellProperties extends NetProperties {
             graph.setSelectionCell(vertex.getParent());
             setDirty();
         }
+    }
+
+    public String getJoinPosition() {
+        Decorator decorator = ((YAWLTask) vertex).getJoinDecorator();
+        return decorator != null ?
+                DECORATOR_POS[decorator.getCardinalPosition() - DECORATOR_POS_OFFSET] :
+                "None";
     }
 
     public void setJoinPosition(String value) throws PropertyVetoException {
@@ -477,6 +458,23 @@ public class CellProperties extends NetProperties {
         }
     }
 
+    public NetTaskPair getSplitConditions() {
+        YAWLTask task = (YAWLTask) vertex;
+        NetTaskPair pair = new NetTaskPair(task, graph);
+        if (!task.hasSplitDecorator() ||
+                task.getSplitDecorator().getType() == Decorator.AND_TYPE) {
+            pair.setSimpleText("n/a");
+        }
+        else {
+            int flowCount = task.getOutgoingFlowCount();
+            pair.setSimpleText(flowCount < 2 ? "None" : flowCount + " flows");
+        }
+        return pair;
+    }
+
+    public void setSplitConditions(NetTaskPair pair) {
+        pair.setSimpleText(((YAWLTask) vertex).getOutgoingFlowCount() + " flows");
+    }
 
     public NetTaskPair getSplitPredicates() {
         return new NetTaskPair((YAWLTask) vertex, graph);
@@ -608,6 +606,14 @@ public class CellProperties extends NetProperties {
                 JOptionPane.QUESTION_MESSAGE,
                 null, null,
                 getLabel());
+    }
+
+
+    private void warnOnIdChange(String oldID, String newID) {
+        if (oldID != null && !oldID.equals(newID)) {
+            MessageDialog.info("To create a valid identifier, invalid XML characters\n" +
+                    " have been removed from the name.", "Warning: XML Name Setting");
+        }
     }
 
 

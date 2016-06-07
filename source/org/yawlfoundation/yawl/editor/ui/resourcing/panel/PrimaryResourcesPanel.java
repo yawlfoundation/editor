@@ -19,6 +19,7 @@
 package org.yawlfoundation.yawl.editor.ui.resourcing.panel;
 
 import org.yawlfoundation.yawl.editor.core.YConnector;
+import org.yawlfoundation.yawl.editor.core.YSpecificationHandler;
 import org.yawlfoundation.yawl.editor.core.resourcing.BasicOfferInteraction;
 import org.yawlfoundation.yawl.editor.core.resourcing.DynParam;
 import org.yawlfoundation.yawl.editor.core.resourcing.TaskResourceSet;
@@ -28,6 +29,8 @@ import org.yawlfoundation.yawl.editor.ui.resourcing.ResourceTableType;
 import org.yawlfoundation.yawl.editor.ui.resourcing.tablemodel.NetParamTableModel;
 import org.yawlfoundation.yawl.editor.ui.resourcing.tablemodel.ParticipantTableModel;
 import org.yawlfoundation.yawl.editor.ui.resourcing.tablemodel.RoleTableModel;
+import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.elements.YAtomicTask;
 import org.yawlfoundation.yawl.elements.YNet;
 import org.yawlfoundation.yawl.resourcing.AbstractSelector;
@@ -125,6 +128,7 @@ public class PrimaryResourcesPanel extends AbstractResourceTabContent implements
                 new ArrayList<DynParam>(netParamTableModel.getValues()));
         filtersPanel.save(offerResources);
         constraintsPanel.save(offerResources);
+        verifyNonExclusive4EyesResources(offerResources);
 
         setInitiators(resources);
 
@@ -182,7 +186,6 @@ public class PrimaryResourcesPanel extends AbstractResourceTabContent implements
         chkAllocate = createCheckBox("Enable System Allocation", KeyEvent.VK_A, this, owner);
         panel.add(createCheckBoxPanel(chkAllocate), BorderLayout.NORTH);
         panel.add(createAllocatePanelContent(owner), BorderLayout.CENTER);
-//        panel.setPreferredSize(new Dimension(660, 90));
         return panel;
     }
 
@@ -191,7 +194,6 @@ public class PrimaryResourcesPanel extends AbstractResourceTabContent implements
         panel.setBorder(new TitledBorder("Start"));
         chkStart = createCheckBox("Enable System Start", KeyEvent.VK_S, this, owner);
         panel.add(createCheckBoxPanel(chkStart), BorderLayout.PAGE_START);
-//        panel.setPreferredSize(new Dimension(660, 50));
         return panel;
     }
 
@@ -209,7 +211,6 @@ public class PrimaryResourcesPanel extends AbstractResourceTabContent implements
         allocatePanelContent.add(new JLabel("Allocation Strategy: "));
         cbxAllocations = new JComboBox();
         cbxAllocations.setRenderer(new AllocatorRenderer());
-//        cbxAllocations.setPreferredSize(new Dimension(300, 25));
         cbxAllocations.addActionListener(owner);
         allocatePanelContent.add(cbxAllocations);
         return allocatePanelContent;
@@ -277,6 +278,35 @@ public class PrimaryResourcesPanel extends AbstractResourceTabContent implements
         }
         catch (IOException ioe) {
             getLog().warn(ioe.getMessage());
+        }
+    }
+
+
+    private void verifyNonExclusive4EyesResources(BasicOfferInteraction offerInteraction) {
+        String fourEyesTask = constraintsPanel.getFourEyesTask(offerInteraction);
+        if (fourEyesTask == null) return;
+
+        Participant thisP = offerInteraction.getSingleParticipant();
+        if (thisP == null) return;
+
+        YSpecificationHandler handler = SpecificationModel.getHandler();
+        YNet fourEyesNet = handler.getControlFlowHandler().getContainingNet(fourEyesTask);
+        if (fourEyesNet != null) {
+            TaskResourceSet resources = handler.getResourceHandler()
+                    .getTaskResources(fourEyesNet.getID(), fourEyesTask);
+            if (resources != null) {
+                BasicOfferInteraction fourEyesOffer = resources.getOffer();
+                Participant fourEyesP = fourEyesOffer.getSingleParticipant();
+                if (fourEyesP != null && thisP.getID().equals(fourEyesP.getID())) {
+                    MessageDialog.warn(this,
+                            "The chosen separation of duties task constraint is resourced\n" +
+                                    "by the same single participant as the current task. This will\n" +
+                                    "result in an empty distribution set at runtime, since the \n" +
+                                    "resource constraints are mutually exclusive. If the constraint\n" +
+                                    "is required, please ensure each task has different resources set.",
+                            "Warning: Separation of Duties");
+                }
+            }
         }
     }
 

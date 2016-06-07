@@ -33,10 +33,9 @@ import java.util.*;
  */
 public class YControlFlowHandler {
 
-    private YSpecification _specification;
-    private final ElementIdentifiers _identifiers;
-
     private static final String BASIC_RESOURCING_SPEC = createBasicResourcingSpec();
+    private final ElementIdentifiers _identifiers;
+    private YSpecification _specification;
 
     public YControlFlowHandler() { _identifiers = new ElementIdentifiers(); }
 
@@ -45,19 +44,30 @@ public class YControlFlowHandler {
         setSpecification(specification);
     }
 
+    private static String createBasicResourcingSpec() {
+        XNode node = new XNode("resourcing");
+        node.addChild("offer");
+        node.addChild("allocate");
+        node.addChild("start");
+        for (XNode child : node.getChildren()) {
+            child.addAttribute("initiator", "user");
+        }
+        return node.toString();
+    }
+
     public void close() {
         _specification = null;
         _identifiers.clear();
     }
 
+    public YSpecification getSpecification() {
+        return _specification;
+    }
 
     public void setSpecification(YSpecification specification) {
         _specification = specification;
         _identifiers.load(specification);
     }
-
-    public YSpecification getSpecification() { return _specification; }
-
 
     /*** Net CRUD ***/
 
@@ -75,7 +85,6 @@ public class YControlFlowHandler {
         return ids;
     }
 
-
     public Set<YNet> getNets() {
         Set<YNet> nets = new HashSet<YNet>();
         if (_specification != null) {
@@ -86,7 +95,6 @@ public class YControlFlowHandler {
         return nets;
     }
 
-
     public Set<YNet> getSubNets() {
         if (_specification != null) {
             Set<YNet> nets = getNets();
@@ -96,6 +104,14 @@ public class YControlFlowHandler {
         return Collections.emptySet();
     }
 
+    public YNet getContainingNet(String netElementID) {
+        for (YNet net : getNets()) {
+            if (net.getNetElement(netElementID) != null) {
+                return net;
+            }
+        }
+        return null;
+    }
 
     public YNet createRootNet(String netName)
             throws YControlFlowHandlerException, IllegalIdentifierException {
@@ -151,7 +167,6 @@ public class YControlFlowHandler {
         return net;
     }
 
-
     // pre: specification exists (already checked through #addNet)
     private YNet createNet(String netName) throws IllegalIdentifierException {
         if (netName == null) netName = uniqueDecompositionID("Net");
@@ -160,7 +175,6 @@ public class YControlFlowHandler {
         net.setOutputCondition(new YOutputCondition(checkID("OutputCondition"), net));
         return net;
     }
-
 
     /*** task decomposition CRUD ***/
 
@@ -173,7 +187,6 @@ public class YControlFlowHandler {
         return gateway;
     }
 
-
     public String addTaskDecomposition(YAWLServiceGateway decomposition)
             throws YControlFlowHandlerException {
         checkSpecificationExists();
@@ -183,7 +196,6 @@ public class YControlFlowHandler {
         _specification.addDecomposition(decomposition);
         return uniqueID;
     }
-
 
     public YAWLServiceGateway getTaskDecomposition(String name)  {
         try {
@@ -196,7 +208,6 @@ public class YControlFlowHandler {
             return null;
         }
     }
-
 
     public List<YAWLServiceGateway> getTaskDecompositions() {
         try {
@@ -214,7 +225,6 @@ public class YControlFlowHandler {
         }
     }
 
-
     public YAWLServiceGateway removeTaskDecomposition(String name) {
         if (_specification != null) {
             YAWLServiceGateway gateway = (YAWLServiceGateway)
@@ -227,12 +237,10 @@ public class YControlFlowHandler {
         return null;
     }
 
-
     public boolean isOrphanTaskDecomposition(YDecomposition decomposition) {
         return ! (decomposition == null || decomposition instanceof YNet) &&
                 isOrphan(decomposition, getAllAtomicTasks());
     }
-
 
     public void removeOrphanTaskDecompositions() {
         if (_specification == null) return;
@@ -259,7 +267,6 @@ public class YControlFlowHandler {
          return eId.toString();
      }
 
-
     // designed to be used after an undo of a removal
     public YExternalNetElement addNetElement(YExternalNetElement netElement) {
         if (netElement != null) {
@@ -284,7 +291,6 @@ public class YControlFlowHandler {
         return null;
     }
 
-
     public YCondition addCondition(String netID, String id)
             throws IllegalIdentifierException {
         YNet net = getNet(netID);
@@ -308,14 +314,12 @@ public class YControlFlowHandler {
         return null;
     }
 
-
     public YAtomicTask addMultipleInstanceAtomicTask(String netID, String id)
             throws IllegalIdentifierException {
         YAtomicTask task = addAtomicTask(netID, id);
         setMultiInstance(task);
         return task;
     }
-
 
     public YCompositeTask addCompositeTask(String netID, String id)
             throws IllegalIdentifierException {
@@ -329,7 +333,6 @@ public class YControlFlowHandler {
         return null;
     }
 
-
     public YCompositeTask addMultipleInstanceCompositeTask(String netID, String id)
             throws IllegalIdentifierException {
         YCompositeTask task = addCompositeTask(netID, id);
@@ -337,13 +340,11 @@ public class YControlFlowHandler {
         return task;
     }
 
-
     public YCompoundFlow addFlow(String netID, String sourceID, String targetID) {
         YNet net = getNet(netID);
         return net == null ? null : new YCompoundFlow(getNetElement(netID, sourceID),
                        getNetElement(netID, targetID));
     }
-
 
     public YExternalNetElement getNetElement(String netID, String id) {
         if (id == null) return null;
@@ -351,30 +352,25 @@ public class YControlFlowHandler {
         return (net != null) ? net.getNetElement(id) : null;
     }
 
-
     public YCondition getCondition(String netID, String id) {
         YExternalNetElement element = getNetElement(netID, id);
         return (element instanceof YCondition) ? (YCondition) element : null;
     }
-
 
     public YInputCondition getInputCondition(String netID) {
         YNet net = getNet(netID);
         return (net != null) ? net.getInputCondition() : null;
     }
 
-
     public YOutputCondition getOutputCondition(String netID) {
         YNet net = getNet(netID);
         return (net != null) ? net.getOutputCondition() : null;
     }
 
-
     public YTask getTask(String netID, String id) {
         YExternalNetElement element = getNetElement(netID, id);
         return (element instanceof YTask) ? (YTask) element : null;
     }
-
 
     public boolean setJoin(String netID, String id, int joinType)
             throws YControlFlowHandlerException {
@@ -388,7 +384,6 @@ public class YControlFlowHandler {
         task.setJoinType(joinType);
         return true;
     }
-
 
     public boolean setSplit(String netID, String id, int splitType)
             throws YControlFlowHandlerException {
@@ -428,18 +423,15 @@ public class YControlFlowHandler {
         return true;
     }
 
-
     public YAtomicTask getAtomicTask(String netID, String id) {
         YTask task = getTask(netID, id);
         return (task instanceof YAtomicTask) ? (YAtomicTask) task : null;
     }
 
-
     public YCompositeTask getCompositeTask(String netID, String id) {
         YTask task = getTask(netID, id);
         return (task instanceof YCompositeTask) ? (YCompositeTask) task : null;
     }
-
 
     public YCompoundFlow getFlow(String netID, String sourceID, String targetID) {
         YCompoundFlow flow = null;
@@ -464,7 +456,6 @@ public class YControlFlowHandler {
         return flow;
     }
 
-
     public boolean removeNetElement(YExternalNetElement element) {
         return removeNetElement(element.getNet().getID(), element);
     }
@@ -479,13 +470,11 @@ public class YControlFlowHandler {
         return false;
     }
 
-
     public YCondition removeCondition(String netID, String id) {
         YCondition condition = getCondition(netID, id);
         if (condition != null) removeNetElement(netID, condition);
         return condition;
     }
-
 
     public YTask removeTask(String netID, String id) {
         YTask task = getTask(netID, id);
@@ -493,20 +482,17 @@ public class YControlFlowHandler {
         return task;
     }
 
-
     public YAtomicTask removeAtomicTask(String netID, String id) {
         YAtomicTask task = getAtomicTask(netID, id);
         if (task != null) removeNetElement(netID, task);
         return task;
     }
 
-
     public YCompositeTask removeCompositeTask(String netID, String id) {
         YCompositeTask task = getCompositeTask(netID, id);
         if (task != null) removeNetElement(netID, task);
         return task;
     }
-
 
     public YCompoundFlow removeFlow(String netID, String sourceID, String targetID) {
         YCompoundFlow flow = getFlow(netID, sourceID, targetID);
@@ -515,7 +501,6 @@ public class YControlFlowHandler {
         }
         return flow;
     }
-
 
     public boolean setCancellationSet(String netID, String id,
                                    List<YExternalNetElement> newSet) {
@@ -535,7 +520,6 @@ public class YControlFlowHandler {
         }
         return task != null;
     }
-
 
     public ElementIdentifiers getIdentifiers() { return _identifiers; }
 
@@ -567,7 +551,6 @@ public class YControlFlowHandler {
         return id;
     }
 
-
     private String uniqueDecompositionID(String id) {
         Set<String> idSet = getDecompositionIds();
         int i = 1;
@@ -583,14 +566,12 @@ public class YControlFlowHandler {
                 || ! XMLChar.isValidName(id));
     }
 
-
     private void setMultiInstance(YTask task) {
         if (task != null) {
             task.setUpMultipleInstanceAttributes("1", "2", "2",
                     YMultiInstanceAttributes.CREATION_MODE_STATIC);
         }
     }
-
 
     private YFlow getFlow(YExternalNetElement source, YExternalNetElement target) {
         if (! (source == null || target == null)) {
@@ -607,7 +588,6 @@ public class YControlFlowHandler {
         }
         return null;
     }
-
 
     // called when changing a task split type from AND to OR or XOR
     private YFlow setDefaultFlow(YTask task, int splitType) {
@@ -642,7 +622,6 @@ public class YControlFlowHandler {
         }
     }
 
-
     private Set<YAtomicTask> getAllAtomicTasks() {
         Set<YAtomicTask> taskSet = new HashSet<YAtomicTask>();
         for (YNet net : getNets()) {
@@ -653,18 +632,6 @@ public class YControlFlowHandler {
             }
         }
         return taskSet;
-    }
-
-
-    private static String createBasicResourcingSpec() {
-        XNode node = new XNode("resourcing");
-        node.addChild("offer");
-        node.addChild("allocate");
-        node.addChild("start");
-        for (XNode child : node.getChildren()) {
-            child.addAttribute("initiator", "user");
-        }
-        return node.toString();
     }
 
      private boolean isOrphan(YDecomposition decomposition, Set<YAtomicTask> allTasks) {

@@ -139,19 +139,12 @@ public class LayoutImporter {
         if (label != null) {
             AttributeMap updateMap = getLabelAttributes(layout);
             Rectangle loadedBounds = (Rectangle) updateMap.get(GraphConstants.BOUNDS);
-            Rectangle2D.Double currentBounds = (Rectangle2D.Double)
-                    label.getAttributes().get(GraphConstants.BOUNDS);
-
-            // At this point, the label has already been added to the net, so has been
-            // given the correct height and width for its font, but in a default location.
-            // If we use the same bounds as the last save, the label may be truncated.
-            // So, we use the saved location, but the current height & width.
-            if (! (loadedBounds == null || currentBounds == null)) {
+            if (loadedBounds != null) {
                 updateMap.put(GraphConstants.BOUNDS, new Rectangle2D.Double(
                         loadedBounds.getX(),
                         loadedBounds.getY(),
-                        currentBounds.getWidth(),
-                        currentBounds.getHeight()));
+                        loadedBounds.getWidth(),
+                        loadedBounds.getHeight()));
             }
             label.getAttributes().applyMap(updateMap);
         }

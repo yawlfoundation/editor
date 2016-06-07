@@ -40,19 +40,17 @@ import java.util.*;
  */
 public class ConstraintsPanel extends JPanel implements ItemListener {
 
+    private static final String FOUR_EYES_NAME = "SeparationOfDuties";
+    private static final String FOUR_EYES_PARAM_NAME = "familiarTask";
     private JCheckBox chkFourEyes;
     private JComboBox cbxFourEyes;
     private JCheckBox chkFamTask;
     private JComboBox cbxFamTask;
 
-    private static final String FOUR_EYES_NAME = "SeparationOfDuties";
-    private static final String FOUR_EYES_PARAM_NAME = "familiarTask";
-
 
     public ConstraintsPanel(ResourceDialog owner, Set<YAtomicTask> preTasks) {
         setBorder(new TitledBorder("Constraints"));
         addContent(owner, preTasks);
-     //   setPreferredSize(new Dimension(425, 145));
     }
 
 
@@ -84,15 +82,11 @@ public class ConstraintsPanel extends JPanel implements ItemListener {
         }
         enableCombo(cbxFamTask, chkFamTask.isSelected());
 
-        for (AbstractConstraint constraint : offerInteraction.getConstraintSet().getAll()) {
-            if (constraint.getName().equals(FOUR_EYES_NAME)) {
-                famTask = constraint.getParamValue(FOUR_EYES_PARAM_NAME);
-                if (famTask != null) {
-                    chkFourEyes.setSelected(selectItem(cbxFourEyes, famTask));
-                    if (! chkFourEyes.isSelected()) {
-                        showMissingTaskWarning("separation of duties", famTask);
-                    }
-                }
+        String fourEyesTask = getFourEyesTask(offerInteraction);
+        if (fourEyesTask != null) {
+            chkFourEyes.setSelected(selectItem(cbxFourEyes, fourEyesTask));
+            if (!chkFourEyes.isSelected()) {
+                showMissingTaskWarning("separation of duties", fourEyesTask);
             }
         }
         enableCombo(cbxFourEyes, chkFourEyes.isSelected());
@@ -124,6 +118,16 @@ public class ConstraintsPanel extends JPanel implements ItemListener {
     }
 
 
+    public String getFourEyesTask(BasicOfferInteraction offerInteraction) {
+        for (AbstractConstraint constraint : offerInteraction.getConstraintSet().getAll()) {
+            if (constraint.getName().equals(FOUR_EYES_NAME)) {
+                return constraint.getParamValue(FOUR_EYES_PARAM_NAME);
+            }
+        }
+        return null;
+    }
+
+
     private void addContent(ResourceDialog owner, Set<YAtomicTask> preTasks) {
         setLayout(new GridLayout(0,1));
         add(createFamTaskPanel(owner, preTasks));
@@ -138,7 +142,6 @@ public class ConstraintsPanel extends JPanel implements ItemListener {
         cbxFamTask = createCombo(owner, preTasks);
         panel.add(chkFamTask, BorderLayout.CENTER);
         panel.add(cbxFamTask, BorderLayout.EAST);
-    //    panel.setSize(410, 25);
         return panel;
     }
 
@@ -150,7 +153,6 @@ public class ConstraintsPanel extends JPanel implements ItemListener {
         cbxFourEyes = createCombo(owner, preTasks);
         panel.add(chkFourEyes, BorderLayout.CENTER);
         panel.add(cbxFourEyes, BorderLayout.EAST);
-    //    panel.setSize(410, 25);
         return panel;
     }
 
