@@ -78,6 +78,7 @@ public class ConstraintsPanel extends JPanel implements ItemListener {
             chkFamTask.setSelected(selectItem(cbxFamTask, famTask));
             if (! chkFamTask.isSelected()) {
                 showMissingTaskWarning("familiar task", famTask);
+                offerInteraction.clearFamiliarParticipantTask();
             }
         }
         enableCombo(cbxFamTask, chkFamTask.isSelected());
@@ -87,6 +88,7 @@ public class ConstraintsPanel extends JPanel implements ItemListener {
             chkFourEyes.setSelected(selectItem(cbxFourEyes, fourEyesTask));
             if (!chkFourEyes.isSelected()) {
                 showMissingTaskWarning("separation of duties", fourEyesTask);
+                removeFourEyesTask(offerInteraction);
             }
         }
         enableCombo(cbxFourEyes, chkFourEyes.isSelected());
@@ -119,9 +121,21 @@ public class ConstraintsPanel extends JPanel implements ItemListener {
 
 
     public String getFourEyesTask(BasicOfferInteraction offerInteraction) {
+        AbstractConstraint constraint = getFourEyesConstraint(offerInteraction);
+        return constraint != null ? constraint.getParamValue(FOUR_EYES_PARAM_NAME) : null;
+    }
+
+
+    public boolean removeFourEyesTask(BasicOfferInteraction offerInteraction) {
+        AbstractConstraint constraint = getFourEyesConstraint(offerInteraction);
+        return constraint != null && offerInteraction.getConstraintSet().remove(constraint);
+    }
+
+
+    public AbstractConstraint getFourEyesConstraint(BasicOfferInteraction offerInteraction) {
         for (AbstractConstraint constraint : offerInteraction.getConstraintSet().getAll()) {
             if (constraint.getName().equals(FOUR_EYES_NAME)) {
-                return constraint.getParamValue(FOUR_EYES_PARAM_NAME);
+                return constraint;
             }
         }
         return null;
@@ -244,7 +258,7 @@ public class ConstraintsPanel extends JPanel implements ItemListener {
             "The current specification has task '" + taskName + "' selected as\n" +
             "the parameter for a " + constraint + " constraint, but there is\n" +
             "no task of that name preceding the current task. The constraint has\n" +
-            "been deselected.");
+                    "been removed.");
     }
 
 

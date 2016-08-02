@@ -167,10 +167,7 @@ public class FiltersPanel extends JPanel implements ActionListener {
         if (filter != null) {
             if (filter.getName().equals("CapabilityFilter")) {
                 capabilityFilter = filter;
-                String value = filter.getParamValue("Capability");
-                if (!StringUtil.isNullOrEmpty(value)) {
-                    updateTextArea(txtCapability, value);
-                }
+                updateTextArea(txtCapability, filter.getParamValue("Capability"));
             }
             else if (filter.getName().equals("OrgFilter")) {
                 orgFilter = filter;

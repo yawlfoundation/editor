@@ -1288,6 +1288,7 @@ public class YDataHandler {
                                     int newType) {
         YParameter outputParam = decomposition.getOutputParameters().get(variableName);
         if (outputParam != null) {
+            outputParam.setDefaultValue(null);               // remove any default value
             if (newType != LOCAL && (decomposition instanceof YNet)) {
                 ((YNet) decomposition).removeLocalVariable(variableName);
             }

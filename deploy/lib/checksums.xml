@@ -2,8 +2,8 @@
 <!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
 <release>
   <version>4.1</version>
-  <build>694</build>
-  <timestamp>2016-06-07 14.40.44</timestamp>
+    <build>695</build>
+    <timestamp>2016-08-02 10.56.17</timestamp>
   <paths>
     <path id="host">https://raw.githubusercontent.com/</path>
     <path id="base">yawlfoundation/</path>
@@ -13,40 +13,73 @@
     <path id="C">yawl/master/build/3rdParty/</path>
   </paths>
   <files>
-    <file name="lib/automaton.jar" md5="c51399ee94634d6590e1ddb6ae253238" size="176313" timestamp="2015-08-13T13:38:33" path="A"/>
-    <file name="lib/commons-codec-1.9.jar" md5="75615356605c8128013da9e3ac62a249" size="263965" timestamp="2015-08-13T13:38:33" path="C"/>
-    <file name="lib/commons-lang-2.3.jar" md5="dcdcbb47176603907c9f79a1349193eb" size="245274" timestamp="2015-08-13T13:38:33" path="C"/>
-    <file name="lib/dom4j-1.6.1.jar" md5="4d8f51d3fe3900efc6e395be48030d6d" size="313898" timestamp="2015-08-13T13:38:33" path="C"/>
-    <file name="lib/forms_rt.jar" md5="51287d246b3465464180499e40f1dfee" size="328197" timestamp="2015-08-13T13:38:33" path="A"/>
-    <file name="lib/imgscalr-lib-4.2.jar" md5="9e6ea4327c2cb18de908255e3cb1cca6" size="226824" timestamp="2015-08-13T13:38:33" path="A"/>
-    <file name="lib/jaxen-1.1.6.jar" md5="a140517286b56eea981e188dcc3a13f6" size="231882" timestamp="2015-08-13T13:38:33" path="C"/>
-    <file name="lib/jcalendar-1.4.jar" md5="0a0863943cf89741c7a0c2721027446d" size="165052" timestamp="2015-08-13T13:38:33" path="A"/>
-    <file name="lib/jdom-2.0.5.jar" md5="302db3c65c38d3c10ef31bca76bd76b4" size="299658" timestamp="2015-08-13T13:38:33" path="C"/>
-    <file name="lib/jgoodies-common-1.8.1.jar" md5="7e6bc1cd169e4f78d9529af34a876f00" size="37807" timestamp="2015-08-13T13:38:33" path="A"/>
-    <file name="lib/jgoodies-looks-2.7.0.jar" md5="f6f746ee51c49a2d91e30bdfc8043443" size="400791" timestamp="2015-08-13T13:38:33" path="A"/>
-    <file name="lib/jgraph4yawl-4.1.jar" md5="d67d74f914d9764c8bc0d3b4db99b1b3" size="240850" timestamp="2016-05-10T12:16:23" path="B"/>
-    <file name="lib/l2fprod-common-all.jar" md5="1be2480cc16abf1d26f2c8d8fe63e270" size="457525" timestamp="2015-08-13T13:38:33" path="A"/>
-    <file name="lib/log4j-1.2-api-2.3.jar" md5="97f562c4f299dc5f5f72e66ded465416" size="36875" timestamp="2015-08-25T16:58:07" path="C"/>
-    <file name="lib/log4j-api-2.3.jar" md5="94241ab3197b95a813d896820b3f6a87" size="135903" timestamp="2015-08-13T13:38:33" path="C"/>
-    <file name="lib/log4j-core-2.3.jar" md5="110ab3e3e4f3780921e8ee5dde3373ad" size="827024" timestamp="2015-08-13T13:38:33" path="C"/>
-    <file name="lib/log4j-slf4j-impl-2.3.jar" md5="c5507f66db2c18b090b4ae2e8338244b" size="22544" timestamp="2015-08-25T16:58:07" path="C"/>
-    <file name="lib/macify-1.4.jar" md5="0e25f516b113033b2da4591161f1e117" size="11684" timestamp="2015-08-13T13:38:33" path="A"/>
-    <file name="lib/saxon9-dom.jar" md5="43b292289250700524ddd21d82e23f79" size="126167" timestamp="2015-08-13T13:38:33" path="C"/>
-    <file name="lib/saxon9-s9api.jar" md5="a6547f2d9f839978cf4c9c92ed01cf9f" size="127765" timestamp="2015-08-13T13:38:33" path="C"/>
-    <file name="lib/saxon9.jar" md5="cfb820253feef53ab606601b6435870c" size="5024396" timestamp="2015-08-13T13:38:33" path="C"/>
-    <file name="lib/servlet-api.jar" md5="8b0753b8fa779bc80c3f8db57b8b6372" size="88224" timestamp="2015-08-13T13:38:33" path="A"/>
-    <file name="lib/xercesImpl.jar" md5="da09b75b562ca9a8e9a535d2148be8e4" size="1229289" timestamp="2015-08-13T13:38:33" path="C"/>
-    <file name="lib/xmleditorkit.jar" md5="3d08ad29e38824929c5101bc61ce8816" size="72326" timestamp="2015-08-18T18:45:08" path="B"/>
-    <file name="lib/yawl-lib-4.1.jar" md5="18de7ff0e19324a5be251886870d0af3" size="2500612" timestamp="2016-06-02T19:22:39" path="B"/>
-    <file name="lib/YAWLEditor-analyser-4.1.jar" md5="d54b6e888f602462d19e8a3866adffbb" size="81647" timestamp="2016-05-10T12:16:23" path="B"/>
-    <file name="lib/YAWLEditor-core-4.1.jar" md5="ac3dc8e3939b9fa2e67839cb17125674"
-          size="176478" timestamp="2016-06-07T14:40:43" path="B"/>
-    <file name="lib/YAWLEditor-icons.jar" md5="79e9718b2713b9c70fb2bfd60dddcdfc" size="363754" timestamp="2015-08-18T18:45:08" path="B"/>
-    <file name="plugins/YAWLEditor-configuration-4.1.jar" md5="02a46f23c7ba54956b2d441bceadbf78" size="163172" timestamp="2016-05-10T12:16:24" path="B"/>
-    <file name="plugins/YAWLEditor-decobar-4.1.jar" md5="d3fa1bfb4a2992dd1d2354b5e78fc671" size="25615" timestamp="2016-05-10T12:16:24" path="B"/>
-    <file name="plugins/YAWLEditor-worklet-4.1.jar" md5="fc3fc3efc10caed3f54baf6c58c0ae92" size="220262" timestamp="2016-05-17T17:23:03" path="B"/>
-    <file name="YAWLEditor4.1.jar" md5="33de6521961fe7ca944c97ed2fcaac7f" size="1613285"
-          timestamp="2016-06-07T14:40:44" path="B"/>
+      <file name="lib/automaton.jar" md5="c51399ee94634d6590e1ddb6ae253238" size="176313"
+            timestamp="2015-08-13T05:38:33" path="A"/>
+      <file name="lib/commons-codec-1.9.jar" md5="75615356605c8128013da9e3ac62a249"
+            size="263965" timestamp="2015-08-13T05:38:33" path="C"/>
+      <file name="lib/commons-lang-2.3.jar" md5="dcdcbb47176603907c9f79a1349193eb"
+            size="245274" timestamp="2015-08-13T05:38:33" path="C"/>
+      <file name="lib/dom4j-1.6.1.jar" md5="4d8f51d3fe3900efc6e395be48030d6d"
+            size="313898" timestamp="2015-08-13T05:38:33" path="C"/>
+      <file name="lib/forms_rt.jar" md5="51287d246b3465464180499e40f1dfee" size="328197"
+            timestamp="2015-08-13T05:38:33" path="A"/>
+      <file name="lib/imgscalr-lib-4.2.jar" md5="9e6ea4327c2cb18de908255e3cb1cca6"
+            size="226824" timestamp="2015-08-13T05:38:33" path="A"/>
+      <file name="lib/jaxen-1.1.6.jar" md5="a140517286b56eea981e188dcc3a13f6"
+            size="231882" timestamp="2015-08-13T05:38:33" path="C"/>
+      <file name="lib/jcalendar-1.4.jar" md5="0a0863943cf89741c7a0c2721027446d"
+            size="165052" timestamp="2015-08-13T05:38:33" path="A"/>
+      <file name="lib/jdom-2.0.5.jar" md5="302db3c65c38d3c10ef31bca76bd76b4" size="299658"
+            timestamp="2015-08-13T05:38:33" path="C"/>
+      <file name="lib/jgoodies-common-1.8.1.jar" md5="7e6bc1cd169e4f78d9529af34a876f00"
+            size="37807" timestamp="2015-08-13T05:38:33" path="A"/>
+      <file name="lib/jgoodies-looks-2.7.0.jar" md5="f6f746ee51c49a2d91e30bdfc8043443"
+            size="400791" timestamp="2015-08-13T05:38:33" path="A"/>
+      <file name="lib/jgraph4yawl-4.1.jar" md5="d67d74f914d9764c8bc0d3b4db99b1b3"
+            size="240850" timestamp="2016-05-10T04:16:23" path="B"/>
+      <file name="lib/l2fprod-common-all.jar" md5="1be2480cc16abf1d26f2c8d8fe63e270"
+            size="457525" timestamp="2015-08-13T05:38:33" path="A"/>
+      <file name="lib/log4j-1.2-api-2.3.jar" md5="97f562c4f299dc5f5f72e66ded465416"
+            size="36875" timestamp="2015-08-25T08:58:07" path="C"/>
+      <file name="lib/log4j-api-2.3.jar" md5="94241ab3197b95a813d896820b3f6a87"
+            size="135903" timestamp="2015-08-13T05:38:33" path="C"/>
+      <file name="lib/log4j-core-2.3.jar" md5="110ab3e3e4f3780921e8ee5dde3373ad"
+            size="827024" timestamp="2015-08-13T05:38:33" path="C"/>
+      <file name="lib/log4j-slf4j-impl-2.3.jar" md5="c5507f66db2c18b090b4ae2e8338244b"
+            size="22544" timestamp="2015-08-25T08:58:07" path="C"/>
+      <file name="lib/macify-1.4.jar" md5="0e25f516b113033b2da4591161f1e117" size="11684"
+            timestamp="2015-08-13T05:38:33" path="A"/>
+      <file name="lib/saxon9-dom.jar" md5="43b292289250700524ddd21d82e23f79" size="126167"
+            timestamp="2015-08-13T05:38:33" path="C"/>
+      <file name="lib/saxon9-s9api.jar" md5="a6547f2d9f839978cf4c9c92ed01cf9f"
+            size="127765" timestamp="2015-08-13T05:38:33" path="C"/>
+      <file name="lib/saxon9.jar" md5="cfb820253feef53ab606601b6435870c" size="5024396"
+            timestamp="2015-08-13T05:38:33" path="C"/>
+      <file name="lib/servlet-api.jar" md5="8b0753b8fa779bc80c3f8db57b8b6372" size="88224"
+            timestamp="2015-08-13T05:38:33" path="A"/>
+      <file name="lib/xercesImpl.jar" md5="da09b75b562ca9a8e9a535d2148be8e4"
+            size="1229289" timestamp="2015-08-13T05:38:33" path="C"/>
+      <file name="lib/xmleditorkit.jar" md5="3d08ad29e38824929c5101bc61ce8816"
+            size="72326" timestamp="2015-08-18T10:45:08" path="B"/>
+      <file name="lib/yawl-lib-4.1.jar" md5="cc9f20495954c004bbe79816d662d319"
+            size="2502878" timestamp="2016-08-02T10:56:11" path="B"/>
+      <file name="lib/YAWLEditor-analyser-4.1.jar" md5="d54b6e888f602462d19e8a3866adffbb"
+            size="81647" timestamp="2016-05-10T04:16:23" path="B"/>
+      <file name="lib/YAWLEditor-core-4.1.jar" md5="3351752f1f37577d2954b0ccfdaac37e"
+            size="176492" timestamp="2016-08-02T10:56:16" path="B"/>
+      <file name="lib/YAWLEditor-icons.jar" md5="79e9718b2713b9c70fb2bfd60dddcdfc"
+            size="363754" timestamp="2015-08-18T10:45:08" path="B"/>
+      <file name="plugins/YAWLEditor-configuration-4.1.jar"
+            md5="02a46f23c7ba54956b2d441bceadbf78" size="163172"
+            timestamp="2016-05-10T04:16:24" path="B"/>
+      <file name="plugins/YAWLEditor-decobar-4.1.jar"
+            md5="d3fa1bfb4a2992dd1d2354b5e78fc671" size="25615"
+            timestamp="2016-05-10T04:16:24" path="B"/>
+      <file name="plugins/YAWLEditor-worklet-4.1.jar"
+            md5="68a148ae1080d815f96aeaece65ea43a" size="220267"
+            timestamp="2016-08-02T10:56:17" path="B"/>
+      <file name="YAWLEditor4.1.jar" md5="8b6026eb072e33dc42e41c823aaedbf8" size="1613511"
+            timestamp="2016-08-02T10:56:17" path="B"/>
   </files>
 </release>
 

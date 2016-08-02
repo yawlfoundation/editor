@@ -51,7 +51,7 @@ import java.util.*;
 public class WorkletClient extends YConnection {
 
     private static final ClientCache CACHE = new ClientCache();
-    private static final WorkletInfoCache _workletInfoCache = new WorkletInfoCache();
+    private static final WorkletInfoCache WORKLET_INFO_CACHE = new WorkletInfoCache();
     private static final WorkletClient INSTANCE = new WorkletClient();
     private static final String URL_FILE_PATH = "/workletService/gateway";
 
@@ -211,13 +211,15 @@ public class WorkletClient extends YConnection {
     public void clearCache() { CACHE.clearAll(); }
 
 
-    public WorkletInfoCache getWorkletCache() { return _workletInfoCache; }
-
-
-    public void setTaskIdChangeMap(TaskIDChangeMap map) { _taskIdChanges = map; }
+    public WorkletInfoCache getWorkletCache() {
+        return WORKLET_INFO_CACHE;
+    }
 
     public TaskIDChangeMap getTaskIdChangeMap() { return _taskIdChanges; }
 
+    public void setTaskIdChangeMap(TaskIDChangeMap map) {
+        _taskIdChanges = map;
+    }
 
     public String getUpdatedTaskID(String taskID) {
         return _taskIdChanges != null ? _taskIdChanges.getID(taskID) : taskID;
@@ -289,7 +291,7 @@ public class WorkletClient extends YConnection {
             throws IOException {
         connect();
         check(_client.addWorklet(specID, workletXML, _handle));
-        _workletInfoCache.invalidate();
+        WORKLET_INFO_CACHE.invalidate();
         return true;
     }
 
@@ -378,6 +380,7 @@ public class WorkletClient extends YConnection {
     public void removeWorklet(String specKey) throws IOException {
         connect();
         check(_client.removeWorklet(specKey, _handle));
+        WORKLET_INFO_CACHE.invalidate();
     }
 
 

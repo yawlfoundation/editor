@@ -109,17 +109,24 @@ public class DecompositionProperties extends CellProperties {
         return serviceName;
     }
 
+
     public void setCustomService(String serviceName) {
-        if (_decomposition != null) {
-            YAWLServiceReference service = ServicesPropertyEditor.getByName(serviceName);
-            if (service != null) {
-                ((YAWLServiceGateway) _decomposition).setYawlService(service);
-                try {
-                    addParameters(YConnector.getServiceParameters(service.getURI()));
-                }
-                catch (IOException ioe) {
-                    showWarning("Service Parameter Error",
-                            "Failed to load required parameters from service");
+        if (!(_decomposition == null || serviceName == null)) {
+            if (serviceName.equals(ServicesPropertyEditor.DEFAULT_WORKLIST)) {
+                ((YAWLServiceGateway) _decomposition).clearYawlService();
+            }
+            else {
+                YAWLServiceReference service = ServicesPropertyEditor.getByName(serviceName);
+                if (service != null) {
+                    ((YAWLServiceGateway) _decomposition).clearYawlService();
+                    ((YAWLServiceGateway) _decomposition).setYawlService(service);
+                    try {
+                        addParameters(YConnector.getServiceParameters(service.getURI()));
+                    }
+                    catch (IOException ioe) {
+                        showWarning("Service Parameter Error",
+                                "Failed to load required parameters from service");
+                    }
                 }
             }
             setDirty();
