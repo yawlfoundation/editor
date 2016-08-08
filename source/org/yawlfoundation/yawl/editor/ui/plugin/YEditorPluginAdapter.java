@@ -51,6 +51,9 @@ public abstract class YEditorPluginAdapter implements YEditorPlugin {
 
     public void performPreFileSaveTasks() { }
 
+    public void performPreFileSaveTasks(String fileName) {
+    }
+
     public void performPostFileSaveTasks() { }
 
     public void performPreFileOpenTasks() { }

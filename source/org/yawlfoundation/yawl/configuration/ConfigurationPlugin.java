@@ -45,9 +45,8 @@ import java.util.Set;
  */
 public class ConfigurationPlugin implements YEditorPlugin {
 
-    private ProcessConfigurationModel.PreviewState previewState;
-
     private static final int CONFIGURED_TASK_STOKE_WIDTH = 3;
+    private ProcessConfigurationModel.PreviewState previewState;
 
     public void initCompleted() { }
 
@@ -79,6 +78,9 @@ public class ConfigurationPlugin implements YEditorPlugin {
         if (previewState != ProcessConfigurationModel.PreviewState.OFF) {
             PreviewConfigurationProcessAction.getInstance().actionPerformed(null);
         }
+    }
+
+    public void performPreFileSaveTasks(String fileName) {
     }
 
 

@@ -47,16 +47,15 @@ import java.util.UUID;
  */
 public class YSpecificationHandler {
 
-    private YSpecification _specification;
+    public static final String DEFAULT_TYPE_DEFINITION =
+            "<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\n\n</xs:schema>";
     private final FileOperations _fileOps;
 
     // the three sub-handlers, one for each perspective
     private final YControlFlowHandler _controlFlowHandler;
     private final YDataHandler _dataHandler;
     private final YResourceHandler _resourceHandler;
-
-    public static final String DEFAULT_TYPE_DEFINITION =
-            "<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\n\n</xs:schema>";
+    private YSpecification _specification;
 
 
     /**
@@ -118,6 +117,12 @@ public class YSpecificationHandler {
         return _fileOps.getSpecificationXML(includeLayout);
     }
 
+    /**
+     * @return the current data schema of the specification
+     */
+    public String getSchema() {
+        return _specification.getDataSchema();
+    }
 
     /**
      * Sets the data schema for this specification
@@ -128,11 +133,6 @@ public class YSpecificationHandler {
         _specification.setSchema(schema);
         _dataHandler.setSchema(schema);                        // for later validation
     }
-
-
-    /** @return the current data schema of the specification */
-    public String getSchema() { return _specification.getDataSchema(); }
-
 
     /**
      * The data handler manages all aspects of the data perspective
@@ -184,6 +184,12 @@ public class YSpecificationHandler {
     // MetaData Settings //
 
     /**
+     * @return the specification's URI (i.e. its name)
+     */
+    public String getURI() {
+        return _specification.getURI(); }
+
+    /**
      * Sets the URI (unique name identifier) of the specification
      * @param uri the name to set
      * @throws IllegalIdentifierException if the identifier contains XML reserved chars
@@ -192,19 +198,25 @@ public class YSpecificationHandler {
         _specification.setURI(uri);
     }
 
-    /** @return the specification's URI (i.e. its name) */
-    public String getURI() { return _specification.getURI(); }
-
+    /**
+     * @return the specification's title
+     */
+    public String getTitle() {
+        return getMetaData().getTitle(); }
 
     /**
      * Sets the specification's title (a non-unique descriptive term)
      * @param title the term to assign to the title
      */
-    public void setTitle(String title) { getMetaData().setTitle(title); }
+    public void setTitle(String title) {
+        getMetaData().setTitle(title);
+    }
 
-    /** @return the specification's title */
-    public String getTitle() { return getMetaData().getTitle(); }
-
+    /**
+     * @return the specification's description
+     */
+    public String getDescription() {
+        return getMetaData().getDescription(); }
 
     /**
      * Sets a description of the specification
@@ -215,18 +227,16 @@ public class YSpecificationHandler {
         _specification.setDocumentation(desc);          // for SpecificationData
     }
 
-    /** @return the specification's description */
-    public String getDescription() { return getMetaData().getDescription(); }
-
+    /**
+     * @return the list of author names
+     */
+    public List<String> getAuthors() { return getMetaData().getCreators(); }
 
     /**
      * Sets a list of author names
      * @param authors the list of names
      */
     public void setAuthors(List<String> authors) { getMetaData().setCreators(authors); }
-
-    /** @return the list of author names */
-    public List<String> getAuthors() { return getMetaData().getCreators(); }
 
     /**
      * Adds an author name to the current list of authors
@@ -240,6 +250,10 @@ public class YSpecificationHandler {
         }
     }
 
+    /**
+     * @return the specification's version
+     */
+    public YSpecVersion getVersion() { return getMetaData().getVersion(); }
 
     /**
      * Sets the specification's version
@@ -249,10 +263,6 @@ public class YSpecificationHandler {
         if (version.toString().equals("0.0")) version.minorIncrement();
         getMetaData().setVersion(version);
     }
-
-    /** @return the specification's version */
-    public YSpecVersion getVersion() { return getMetaData().getVersion(); }
-
 
     /** Generates a unique identifier (UUID) for this specification */
     public void setUniqueID() {
@@ -269,25 +279,19 @@ public class YSpecificationHandler {
         return unique;
     }
 
-
-    /**
-     * Sets the date from which this specification is considered to be 'in production'
-     * @param validFrom the date
-     */
-    public void setValidFrom(Date validFrom) { getMetaData().setValidFrom(validFrom); }
-
     /**
      * @return the date from which this specification is considered to be
      * 'in production'. Can be null if no particular start date has been set.
      */
     public Date getValidFrom() { return getMetaData().getValidFrom(); }
 
-
     /**
-     * Sets the date until which this specification is considered to be 'in production'
-     * @param validUntil the date
+     * Sets the date from which this specification is considered to be 'in production'
+     * @param validFrom the date
      */
-    public void setValidUntil(Date validUntil) { getMetaData().setValidUntil(validUntil); }
+    public void setValidFrom(Date validFrom) {
+        getMetaData().setValidFrom(validFrom);
+    }
 
     /**
      * @return the date until which this specification is considered to be
@@ -295,6 +299,11 @@ public class YSpecificationHandler {
      */
     public Date getValidUntil() { return getMetaData().getValidUntil(); }
 
+    /**
+     * Sets the date until which this specification is considered to be 'in production'
+     * @param validUntil the date
+     */
+    public void setValidUntil(Date validUntil) { getMetaData().setValidUntil(validUntil); }
 
     private YMetaData getMetaData() {
         YMetaData metaData = _specification.getMetaData();
@@ -309,15 +318,6 @@ public class YSpecificationHandler {
     /******************************************************************************/
 
     /**
-     * Sets the global options for future file saves.
-     * @param options the file options to set.
-     * @see org.yawlfoundation.yawl.editor.core.util.FileSaveOptions
-     */
-    public void setFileSaveOptions(FileSaveOptions options) {
-        _fileOps.setFileSaveOptions(options);
-    }
-
-    /**
      * @return the current file save options
      * @see org.yawlfoundation.yawl.editor.core.util.FileSaveOptions
      */
@@ -325,6 +325,14 @@ public class YSpecificationHandler {
         return _fileOps.getFileSaveOptions();
     }
 
+    /**
+     * Sets the global options for future file saves.
+     * @param options the file options to set.
+     * @see org.yawlfoundation.yawl.editor.core.util.FileSaveOptions
+     */
+    public void setFileSaveOptions(FileSaveOptions options) {
+        _fileOps.setFileSaveOptions(options);
+    }
 
     /**
      * Loads an XML representation of a specification into this handler object
@@ -473,18 +481,22 @@ public class YSpecificationHandler {
 
 
     /** @return the current file name for the loaded specification */
-    public String getFileName() { return _fileOps.getFileName(); }
+    public String getFileName() {
+        return _fileOps.getFileName();
+    }
 
+    public void setFileName(String fileName) {
+        _fileOps.setFileName(fileName);
+    }
+
+    /** @return the current layout information for the loaded specification */
+    public YLayout getLayout() { return _fileOps.getLayout(); }
 
     /**
      * Sets the layout information for the current specification
      * @param layout the layout to set
      */
     public void setLayout(YLayout layout) { _fileOps.setLayout(layout); }
-
-    /** @return the current layout information for the loaded specification */
-    public YLayout getLayout() { return _fileOps.getLayout(); }
-
 
     /** @return the identifier object for the loaded specification */
     public YSpecificationID getID() {

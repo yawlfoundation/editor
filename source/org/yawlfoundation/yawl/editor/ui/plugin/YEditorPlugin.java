@@ -77,8 +77,11 @@ public interface YEditorPlugin {
 
     /**
      * Called by the editor immediately before a specification file is saved
+     * @deprecated use performPreFileSaveTasks(String fileName)
      */
     void performPreFileSaveTasks();
+
+    void performPreFileSaveTasks(String fileName);
 
     /**
      * Called by the editor immediately after a specification file is saved

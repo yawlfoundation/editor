@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.worklet;
 
 import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
 import org.yawlfoundation.yawl.editor.ui.plugin.YEditorPluginAdapter;
+import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.worklet.client.TaskIDChangeMap;
 import org.yawlfoundation.yawl.worklet.client.WorkletClient;
 import org.yawlfoundation.yawl.worklet.menu.MenuBuilder;
@@ -60,9 +61,20 @@ public class WorkletEditorPlugin extends YEditorPluginAdapter {
     public void initCompleted() { SettingsIconHelper.checkConnection(); }
 
     @Override
+    public void performPreFileSaveTasks(String fileName) {
+
+        // this 'tricks' the SpecWriter to do a file save rather than a 'save as ',
+        // since the latter would create a whole new spec, thus a duplicate worklet
+        if (WorkletClient.getInstance().isLoadedSpecUnsavedWorklet()) {
+            SpecificationModel.getHandler().setFileName(fileName);
+        }
+    }
+
+    @Override
     public void performPostFileSaveTasks() {
         TaskIDChangeMap changeMap = WorkletClient.getInstance().getTaskIdChangeMap();
         if (changeMap != null) changeMap.saveChanges();
+        unsetUnsavedWorkletFlag();
     }
 
     @Override
@@ -79,6 +91,12 @@ public class WorkletEditorPlugin extends YEditorPluginAdapter {
     @Override
     public void closeSpecification() {
         WorkletClient.getInstance().setTaskIdChangeMap(null);
+        unsetUnsavedWorkletFlag();
+    }
+
+
+    private void unsetUnsavedWorkletFlag() {
+        WorkletClient.getInstance().setLoadedSpecIsUnsavedWorklet(false);
     }
 
 }

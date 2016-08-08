@@ -41,12 +41,10 @@ import java.util.*;
  */
 public class YPluginHandler {
 
+    private static final YPluginHandler INSTANCE = new YPluginHandler();
     private Set<YEditorPlugin> plugins;
     private boolean loaded;
     private Logger _log = LogManager.getLogger(YPluginHandler.class);
-
-    private static final YPluginHandler INSTANCE = new YPluginHandler();
-
 
     public static YPluginHandler getInstance() {
         return INSTANCE;
@@ -96,11 +94,26 @@ public class YPluginHandler {
         }
     }
 
-
+    /**
+     * @deprecated
+     */
     public void preSaveFile() {
         for (YEditorPlugin plugin : plugins) {
             try {
                 plugin.performPreFileSaveTasks();
+            }
+            catch (Exception e) {
+                warn(plugin, e);
+            }
+        }
+    }
+
+
+    public void preSaveFile(String fileName) {
+        preSaveFile();                                   // for backwards compatibility
+        for (YEditorPlugin plugin : plugins) {
+            try {
+                plugin.performPreFileSaveTasks(fileName);
             }
             catch (Exception e) {
                 warn(plugin, e);

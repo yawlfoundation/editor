@@ -58,6 +58,7 @@ public class WorkletLoadDialog extends AbstractDownloadDialog {
 
     @Override
     protected String getSelectedSpecification(YSpecificationID specID) throws IOException {
+        CLIENT.setLoadedSpecIsUnsavedWorklet(true);
         return WorkletClient.getInstance().getWorklet(specID);
     }
 

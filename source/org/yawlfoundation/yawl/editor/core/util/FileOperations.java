@@ -44,27 +44,29 @@ import java.util.UUID;
  */
 public class FileOperations {
 
+    private static final String DEFAULT_SPECIFICATION_URI = "New_Specification";
     private String _fileName;
     private FileSaveOptions _saveOptions;
     private String _prevVersion;
     private YSpecification _specification;
     private LayoutHandler _layoutHandler;
 
-    private static final String DEFAULT_SPECIFICATION_URI = "New_Specification";
-
 
     public FileOperations() {
         setFileSaveOptions(new FileSaveOptions());
     }
 
+    public FileSaveOptions getFileSaveOptions() {
+        return _saveOptions;
+    }
 
     public void setFileSaveOptions(FileSaveOptions options) { _saveOptions = options; }
 
-    public FileSaveOptions getFileSaveOptions() { return _saveOptions; }
-
-
     public String getFileName() { return _fileName; }
 
+    public void setFileName(String fileName) {
+        _fileName = fileName;
+    }
 
     public YSpecification load(String specXML, String layoutXML)
             throws YSyntaxException, YLayoutParseException {
@@ -76,7 +78,6 @@ public class FileOperations {
         }
         return _specification;
     }
-
 
     public YSpecification load(String fileName)
             throws IOException, YSyntaxException, YLayoutParseException {
@@ -91,7 +92,6 @@ public class FileOperations {
         return _specification;
     }
 
-
     public void save(FileSaveOptions saveOptions) throws IOException {
         if (saveOptions == null) saveOptions = _saveOptions;    // use defaults
         if (saveOptions.autoIncVersion()) incVersion();
@@ -100,7 +100,6 @@ public class FileOperations {
         _specification.setVersion(YSchemaVersion.defaultVersion());
         FileUtil.write(_fileName, getSpecificationXML(true));
     }
-
 
     public void saveAs(String file, YMetaData metaData, FileSaveOptions saveOptions)
             throws IOException {
@@ -135,14 +134,11 @@ public class FileOperations {
         return _specification;
     }
 
-
     public YSpecification getSpecification() { return _specification; }
-
 
     public String getSpecificationXML() throws IOException {
         return getSpecificationXML(false);
     }
-
 
     public String getSpecificationXML(boolean includeLayout) throws IOException {
         String specXML = YMarshal.marshal(_specification);
@@ -155,11 +151,9 @@ public class FileOperations {
         return specXML;
     }
 
-
     public YLayout getLayout() { return _layoutHandler.getLayout(); }
 
     public void setLayout(YLayout layout) { _layoutHandler.setLayout(layout); }
-
 
     private void reset() {
         _fileName = null;

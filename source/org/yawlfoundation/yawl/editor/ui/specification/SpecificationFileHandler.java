@@ -39,32 +39,15 @@ import java.io.IOException;
 
 public class SpecificationFileHandler {
 
+    private static final String EXTENSION = ".yawl";
     private final YStatusBar _statusBar;
     private final YSpecificationHandler _handler;
-
-    private static final String EXTENSION = ".yawl";
-
     private boolean _closeAfterSave;
-
-    enum SaveMode {
-        Save("Save Specification", "Save"),
-        SaveAs("Save Specification As", "Save As");
-
-        String dialogTitle;
-        String buttonText;
-
-        SaveMode(String title, String btnText) {
-            dialogTitle = title;
-            buttonText = btnText;
-        }
-    }
-
 
     public SpecificationFileHandler() {
         _statusBar = YAWLEditor.getStatusBar();
         _handler = SpecificationModel.getHandler();
     }
-
 
     /**
      * Prompts the user for and opens a specification file
@@ -73,7 +56,6 @@ public class SpecificationFileHandler {
         openFile(promptForLoadFileName());
     }
 
-
     /**
      * Opens a specification file
      * @param fileName the name of the file to open
@@ -81,7 +63,6 @@ public class SpecificationFileHandler {
     public void openFile(String fileName) {
         loadFromFile(fileName);
     }
-
 
     /**
      *  Saves the currently open specification. This might include prompting for a file
@@ -100,7 +81,6 @@ public class SpecificationFileHandler {
         return true;
     }
 
-
     /**
      *  Saves the currently open specification to a new file.
      */
@@ -111,7 +91,6 @@ public class SpecificationFileHandler {
         }
     }
 
-
     /**
      *  Processes a user's request to close an open specification.
      *  This might include prompting for a file name and saving
@@ -121,7 +100,6 @@ public class SpecificationFileHandler {
         _statusBar.setText("Closing Specification...");
         handleCloseResponse();
     }
-
 
     /**
      *  Processes a user's request to exit the application.
@@ -134,11 +112,9 @@ public class SpecificationFileHandler {
         return Publisher.getInstance().isFileStateClosed() || handleCloseResponse();
     }
 
-
     /****************************************************************************/
 
     private String getFileName() { return _handler.getFileName(); }
-
 
     /**
      * Asks user if they want to save the open specification before exiting
@@ -161,7 +137,6 @@ public class SpecificationFileHandler {
         return true;
     }
 
-
     /**
      * Constructs a suggested name for a new file, from the last used path and the
      * specification URI
@@ -183,7 +158,6 @@ public class SpecificationFileHandler {
         }
         return new File(path, _handler.getID().getUri() + EXTENSION);
     }
-
 
     private String promptForSaveFileName(SaveMode mode) {
         JFileChooser dialog = FileChooserFactory.build(EXTENSION, "YAWL Specification",
@@ -217,19 +191,16 @@ public class SpecificationFileHandler {
         return file.getAbsolutePath();
     }
 
-
     private boolean matchesExistingFile(File file) {
         return file.exists() && ! file.getAbsolutePath().equals(getFileName());
     }
 
-
     private void saveSpecification(String fileName) {
         if (StringUtil.isNullOrEmpty(fileName)) return;
 
-        YPluginHandler.getInstance().preSaveFile();
+        YPluginHandler.getInstance().preSaveFile(fileName);
         saveToFile(fileName);
     }
-
 
     private boolean validateFileName(File file) {
         if (file.exists()) {
@@ -295,7 +266,6 @@ public class SpecificationFileHandler {
         doPostSaveClosingWork();
     }
 
-
     private void saveToFile(String fileName) {
         if (StringUtil.isNullOrEmpty(fileName)) {
 
@@ -315,7 +285,6 @@ public class SpecificationFileHandler {
         writer.execute();
     }
 
-
     private void loadFromFile(String fullFileName) {
         if (fullFileName == null) return;
         _statusBar.setText("Opening Specification...");
@@ -328,7 +297,6 @@ public class SpecificationFileHandler {
         reader.execute();
     }
 
-
     private String promptForLoadFileName() {
         JFileChooser chooser = FileChooserFactory.build(EXTENSION,
                 "YAWL Specification", "Open specification");
@@ -339,6 +307,20 @@ public class SpecificationFileHandler {
 
         // check for odd dirs on non dos os's
         return file.isFile() ? file.getAbsolutePath() : null;
+    }
+
+
+    enum SaveMode {
+        Save("Save Specification", "Save"),
+        SaveAs("Save Specification As", "Save As");
+
+        String dialogTitle;
+        String buttonText;
+
+        SaveMode(String title, String btnText) {
+            dialogTitle = title;
+            buttonText = btnText;
+        }
     }
 
     /***************************************************************************/

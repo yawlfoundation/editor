@@ -23,7 +23,6 @@ import org.apache.logging.log4j.Logger;
 import org.yawlfoundation.yawl.editor.core.YSpecificationHandler;
 import org.yawlfoundation.yawl.editor.core.layout.YLayout;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
-import org.yawlfoundation.yawl.editor.ui.plugin.YPluginHandler;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.AnalysisResultsParser;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.DataTypeValidator;
@@ -97,7 +96,7 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
     public YSpecification cleanSpecification() {
         _handler.getControlFlowHandler().removeOrphanTaskDecompositions();
         _handler.getUniqueID();  // build UUID if updating from Beta version schema
-        YPluginHandler.getInstance().preSaveFile();
+        //    YPluginHandler.getInstance().preSaveFile();
         return _handler.getSpecification();
     }
 

@@ -58,6 +58,7 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
         _table = new ConclusionTable(parent, mode);
         JScrollPane scrollPane = new JScrollPane(_table);
         scrollPane.setSize(new Dimension(600, 200));
+        scrollPane.setMinimumSize(new Dimension(250, 100));
         add(scrollPane, BorderLayout.CENTER);
         add(populateToolBar(parent, mode), BorderLayout.SOUTH);
     }
@@ -67,6 +68,9 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
         setConclusion(ruleNode.getConclusion());
     }
 
+    public RdrConclusion getConclusion() {
+        return _table.getConclusion();
+    }
 
     public void setConclusion(RdrConclusion conclusion) {
         _table.setConclusion(conclusion);
@@ -78,12 +82,6 @@ public class ConclusionTablePanel extends JPanel implements ActionListener {
         }
         _table.setPreferredScrollableViewportSize(getPreferredSize());
     }
-
-
-    public RdrConclusion getConclusion() {
-        return _table.getConclusion();
-    }
-
 
     public java.util.List<ExletValidationError> validateConclusion() {
         if (_shouldValidate) {

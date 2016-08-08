@@ -61,6 +61,7 @@ public class WorkletClient extends YConnection {
     private WorkletGatewayClient _client;
     private XNodeParser _xNodeParser;
     private TaskIDChangeMap _taskIdChanges;
+    private boolean _loadedSpecIsUnsavedWorklet;
 
 
     private WorkletClient() {
@@ -229,6 +230,14 @@ public class WorkletClient extends YConnection {
         return _taskIdChanges != null ? _taskIdChanges.getOldID(taskID) : taskID;
     }
 
+
+    public boolean isLoadedSpecUnsavedWorklet() {
+        return _loadedSpecIsUnsavedWorklet;
+    }
+
+    public void setLoadedSpecIsUnsavedWorklet(boolean isUnsaved) {
+        _loadedSpecIsUnsavedWorklet = isUnsaved;
+    }
 
     /********************************************************************************/
 
