@@ -7,6 +7,7 @@ import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.util.SplitPaneUtil;
 import org.yawlfoundation.yawl.elements.YDecomposition;
 import org.yawlfoundation.yawl.elements.YNet;
+import org.yawlfoundation.yawl.elements.data.YParameter;
 import org.yawlfoundation.yawl.elements.data.YVariable;
 import org.yawlfoundation.yawl.engine.YSpecificationID;
 import org.yawlfoundation.yawl.util.XNode;
@@ -77,13 +78,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
                 // if rule change
                 if (item instanceof RuleType) {
                     RuleType selectedType = (RuleType) item;
-
-                    if (selectedType.isCaseLevelType()) {
-                        variables = getDataContext(null);  // net level vars
-                    }
-                    else {
-                        variables = getVariables(getSelectedTask());
-                    }
+                    variables = getVariables(selectedType);
 
                     if (_conclusionPanel != null) {
                         enableGraphicalRuleEditing(selectedType);
@@ -214,7 +209,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
         splitPane.setRightComponent(getDataPanel(task, mode));  // init data panel first
         splitPane.setLeftComponent(getActionPanel(task, mode));
         add(splitPane, BorderLayout.CENTER);
-        _dataContextPanel.setVariables(getVariables(getSelectedTask()));
+        _dataContextPanel.setVariables(getVariables(getSelectedRule()));
     }
 
 
@@ -229,7 +224,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
 
     private JPanel getDataPanel(YAWLAtomicTask task, DialogMode mode) {
         _dataContextPanel = new DataContextTablePanel(this, mode);
-        _dataContextPanel.setVariables(getDataContext(task));
+        //    _dataContextPanel.setVariables(getDataContext(task));
         return _dataContextPanel;
     }
 
@@ -276,27 +271,81 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     }
 
 
+    private java.util.List<VariableRow> getVariables(RuleType rule) {
+        return rule.isCaseLevelType() ? getDataContext(null) :  // net level vars
+                getVariables(getSelectedTask());
+    }
+
+
     private java.util.List<VariableRow> getDataContext(YAWLAtomicTask task) {
         java.util.List<VariableRow> rows = new ArrayList<VariableRow>();
-        YDecomposition decomposition;
-        if (task == null) {       // case level
-            decomposition = SpecificationModel.getNets().getRootNet().getDecomposition();
-            if (decomposition != null) {
-                rows = getDataRows(((YNet) decomposition).getLocalVariables().values(),
-                        decomposition.getID());
-            }
-        }
-        else {
-            decomposition = task.getDecomposition();
-        }
+        YDecomposition decomposition = getDecomposition(task);
+//        if (task == null) {       // case level
+//            decomposition = SpecificationModel.getNets().getRootNet().getDecomposition();
+//            if (decomposition != null) {
+//                rows = getDataRows(((YNet) decomposition).getLocalVariables().values(),
+//                        decomposition.getID());
+//            }
+//        }
+//        else {
+//            decomposition = task.getDecomposition();
+//        }
 
         if (decomposition != null) {
             String id = task != null ? task.getID() : decomposition.getID();
-            rows = getDataRows(decomposition.getInputParameters().values(), id);
+            rows = getDataRows(getParameters(decomposition), id);
         }
 
         Collections.sort(rows);
         return rows;
+    }
+
+
+    private YDecomposition getDecomposition(YAWLAtomicTask task) {
+        return task != null ? task.getDecomposition() :
+                SpecificationModel.getNets().getRootNet().getDecomposition(); // todo: subnets
+    }
+
+
+    private Collection<? extends YVariable> getParameters(YDecomposition decomposition) {
+        Map<String, YVariable> parameters = new HashMap<String, YVariable>();
+        Map<String, YVariable> locals = (decomposition instanceof YNet) ?
+                ((YNet) decomposition).getLocalVariables() :
+                Collections.<String, YVariable>emptyMap();
+        Map<String, YParameter> inputs = decomposition.getInputParameters();
+        Map<String, YParameter> outputs = decomposition.getOutputParameters();
+        switch (getSelectedRule()) {
+            case CasePreconstraint:
+            case CaseExternalTrigger: {
+                parameters.putAll(locals);
+                parameters.putAll(inputs);
+                break;
+            }
+            case CasePostconstraint: {
+                parameters.putAll(locals);
+                parameters.putAll(outputs);
+                break;
+            }
+            case ItemPreconstraint:
+            case ItemExternalTrigger:
+            case ItemResourceUnavailable:
+            case ItemSelection: {
+                parameters.putAll(inputs);
+                break;
+            }
+            case ItemPostconstraint: {
+                parameters.putAll(outputs);
+                break;
+            }
+            case ItemTimeout:
+            case ItemAbort:
+            case ItemConstraintViolation: {
+                parameters.putAll(inputs);
+                parameters.putAll(outputs);
+                break;
+            }
+        }
+        return parameters.values();
     }
 
 

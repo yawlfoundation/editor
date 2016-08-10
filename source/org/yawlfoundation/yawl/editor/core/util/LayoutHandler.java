@@ -22,7 +22,6 @@ import org.yawlfoundation.yawl.editor.core.layout.YLayout;
 import org.yawlfoundation.yawl.editor.core.layout.YLayoutParseException;
 import org.yawlfoundation.yawl.elements.YSpecification;
 import org.yawlfoundation.yawl.util.StringUtil;
-import org.yawlfoundation.yawl.util.XNode;
 import org.yawlfoundation.yawl.util.XNodeParser;
 
 /**
@@ -59,12 +58,8 @@ public class LayoutHandler {
 
 
     protected void parse(String xml) throws YLayoutParseException {
-        XNode specNode = new XNodeParser().parse(xml);
-        if (specNode == null) {
-            throw new YLayoutParseException("Invalid layout data in specification");
-        }
-        _layout.parse(specNode.getChild("layout"));
+        String layoutStr = StringUtil.extract(xml, "<layout>[\\s\\S]*?<\\/layout>");
+        _layout.parse(new XNodeParser().parse(layoutStr));
     }
-
 
 }
