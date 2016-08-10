@@ -50,18 +50,16 @@ import java.util.Vector;
 public class MultiInstanceDialog extends JDialog
         implements ActionListener, ChangeListener {
 
+    private final YNet net;
     private MIAttributePanel minPanel;
     private MIAttributePanel maxPanel;
     private MIAttributePanel thresholdPanel;
     private JCheckBox chkDynamic;
     private JLabel statusLabel;
     private ButtonBar _buttonBar;
-
     private String strValue;
     private Vector<String> integralVars;
     private boolean initialising;
-
-    private final YNet net;
     private YTask _task;
     private Set<YTask> _taskSet;
 
@@ -73,7 +71,6 @@ public class MultiInstanceDialog extends JDialog
         setModal(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setPreferredSize(new Dimension(630, 230));
         pack();
         setLocationRelativeTo(YAWLEditor.getInstance());
     }
@@ -114,7 +111,7 @@ public class MultiInstanceDialog extends JDialog
 
 
     private JPanel createContent() {
-        JPanel content = new JPanel();
+        JPanel content = new JPanel(new BorderLayout());
         content.setBorder(new EmptyBorder(3, 7, 7, 7));
         minPanel = new MIAttributePanel(this, "Minimum");
         maxPanel = new MIAttributePanel(this, "Maximum");
@@ -127,10 +124,10 @@ public class MultiInstanceDialog extends JDialog
         JPanel subPanel = new JPanel(new BorderLayout());
         subPanel.add(miPanel, BorderLayout.CENTER);
         subPanel.add(createLowerPanel(), BorderLayout.SOUTH);
-        content.add(subPanel);
+        content.add(subPanel, BorderLayout.CENTER);
         _buttonBar = new ButtonBar(this);
         _buttonBar.setOKEnabled(true);
-        content.add(_buttonBar);
+        content.add(_buttonBar, BorderLayout.SOUTH);
         return content;
     }
 
@@ -213,18 +210,10 @@ public class MultiInstanceDialog extends JDialog
                 maxPanel.getContent(), thresholdPanel.getContent(), getCreationMode());
     }
 
-
-    private void setCreationMode(String mode) {
-         chkDynamic.setSelected(mode != null &&
-                 mode.equals(YMultiInstanceAttributes.CREATION_MODE_DYNAMIC));
-    }
-
-
     private void setStatusText(String text) {
         statusLabel.setText(text);
         _buttonBar.setOKEnabled(text.isEmpty());
     }
-
 
     private String getCreationMode() {
         return chkDynamic.isSelected() ?
@@ -232,6 +221,10 @@ public class MultiInstanceDialog extends JDialog
                 YMultiInstanceAttributes.CREATION_MODE_STATIC;
     }
 
+    private void setCreationMode(String mode) {
+        chkDynamic.setSelected(mode != null &&
+                mode.equals(YMultiInstanceAttributes.CREATION_MODE_DYNAMIC));
+    }
 
     private void setCurrentValueString() {
         strValue = minPanel.getSummaryString() + ", " +
@@ -243,25 +236,40 @@ public class MultiInstanceDialog extends JDialog
 
     private void validateState(JSpinner spinner) {
         String statusText = "";
+
+        // getIntValue returns 0 when 'variable' selected
         int min = minPanel.getIntValue();
         int max = maxPanel.getIntValue();
         int threshold = thresholdPanel.getIntValue();
+
         if (minPanel.isSpinnerOf(spinner)) {
-            if (max < min && max > 0) {
-                statusText = "Minimum can't exceed maximum";
-            }
-            else if (threshold < min && threshold > 0) {
-                statusText = "Minimum can't exceed threshold";
+            if (min > 0) {
+                if (max < min && max > 0) {
+                    statusText = "Minimum can't exceed maximum";
+                }
+                else if (threshold < min && threshold > 0) {
+                    statusText = "Minimum can't exceed threshold";
+                }
             }
         }
         else if (maxPanel.isSpinnerOf(spinner)) {
-            if (max < min && min > 0) {
-                statusText = "Maximum can't be less than minimum";
+            if (max > 0) {
+                if (max < min && min > 0) {
+                    statusText = "Maximum can't be less than minimum";
+                }
+                else if (max < threshold && threshold > 0) {
+                    statusText = "Maximum can't be less than threshold";
+                }
             }
         }
         else if (thresholdPanel.isSpinnerOf(spinner)) {
-            if (threshold < min && min > 0) {
-                statusText = "Threshold can't be less than minimum";
+            if (threshold > 0) {
+                if (threshold < min && min > 0) {
+                    statusText = "Threshold can't be less than minimum";
+                }
+                else if (max < threshold && max > 0) {
+                    statusText = "Threshold can't exceed maximum";
+                }
             }
         }
         setStatusText(statusText);
@@ -272,14 +280,12 @@ public class MultiInstanceDialog extends JDialog
 
     class MIAttributePanel extends JPanel implements ActionListener {
 
+        private final String label;
         private JSpinner spnExactly;
         private JComboBox cbxVariable;
-
         private JRadioButton rbExactly;
         private JRadioButton rbVariable;
         private JRadioButton rbNoLimit;
-
-        private final String label;
 
         MIAttributePanel(ChangeListener listener, String label) {
             this.label = label;
@@ -365,13 +371,6 @@ public class MultiInstanceDialog extends JDialog
             }
         }
 
-
-        public void setContent(String value) {
-            cbxVariable.setSelectedItem(value);
-            rbVariable.setSelected(true);
-        }
-
-
         public int getIntValue() {
             if (rbNoLimit.isSelected()) return Integer.MAX_VALUE;
             if (rbExactly.isSelected()) return (Integer) spnExactly.getValue();
@@ -382,6 +381,11 @@ public class MultiInstanceDialog extends JDialog
             if (rbNoLimit.isSelected()) return String.valueOf(Integer.MAX_VALUE);
             if (rbExactly.isSelected()) return String.valueOf(spnExactly.getValue());
             return (String) cbxVariable.getSelectedItem();
+        }
+
+        public void setContent(String value) {
+            cbxVariable.setSelectedItem(value);
+            rbVariable.setSelected(true);
         }
 
         public String getSummaryString() {
