@@ -22,7 +22,7 @@ import com.l2fprod.common.beans.ExtendedPropertyDescriptor;
 import com.l2fprod.common.propertysheet.PropertySheet;
 import org.yawlfoundation.yawl.editor.core.repository.Repo;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
-import org.yawlfoundation.yawl.editor.ui.properties.*;
+import org.yawlfoundation.yawl.editor.ui.properties.Binder;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.properties.extended.ExtendedAttributeProperties;
 import org.yawlfoundation.yawl.editor.ui.properties.extended.ExtendedAttributesBeanInfo;
@@ -160,7 +160,7 @@ public class ExtendedAttributesDialog extends PropertyDialog
         udAttributes = new UserDefinedAttributesBinder(propertySheet, decomposition);
         properties = new ExtendedAttributeProperties(propertySheet, udAttributes,
                 decomposition);
-        bind(properties, udAttributes, null);
+        bind(properties, udAttributes, null, false);
         setTitle("Attributes for Decomposition: " + decomposition.getID());
     }
 
@@ -171,7 +171,7 @@ public class ExtendedAttributesDialog extends PropertyDialog
         udAttributes = new UserDefinedAttributesBinder(propertySheet, attributes);
         properties = new ExtendedAttributeProperties(propertySheet, udAttributes,
                 row);
-        bind(properties, udAttributes, row.getDataType());
+        bind(properties, udAttributes, row.getDataType(), row.isOutput());
         setTitle("Attributes for Variable: " + row.getName());
     }
 
@@ -179,8 +179,9 @@ public class ExtendedAttributesDialog extends PropertyDialog
     // binds the properties class with the bean class (augmented with the
     // appropriate user-defined attributes)
     private void bind(ExtendedAttributeProperties properties,
-                      UserDefinedAttributesBinder udAttributes, String dataType) {
-        attributesBeanInfo = new ExtendedAttributesBeanInfo(udAttributes, dataType);
+                      UserDefinedAttributesBinder udAttributes,
+                      String dataType, boolean outputOnly) {
+        attributesBeanInfo = new ExtendedAttributesBeanInfo(udAttributes, dataType, outputOnly);
         new Binder(properties, attributesBeanInfo);
     }
 

@@ -129,6 +129,7 @@ public class SecondaryResourcesPanel extends AbstractResourceTabContent {
                 createTablePanel(ResourceTableType.NonHumanResourceCategory);
         _nhrCategoryTableModel =
                 (NonHumanResourceCategoryTableModel) tablePanel.getTableModel();
+        _nhrCategoryTableModel.setAllowDuplicates(true);
         _nhrCategoryTableModel.setOwner(owner);
         _nhrCategoryTableModel.addTableModelListener(tablePanel);
         return tablePanel;

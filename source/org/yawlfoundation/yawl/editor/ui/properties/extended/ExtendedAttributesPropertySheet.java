@@ -45,12 +45,11 @@ import java.util.Set;
  */
 public class ExtendedAttributesPropertySheet extends YPropertySheet {
 
+    private static final String UDA_PROPERTY_NAME = "UdAttributeValue";
     private UserDefinedAttributesBinder udAttributes;
     private ExtendedAttributeNameLookup nameLookup;
     private ExtendedAttributesDialog dialog;
     private String propertyBeingRead;
-
-    private static final String UDA_PROPERTY_NAME = "UdAttributeValue";
 
 
     public ExtendedAttributesPropertySheet(ExtendedAttributesDialog dialog) {
@@ -117,7 +116,17 @@ public class ExtendedAttributesPropertySheet extends YPropertySheet {
             String propertyName = isUdaProperty(property) ?
                     property.getDisplayName() : property.getName();
             String attributeName = nameLookup.getAttributeName(propertyName);
-            if (unfiltered.contains(attributeName)) {
+
+            // fonts are a special case - stored as 3-4 separate attributes
+            if (attributeName.equals("font") || attributeName.equals("header-font")) {
+                String prefix = attributeName + "-";
+                for (String attribute : unfiltered) {
+                    if (attribute.startsWith(prefix)) {
+                        filtered.add(attribute);
+                    }
+                }
+            }
+            else if (unfiltered.contains(attributeName)) {           // general case
                 filtered.add(attributeName);
             }
         }

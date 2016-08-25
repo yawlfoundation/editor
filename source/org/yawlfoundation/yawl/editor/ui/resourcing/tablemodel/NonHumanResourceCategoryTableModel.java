@@ -19,8 +19,8 @@
 package org.yawlfoundation.yawl.editor.ui.resourcing.tablemodel;
 
 import org.yawlfoundation.yawl.editor.core.resourcing.GenericNonHumanCategory;
-import org.yawlfoundation.yawl.editor.ui.resourcing.subdialog.ListDialog;
 import org.yawlfoundation.yawl.editor.ui.resourcing.listmodel.NonHumanResourceCategoryListModel;
+import org.yawlfoundation.yawl.editor.ui.resourcing.subdialog.ListDialog;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,16 +49,15 @@ public class NonHumanResourceCategoryTableModel extends AbstractResourceTableMod
         return _categories.get(row).getListLabel();
     }
 
-    public void setValues(List<GenericNonHumanCategory> resources) {
-        _categories = resources;
-        fireTableDataChanged();
-    }
-
     public List<GenericNonHumanCategory> getValues() {
         return _categories != null ? _categories :
                 Collections.<GenericNonHumanCategory>emptyList();
     }
 
+    public void setValues(List<GenericNonHumanCategory> resources) {
+        _categories = resources;
+        fireTableDataChanged();
+    }
 
     public void handleAddRequest() {
         ListDialog listDialog = new ListDialog(getOwner(),
@@ -68,7 +67,9 @@ public class NonHumanResourceCategoryTableModel extends AbstractResourceTableMod
         if (_categories == null) _categories = new ArrayList<GenericNonHumanCategory>();
         for (Object o : listDialog.getSelections()) {
             GenericNonHumanCategory category = (GenericNonHumanCategory) o;
-            if (! _categories.contains(category)) _categories.add(category);
+            if (isAllowedDuplicates() || !_categories.contains(category)) {
+                _categories.add(category);
+            }
         }
         Collections.sort(_categories);
         fireTableDataChanged();

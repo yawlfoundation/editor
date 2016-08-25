@@ -138,11 +138,11 @@ public class ExtendedAttributeProperties extends YPropertiesBean {
     }
 
 
-    public File getPageBackgroundImage() {
-        return getFile("page-background-image");
+    public String getPageBackgroundImage() {
+        return get("page-background-image");
     }
 
-    public void setPageBackgroundImage(File path) {
+    public void setPageBackgroundImage(String path) {
         set("page-background-image", path);
     }
 
@@ -289,12 +289,12 @@ public class ExtendedAttributeProperties extends YPropertiesBean {
 
 
     public TypeValuePair getMaxInclusive() {
-        return new TypeValuePair(_varDataType, get("maxExclusive"));
+        return new TypeValuePair(_varDataType, get("maxInclusive"));
     }
 
     public void setMaxInclusive(TypeValuePair pair) {
         showError(pair);
-        set("maxExclusive", pair.getValue());
+        set("maxInclusive", pair.getValue());
     }
 
 
@@ -421,24 +421,34 @@ public class ExtendedAttributeProperties extends YPropertiesBean {
 
 
     private void setAttributesFromFontColor(FontColor fontColor, String prefix) {
-        Font font = fontColor.getFont();
 
-        String family = font.getFamily();
-        if (UIManager.getDefaults().getFont("Label.font").getFamily().equals(family)) {
-            family = null;
+        // null font means it has been deleted, so remove all font keys
+        if (fontColor == null) {
+            set(prefix + "-family", (String) null);
+            set(prefix + "-size", (Integer) null);
+            set(prefix + "-style", (String) null);
+            set(prefix + "-color", (Color) null);
         }
-        set(prefix + "-family", family);
+        else {
+            Font font = fontColor.getFont();
 
-        Integer size = font.getSize();
-        if (size == UserSettings.getFontSize()) {
-            size = null;
+            String family = font.getFamily();
+            if (UIManager.getDefaults().getFont("Label.font").getFamily().equals(family)) {
+                family = null;
+            }
+            set(prefix + "-family", family);
+
+            Integer size = font.getSize();
+            if (size == UserSettings.getFontSize()) {
+                size = null;
+            }
+            set(prefix + "-size", size);
+
+            set(prefix + "-style", intToFontStyle(font.getStyle()));
+
+            Color colour = fontColor.getColour();
+            set(prefix + "-color", colour.equals(Color.BLACK) ? null : colour);
         }
-        set(prefix + "-size", size);
-
-        set(prefix + "-style", intToFontStyle(font.getStyle()));
-
-        Color colour = fontColor.getColour();
-        set(prefix + "-color", colour.equals(Color.BLACK) ? null : colour);
     }
 
 

@@ -33,18 +33,19 @@ public class ExtendedAttributesBeanInfo extends YBeanInfo {
 
 
     public ExtendedAttributesBeanInfo(UserDefinedAttributesBinder udAttributes,
-                                      String datatype) {
+                                      String datatype, boolean outputOnly) {
         super(ExtendedAttributeProperties.class);
         switch (udAttributes.getOwnerClass()) {
             case Decomposition: addDecompositionProperties(); break;
-            case Parameter: addVariableProperties(datatype); break;
-
+            case Parameter:
+                addVariableProperties(datatype, outputOnly);
+                break;
         }
         addUserDefinedAttributes(udAttributes);
     }
 
 
-    private void addCommonProperties(String effect) {
+    private void addCommonProperties(String effect, boolean outputOnly) {
         addProperty("backgroundColour", CATEGORY, "Background Colour",
                 "Set the background colour of the dynamically generated " + effect);
         addProperty("font", CATEGORY, "Font", "Set the default font for labels and " +
@@ -54,13 +55,15 @@ public class ExtendedAttributesBeanInfo extends YBeanInfo {
                 .setPropertyEditorClass(JustifyEditor.class);
         addProperty("label", CATEGORY, "Label",
                 "Set the label for the default prompt on the dynamically generated " + effect);
-        addProperty("readOnly", CATEGORY, "Read Only",
-                "Set data fields to be uneditable on the dynamically generated " + effect);
+        if (!outputOnly) {
+            addProperty("readOnly", CATEGORY, "Read Only",
+                    "Set data fields to be uneditable on the dynamically generated " + effect);
+        }
     }
 
 
     private void addDecompositionProperties() {
-        addCommonProperties("form");
+        addCommonProperties("form", false);
         addProperty("backgroundAltColour", CATEGORY, "Background Alt Colour",
                 "Set the alternate background colour of the dynamically generated form");
         addProperty("headerFont", CATEGORY, "Heading Font",
@@ -73,22 +76,25 @@ public class ExtendedAttributesBeanInfo extends YBeanInfo {
                 "Set the background colour of the page behind the dynamically generated form");
         addProperty("pageBackgroundImage", CATEGORY, "Page Background Image",
                 "Choose an image to display as a background on the page behind the dynamically generated form")
-                .setPropertyEditorClass(ImageFilePropertyEditor.class);
+                .setPropertyEditorClass(ImageURIPropertyEditor.class);
         addProperty("title", CATEGORY, "Title",
                 "Set the Title for the top of the dynamically generated form")
                 .setPropertyEditorClass(TextPropertyEditor.class);
     }
 
-    private void addVariableProperties(String dataType) {
-        addCommonProperties("field");
+
+    private void addVariableProperties(String dataType, boolean outputOnly) {
+        addCommonProperties("field", outputOnly);
         addProperty("alert", CATEGORY, "Alert",
                 "Set a tailored validation error message for the field");
-        addProperty("blackout", CATEGORY, "Blackout",
-                "Show the field as blacked out (unviewable)");
-        addProperty("hide", CATEGORY, "Hide", "Hide (remove) the field from view");
-        addProperty("hideIf", CATEGORY, "Hide If", "Hide (remove) the field from view, " +
-                "if the XQuery expression provided evaluates to true")
-                .setPropertyEditorClass(XQueryPropertyEditor.class);
+        if (!outputOnly) {
+            addProperty("blackout", CATEGORY, "Blackout",
+                    "Show the field as blacked out (unviewable)");
+            addProperty("hide", CATEGORY, "Hide", "Hide (remove) the field from view");
+            addProperty("hideIf", CATEGORY, "Hide If", "Hide (remove) the field from view, " +
+                    "if the XQuery expression provided evaluates to true")
+                    .setPropertyEditorClass(XQueryPropertyEditor.class);
+        }
         addProperty("imageAbove", CATEGORY, "Image Above",
                 "Set the URL of an image to show above the field")
                 .setPropertyEditorClass(ImageURIPropertyEditor.class);
@@ -159,6 +165,7 @@ public class ExtendedAttributesBeanInfo extends YBeanInfo {
             property.setPropertyTableRendererClass(udAttributes.getRendererClass(name));
         }
     }
+
 
     /*
      * Removes the named User Defined Attribute.
