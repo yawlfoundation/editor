@@ -2,8 +2,8 @@
 <!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
 <release>
   <version>4.1</version>
-    <build>701</build>
-    <timestamp>2016-08-25 11.42.37</timestamp>
+    <build>702</build>
+    <timestamp>2016-09-16 18.39.58</timestamp>
   <paths>
     <path id="host">https://raw.githubusercontent.com/</path>
     <path id="base">yawlfoundation/</path>
@@ -61,12 +61,12 @@
             size="1229289" timestamp="2015-08-13T05:38:33" path="C"/>
       <file name="lib/xmleditorkit.jar" md5="3d08ad29e38824929c5101bc61ce8816"
             size="72326" timestamp="2015-08-18T10:45:08" path="B"/>
-      <file name="lib/yawl-lib-4.1.jar" md5="1f8e71762b664a3508758468a612f3a0"
-            size="2502769" timestamp="2016-08-25T11:42:31" path="B"/>
+      <file name="lib/yawl-lib-4.1.jar" md5="5faf0f687162a12aab276677b3fe5944"
+            size="2502929" timestamp="2016-09-16T18:39:52" path="B"/>
       <file name="lib/YAWLEditor-analyser-4.1.jar" md5="d54b6e888f602462d19e8a3866adffbb"
             size="81647" timestamp="2016-05-10T04:16:23" path="B"/>
-      <file name="lib/YAWLEditor-core-4.1.jar" md5="eaeb8c65b1c7eb529dcd0a7e336c4ccc"
-            size="176503" timestamp="2016-08-10T20:59:28" path="B"/>
+      <file name="lib/YAWLEditor-core-4.1.jar" md5="2f055d8907f904887aca54076d6eb98a"
+            size="177038" timestamp="2016-09-16T18:39:57" path="B"/>
       <file name="lib/YAWLEditor-icons.jar" md5="79e9718b2713b9c70fb2bfd60dddcdfc"
             size="363754" timestamp="2015-08-18T10:45:08" path="B"/>
       <file name="plugins/YAWLEditor-configuration-4.1.jar"
@@ -78,8 +78,8 @@
       <file name="plugins/YAWLEditor-worklet-4.1.jar"
             md5="a8814071def5850c90dcf803ce42ba3c" size="222186"
             timestamp="2016-08-25T11:42:37" path="B"/>
-      <file name="YAWLEditor4.1.jar" md5="14d0509490a8816264bad459ca2828d0" size="1614062"
-            timestamp="2016-08-25T11:42:37" path="B"/>
+      <file name="YAWLEditor4.1.jar" md5="6e86599e63e252684fa4f470f0813be4" size="1614090"
+            timestamp="2016-09-16T18:39:58" path="B"/>
   </files>
 </release>
 

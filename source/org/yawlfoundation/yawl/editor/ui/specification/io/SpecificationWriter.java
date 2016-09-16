@@ -95,8 +95,8 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
 
     public YSpecification cleanSpecification() {
         _handler.getControlFlowHandler().removeOrphanTaskDecompositions();
+        _handler.getControlFlowHandler().removeIncompleteFlows();
         _handler.getUniqueID();  // build UUID if updating from Beta version schema
-        //    YPluginHandler.getInstance().preSaveFile();
         return _handler.getSpecification();
     }
 

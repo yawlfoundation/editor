@@ -259,6 +259,33 @@ public class YControlFlowHandler {
         }
     }
 
+    public void removeIncompleteFlows() {
+        if (_specification == null) return;
+
+        for (YNet net : getNets()) {
+            Set<YCondition> toRemove = new HashSet<YCondition>();
+            for (YExternalNetElement element : net.getNetElements().values()) {
+                if (element instanceof YCondition) {
+                    YCondition condition = (YCondition) element;
+
+                    // if implicit cond has no source or no target, it is incomplete
+                    if (condition.isImplicit()) {
+                        Set<YExternalNetElement> preSet = condition.getPresetElements();
+                        Set<YExternalNetElement> postSet = condition.getPostsetElements();
+                        if (preSet.isEmpty() || postSet.isEmpty()) {
+                            toRemove.add(condition);
+                        }
+                    }
+                }
+            }
+
+            // removing the implicit condition removes its flows cleanly
+            for (YCondition condition : toRemove) {
+                net.removeNetElement(condition);
+            }
+        }
+    }
+
      /*** net elements CRUD ***/
 
      public String getUniqueID(String id) {
@@ -632,6 +659,18 @@ public class YControlFlowHandler {
             }
         }
         return taskSet;
+    }
+
+    private Set<YCondition> getAllImplicitConditions() {
+        Set<YCondition> conditionSet = new HashSet<YCondition>();
+        for (YNet net : getNets()) {
+            for (YExternalNetElement element : net.getNetElements().values()) {
+                if (element instanceof YCondition && ((YCondition) element).isImplicit()) {
+                    conditionSet.add((YCondition) element);
+                }
+            }
+        }
+        return conditionSet;
     }
 
      private boolean isOrphan(YDecomposition decomposition, Set<YAtomicTask> allTasks) {
