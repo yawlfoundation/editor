@@ -60,6 +60,7 @@ import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 import org.yawlfoundation.yawl.editor.ui.specification.FileOperations;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationUndoManager;
+import org.yawlfoundation.yawl.editor.ui.specification.YNetElementEdit;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.SpecificationState;
 import org.yawlfoundation.yawl.elements.YMultiInstanceAttributes;
 import org.yawlfoundation.yawl.elements.YTask;
@@ -73,21 +74,21 @@ import java.util.List;
 
 public class ApplyProcessConfigurationAction extends YAWLSelectedNetAction {
 
-    {
-        putValue(Action.SHORT_DESCRIPTION, "Apply Process Configuration");
-        putValue(Action.NAME, "Apply Process Configuration");
-        putValue(Action.LONG_DESCRIPTION, "Apply Process Configuration");
-        putValue(Action.SMALL_ICON, getMenuIcon("asterisk_yellow"));
-    }
-
+    private static ApplyProcessConfigurationAction INSTANCE;
     private NetGraph net;
     private ConfigureSet configuredElements;
     private List<VertexContainer> vertexContainersAfterDelete;
     private Set<YAWLFlowRelation> deletedflows;
     private Set<YCompoundFlow> removedFlows;
     private Map<YAWLTask, DeconfiguredTask> configuredTaskCache;
-    private static ApplyProcessConfigurationAction INSTANCE;
     private boolean selected;
+
+    {
+        putValue(Action.SHORT_DESCRIPTION, "Apply Process Configuration");
+        putValue(Action.NAME, "Apply Process Configuration");
+        putValue(Action.LONG_DESCRIPTION, "Apply Process Configuration");
+        putValue(Action.SMALL_ICON, getMenuIcon("asterisk_yellow"));
+    }
 
     private ApplyProcessConfigurationAction() {
         selected = false;
@@ -309,7 +310,8 @@ public class ApplyProcessConfigurationAction extends YAWLSelectedNetAction {
         removeSet.addAll(configuredElements.getRemoveVertexContainers());
 
         if (net != null) {
-            net.removeCellsAndTheirEdges(removeSet.toArray());
+            YNetElementEdit.delete(net.removeCellsAndTheirEdges(
+                    removeSet.toArray()).toArray());
 
             for (YAWLCell cell : removeSet) {
                 if (cell instanceof YAWLFlowRelation) {
@@ -609,9 +611,11 @@ public class ApplyProcessConfigurationAction extends YAWLSelectedNetAction {
             }
         }
 
-        public void setDeconfigured(boolean b) { deconfigured = b; }
-
         public boolean isDeconfigured() { return deconfigured; }
+
+        public void setDeconfigured(boolean b) {
+            deconfigured = b;
+        }
 
         public void restorePorts(YAWLTask task) {
             TaskConfiguration config = TaskConfigurationCache.getInstance().get(
