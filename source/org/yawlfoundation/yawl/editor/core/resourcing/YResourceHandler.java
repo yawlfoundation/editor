@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.core.resourcing;
 
+import org.yawlfoundation.yawl.editor.core.YConnector;
 import org.yawlfoundation.yawl.editor.core.resourcing.validation.InvalidReference;
 import org.yawlfoundation.yawl.elements.*;
 import org.yawlfoundation.yawl.resourcing.resource.*;
@@ -34,8 +35,8 @@ import java.util.Set;
  */
 public class YResourceHandler {
 
-    private YSpecification _specification;
     private final ResourcesCache _resourcesCache;
+    private YSpecification _specification;
 
 
     public YResourceHandler() {
@@ -49,7 +50,11 @@ public class YResourceHandler {
 
     public void setSpecification(YSpecification specification) {
         _specification = specification;
-        parseResources();
+
+        // resources can be parsed only if there's a valid connection to a resource service
+        if (YConnector.isResourceConnected()) {
+            parseResources();
+        }
     }
 
     public void close() {

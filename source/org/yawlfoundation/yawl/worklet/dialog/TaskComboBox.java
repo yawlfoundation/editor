@@ -80,7 +80,7 @@ public class TaskComboBox extends JComboBox {
 
     // replacing dialog
     public void setItem(String taskID) {
-        removeAllItems();
+        clearItems();
         if (taskID != null) {
             YAWLAtomicTask task = getTask(taskID);
             if (task != null) {
@@ -92,7 +92,7 @@ public class TaskComboBox extends JComboBox {
 
 
     private void setItems(Vector<YAWLAtomicTask> tasks) {
-        removeAllItems();
+        clearItems();
         boolean hasItems = ! (tasks == null || tasks.isEmpty());
         if (hasItems) {
             _addingItems = true;                          // suppress selection changes
@@ -141,6 +141,12 @@ public class TaskComboBox extends JComboBox {
             }
         }
         return null;
+    }
+
+
+    private void clearItems() {
+        removeAllItems();
+        _selectedTask = null;
     }
 
 
