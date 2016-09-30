@@ -174,6 +174,9 @@ public class NetProperties extends YPropertiesBean {
     }
 
     public void setDataGateway(String value) {
+        if (value != null && value.equals("None")) {
+            value = null;                               // none means no ext. gateway
+        }
         model.setExternalDataGateway(value);
         setDirty();
     }
