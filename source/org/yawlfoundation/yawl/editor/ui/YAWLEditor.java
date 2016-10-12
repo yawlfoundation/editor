@@ -52,8 +52,8 @@ import java.util.List;
 
 public class YAWLEditor extends JFrame implements FileStateListener {
 
-    private BottomPanel bottomPanel;
-
+    public static final String DEFAULT_VERSION = "4.1";
+    public static final String BUILD_VERSION = getBuildVersion();
     private static YPropertySheet sheet;
     private static PaletteBar paletteBar;
     private static NetsPane netsPane;
@@ -62,9 +62,7 @@ public class YAWLEditor extends JFrame implements FileStateListener {
     private static YSplashScreen splashScreen;
     private static ToolBarMenu toolBarMenu;
     private static YAWLEditor INSTANCE;
-
-    public static final String DEFAULT_VERSION = "4.1";
-    private static final String BUILD_VERSION = getBuildVersion();
+    private BottomPanel bottomPanel;
 
 
     private YAWLEditor() {
@@ -92,65 +90,9 @@ public class YAWLEditor extends JFrame implements FileStateListener {
 
     public static ToolBarMenu getToolBar() { return toolBarMenu; }
 
-
-    public void setPluginToolBarVisible(JToolBar bar, boolean show) {
-        Container container = toolBarMenu.getParent();
-        if (show) {
-            container.add(bar);
-        }
-        else {
-            for (Component c : container.getComponents()) {
-                if ((c instanceof JToolBar) && c.getName().equals(bar.getName())) {
-                    container.remove(c);
-                    UserSettings.setViewPluginToolbar(bar.getName(), false);
-                    break;
-                }
-            }
-        }
-        validate();
-        repaint();
-    }
-
-
-    public void markTitleAsDirty() {
-        String title = getTitle();
-        if (! (title == null || title.endsWith("*"))) {
-            super.setTitle(title + " *");
-        }
-    }
-
-    public void setTitle(String title) {
-        String titleSeparator = title.equals("") ? "" : " - ";
-        super.setTitle("YAWL Editor " + BUILD_VERSION + titleSeparator + title);
-    }
-
-
-    public void showProblemList(String title, List<ValidationMessage> problemList) {
-        bottomPanel.setProblemList(title, problemList);
-        splitPane.setDividerLocation(0.8);
-    }
-
-
-    public void specificationFileStateChange(FileState state) {
-        switch(state) {
-            case Open: {
-                String title = SpecificationModel.getHandler().getFileName();
-                if (title != null) setTitle(title);
-                break;
-            }
-            case Closed: {
-                setTitle("");
-                hideBottomOfSplitPane();
-                break;
-            }
-        }
-    }
-
-
     public static void main(String[] args) {
         showGUI(validateParameter(args));
     }
-
 
     /****************************************************************************/
 
@@ -175,11 +117,9 @@ public class YAWLEditor extends JFrame implements FileStateListener {
         });
     }
 
-
     private static void hideBottomOfSplitPane() {
         splitPane.setDividerLocation((double)1);
     }
-
 
     private static String validateParameter(String[] args) {
         if (args.length > 1) {
@@ -189,7 +129,6 @@ public class YAWLEditor extends JFrame implements FileStateListener {
         }
         return args.length == 1 ? args[0] : null;
     }
-
 
     private static void setLookAndFeel() {
         if (MenuUtilities.isMacOS()) {
@@ -204,12 +143,6 @@ public class YAWLEditor extends JFrame implements FileStateListener {
             }
         }
     }
-
-
-    private void updateLoadProgress(int completionValue) {
-        splashScreen.updateProgress(completionValue);
-    }
-
 
     private static void startLoading() {
         splashScreen = new YSplashScreen();
@@ -239,6 +172,72 @@ public class YAWLEditor extends JFrame implements FileStateListener {
         }
     }
 
+    private static void showUpdateSuccess() {
+        MessageDialog.info("Updated successfully to version " +
+                new BuildProperties().getFullVersionText(), "Update Completed");
+    }
+
+    private static String getBuildVersion() {
+        BuildProperties props = new BuildProperties();
+        String version = props.getVersion();
+        String buildNumber = props.getBuild();
+        return (version != null ? version : DEFAULT_VERSION) +
+                (buildNumber != null ? "." + buildNumber : "");
+    }
+
+    public void setPluginToolBarVisible(JToolBar bar, boolean show) {
+        Container container = toolBarMenu.getParent();
+        if (show) {
+            container.add(bar);
+        }
+        else {
+            for (Component c : container.getComponents()) {
+                if ((c instanceof JToolBar) && c.getName().equals(bar.getName())) {
+                    container.remove(c);
+                    UserSettings.setViewPluginToolbar(bar.getName(), false);
+                    break;
+                }
+            }
+        }
+        validate();
+        repaint();
+    }
+
+    public void markTitleAsDirty() {
+        String title = getTitle();
+        if (!(title == null || title.endsWith("*"))) {
+            super.setTitle(title + " *");
+        }
+    }
+
+    public void setTitle(String title) {
+        String titleSeparator = title.equals("") ? "" : " - ";
+        super.setTitle("YAWL Editor " + BUILD_VERSION + titleSeparator + title);
+    }
+
+    public void showProblemList(String title, List<ValidationMessage> problemList) {
+        bottomPanel.setProblemList(title, problemList);
+        splitPane.setDividerLocation(0.8);
+    }
+
+    public void specificationFileStateChange(FileState state) {
+        switch (state) {
+            case Open: {
+                String title = SpecificationModel.getHandler().getFileName();
+                if (title != null) setTitle(title);
+                break;
+            }
+            case Closed: {
+                setTitle("");
+                hideBottomOfSplitPane();
+                break;
+            }
+        }
+    }
+
+    private void updateLoadProgress(int completionValue) {
+        splashScreen.updateProgress(completionValue);
+    }
 
     private void buildInterface() {
         statusBar = new YStatusBar();
@@ -259,7 +258,6 @@ public class YAWLEditor extends JFrame implements FileStateListener {
         installEventListeners();
         updateLoadProgress(95);
     }
-
 
     private void installEventListeners() {
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -303,7 +301,6 @@ public class YAWLEditor extends JFrame implements FileStateListener {
         return splitPane;
     }
 
-
     private JSplitPane getTopPanel(SplitPaneUtil splitPaneUtil) {
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true);
         splitPaneUtil.setupDivider(splitPane, true);
@@ -313,7 +310,6 @@ public class YAWLEditor extends JFrame implements FileStateListener {
         updateLoadProgress(80);
         return splitPane;
     }
-
 
     private JPanel getToolbarMenuPanel() {
         JPanel toolbarMenuPanel = new JPanel();
@@ -331,7 +327,6 @@ public class YAWLEditor extends JFrame implements FileStateListener {
         }
         return toolbarMenuPanel;
     }
-
 
     private JPanel getLeftPane() {
         JPanel panel = new JPanel(new BorderLayout());
@@ -366,7 +361,6 @@ public class YAWLEditor extends JFrame implements FileStateListener {
         return panel;
     }
 
-
     private void processPreferences() {
         setSize(UserSettings.getFrameWidth(), UserSettings.getFrameHeight());
         Point pos = UserSettings.getFrameLocation();
@@ -400,7 +394,6 @@ public class YAWLEditor extends JFrame implements FileStateListener {
         UserSettings.setExtendedCoverability(false);
     }
 
-
     private void establishConnections() {
         YConnector.setUserID(UserSettings.getEngineUserid());
         YConnector.setPassword(UserSettings.getEnginePassword());
@@ -418,21 +411,6 @@ public class YAWLEditor extends JFrame implements FileStateListener {
         catch (MalformedURLException mue) {
             //
         }
-    }
-
-
-    private static void showUpdateSuccess() {
-        MessageDialog.info("Updated successfully to version " +
-                new BuildProperties().getFullVersionText(), "Update Completed");
-    }
-
-
-    private static String getBuildVersion() {
-        BuildProperties props = new BuildProperties();
-        String version = props.getVersion();
-        String buildNumber = props.getBuild();
-        return (version != null ? version : DEFAULT_VERSION) +
-                (buildNumber != null ? "." + buildNumber : "");
     }
 
 }

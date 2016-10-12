@@ -305,7 +305,7 @@ public class YSpecificationHandler {
      */
     public void setValidUntil(Date validUntil) { getMetaData().setValidUntil(validUntil); }
 
-    private YMetaData getMetaData() {
+    public YMetaData getMetaData() {
         YMetaData metaData = _specification.getMetaData();
         if (metaData == null) {
             metaData = new YMetaData();

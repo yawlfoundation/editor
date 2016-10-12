@@ -97,6 +97,7 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
         _handler.getControlFlowHandler().removeOrphanTaskDecompositions();
         _handler.getControlFlowHandler().removeIncompleteFlows();
         _handler.getUniqueID();  // build UUID if updating from Beta version schema
+        _handler.getMetaData().setCoverage(YAWLEditor.BUILD_VERSION);
         return _handler.getSpecification();
     }
 

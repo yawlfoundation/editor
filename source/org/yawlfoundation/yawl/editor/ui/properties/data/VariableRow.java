@@ -83,19 +83,39 @@ public class VariableRow implements Comparable<VariableRow> {
 
     public boolean isMultiInstance() { return multiInstance; }
 
+    public void setMultiInstance(boolean isMultiInstance) {
+        multiInstance = isMultiInstance;
+    }
+
     public boolean isValidName() {
         return hasValidName;
     }
 
+    public void setValidName(boolean valid) {
+        hasValidName = valid;
+    }
+
     public boolean isValidValue() { return hasValidValue; }
+
+    public void setValidValue(boolean valid) {
+        hasValidValue = valid;
+    }
 
     public boolean isValidInputBinding() {
         return !(isInput() || isInputOutput()) ||
                 (! StringUtil.isNullOrEmpty(getBinding()) && hasValidInputBinding);
     }
 
+    public void setValidInputBinding(boolean valid) {
+        hasValidInputBinding = valid;
+    }
+
     public boolean isValidOutputBinding() {
         return !(isOutput() || isInputOutput()) || hasValidOutputBinding;
+    }
+
+    public void setValidOutputBinding(boolean valid) {
+        hasValidOutputBinding = valid;
     }
 
     public boolean isValid() {
@@ -108,34 +128,19 @@ public class VariableRow implements Comparable<VariableRow> {
 
     public boolean isAdding() { return decompositionID == null; }
 
-
-    public void setValidValue(boolean valid) { hasValidValue = valid; }
-
-    public void setValidName(boolean valid) { hasValidName = valid; }
-
-    public void setValidInputBinding(boolean valid) { hasValidInputBinding = valid; }
-
-    public void setValidOutputBinding(boolean valid) { hasValidOutputBinding = valid; }
-
     public void setValidBindings() {
         hasValidInputBinding = true;
         hasValidInputBinding = true;
     }
 
-
-    public void setMultiInstance(boolean isMultiInstance) {
-        multiInstance = isMultiInstance;
-    }
-
-
     public String getName() { return endValues.name; }
-
-    public String getStartingName() {
-        return startValues != null ? startValues.name : null; }
-
 
     public void setName(String name) {
         endValues.name = name;
+    }
+
+    public String getStartingName() {
+        return startValues != null ? startValues.name : null;
     }
 
     public boolean isNameChange() {
@@ -145,15 +150,15 @@ public class VariableRow implements Comparable<VariableRow> {
 
     public String getDataType() { return endValues.dataType; }
 
-    public String getStartingDataType() {
-        return startValues != null ? startValues.dataType : null;
-    }
-
     public void setDataType(String dataType) {
         if (! (dataType == null || dataType.equals(getDataType()))) {
             endValues.dataType = dataType;
             if (isLocal()) initialiseValue(dataType);
         }
+    }
+
+    public String getStartingDataType() {
+        return startValues != null ? startValues.dataType : null;
     }
 
     public boolean isDataTypeChange() {
@@ -167,9 +172,11 @@ public class VariableRow implements Comparable<VariableRow> {
 
     public String getValue() { return endValues.value; }
 
-    public String getStartingValue() { return startValues.value; }
-
     public void setValue(String value) { endValues.value = value; }
+
+    public String getStartingValue() {
+        return startValues.value;
+    }
 
     public boolean isValueChange() {
         return ! startValues.equals(startValues.value, endValues.value);
@@ -178,9 +185,11 @@ public class VariableRow implements Comparable<VariableRow> {
 
     public int getUsage() { return endValues.scope; }
 
-    public int getStartingUsage() { return startValues.scope; }
-
     public void setUsage(int scope) { endValues.scope = scope; }
+
+    public int getStartingUsage() {
+        return startValues.scope;
+    }
 
     public boolean isUsageChange() { return startValues.scope != endValues.scope; }
 
@@ -209,16 +218,16 @@ public class VariableRow implements Comparable<VariableRow> {
 
     public String getBinding() { return endValues.inputBinding; }
 
+    public void setBinding(String binding) {
+        endValues.inputBinding = binding;
+    }
+
     public String getStartingBinding() { return startValues.inputBinding; }
 
     public String getFullBinding() {
         return isMultiInstance() || isExternalGateway(getBinding()) ? getBinding() :
                 DataUtils.wrapBinding(getName(), getBinding());
     }
-
-
-    public void setBinding(String binding) { endValues.inputBinding = binding; }
-
 
     public void initBinding(String binding) {
         startValues.inputBinding = binding;
@@ -229,11 +238,11 @@ public class VariableRow implements Comparable<VariableRow> {
         return ! startValues.equals(startValues.inputBinding, endValues.inputBinding);
     }
 
-
-    public void setDecompositionID(String name) { decompositionID = name; }
-
     public String getDecompositionID() { return decompositionID; }
 
+    public void setDecompositionID(String name) {
+        decompositionID = name;
+    }
 
     public int getIndex() { return endValues.index; }
 
@@ -305,6 +314,12 @@ public class VariableRow implements Comparable<VariableRow> {
 
             // if its a string of 'true' or 'false', use it to set the boolean value
             setValue(Boolean.valueOf(getValue()).toString());
+        }
+        else if (dataType.equals("positiveInteger")) {
+            setValue("1");
+        }
+        else if (dataType.equals("negativeInteger")) {
+            setValue("-1");
         }
         else if (XSDType.isNumericType(dataType)) {
             setValue("0");

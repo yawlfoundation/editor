@@ -303,8 +303,8 @@ public class YDataHandler {
     }
 
     /**
-     * Creates a new variable and adds it to a net or task decomposition. Note: An output
-     * only variable requires a 'shadow' local variable to be created also.
+     * Creates a new variable and adds it to a net or task decomposition. Note: A net
+     * level output only variable requires a 'shadow' local variable to be created also.
      * @param decompositionID the id of the net or task decomposition
      * @param name the variable name
      * @param dataType  the variable data type
@@ -1239,6 +1239,7 @@ public class YDataHandler {
             }
             if (newType == OUTPUT || newType == INPUT_OUTPUT) {
                 YParameter parameter = newParameter(net, localVar, OUTPUT);
+                parameter.setDefaultValue(localVar.getInitialValue());
                 decomposition.addOutputParameter(parameter);
             }
         }
