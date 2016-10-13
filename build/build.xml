@@ -93,8 +93,8 @@
     <property name="servlet" value="servlet-api.jar"/>
 	<property name="junit" value="junit-4.4.jar"/>
 
-	<fileset id="editorOnlyDeps" dir="${library.dir}"
-			 includes="${automaton} ${forms} ${imgscalr} ${jcal}
+    <fileset id="editorOnlyDeps" dir="${library.dir}/standard"
+             includes="${automaton} ${forms} ${imgscalr} ${jcal}
 			           ${goodies-common} ${goodies-looks} ${l2fprod}
 			           ${macify} ${servlet}" />
 

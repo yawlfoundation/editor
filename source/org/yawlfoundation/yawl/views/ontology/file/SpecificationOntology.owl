@@ -1,0 +1,1570 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:xml="http://www.w3.org/XML/1998/namespace"
+         xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+         xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+         xmlns:YSpecificationOntology="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns="http://www.semanticweb.org/yawl/ontologies/ontology-1#"
+         xml:base="http://www.semanticweb.org/yawl/ontologies/ontology-1">
+    <owl:Ontology
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology"/>
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#dataFlowsFrom -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#dataFlowsFrom">
+        <rdfs:subPropertyOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasDataPredecessor"/>
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#decomposesTo -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#decomposesTo">
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YDecomposition"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#flowsFrom -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#flowsFrom">
+        <rdfs:subPropertyOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasPredecessor"/>
+        <owl:inverseOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#flowsInto"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#flowsInto -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#flowsInto">
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description
+                            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YCondition"/>
+                    <rdf:Description
+                            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description
+                            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YCondition"/>
+                    <rdf:Description
+                            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasCompletedMapping -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasCompletedMapping">
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Mapping"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasConstraint -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasConstraint"/>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasDataPredecessor -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasDataPredecessor">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasDecomposition -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasDecomposition">
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YSpecification"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YDecomposition"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasExpression -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasExpression">
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Mapping"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Expression"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasExternalNetElement -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasExternalNetElement">
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YNet"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YExternalNetElement"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasFamiliarTask -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasFamiliarTask">
+        <rdfs:subPropertyOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasConstraint"/>
+        <owl:inverseOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#isFamiliarTaskOf"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasFourEyesTask -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasFourEyesTask">
+        <rdfs:subPropertyOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasConstraint"/>
+        <owl:inverseOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#isFourEyesTaskOf"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasInputCondition -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasInputCondition">
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YNet"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YCondition"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasInputParameter -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasInputParameter">
+        <rdfs:subPropertyOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasParameter"/>
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YDecomposition"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YParameter"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasLocalVariable -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasLocalVariable">
+        <rdfs:subPropertyOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasParameter"/>
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YNet"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YVariable"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasOutputCondition -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasOutputCondition">
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YNet"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YCondition"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasOutputParameter -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasOutputParameter">
+        <rdfs:subPropertyOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasParameter"/>
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YDecomposition"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YParameter"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasParameter -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasParameter"/>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasParticipant -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasParticipant">
+        <rdfs:subPropertyOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasResource"/>
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Participant"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasPredecessor -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasPredecessor">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasResource -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasResource"/>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasRole -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasRole">
+        <rdfs:subPropertyOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasResource"/>
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Role"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasRootNet -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasRootNet">
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YSpecification"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YNet"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasSpecification -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasSpecification">
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YDecomposition"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YSpecification"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasStartingMapping -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasStartingMapping">
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Mapping"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#isFamiliarTaskOf -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#isFamiliarTaskOf">
+        <rdfs:subPropertyOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasConstraint"/>
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#isFourEyesTaskOf -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#isFourEyesTaskOf">
+        <rdfs:subPropertyOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasConstraint"/>
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#mapsTo -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#mapsTo">
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Mapping"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YParameter"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#mapsValueTo -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#mapsValueTo"/>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#readsDataFrom -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#readsDataFrom"/>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#refersTo -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#refersTo">
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Expression"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YVariable"/>
+    </owl:ObjectProperty>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#writesDataTo -->
+
+    <owl:ObjectProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#writesDataTo">
+        <rdfs:domain
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+        <rdfs:range
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YVariable"/>
+    </owl:ObjectProperty>
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#query -->
+
+    <owl:DatatypeProperty
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#query">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Expression -->
+
+    <owl:Class
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Expression"/>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Mapping -->
+
+    <owl:Class
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Mapping"/>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Participant -->
+
+    <owl:Class
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Participant"/>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Role -->
+
+    <owl:Class
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Role"/>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YCondition -->
+
+    <owl:Class
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YCondition">
+        <rdfs:subClassOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YExternalNetElement"/>
+    </owl:Class>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YDecomposition -->
+
+    <owl:Class
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YDecomposition"/>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YExternalNetElement -->
+
+    <owl:Class
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YExternalNetElement">
+        <rdfs:subClassOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YNetElement"/>
+    </owl:Class>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YInputCondition -->
+
+    <owl:Class
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YInputCondition">
+        <rdfs:subClassOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YCondition"/>
+    </owl:Class>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YNet -->
+
+    <owl:Class
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YNet">
+        <rdfs:subClassOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YDecomposition"/>
+    </owl:Class>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YNetElement -->
+
+    <owl:Class
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YNetElement"/>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YOutputCondition -->
+
+    <owl:Class
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YOutputCondition">
+        <rdfs:subClassOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YCondition"/>
+    </owl:Class>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YParameter -->
+
+    <owl:Class
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YParameter">
+        <rdfs:subClassOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YVariable"/>
+    </owl:Class>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YSpecification -->
+
+    <owl:Class
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YSpecification"/>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask -->
+
+    <owl:Class
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask">
+        <rdfs:subClassOf
+                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YExternalNetElement"/>
+    </owl:Class>
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YVariable -->
+
+    <owl:Class
+            rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YVariable"/>
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Rules
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="urn:swrl#T1">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#T2">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#D">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#V1">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#V2">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#T3">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#V">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#o">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#i">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#T">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#m">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#e">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#vt">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#vn">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#v">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasDataPredecessor"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#T2"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate
+                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#flowsInto"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#T2"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#T1"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest
+                                rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#dataFlowsFrom"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#T2"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#readsDataFrom"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T2"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#v"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate
+                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#writesDataTo"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#T1"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#v"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type
+                                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                        <swrl:propertyPredicate
+                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasPredecessor"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#T2"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl#T1"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest
+                                        rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasDataPredecessor"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T2"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#T1"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#readsDataFrom"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T2"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#V"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate
+                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasInputParameter"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#D"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#V"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type
+                                                rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                        <swrl:classPredicate
+                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#T1"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type
+                                                rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type
+                                                        rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                                <swrl:classPredicate
+                                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+                                                <swrl:argument1
+                                                        rdf:resource="urn:swrl#T2"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest>
+                                            <rdf:Description>
+                                                <rdf:type
+                                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                <rdf:first>
+                                                    <rdf:Description>
+                                                        <rdf:type
+                                                                rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                                        <swrl:classPredicate
+                                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YNet"/>
+                                                        <swrl:argument1
+                                                                rdf:resource="urn:swrl#D"/>
+                                                    </rdf:Description>
+                                                </rdf:first>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type
+                                                                rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                        <rdf:first>
+                                                            <rdf:Description>
+                                                                <rdf:type
+                                                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                                <swrl:propertyPredicate
+                                                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#decomposesTo"/>
+                                                                <swrl:argument1
+                                                                        rdf:resource="urn:swrl#T1"/>
+                                                                <swrl:argument2
+                                                                        rdf:resource="urn:swrl#D"/>
+                                                            </rdf:Description>
+                                                        </rdf:first>
+                                                        <rdf:rest>
+                                                            <rdf:Description>
+                                                                <rdf:type
+                                                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                                <rdf:first>
+                                                                    <rdf:Description>
+                                                                        <rdf:type
+                                                                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                                        <swrl:propertyPredicate
+                                                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasExternalNetElement"/>
+                                                                        <swrl:argument1
+                                                                                rdf:resource="urn:swrl#D"/>
+                                                                        <swrl:argument2
+                                                                                rdf:resource="urn:swrl#T2"/>
+                                                                    </rdf:Description>
+                                                                </rdf:first>
+                                                                <rdf:rest
+                                                                        rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                            </rdf:Description>
+                                                        </rdf:rest>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </rdf:rest>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasDataPredecessor"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T2"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#T1"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#flowsInto"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#T2"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate
+                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#decomposesTo"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#T1"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#D"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type
+                                                rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                        <swrl:classPredicate
+                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YNet"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#D"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type
+                                                rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type
+                                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                <swrl:propertyPredicate
+                                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasOutputCondition"/>
+                                                <swrl:argument1
+                                                        rdf:resource="urn:swrl#D"/>
+                                                <swrl:argument2
+                                                        rdf:resource="urn:swrl#o"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest>
+                                            <rdf:Description>
+                                                <rdf:type
+                                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                <rdf:first>
+                                                    <rdf:Description>
+                                                        <rdf:type
+                                                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                        <swrl:propertyPredicate
+                                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#flowsInto"/>
+                                                        <swrl:argument1
+                                                                rdf:resource="urn:swrl#T3"/>
+                                                        <swrl:argument2
+                                                                rdf:resource="urn:swrl#o"/>
+                                                    </rdf:Description>
+                                                </rdf:first>
+                                                <rdf:rest
+                                                        rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                            </rdf:Description>
+                                        </rdf:rest>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#flowsInto"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T3"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#T2"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T1"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                <swrl:classPredicate
+                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#T2"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type
+                                                rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                        <swrl:classPredicate
+                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YNet"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#D"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type
+                                                rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type
+                                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                <swrl:propertyPredicate
+                                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#decomposesTo"/>
+                                                <swrl:argument1
+                                                        rdf:resource="urn:swrl#T1"/>
+                                                <swrl:argument2
+                                                        rdf:resource="urn:swrl#D"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest>
+                                            <rdf:Description>
+                                                <rdf:type
+                                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                <rdf:first>
+                                                    <rdf:Description>
+                                                        <rdf:type
+                                                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                        <swrl:propertyPredicate
+                                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasExternalNetElement"/>
+                                                        <swrl:argument1
+                                                                rdf:resource="urn:swrl#D"/>
+                                                        <swrl:argument2
+                                                                rdf:resource="urn:swrl#T2"/>
+                                                    </rdf:Description>
+                                                </rdf:first>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type
+                                                                rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                        <rdf:first>
+                                                            <rdf:Description>
+                                                                <rdf:type
+                                                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                                <swrl:propertyPredicate
+                                                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#writesDataTo"/>
+                                                                <swrl:argument1
+                                                                        rdf:resource="urn:swrl#T2"/>
+                                                                <swrl:argument2
+                                                                        rdf:resource="urn:swrl#V1"/>
+                                                            </rdf:Description>
+                                                        </rdf:first>
+                                                        <rdf:rest>
+                                                            <rdf:Description>
+                                                                <rdf:type
+                                                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                                <rdf:first>
+                                                                    <rdf:Description>
+                                                                        <rdf:type
+                                                                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                                        <swrl:propertyPredicate
+                                                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#mapsValueTo"/>
+                                                                        <swrl:argument1
+                                                                                rdf:resource="urn:swrl#V1"/>
+                                                                        <swrl:argument2
+                                                                                rdf:resource="urn:swrl#V2"/>
+                                                                    </rdf:Description>
+                                                                </rdf:first>
+                                                                <rdf:rest>
+                                                                    <rdf:Description>
+                                                                        <rdf:type
+                                                                                rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                                        <rdf:first>
+                                                                            <rdf:Description>
+                                                                                <rdf:type
+                                                                                        rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                                                                <swrl:classPredicate
+                                                                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+                                                                                <swrl:argument1
+                                                                                        rdf:resource="urn:swrl#T3"/>
+                                                                            </rdf:Description>
+                                                                        </rdf:first>
+                                                                        <rdf:rest>
+                                                                            <rdf:Description>
+                                                                                <rdf:type
+                                                                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                                                <rdf:first>
+                                                                                    <rdf:Description>
+                                                                                        <rdf:type
+                                                                                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                                                        <swrl:propertyPredicate
+                                                                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#readsDataFrom"/>
+                                                                                        <swrl:argument1
+                                                                                                rdf:resource="urn:swrl#T3"/>
+                                                                                        <swrl:argument2
+                                                                                                rdf:resource="urn:swrl#V2"/>
+                                                                                    </rdf:Description>
+                                                                                </rdf:first>
+                                                                                <rdf:rest>
+                                                                                    <rdf:Description>
+                                                                                        <rdf:type
+                                                                                                rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                                                        <rdf:first>
+                                                                                            <rdf:Description>
+                                                                                                <rdf:type
+                                                                                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                                                                <swrl:propertyPredicate
+                                                                                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasPredecessor"/>
+                                                                                                <swrl:argument1
+                                                                                                        rdf:resource="urn:swrl#T3"/>
+                                                                                                <swrl:argument2
+                                                                                                        rdf:resource="urn:swrl#V2"/>
+                                                                                            </rdf:Description>
+                                                                                        </rdf:first>
+                                                                                        <rdf:rest
+                                                                                                rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                                                    </rdf:Description>
+                                                                                </rdf:rest>
+                                                                            </rdf:Description>
+                                                                        </rdf:rest>
+                                                                    </rdf:Description>
+                                                                </rdf:rest>
+                                                            </rdf:Description>
+                                                        </rdf:rest>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </rdf:rest>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasDataPredecessor"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T3"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#T2"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#flowsInto"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#T2"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate
+                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#decomposesTo"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#T2"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#D"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type
+                                                rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                        <swrl:classPredicate
+                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YNet"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#D"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type
+                                                rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type
+                                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                <swrl:propertyPredicate
+                                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasInputCondition"/>
+                                                <swrl:argument1
+                                                        rdf:resource="urn:swrl#D"/>
+                                                <swrl:argument2
+                                                        rdf:resource="urn:swrl#i"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest>
+                                            <rdf:Description>
+                                                <rdf:type
+                                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                <rdf:first>
+                                                    <rdf:Description>
+                                                        <rdf:type
+                                                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                        <swrl:propertyPredicate
+                                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#flowsInto"/>
+                                                        <swrl:argument1
+                                                                rdf:resource="urn:swrl#i"/>
+                                                        <swrl:argument2
+                                                                rdf:resource="urn:swrl#T3"/>
+                                                    </rdf:Description>
+                                                </rdf:first>
+                                                <rdf:rest
+                                                        rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                            </rdf:Description>
+                                        </rdf:rest>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#flowsInto"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#T3"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate
+                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasCompletedMapping"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#T"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#m"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type
+                                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                        <swrl:propertyPredicate
+                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasExpression"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#m"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl#e"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type
+                                                rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type
+                                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                <swrl:propertyPredicate
+                                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#refersTo"/>
+                                                <swrl:argument1
+                                                        rdf:resource="urn:swrl#e"/>
+                                                <swrl:argument2
+                                                        rdf:resource="urn:swrl#vt"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest>
+                                            <rdf:Description>
+                                                <rdf:type
+                                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                <rdf:first>
+                                                    <rdf:Description>
+                                                        <rdf:type
+                                                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                        <swrl:propertyPredicate
+                                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#mapsTo"/>
+                                                        <swrl:argument1
+                                                                rdf:resource="urn:swrl#m"/>
+                                                        <swrl:argument2
+                                                                rdf:resource="urn:swrl#vn"/>
+                                                    </rdf:Description>
+                                                </rdf:first>
+                                                <rdf:rest
+                                                        rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                            </rdf:Description>
+                                        </rdf:rest>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#mapsValueTo"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#vt"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#vn"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate
+                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasCompletedMapping"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#T"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#m"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type
+                                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                        <swrl:propertyPredicate
+                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#mapsTo"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#m"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl#v"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest
+                                        rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#writesDataTo"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#v"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate
+                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasStartingMapping"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#T"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#m"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type
+                                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                        <swrl:propertyPredicate
+                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasExpression"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#m"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl#e"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type
+                                                rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type
+                                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                <swrl:propertyPredicate
+                                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#refersTo"/>
+                                                <swrl:argument1
+                                                        rdf:resource="urn:swrl#e"/>
+                                                <swrl:argument2
+                                                        rdf:resource="urn:swrl#vn"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest>
+                                            <rdf:Description>
+                                                <rdf:type
+                                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                <rdf:first>
+                                                    <rdf:Description>
+                                                        <rdf:type
+                                                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                        <swrl:propertyPredicate
+                                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#mapsTo"/>
+                                                        <swrl:argument1
+                                                                rdf:resource="urn:swrl#m"/>
+                                                        <swrl:argument2
+                                                                rdf:resource="urn:swrl#vt"/>
+                                                    </rdf:Description>
+                                                </rdf:first>
+                                                <rdf:rest
+                                                        rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                            </rdf:Description>
+                                        </rdf:rest>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#mapsValueTo"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#vn"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#vt"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YTask"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate
+                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasStartingMapping"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#T"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#m"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type
+                                        rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type
+                                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                        <swrl:propertyPredicate
+                                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#hasExpression"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#m"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl#e"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type
+                                                rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type
+                                                        rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                <swrl:propertyPredicate
+                                                        rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#refersTo"/>
+                                                <swrl:argument1
+                                                        rdf:resource="urn:swrl#e"/>
+                                                <swrl:argument2
+                                                        rdf:resource="urn:swrl#v"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest
+                                                rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type
+                                rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate
+                                rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#readsDataFrom"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#T"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#v"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+</rdf:RDF>
+
+
+        <!-- Generated by the OWL API (version 4.2.5.20160517-0735) https://github.com/owlcs/owlapi -->
+

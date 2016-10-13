@@ -2,6 +2,7 @@ package org.yawlfoundation.yawl.views;
 
 import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
 import org.yawlfoundation.yawl.editor.ui.plugin.YEditorPluginAdapter;
+import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 
 import javax.swing.*;
 
@@ -27,4 +28,13 @@ public class ViewsPlugin extends YEditorPluginAdapter {
         return null;
     }
 
+    @Override
+    public void closeSpecification() {
+        OntologyHandler.unload();
+    }
+
+    @Override
+    public void openSpecification() {
+        OntologyHandler.load(SpecificationModel.getHandler());
+    }
 }
