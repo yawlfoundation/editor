@@ -28,6 +28,8 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.ImageObserver;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * An override for a couple of paint methods
@@ -37,16 +39,22 @@ import java.awt.image.ImageObserver;
  */
 public class NetGraphUI extends BasicGraphUI {
 
-    private NetOverlay overlay;
+    private final Set<OverlaidView> _overlays = new HashSet<OverlaidView>();
 
 
     public NetGraphUI() {
         super();
-        overlay = new NetOverlay();
     }
 
 
-    public NetOverlay getOverlay() { return overlay; }
+    public void addOverlay(OverlaidView view) {
+        _overlays.add(view);
+    }
+
+
+    public boolean removeOverlay(OverlaidView view) {
+        return _overlays.remove(view);
+    }
 
 
     // overridden to paint view children first (if any), then view, so as to have control
@@ -101,9 +109,11 @@ public class NetGraphUI extends BasicGraphUI {
    		}
    	}
 
-    // draws or removes potential flows
+    // draws or removes potential flows (and other chosen views via plugin)
     protected void paintOverlay(Graphics g) {
-        overlay.paint(g, graph.getBackground());
+        for (OverlaidView overlay : _overlays) {
+            overlay.paint(g, graph.getBackground());
+        }
     }
 
 

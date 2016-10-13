@@ -5,7 +5,7 @@ import org.jgraph.graph.DefaultGraphModel;
 import org.jgraph.graph.DefaultPort;
 import org.jgraph.graph.GraphConstants;
 import org.jgraph.plaf.basic.BasicGraphUI;
-import org.yawlfoundation.yawl.editor.ui.net.NetOverlay;
+import org.yawlfoundation.yawl.editor.ui.net.PotentialFlowOverlay;
 import org.yawlfoundation.yawl.editor.ui.resourcing.subdialog.ListDialog;
 import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.worklet.exception.ExletTarget;
@@ -27,8 +27,8 @@ import java.util.ArrayList;
  */
 public class ExletGraphUI extends BasicGraphUI implements ActionListener {
 
+    private final PotentialFlowOverlay _flowOverlay = new PotentialFlowOverlay();
     private ExletActions _paletteSelection = ExletActions.Select;
-    private final NetOverlay _overlay = new NetOverlay();
 
 
     public ExletGraphUI() {
@@ -50,7 +50,7 @@ public class ExletGraphUI extends BasicGraphUI implements ActionListener {
 
     // draws or removes potential flows
     protected void paintOverlay(Graphics g) {
-        _overlay.paint(g, graph.getBackground());
+        _flowOverlay.paint(g, graph.getBackground());
     }
 
 
@@ -105,7 +105,7 @@ public class ExletGraphUI extends BasicGraphUI implements ActionListener {
         public void mouseDragged(MouseEvent e) {
             if (_paletteSelection == ExletActions.Arc && source != null) {
                 Point2D.Double point = new Point2D.Double(e.getX(), e.getY());
-                _overlay.setLine(new Line2D.Double(source.getCentre(), point));
+                _flowOverlay.setLine(new Line2D.Double(source.getCentre(), point));
                 graph.repaint();
             }
             else super.mouseDragged(e);
@@ -125,7 +125,7 @@ public class ExletGraphUI extends BasicGraphUI implements ActionListener {
             }
             super.mouseReleased(e);
 
-            _overlay.clear();
+            _flowOverlay.clear();
             source = null;
         }
 

@@ -24,13 +24,13 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * Overlays extra graphics on net canvas. Called from net.paint()
- * Currently limited to drawing 'potential' flows and port symbols on mouse over
+ * Overlays 'potential' flows and port symbols on mouse over on net canvas.
+ * Called from net.paint()
  *
  * @author Michael Adams
  * @date 10/04/15
  */
-public class NetOverlay {
+public class PotentialFlowOverlay implements OverlaidView {
 
     Line2D.Double line;
     Point2D targetPort;
@@ -38,53 +38,26 @@ public class NetOverlay {
     BasicStroke stroke;
     float scale;
 
-    public NetOverlay() {
+
+    public PotentialFlowOverlay() {
         setScale(1.0);
     }
 
 
     public void paint(Graphics g, Color bg) {
-        paintLine(g, bg);
+        if (line != null) paintLine(g, bg);
         if (mouseOverPort != null) paintPort(g, mouseOverPort);
-    }
-
-
-    public void paintLine(Graphics g, Color bg) {
-        if (line != null) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setColor(bg);
-            g2.setXORMode(Color.black);
-            g2.setStroke(stroke);
-            g2.draw(line);
-            g2.setColor(Color.black);
-            g2.setPaintMode();
-            Shape poly = createArrowHead(g);
-            g2.fill(poly);
-            g2.draw(poly);
-            paintPort(g, line.getP1());
-            if (targetPort != null) paintPort(g, targetPort);
-        }
-    }
-
-
-    private void paintPort(Graphics g, Point2D centre) {
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.RED);
-        g2.setStroke(stroke);
-        float radial = scale * 3;
-        g2.draw(new Line2D.Double(centre.getX() - radial, centre.getY() - radial,
-                centre.getX() + radial, centre.getY() + radial));
-        g2.draw(new Line2D.Double(centre.getX() + radial, centre.getY() - radial,
-                centre.getX() - radial, centre.getY() + radial));
     }
 
 
     public void setLine(Line2D.Double l) { line = l; }
 
+
     public void setScale(double s) {
         scale = (float) s;
         stroke = new BasicStroke(scale);
     }
+
 
     public void clear() {
         line = null;
@@ -123,6 +96,33 @@ public class NetOverlay {
         );
     }
 
+
+    private void paintLine(Graphics g, Color bg) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(bg);
+        g2.setXORMode(Color.black);
+        g2.setStroke(stroke);
+        g2.draw(line);
+        g2.setColor(Color.black);
+        g2.setPaintMode();
+        Shape poly = createArrowHead(g);
+        g2.fill(poly);
+        g2.draw(poly);
+        paintPort(g, line.getP1());
+        if (targetPort != null) paintPort(g, targetPort);
+    }
+
+
+    private void paintPort(Graphics g, Point2D centre) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(Color.RED);
+        g2.setStroke(stroke);
+        float radial = scale * 3;
+        g2.draw(new Line2D.Double(centre.getX() - radial, centre.getY() - radial,
+                centre.getX() + radial, centre.getY() + radial));
+        g2.draw(new Line2D.Double(centre.getX() + radial, centre.getY() - radial,
+                centre.getX() - radial, centre.getY() + radial));
+    }
 
 
     private Shape createArrowHead(Graphics g) {

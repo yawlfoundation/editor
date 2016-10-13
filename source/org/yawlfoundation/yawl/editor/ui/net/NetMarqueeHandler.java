@@ -39,25 +39,16 @@ import java.awt.geom.Rectangle2D;
 
 public class NetMarqueeHandler extends BasicMarqueeHandler {
 
-    private PortView sourcePort, targetPort = null;
     private final NetGraph net;
     private final PaletteBar paletteBar;
-
-    private enum State {
-        ABOVE_CANVAS,
-        ABOVE_VERTEX,
-        ABOVE_FLOW_RELATION,
-        ABOVE_OUTGOING_PORT,
-        DRAGGING_VERTEX,
-        DRAWING_FLOW_RELATION
-    }
-
+    private final PotentialFlowOverlay potentialFlowOverlay;
+    private PortView sourcePort, targetPort = null;
     private State state = State.ABOVE_CANVAS;
-
 
     public NetMarqueeHandler(NetGraph net) {
         this.net = net;
         paletteBar = YAWLEditor.getPalette();
+        potentialFlowOverlay = registerPotentialFlowOverlay();
     }
 
     /**
@@ -84,7 +75,6 @@ public class NetMarqueeHandler extends BasicMarqueeHandler {
     public NetGraph getNet() {
         return this.net;
     }
-
 
     /**
      * Defaults to typical marquee behaviour if the PaletteBar is in Marquee mode,
@@ -123,7 +113,6 @@ public class NetMarqueeHandler extends BasicMarqueeHandler {
         }
         return -1;
     }
-
 
     private void matchCursorTo(int cursorType) {
         getNet().setCursor(CursorFactory.getCustomCursor(cursorType));
@@ -390,7 +379,6 @@ public class NetMarqueeHandler extends BasicMarqueeHandler {
         paintPort(port, false);
     }
 
-
     /**
      * Makes the specified port visible.
      * @param port
@@ -398,7 +386,6 @@ public class NetMarqueeHandler extends BasicMarqueeHandler {
     protected void showPort(PortView port) {
         paintPort(port, true);
     }
-
 
     protected void paintPort(PortView port, boolean show) {
         if (port != null) {
@@ -413,7 +400,6 @@ public class NetMarqueeHandler extends BasicMarqueeHandler {
             );
         }
     }
-
 
     /**
      * This method checks to determine whether the specified port
@@ -447,7 +433,6 @@ public class NetMarqueeHandler extends BasicMarqueeHandler {
                 getNet().acceptsIncomingFlows(vertex);
     }
 
-
     private Point2D getNearestSnapPoint(Point2D point) {
         return getNet().snap(getNet().fromScreen(point));
     }
@@ -464,7 +449,6 @@ public class NetMarqueeHandler extends BasicMarqueeHandler {
                 (Port) source.getCell(), (Port) target.getCell());
     }
 
-
     /**
      * Paints a 'potential' flow from a source port to the current point
      * being tracked by the marquee handler (the point under the mouse).
@@ -478,7 +462,6 @@ public class NetMarqueeHandler extends BasicMarqueeHandler {
             repaintClip(addClipAreas(preClip, getOverlay().getFlowClip()));
         }
     }
-
 
     /**
      * If there are valid source and target ports specified as a result
@@ -505,11 +488,9 @@ public class NetMarqueeHandler extends BasicMarqueeHandler {
         repaintClip(clip);
     }
 
-
-    private NetOverlay getOverlay() {
-        return ((NetGraphUI) net.getUI()).getOverlay();
+    private PotentialFlowOverlay getOverlay() {
+        return potentialFlowOverlay;
     }
-
 
     private Rectangle2D addClipAreas(Rectangle2D c1, Rectangle2D c2) {
         if (c1 == null) return c2;
@@ -523,13 +504,28 @@ public class NetMarqueeHandler extends BasicMarqueeHandler {
             getNet().toScreen(port.getLocation()).getY());
     }
 
-
     private void repaintClip(Rectangle2D clip) {
         if (clip != null) {
             net.repaint((int) clip.getX(), (int) clip.getY(),
                     (int) clip.getWidth(), (int) clip.getHeight());
         }
         else net.repaint();
+    }
+
+    private PotentialFlowOverlay registerPotentialFlowOverlay() {
+        PotentialFlowOverlay overlay = new PotentialFlowOverlay();
+        ((NetGraphUI) net.getUI()).addOverlay(overlay);
+        return overlay;
+    }
+
+
+    private enum State {
+        ABOVE_CANVAS,
+        ABOVE_VERTEX,
+        ABOVE_FLOW_RELATION,
+        ABOVE_OUTGOING_PORT,
+        DRAGGING_VERTEX,
+        DRAWING_FLOW_RELATION
     }
 
 }
