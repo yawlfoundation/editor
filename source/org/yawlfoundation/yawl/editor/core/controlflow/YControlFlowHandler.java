@@ -272,7 +272,7 @@ public class YControlFlowHandler {
                     if (condition.isImplicit()) {
                         Set<YExternalNetElement> preSet = condition.getPresetElements();
                         Set<YExternalNetElement> postSet = condition.getPostsetElements();
-                        if (preSet.isEmpty() || postSet.isEmpty()) {
+                        if (!(preSet.iterator().hasNext() && postSet.iterator().hasNext())) {
                             toRemove.add(condition);
                         }
                     }
