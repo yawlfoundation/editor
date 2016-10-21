@@ -79,4 +79,7 @@ public abstract class YEditorPluginAdapter implements YEditorPlugin {
     public void netAdded(NetGraphModel model) { }
 
     public void netRemoved(NetGraphModel model) { }
+
+    public void specificationChanged() {
+    }
 }

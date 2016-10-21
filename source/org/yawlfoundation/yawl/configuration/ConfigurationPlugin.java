@@ -177,6 +177,9 @@ public class ConfigurationPlugin implements YEditorPlugin {
 
     }
 
+    public void specificationChanged() {
+    }
+
     public void netAdded(NetGraphModel model) {
         NetConfigurationCache.getInstance().add(model);
     }

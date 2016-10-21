@@ -69,6 +69,8 @@
               value="${root.class.name}-decobar-${version}.jar" />
     <property name="worklet.plugin.jar.name"
               value="${root.class.name}-worklet-${version}.jar" />
+    <property name="views.plugin.jar.name"
+              value="${root.class.name}-views-${version}.jar"/>
     <property name="icons.jar.name"
               value="${root.class.name}-icons.jar" />
     <property name="jgraph.jar.name"
@@ -92,6 +94,7 @@
     <property name="macify" value="macify-1.4.jar"/>
     <property name="servlet" value="servlet-api.jar"/>
 	<property name="junit" value="junit-4.4.jar"/>
+    <property name="jena-core" value="jena-core-3.1.0.jar"/>
 
     <fileset id="editorOnlyDeps" dir="${library.dir}/standard"
              includes="${automaton} ${forms} ${imgscalr} ${jcal}
@@ -99,6 +102,10 @@
 			           ${macify} ${servlet}" />
 
 	<fileset id="junitDeps" file="${tools.dir}/${junit}" />
+
+    <fileset id="viewsPluginDeps" dir="${library.dir}/plugins/views"
+             includes="${jena-core}"/>
+
 
     <!--
         This set ensures only those engine libraries required are included
@@ -299,7 +306,7 @@
 
 
     <!--
-   		Builds the decorator toolbar plugin jar and copies it to the output plugins dir
+   		Builds the worklet toolbar plugin jar and copies it to the output plugins dir
    	-->
     <target name="check.workletPlugin">
         <uptodate property="workletPlugin.uptodate"
@@ -307,7 +314,7 @@
             <srcfiles dir="${source.dir}/${package.base.dir}/worklet/"
                       includes="**/*"/>
         </uptodate>
-        <echo message="Worklet plugin jar is up to date: ${decobar.uptodate}"/>
+        <echo message="Worklet plugin jar is up to date: ${workletPlugin.uptodate}"/>
     </target>
 
     <target name="buildWorkletPluginJar"
@@ -367,6 +374,56 @@
              includes="${package.base.dir}/analyser/**"
              excludes="**/Test*.class" />
         <copy file="${output.dir}/lib/${analyser.jar.name}" todir="${deploy.dir}/lib"/>
+    </target>
+
+
+    <!--
+   		Builds the views plugin jar and copies it to the output plugins dir
+   	-->
+    <target name="check.viewsPlugin">
+        <uptodate property="viewPlugin.uptodate"
+                  targetfile="${output.dir}/plugins/${views.plugin.jar.name}">
+            <srcfiles dir="${source.dir}/${package.base.dir}/worklet/"
+                      includes="**/*"/>
+        </uptodate>
+        <echo message="Worklet plugin jar is up to date: ${viewPlugin.uptodate}"/>
+    </target>
+
+    <target name="buildViewsPluginJar"
+            depends="compile, check.viewsPlugin"
+            unless="viewsPlugin.uptodate"
+            description="Build the views plugin">
+
+        <echo message="Building jar: ${views.plugin.jar.name}"/>
+        <mkdir dir="${output.dir}/plugins"/>
+        <mkdir dir="${output.dir}/plugins/lib"/>
+
+        <copy file="${library.dir}/plugins/views/${jena-core}"
+              todir="${output.dir}/plugins/lib"/>
+
+        <manifestclasspath property="views.manifest.cp"
+                           jarfile="${output.dir}/plugins/${views.plugin.jar.name}">
+            <classpath>
+                <fileset dir="${output.dir}/lib" includes="*.jar"/>
+                <fileset dir="${output.dir}" includes="${ui.jar.name}"/>
+                <fileset dir="${output.dir}/plugins/lib" includes="${jena-core}"/>
+            </classpath>
+        </manifestclasspath>
+        <manifest file="views.mf">
+            <attribute name="Class-Path" value="${views.manifest.cp}"/>
+        </manifest>
+
+        <copy toDir="${classes.dir}/${package.base.dir}/views/menu/icon">
+            <fileset dir="${source.dir}/${package.base.dir}/views/menu/icon"/>
+        </copy>
+
+        <jar jarfile="${output.dir}/plugins/${views.plugin.jar.name}"
+             basedir="${classes.dir}"
+             manifest="views.mf"
+             includes="${package.base.dir}/views/**"/>
+        <copy file="${output.dir}/plugins/${views.plugin.jar.name}"
+              todir="${deploy.dir}/plugins"/>
+        <delete file="views.mf"/>
     </target>
 
 
@@ -608,11 +665,13 @@
             <include name="${package.dir}/ui/util/CheckSumTask.java"/>
             <include name="${package.base.dir}/configuration/ConfigurationPlugin.java"/>
             <include name="${package.base.dir}/decobar/DecoratorToolbarPlugin.java"/>
+            <include name="${package.base.dir}/views/ViewsPlugin.java"/>
             <include name="${package.base.dir}/worklet/WorkletEditorPlugin.java"/>
             <classpath>
             	<pathelement location="${engine.lib.jar.path}" />
         		<fileset refid="editorOnlyDeps" />
             	<fileset refid="neededEngineDeps" />
+                <fileset refid="viewsPluginDeps"/>
             </classpath>
         </javac>
     </target>

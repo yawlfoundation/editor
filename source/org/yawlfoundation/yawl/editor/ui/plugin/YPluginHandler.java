@@ -247,6 +247,19 @@ public class YPluginHandler {
     }
 
 
+    public void specificationChanged() {
+        for (YEditorPlugin plugin : plugins) {
+            try {
+                plugin.specificationChanged();
+            }
+            catch (Exception e) {
+                warn(plugin, e);
+            }
+        }
+    }
+
+
+
     public java.util.List<JToolBar> getToolBars() {
         java.util.List<JToolBar> barList = new ArrayList<JToolBar>();
         for (YEditorPlugin plugin : getPlugins()) {

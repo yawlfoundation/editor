@@ -2,7 +2,7 @@
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2"
            prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1476378509484"
+        <uri id="Automatically generated entry, Timestamp=1476698102657"
              name="http://www.semanticweb.org/yawl/ontologies/ontology-1"
              uri="SpecificationOntology.owl"/>
     </group>

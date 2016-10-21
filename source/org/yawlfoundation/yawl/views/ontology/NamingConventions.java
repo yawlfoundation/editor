@@ -1,13 +1,15 @@
 package org.yawlfoundation.yawl.views.ontology;
 
-import org.yawlfoundation.yawl.views.ontology.mapping.Expression;
-import org.yawlfoundation.yawl.views.ontology.mapping.Mapping;
-import org.yawlfoundation.yawl.views.ontology.mapping.StartingExpression;
 import org.yawlfoundation.yawl.elements.YDecomposition;
 import org.yawlfoundation.yawl.elements.YExternalNetElement;
 import org.yawlfoundation.yawl.elements.YNet;
 import org.yawlfoundation.yawl.elements.YSpecification;
 import org.yawlfoundation.yawl.elements.data.YVariable;
+import org.yawlfoundation.yawl.views.ontology.mapping.Expression;
+import org.yawlfoundation.yawl.views.ontology.mapping.Mapping;
+import org.yawlfoundation.yawl.views.ontology.mapping.StartingExpression;
+
+import java.util.Set;
 
 /**
  * @author Michael Adams
@@ -47,7 +49,7 @@ public class NamingConventions {
         String target = mapping.getType() == Mapping.Type.Starting ? taskID : netID;
 
         return getPrefix() + "Mapping" + SEP + source + SEP +
-                mapping.getExpression().getRefersTo().iterator().next() + SEP +
+                getFirstRefersTo(mapping.getExpression()) + SEP +
                 target + SEP + mapping.getMapsTo();
     }
 
@@ -60,8 +62,13 @@ public class NamingConventions {
     public static String getNameFor(Expression expression) {
         String type = expression instanceof StartingExpression ? "Input" : "Output";
         return getPrefix() + type + SEP + expression.getDecomposition().getID() + SEP +
-                expression.getRefersTo().iterator().next() + SEP +
-                expression.getTask().getID();
+                getFirstRefersTo(expression) + SEP + expression.getTask().getID();
+    }
+
+
+    private static String getFirstRefersTo(Expression expression) {
+        Set<String> refersTo = expression.getRefersTo();
+        return refersTo.isEmpty() ? "null" : refersTo.iterator().next();
     }
 
 

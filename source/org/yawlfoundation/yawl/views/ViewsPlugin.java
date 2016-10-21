@@ -1,10 +1,14 @@
 package org.yawlfoundation.yawl.views;
 
 import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
+import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLVertex;
+import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 import org.yawlfoundation.yawl.editor.ui.plugin.YEditorPluginAdapter;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.views.menu.MenuBuilder;
 
 import javax.swing.*;
+import java.util.Set;
 
 /**
  * @author Michael Adams
@@ -25,8 +29,14 @@ public class ViewsPlugin extends YEditorPluginAdapter {
     }
 
     public JMenu getPluginMenu() {
-        return null;
+        return new MenuBuilder().getMenu();
     }
+
+    @Override
+    public JToolBar getToolbar() {
+        return new MenuBuilder().getToolBar();
+    }
+
 
     @Override
     public void closeSpecification() {
@@ -34,7 +44,17 @@ public class ViewsPlugin extends YEditorPluginAdapter {
     }
 
     @Override
-    public void openSpecification() {
-        OntologyHandler.load(SpecificationModel.getHandler());
+    public void netElementAdded(NetGraphModel model, YAWLVertex element) {
+        //    OntologyHandler.update(SpecificationModel.getHandler());
+    }
+
+    @Override
+    public void netElementsRemoved(NetGraphModel model, Set<Object> cellsAndTheirEdges) {
+        //    OntologyHandler.update(SpecificationModel.getHandler());
+    }
+
+    @Override
+    public void specificationChanged() {
+        OntologyHandler.update(SpecificationModel.getHandler());
     }
 }

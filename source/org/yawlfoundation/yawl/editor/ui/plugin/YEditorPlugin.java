@@ -176,4 +176,10 @@ public interface YEditorPlugin {
      */
     void netRemoved(NetGraphModel model);
 
+    /**
+     * Called by the editor whenever a change has been made to the current
+     * specification
+     */
+    void specificationChanged();
+
 }
