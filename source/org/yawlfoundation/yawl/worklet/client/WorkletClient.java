@@ -440,7 +440,7 @@ public class WorkletClient extends YConnection {
         if (specData == null) {
             InterfaceB_EnvironmentBasedClient ibClient = YConnector.getInterfaceBClient();
             String handle = ibClient.connect(_userid, _password);
-            String specificationXML = ibClient.getSpecification(specID, handle);
+            String specificationXML = ibClient.getSpecificationData(specID, handle);
             check(specificationXML);
             String wrapped = StringUtil.wrap(specificationXML, "speclist");
             List<SpecificationData> specList =
