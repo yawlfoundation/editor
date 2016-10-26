@@ -55,11 +55,6 @@ public class ResourceViewTableModel extends AbstractTableModel {
 
     public Object getValueAt(int row, int col) {
         return _roleColors.get(row);
-//        switch (col) {
-//            case 0: return _roleColors.get(row).getColor();
-//            case 1: return _roleColors.get(row).getRole();
-//        }
-//        return null;
     }
 
     public void setValues(Map<String, Color> roleColors) {

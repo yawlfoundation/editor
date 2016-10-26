@@ -42,6 +42,7 @@ import org.yawlfoundation.yawl.worklet.exception.ExletAction;
 import org.yawlfoundation.yawl.worklet.exception.ExletTarget;
 import org.yawlfoundation.yawl.worklet.model.WorkletListModel;
 import org.yawlfoundation.yawl.worklet.rdr.RdrPrimitive;
+import org.yawlfoundation.yawl.worklet.rdr.RuleType;
 import org.yawlfoundation.yawl.worklet.support.WorkletInfo;
 
 import javax.swing.*;
@@ -60,8 +61,8 @@ public class ExletTargetCellEditor extends ExletCellEditor {
 
     private final JButton _fldWorklet;               // co-opt a button to show dialog
     private final JLabel _emptyLabel;
-    private ExletAction _currentAction;
     private final JDialog _owner;
+    private ExletAction _currentAction;
 
 
     public ExletTargetCellEditor(CellEditorListener listener, JDialog owner) {
@@ -106,7 +107,8 @@ public class ExletTargetCellEditor extends ExletCellEditor {
             targets.add(ExletTarget.AncestorCases);
             targets.add(ExletTarget.Case);
         }
-        if (table.getSelectedRuleType().isItemLevelType()) {
+        RuleType type = table.getSelectedRuleType();
+        if (type.isItemLevelType() && !type.isCompletedItemType()) {
             targets.add(ExletTarget.Workitem);
         }
         return targets;

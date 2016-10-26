@@ -1,10 +1,11 @@
 package org.yawlfoundation.yawl.views;
 
 import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
+import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLAtomicTask;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLVertex;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 import org.yawlfoundation.yawl.editor.ui.plugin.YEditorPluginAdapter;
-import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.elements.YAtomicTask;
 import org.yawlfoundation.yawl.views.menu.MenuBuilder;
 
 import javax.swing.*;
@@ -15,6 +16,8 @@ import java.util.Set;
  * @date 12/10/2016
  */
 public class ViewsPlugin extends YEditorPluginAdapter {
+
+    private final MenuBuilder _menuBuilder = new MenuBuilder();
 
     public String getName() {
         return "Process Views";
@@ -29,12 +32,12 @@ public class ViewsPlugin extends YEditorPluginAdapter {
     }
 
     public JMenu getPluginMenu() {
-        return new MenuBuilder().getMenu();
+        return _menuBuilder.getMenu();
     }
 
     @Override
     public JToolBar getToolbar() {
-        return new MenuBuilder().getToolBar();
+        return _menuBuilder.getToolBar();
     }
 
 
@@ -45,16 +48,23 @@ public class ViewsPlugin extends YEditorPluginAdapter {
 
     @Override
     public void netElementAdded(NetGraphModel model, YAWLVertex element) {
-        //    OntologyHandler.update(SpecificationModel.getHandler());
+        if (element instanceof YAWLAtomicTask) {
+            _menuBuilder.getViewHandler().refreshViews();
+        }
     }
 
     @Override
     public void netElementsRemoved(NetGraphModel model, Set<Object> cellsAndTheirEdges) {
-        //    OntologyHandler.update(SpecificationModel.getHandler());
+        for (Object o : cellsAndTheirEdges) {
+            if (o instanceof YAWLAtomicTask) {
+                _menuBuilder.getViewHandler().refreshViews();
+                break;
+            }
+        }
     }
 
     @Override
-    public void specificationChanged() {
-        OntologyHandler.update(SpecificationModel.getHandler());
+    public void resourcingChanged(YAtomicTask task) {
+        _menuBuilder.getViewHandler().refreshViews();
     }
 }

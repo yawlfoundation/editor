@@ -23,6 +23,7 @@ import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLPort;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLVertex;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
+import org.yawlfoundation.yawl.elements.YAtomicTask;
 
 import javax.swing.*;
 import java.awt.*;
@@ -177,9 +178,9 @@ public interface YEditorPlugin {
     void netRemoved(NetGraphModel model);
 
     /**
-     * Called by the editor whenever a change has been made to the current
-     * specification
+     * Called by the editor when an atomic task's resourcing has been changed
+     * @param task the task
      */
-    void specificationChanged();
+    void resourcingChanged(YAtomicTask task);
 
 }

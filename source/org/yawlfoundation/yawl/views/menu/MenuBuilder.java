@@ -1,8 +1,9 @@
 package org.yawlfoundation.yawl.views.menu;
 
 import org.yawlfoundation.yawl.editor.ui.actions.YAWLBaseAction;
-import org.yawlfoundation.yawl.editor.ui.swing.menu.YAWLMenuItem;
+import org.yawlfoundation.yawl.editor.ui.swing.menu.YAWLCheckBoxMenuItem;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.YAWLToggleToolBarButton;
+import org.yawlfoundation.yawl.views.ResourceViewHandler;
 
 import javax.swing.*;
 import java.net.URL;
@@ -14,6 +15,9 @@ import java.util.List;
  * @date 2/12/2015
  */
 public class MenuBuilder {
+
+    private ResourceViewHandler _viewHandler;
+
 
     public JToolBar getToolBar() {
         JToolBar toolBar = new JToolBar("Process Views", JToolBar.HORIZONTAL);
@@ -29,6 +33,10 @@ public class MenuBuilder {
         menu.setIcon(getMenuIcon("views"));
         menu.setMnemonic('V');
         return menu;
+    }
+
+    public ResourceViewHandler getViewHandler() {
+        return _viewHandler;
     }
 
 
@@ -59,14 +67,16 @@ public class MenuBuilder {
     // populates both the menubar and toolbar
     private List<MenuAction> getMenuActions() {
         List<MenuAction> actions = new ArrayList<MenuAction>();
-        actions.add(new MenuAction(new ResourceViewAction(), "resource"));
+        ResourceViewAction action = ResourceViewAction.getInstance();
+        actions.add(new MenuAction(action, "resource"));
+        _viewHandler = action.getViewHandler();
         return actions;
     }
 
 
-    private YAWLMenuItem newItem(YAWLBaseAction action, String iconName) {
+    private YAWLCheckBoxMenuItem newItem(YAWLBaseAction action, String iconName) {
         setIcon(action, iconName);
-        YAWLMenuItem item = new YAWLMenuItem(action);
+        YAWLCheckBoxMenuItem item = new YAWLCheckBoxMenuItem(action);
         setToolTipText(item, action);
         return item;
     }

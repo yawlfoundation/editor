@@ -100,7 +100,9 @@ public class ExletActionCellEditor extends ExletCellEditor {
             actions.add(ExletAction.Suspend);
             actions.add(ExletAction.Remove);
             actions.add(ExletAction.Compensate);
-            if (selectedRule.isItemLevelType()) {     // add item only actions
+
+            // add item only actions
+            if (selectedRule.isItemLevelType() && !selectedRule.isCompletedItemType()) {
                 actions.add(ExletAction.Restart);
                 actions.add(ExletAction.Complete);
                 actions.add(ExletAction.Fail);

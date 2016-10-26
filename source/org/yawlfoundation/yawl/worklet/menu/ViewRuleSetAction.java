@@ -39,7 +39,6 @@ class ViewRuleSetAction extends YAWLSelectedNetAction {
                 rdrSet.fromXML(s, false);
                 return rdrSet;
             }
-
         }
         catch (IOException ioe) {
             MessageDialog.error("Unable to load rule set from worklet service: " +

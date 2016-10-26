@@ -28,6 +28,7 @@ import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLVertex;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.PluginsMenu;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.YAWLMenuBar;
+import org.yawlfoundation.yawl.elements.YAtomicTask;
 
 import javax.swing.*;
 import java.awt.*;
@@ -246,18 +247,16 @@ public class YPluginHandler {
         }
     }
 
-
-    public void specificationChanged() {
+    public void resourcingChanged(YAtomicTask task) {
         for (YEditorPlugin plugin : plugins) {
             try {
-                plugin.specificationChanged();
+                plugin.resourcingChanged(task);
             }
             catch (Exception e) {
                 warn(plugin, e);
             }
         }
     }
-
 
 
     public java.util.List<JToolBar> getToolBars() {

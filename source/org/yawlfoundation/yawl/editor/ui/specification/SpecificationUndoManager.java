@@ -24,7 +24,6 @@ import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.actions.RedoAction;
 import org.yawlfoundation.yawl.editor.ui.actions.UndoAction;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
-import org.yawlfoundation.yawl.editor.ui.plugin.YPluginHandler;
 
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.undo.CompoundEdit;
@@ -253,7 +252,6 @@ public class SpecificationUndoManager extends GraphUndoManager {
         dirty = newValue;
         if (dirty) {
             YAWLEditor.getInstance().markTitleAsDirty();
-            YPluginHandler.getInstance().specificationChanged();
         }
     }
 

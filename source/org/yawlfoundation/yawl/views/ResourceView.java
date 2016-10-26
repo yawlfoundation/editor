@@ -7,13 +7,14 @@ import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLTask;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraph;
 import org.yawlfoundation.yawl.editor.ui.net.OverlaidView;
 import org.yawlfoundation.yawl.editor.ui.net.utilities.NetUtilities;
-import org.yawlfoundation.yawl.views.dialog.ResourceKeyTableDialog;
+import org.yawlfoundation.yawl.elements.YDecomposition;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
-import java.util.List;
 
 import static org.yawlfoundation.yawl.editor.ui.elements.view.MultipleAtomicTaskView.MultipleAtomicTaskRenderer.GAP_DIVISOR;
 
@@ -23,7 +24,6 @@ import static org.yawlfoundation.yawl.editor.ui.elements.view.MultipleAtomicTask
  */
 public class ResourceView implements OverlaidView {
 
-    private ResourceKeyTableDialog _legendDialog;
     private NetGraph _graph;
     private Map<String, YAWLAtomicTask> _taskMap;            // [taskID, task]
     private Map<String, Set<String>> _resourceMap;           // [taskID, set of roles]
@@ -35,7 +35,6 @@ public class ResourceView implements OverlaidView {
         _graph.getModel().addUndoableEditListener(new ChangeListener());
         _taskMap = getTaskMap(_graph);
         _resourceMap = getResourceMap(_graph);
-        _colorMap = getColorMap(_resourceMap);
     }
 
     @Override
@@ -45,19 +44,21 @@ public class ResourceView implements OverlaidView {
             Set<String> roles = _resourceMap.get(taskID);
             overlayTask((Graphics2D) g, task, roles, _colorMap, _graph.getScale());
         }
-
-        if (_legendDialog == null) {
-            _legendDialog = new ResourceKeyTableDialog(_colorMap);
-            _legendDialog.setVisible(true);
-        }
     }
 
 
-    public void close() {
-        if (_legendDialog != null) {
-            _legendDialog.setVisible(false);
+    public Set<String> getResources() {
+        Set<String> resourceSet = new HashSet<String>();
+        for (Set<String> resources : _resourceMap.values()) {
+            resourceSet.addAll(resources);
         }
+        return resourceSet;
     }
+
+    public void setColorMap(Map<String, Color> colorMap) {
+        _colorMap = colorMap;
+    }
+
 
     private Map<String, YAWLAtomicTask> getTaskMap(NetGraph graph) {
         Map<String, YAWLAtomicTask> taskMap = new HashMap<String, YAWLAtomicTask>();
@@ -88,30 +89,8 @@ public class ResourceView implements OverlaidView {
     }
 
 
-    private Map<String, Color> getColorMap(Map<String, Set<String>> resourceMap) {
-        Set<String> roleSet = getUniqueRoles(resourceMap);
-        List<Color> colorSet = ColorSelector.get(roleSet.size());
-        Map<String, Color> colorMap = new HashMap<String, Color>();
-        Iterator<Color> itr = colorSet.iterator();
-        for (String role : roleSet) {
-            colorMap.put(role, itr.next());
-        }
-        return colorMap;
-    }
-
-
-    private Set<String> getUniqueRoles(Map<String, Set<String>> resourceMap) {
-        Set<String> uniqueRoles = new HashSet<String>();
-        for (Set<String> roles : resourceMap.values()) {
-            uniqueRoles.addAll(roles);
-        }
-        return uniqueRoles;
-    }
-
-
     private void overlayTask(Graphics2D g, YAWLAtomicTask task, Set<String> roleSet,
                              Map<String, Color> colorMap, double scale) {
-
         Set<Color> colorSet = new HashSet<Color>();
         if (roleSet == null) {
             colorSet.add(Color.WHITE);
@@ -121,17 +100,21 @@ public class ResourceView implements OverlaidView {
                 colorSet.add(colorMap.get(role));
             }
         }
+        Rectangle2D boundingBox = null;
         if (task instanceof AtomicTask) {
-            fillSingleInstanceTask(g, task, colorSet, scale);
+            boundingBox = fillSingleInstanceTask(g, task, colorSet, scale);
         }
         else if (task instanceof MultipleAtomicTask) {
-            fillMultipleInstanceTask(g, task, colorSet, scale);
+            boundingBox = fillMultipleInstanceTask(g, task, colorSet, scale);
+        }
+        if (boundingBox != null) {
+            redrawIndicators(g, (YAWLTask) task, boundingBox, scale);
         }
     }
 
 
-    private void fillSingleInstanceTask(Graphics2D g, YAWLAtomicTask task,
-                                        Set<Color> colorSet, double scale) {
+    private Rectangle2D fillSingleInstanceTask(Graphics2D g, YAWLAtomicTask task,
+                                               Set<Color> colorSet, double scale) {
         Rectangle2D boundingRect = getBoundingRect((YAWLTask) task, scale);
         double sectorWidth = boundingRect.getWidth() / colorSet.size();
 
@@ -152,11 +135,13 @@ public class ResourceView implements OverlaidView {
         g.setColor(Color.BLACK);
         g.setStroke(new BasicStroke((float) scale));
         g.draw(boundingRect);
+
+        return boundingRect;
     }
 
 
-    protected void fillMultipleInstanceTask(Graphics2D g, YAWLAtomicTask task,
-                                            Set<Color> colorSet, double scale) {
+    protected Rectangle2D fillMultipleInstanceTask(Graphics2D g, YAWLAtomicTask task,
+                                                   Set<Color> colorSet, double scale) {
         Rectangle2D boundingRect = getBoundingRect((YAWLTask) task, scale);
         double horizontalGap = boundingRect.getWidth() / GAP_DIVISOR;
         double verticalGap = boundingRect.getHeight() / GAP_DIVISOR;
@@ -209,6 +194,8 @@ public class ResourceView implements OverlaidView {
                 boundingRect.getWidth() - horizontalGap,
                 boundingRect.getHeight() - verticalGap
         ));
+
+        return boundingRect;
     }
 
 
@@ -222,5 +209,104 @@ public class ResourceView implements OverlaidView {
         );
     }
 
+
+    private void redrawIndicators(Graphics2D g, YAWLTask task, Rectangle2D boundingBox,
+                                  double scale) {
+        if (task.hasCancellationSetMembers()) {
+            drawCancelSetMarker(g, boundingBox, scale);
+        }
+        if (isAutomatedTask(task)) {
+            drawAutomatedMarker(g, boundingBox, scale);
+            if (hasCodelet(task)) {
+                drawCodeletMarker(g, boundingBox, scale);
+            }
+        }
+        if (task instanceof AtomicTask && ((AtomicTask) task).hasTimerEnabled()) {
+            drawTimerMarker(g, boundingBox, scale);
+        }
+    }
+
+
+    protected void drawCancelSetMarker(Graphics2D g, Rectangle2D boundingBox, double scale) {
+        Ellipse2D.Double circle = new Ellipse2D.Double(
+                boundingBox.getX() + (3 * boundingBox.getWidth() / 4) - scale,
+                boundingBox.getY() + scale,
+                boundingBox.getWidth() / 4,
+                boundingBox.getHeight() / 4
+        );
+        g.setColor(Color.red);
+        g.fill(circle);
+    }
+
+
+    protected void drawTimerMarker(Graphics2D g, Rectangle2D boundingBox, double scale) {
+        Ellipse2D.Double circle = new Ellipse2D.Double(
+                boundingBox.getX() + scale,
+                boundingBox.getY() + scale,
+                boundingBox.getWidth() / 4,
+                boundingBox.getHeight() / 4
+        );
+        Line2D vHand = new Line2D.Double(
+                circle.getCenterX(),
+                boundingBox.getY(),
+                circle.getCenterX(),
+                circle.getCenterY()
+        );
+        Line2D hHand = new Line2D.Double(
+                circle.getCenterX(),
+                circle.getCenterY(),
+                boundingBox.getX() + circle.getWidth(),
+                circle.getCenterY()
+        );
+        g.setColor(Color.white);
+        g.fill(circle);
+        g.setColor(Color.black);
+        g.draw(circle);
+        g.draw(vHand);
+        g.draw(hHand);
+    }
+
+
+    protected void drawAutomatedMarker(Graphics2D g, Rectangle2D boundingBox, double scale) {
+        Path2D.Double path = getAutomatedShape(boundingBox, scale);
+        g.setColor(Color.black);
+        g.draw(path);
+    }
+
+    protected void drawCodeletMarker(Graphics2D g, Rectangle2D boundingBox, double scale) {
+        Path2D.Double path = getAutomatedShape(boundingBox, scale);
+        g.setColor(Color.green.darker());
+        g.fill(path);
+    }
+
+
+    private Path2D.Double getAutomatedShape(Rectangle2D taskRect, double scale) {
+        Rectangle2D shapeRect = new Rectangle2D.Double(
+                taskRect.getX() + (3 * taskRect.getWidth() / 8),
+                taskRect.getY() + (2 * scale),
+                taskRect.getWidth() / 4,
+                taskRect.getHeight() / 4 - (2 * scale)
+        );
+        Path2D.Double path = new Path2D.Double();
+        path.moveTo(shapeRect.getX(), shapeRect.getY());
+        path.lineTo(shapeRect.getX(), shapeRect.getY() + shapeRect.getHeight());
+        path.lineTo(shapeRect.getX() + shapeRect.getWidth(),
+                shapeRect.getY() + (shapeRect.getHeight() / 2));
+        path.lineTo(shapeRect.getX(), shapeRect.getY());
+        path.closePath();
+        return path;
+    }
+
+
+    private boolean isAutomatedTask(YAWLTask task) {
+        YDecomposition decomp = task.getDecomposition();
+        return (decomp != null) && (!decomp.requiresResourcingDecisions());
+    }
+
+
+    private boolean hasCodelet(YAWLTask task) {
+        YDecomposition decomp = task.getDecomposition();
+        return decomp != null && decomp.getCodelet() != null;
+    }
 
 }

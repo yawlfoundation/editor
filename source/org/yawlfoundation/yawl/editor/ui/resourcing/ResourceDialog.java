@@ -21,6 +21,7 @@ package org.yawlfoundation.yawl.editor.ui.resourcing;
 import org.yawlfoundation.yawl.editor.core.resourcing.YResourceHandler;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLTask;
+import org.yawlfoundation.yawl.editor.ui.plugin.YPluginHandler;
 import org.yawlfoundation.yawl.editor.ui.resourcing.panel.PrimaryResourcesPanel;
 import org.yawlfoundation.yawl.editor.ui.resourcing.panel.SecondaryResourcesPanel;
 import org.yawlfoundation.yawl.editor.ui.resourcing.panel.TaskPrivilegesPanel;
@@ -45,13 +46,12 @@ import java.awt.event.ItemListener;
 public class ResourceDialog extends JDialog
         implements ActionListener, ItemListener, TableModelListener {
 
+    private final YAtomicTask task;
     private PrimaryResourcesPanel primaryResourcesPanel;
     private SecondaryResourcesPanel secondaryResourcesPanel;
     private TaskPrivilegesPanel taskPrivilegesPanel;
     private JButton btnApply;
-
     private YNet net;
-    private final YAtomicTask task;
 
 
     public ResourceDialog(YNet net, YAWLTask task) {
@@ -169,6 +169,7 @@ public class ResourceDialog extends JDialog
     protected void finaliseUpdate() {
         YResourceHandler resHandler = SpecificationModel.getHandler().getResourceHandler();
         resHandler.getOrCreateTaskResources(net.getID(), task.getID()).setTaskXML();
+        YPluginHandler.getInstance().resourcingChanged(task);
     }
 
 }

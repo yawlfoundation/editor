@@ -28,6 +28,10 @@ import org.yawlfoundation.yawl.elements.YDecomposition;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
 
 abstract class YAWLVertexRenderer extends VertexRenderer {
 
@@ -70,9 +74,9 @@ abstract class YAWLVertexRenderer extends VertexRenderer {
                 drawCancelSetMarker(g2, getSize());
             }
             if (isAutomatedTask(task)) {
-                drawAutomatedMarker(g2, getSize());
+                Path2D.Double shape = drawAutomatedMarker(g2, getSize());
                 if (hasCodelet(task)) {
-                    drawCodeletMarker(g2, getSize());
+                    drawCodeletMarker(g2, shape);
                 }
             }
             if (task instanceof AtomicTask) {
@@ -109,45 +113,70 @@ abstract class YAWLVertexRenderer extends VertexRenderer {
 
 
     protected void drawCancelSetMarker(Graphics2D graphics, Dimension size) {
-        int height = getMarkerHeight(size);
+        Ellipse2D.Double circle = new Ellipse2D.Double(
+                (3 * size.getWidth() / 4) - 2,
+                1,
+                size.getWidth() / 4,
+                size.getHeight() / 4
+        );
         graphics.setColor(Color.red);
-        graphics.fillOval(Math.round(3 * size.width/4) - 2, 1, height, height);
+        graphics.fill(circle);
     }
 
-    protected void drawTimerMarker(Graphics2D graphics, Dimension size) {
-        int height = getMarkerHeight(size);
-        int centre = height/2 + 1;
-        graphics.setColor(Color.white);
-        graphics.fillOval(1, 1, height, height);
-        graphics.setColor(Color.black);
-        graphics.drawOval(1, 1, height, height);
-        graphics.drawLine(centre, 1, centre, centre);
-        graphics.drawLine(centre, centre, height + 1, centre);
+    protected void drawTimerMarker(Graphics2D g, Dimension size) {
+        Ellipse2D.Double circle = new Ellipse2D.Double(1, 1,
+                size.getWidth() / 4, size.getHeight() / 4);
+        Line2D vHand = new Line2D.Double(
+                circle.getCenterX(),
+                1,
+                circle.getCenterX(),
+                circle.getCenterY()
+        );
+        Line2D hHand = new Line2D.Double(
+                circle.getCenterX(),
+                circle.getCenterY(),
+                1 + circle.getWidth(),
+                circle.getCenterY()
+        );
+        g.setColor(Color.white);
+        g.fill(circle);
+        g.setColor(Color.black);
+        g.draw(circle);
+        g.draw(vHand);
+        g.draw(hHand);
     }
 
-    protected void drawAutomatedMarker(Graphics2D graphics, Dimension size) {
-        int height = getMarkerHeight(size);
-        int midWidth = Math.round(size.width/2);
-        int eighthwidth = Math.round(size.width/8);
-        graphics.setColor(Color.black);
-        int[] x = { midWidth - eighthwidth, midWidth - eighthwidth, midWidth + eighthwidth };
-        int[] y = { 2, height, height/2 + 1 };
-        graphics.drawPolygon(x, y, 3);
+    protected Path2D.Double drawAutomatedMarker(Graphics2D g, Dimension size) {
+        Path2D.Double path = getAutomatedShape(size);
+        g.setColor(Color.black);
+        g.draw(path);
+        return path;
     }
 
-    protected void drawCodeletMarker(Graphics2D graphics, Dimension size) {
-        int height = getMarkerHeight(size);
-        int midWidth = Math.round(size.width/2);
-        int eighthwidth = Math.round(size.width/8);
-        graphics.setColor(Color.green.darker());
-        int[] x = { midWidth - eighthwidth, midWidth - eighthwidth, midWidth + eighthwidth };
-        int[] y = { 2, height, height/2 + 1 };
-        graphics.fillPolygon(x, y, 3);
+
+    protected void drawCodeletMarker(Graphics2D g, Path2D.Double path) {
+        g.setColor(Color.green.darker());
+        g.fill(path);
     }
 
-    private int getMarkerHeight(Dimension size) {
-        return Math.round(size.height/4);
+
+    private Path2D.Double getAutomatedShape(Dimension size) {
+        Rectangle2D shapeRect = new Rectangle2D.Double(
+                3 * size.getWidth() / 8,
+                2,
+                size.getWidth() / 4,
+                size.getHeight() / 4 - 2
+        );
+        Path2D.Double path = new Path2D.Double();
+        path.moveTo(shapeRect.getX(), shapeRect.getY());
+        path.lineTo(shapeRect.getX(), shapeRect.getY() + shapeRect.getHeight());
+        path.lineTo(shapeRect.getX() + shapeRect.getWidth(),
+                shapeRect.getY() + (shapeRect.getHeight() / 2));
+        path.lineTo(shapeRect.getX(), shapeRect.getY());
+        path.closePath();
+        return path;
     }
+
 
     private boolean isAutomatedTask(YAWLTask task) {
         YDecomposition decomp = task.getDecomposition();

@@ -53,6 +53,7 @@ public class WorkletClient extends YConnection {
     private static final ClientCache CACHE = new ClientCache();
     private static final WorkletInfoCache WORKLET_INFO_CACHE = new WorkletInfoCache();
     private static final WorkletClient INSTANCE = new WorkletClient();
+    private static final CornerstoneChecker CORNERSTONE_CHECKER = new CornerstoneChecker();
     private static final String URL_FILE_PATH = "/workletService/gateway";
 
     private String _userid;
@@ -261,6 +262,7 @@ public class WorkletClient extends YConnection {
 
     public boolean addRule(YSpecificationID specID, String taskID, RuleType rule,
                           RdrNode node) throws IOException {
+        node = checkNodeData(specID, getOldTaskID(taskID), rule, node);
         connect();
         check(_client.addNode(specID, getOldTaskID(taskID), rule, node, _handle));
         return true;
@@ -354,6 +356,15 @@ public class WorkletClient extends YConnection {
         String setXML = _client.getRdrSet(specID, _handle);
         check(setXML);
         return setXML;
+    }
+
+
+    public String getRdrTree(YSpecificationID specID, String taskID, RuleType ruleType)
+            throws IOException {
+        connect();
+        String treeXML = _client.getRdrTree(specID, taskID, ruleType, _handle);
+        check(treeXML);
+        return treeXML;
     }
 
 
@@ -503,6 +514,19 @@ public class WorkletClient extends YConnection {
         catch (IllegalArgumentException iae) {
             return RdrResult.Unknown;
         }
+    }
+
+
+    private RdrNode checkNodeData(YSpecificationID specID, String taskID, RuleType rule,
+                                  RdrNode node) throws IOException {
+        try {
+            String treeXML = getRdrTree(specID, taskID, rule);
+            node = CORNERSTONE_CHECKER.check(treeXML, node);
+        }
+        catch (IOException fallthrough) {
+            // no tree means no conditions to check, so new node is OK
+        }
+        return node;
     }
 
 

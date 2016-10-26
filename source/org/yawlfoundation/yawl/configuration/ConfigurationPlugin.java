@@ -32,6 +32,7 @@ import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 import org.yawlfoundation.yawl.editor.ui.net.utilities.NetUtilities;
 import org.yawlfoundation.yawl.editor.ui.plugin.YEditorPlugin;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.elements.YAtomicTask;
 import org.yawlfoundation.yawl.elements.YTask;
 
 import javax.swing.*;
@@ -177,8 +178,6 @@ public class ConfigurationPlugin implements YEditorPlugin {
 
     }
 
-    public void specificationChanged() {
-    }
 
     public void netAdded(NetGraphModel model) {
         NetConfigurationCache.getInstance().add(model);
@@ -186,6 +185,9 @@ public class ConfigurationPlugin implements YEditorPlugin {
 
     public void netRemoved(NetGraphModel model) {
         NetConfigurationCache.getInstance().remove(model);
+    }
+
+    public void resourcingChanged(YAtomicTask task) {
     }
 
     private void configureTasksOnSave() {

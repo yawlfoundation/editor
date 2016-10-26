@@ -23,10 +23,12 @@ import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLPort;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLVertex;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
+import org.yawlfoundation.yawl.elements.YAtomicTask;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Michael Adams
@@ -80,6 +82,7 @@ public abstract class YEditorPluginAdapter implements YEditorPlugin {
 
     public void netRemoved(NetGraphModel model) { }
 
-    public void specificationChanged() {
+    public void resourcingChanged(YAtomicTask task) {
     }
+
 }
