@@ -266,31 +266,34 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     }
 
 
+    // cannot return emptyList here because there may be a later attempt to add to it
     private java.util.List<VariableRow> getVariables(YAWLAtomicTask task) {
-        return task != null ? getDataContext(task) : Collections.<VariableRow>emptyList();
+        java.util.List<VariableRow> rows = task != null ?
+                getDataContext(task) : new ArrayList<VariableRow>();
+
+        // external types need a trigger value
+        augmentDataForExternalRule(rows, getSelectedRule());
+
+        return rows;
+
     }
 
 
     private java.util.List<VariableRow> getVariables(RuleType rule) {
-        return rule.isCaseLevelType() ? getDataContext(null) :  // net level vars
+        java.util.List<VariableRow> rows = rule.isCaseLevelType() ?
+                getDataContext(null) :  // net level vars
                 getVariables(getSelectedTask());
+
+        // external types need a trigger value
+        augmentDataForExternalRule(rows, rule);
+
+        return rows;
     }
 
 
     private java.util.List<VariableRow> getDataContext(YAWLAtomicTask task) {
         java.util.List<VariableRow> rows = new ArrayList<VariableRow>();
         YDecomposition decomposition = getDecomposition(task);
-//        if (task == null) {       // case level
-//            decomposition = SpecificationModel.getNets().getRootNet().getDecomposition();
-//            if (decomposition != null) {
-//                rows = getDataRows(((YNet) decomposition).getLocalVariables().values(),
-//                        decomposition.getID());
-//            }
-//        }
-//        else {
-//            decomposition = task.getDecomposition();
-//        }
-
         if (decomposition != null) {
             String id = task != null ? task.getID() : decomposition.getID();
             rows = getDataRows(getParameters(decomposition), id);
@@ -298,6 +301,22 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
 
         Collections.sort(rows);
         return rows;
+    }
+
+
+    // external types need a trigger value
+    private void augmentDataForExternalRule(java.util.List<VariableRow> rows, RuleType rule) {
+        if (rule.isExternalType()) {
+            for (VariableRow row : rows) {
+                if (row.getName().equals("trigger")) {
+                    return;
+                }
+            }
+            YVariable trigger = new YVariable();
+            trigger.setDataTypeAndName("string", "trigger",
+                    "http://www.w3.org/2001/XMLSchema");
+            rows.add(new VariableRow(trigger, false, null));
+        }
     }
 
 
