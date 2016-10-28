@@ -7,6 +7,7 @@ import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 import org.yawlfoundation.yawl.editor.ui.plugin.YEditorPluginAdapter;
 import org.yawlfoundation.yawl.elements.YAtomicTask;
 import org.yawlfoundation.yawl.views.menu.MenuBuilder;
+import org.yawlfoundation.yawl.views.ontology.OntologyHandler;
 
 import javax.swing.*;
 import java.util.Set;

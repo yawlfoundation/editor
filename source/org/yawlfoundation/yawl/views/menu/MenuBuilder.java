@@ -3,7 +3,7 @@ package org.yawlfoundation.yawl.views.menu;
 import org.yawlfoundation.yawl.editor.ui.actions.YAWLBaseAction;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.YAWLCheckBoxMenuItem;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.YAWLToggleToolBarButton;
-import org.yawlfoundation.yawl.views.ResourceViewHandler;
+import org.yawlfoundation.yawl.views.resource.ResourceViewHandler;
 
 import javax.swing.*;
 import java.net.URL;
@@ -77,6 +77,7 @@ public class MenuBuilder {
     private YAWLCheckBoxMenuItem newItem(YAWLBaseAction action, String iconName) {
         setIcon(action, iconName);
         YAWLCheckBoxMenuItem item = new YAWLCheckBoxMenuItem(action);
+        ((ViewsPluginAction) action).register(item);
         setToolTipText(item, action);
         return item;
     }
@@ -85,6 +86,7 @@ public class MenuBuilder {
     private YAWLToggleToolBarButton newButton(YAWLBaseAction action, String iconName) {
         setIcon(action, iconName);
         YAWLToggleToolBarButton button = new YAWLToggleToolBarButton(action);
+        ((ViewsPluginAction) action).register(button);
         setToolTipText(button, action);
         return button;
     }

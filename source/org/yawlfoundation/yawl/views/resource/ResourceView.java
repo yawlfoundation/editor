@@ -1,4 +1,4 @@
-package org.yawlfoundation.yawl.views;
+package org.yawlfoundation.yawl.views.resource;
 
 import org.yawlfoundation.yawl.editor.ui.elements.model.AtomicTask;
 import org.yawlfoundation.yawl.editor.ui.elements.model.MultipleAtomicTask;
@@ -8,6 +8,8 @@ import org.yawlfoundation.yawl.editor.ui.net.NetGraph;
 import org.yawlfoundation.yawl.editor.ui.net.OverlaidView;
 import org.yawlfoundation.yawl.editor.ui.net.utilities.NetUtilities;
 import org.yawlfoundation.yawl.elements.YDecomposition;
+import org.yawlfoundation.yawl.views.ontology.OntologyHandler;
+import org.yawlfoundation.yawl.views.ontology.OntologyQueryException;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -25,6 +27,7 @@ import static org.yawlfoundation.yawl.editor.ui.elements.view.MultipleAtomicTask
 public class ResourceView implements OverlaidView {
 
     private NetGraph _graph;
+    private ResourceConstraintsOverlay _constraintsOverlay;
     private Map<String, YAWLAtomicTask> _taskMap;            // [taskID, task]
     private Map<String, Set<String>> _resourceMap;           // [taskID, set of roles]
     private Map<String, Color> _colorMap;                    // [roleID, color]
@@ -32,10 +35,12 @@ public class ResourceView implements OverlaidView {
 
     public ResourceView(NetGraph graph) {
         _graph = graph;
-        _graph.getModel().addUndoableEditListener(new ChangeListener());
+        // _graph.getModel().addUndoableEditListener(new ChangeListener());
         _taskMap = getTaskMap(_graph);
         _resourceMap = getResourceMap(_graph);
+        _constraintsOverlay = new ResourceConstraintsOverlay(graph, _taskMap);
     }
+
 
     @Override
     public void paint(Graphics g, Color canvasBackground) {
@@ -44,6 +49,7 @@ public class ResourceView implements OverlaidView {
             Set<String> roles = _resourceMap.get(taskID);
             overlayTask((Graphics2D) g, task, roles, _colorMap, _graph.getScale());
         }
+        _constraintsOverlay.paint(g);
     }
 
 
@@ -83,7 +89,7 @@ public class ResourceView implements OverlaidView {
             }
             return filteredResult;
         }
-        catch (ViewsQueryException vqe) {
+        catch (OntologyQueryException vqe) {
             return Collections.emptyMap();
         }
     }

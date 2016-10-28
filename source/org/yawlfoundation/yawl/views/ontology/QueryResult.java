@@ -1,7 +1,6 @@
-package org.yawlfoundation.yawl.views;
+package org.yawlfoundation.yawl.views.ontology;
 
 import org.apache.jena.rdf.model.Statement;
-import org.yawlfoundation.yawl.views.ontology.OntologyPopulator;
 
 import java.util.*;
 
@@ -16,6 +15,18 @@ public class QueryResult {
 
     public QueryResult(List<Statement> results) {
         _results = results;
+    }
+
+
+    public Set<Triple> getTriples() {
+        Set<Triple> triples = new HashSet<Triple>();
+        for (Statement stmt : _results) {
+            triples.add(new Triple(
+                    removeNS(stmt.getSubject().toString()),
+                    removeNS(stmt.getPredicate().toString()),
+                    removeNS(stmt.getObject().toString())));
+        }
+        return triples;
     }
 
 

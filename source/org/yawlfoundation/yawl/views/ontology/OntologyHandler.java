@@ -1,4 +1,4 @@
-package org.yawlfoundation.yawl.views;
+package org.yawlfoundation.yawl.views.ontology;
 
 
 import org.apache.jena.ontology.OntModel;
@@ -7,8 +7,6 @@ import org.apache.jena.reasoner.Reasoner;
 import org.apache.jena.reasoner.rulesys.GenericRuleReasoner;
 import org.apache.jena.reasoner.rulesys.Rule;
 import org.yawlfoundation.yawl.editor.core.YSpecificationHandler;
-import org.yawlfoundation.yawl.views.ontology.OntologyPopulator;
-import org.yawlfoundation.yawl.views.ontology.SpecificationParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +38,6 @@ public class OntologyHandler {
 
 
     public static void load(YSpecificationHandler handler) {
-        System.out.println("==> Ontology Load Start");
         long start = System.currentTimeMillis();
         SpecificationParser parser = new SpecificationParser(handler);
         OntologyPopulator ontologyPopulator = new OntologyPopulator(BASE_ONT_FILE);
@@ -48,8 +45,6 @@ public class OntologyHandler {
         ontologyPopulator.addObjectProperties(parser);
         _ontModel = ontologyPopulator.getOntModel();
         _infModel = getInfModel(_ontModel);
-        System.out.println("<== Ontology Load End: " +
-                (System.currentTimeMillis() - start));
     }
 
 
@@ -63,15 +58,15 @@ public class OntologyHandler {
         }
     }
 
-    public static QueryResult query(String predStr) throws ViewsQueryException {
+    public static QueryResult query(String predStr) throws OntologyQueryException {
         return query(null, predStr, null);
     }
 
 
     public static QueryResult query(String sSubject, String sPredicate, String sObject)
-            throws ViewsQueryException {
+            throws OntologyQueryException {
         if (_infModel == null) {
-            throw new ViewsQueryException("No specification loaded.");
+            throw new OntologyQueryException("No specification loaded.");
         }
         Resource subject = sSubject == null ? null :
                 _infModel.getResource(OntologyPopulator.NAMESPACE + sSubject);

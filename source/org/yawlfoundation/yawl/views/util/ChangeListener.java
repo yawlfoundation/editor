@@ -1,4 +1,4 @@
-package org.yawlfoundation.yawl.views;
+package org.yawlfoundation.yawl.views.util;
 
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;

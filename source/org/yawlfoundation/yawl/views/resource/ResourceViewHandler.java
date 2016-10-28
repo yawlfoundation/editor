@@ -1,11 +1,13 @@
-package org.yawlfoundation.yawl.views;
+package org.yawlfoundation.yawl.views.resource;
 
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraph;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraphUI;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.views.util.ColorSelector;
 import org.yawlfoundation.yawl.views.dialog.ResourceKeyTableDialog;
+import org.yawlfoundation.yawl.views.ontology.OntologyHandler;
 
 import java.awt.*;
 import java.util.*;
@@ -104,13 +106,15 @@ public class ResourceViewHandler {
 
 
     private void showLegend(Map<String, Color> colorMap) {
-        if (_legendDialog == null) {
-            _legendDialog = new ResourceKeyTableDialog(colorMap);
+        if (!colorMap.isEmpty()) {
+            if (_legendDialog == null) {
+                _legendDialog = new ResourceKeyTableDialog(colorMap);
+            }
+            else {
+                _legendDialog.setValues(colorMap);
+            }
+            _legendDialog.setVisible(true);
         }
-        else {
-            _legendDialog.setValues(colorMap);
-        }
-        _legendDialog.setVisible(true);
     }
 
 

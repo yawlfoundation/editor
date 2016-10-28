@@ -3,13 +3,13 @@ package org.yawlfoundation.yawl.views.menu;
 import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.YAWLCheckBoxMenuItem;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.YAWLToggleToolBarButton;
-import org.yawlfoundation.yawl.views.ResourceViewHandler;
+import org.yawlfoundation.yawl.views.resource.ResourceViewHandler;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-class ResourceViewAction extends YAWLSelectedNetAction {
+class ResourceViewAction extends YAWLSelectedNetAction implements ViewsPluginAction {
 
     private final static ResourceViewAction INSTANCE = new ResourceViewAction();
     private boolean _selected;
@@ -34,20 +34,23 @@ class ResourceViewAction extends YAWLSelectedNetAction {
         return INSTANCE;
     }
 
+    public void register(YAWLCheckBoxMenuItem item) {
+        _menuItem = item;
+    }
+
+    public void register(YAWLToggleToolBarButton button) {
+        _toolBarButton = button;
+    }
+
 
     public void actionPerformed(ActionEvent event) {
+        _selected = ((AbstractButton) event.getSource()).isSelected();
         if (event.getSource() instanceof YAWLToggleToolBarButton) {
-            _toolBarButton = (YAWLToggleToolBarButton) event.getSource();
-            _selected = _toolBarButton.isSelected();
             if (_menuItem != null) _menuItem.setSelected(_selected);
         }
         else {
-            _menuItem = (YAWLCheckBoxMenuItem) event.getSource();
-            _selected = _menuItem.isSelected();
-            if (_toolBarButton != null) _toolBarButton.isSelected();
+            if (_toolBarButton != null) _toolBarButton.setSelected(_selected);
         }
-
-//        _selected = !_selected;
         _viewHandler.enableView(_selected);
     }
 
