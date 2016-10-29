@@ -2,8 +2,6 @@ package org.yawlfoundation.yawl.worklet.dialog;
 
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLAtomicTask;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
-import org.yawlfoundation.yawl.elements.YAWLServiceGateway;
-import org.yawlfoundation.yawl.elements.YAWLServiceReference;
 import org.yawlfoundation.yawl.worklet.rdr.RdrNode;
 import org.yawlfoundation.yawl.worklet.rdr.RuleType;
 import org.yawlfoundation.yawl.worklet.selection.WorkletRunner;
@@ -65,15 +63,23 @@ public class RulePanel extends JPanel implements ItemListener {
 
     public RuleType getSelectedRule() { return (RuleType) _cbxType.getSelectedItem(); }
 
-    public void setSelectedRule(int index) { _cbxType.setSelectedIndex(index); }
+    public void setSelectedRule(RuleType rule) {
+        _cbxType.setSelectedItem(rule);
+    }
 
+    public void setSelectedRule(int index) { _cbxType.setSelectedIndex(index); }
 
      public YAWLAtomicTask getSelectedTask() {
          return getSelectedRule().isItemLevelType() ? _cbxTask.getSelectedTask() : null;
      }
 
-    public void setSelectedTask(int index) { _cbxTask.setSelectedIndex(index); }
+    public void setSelectedTask(YAWLAtomicTask task) {
+        _cbxTask.setSelectedItem(task);
+    }
 
+    public void setSelectedTask(int index) {
+        _cbxTask.setSelectedIndex(index);
+    }
 
     public void updateCondition(VariableRow row) {
         _conditionPanel.updateCondition(row);
@@ -123,10 +129,6 @@ public class RulePanel extends JPanel implements ItemListener {
         _conditionPanel = new ConditionPanel(parent, mode);
         addPrompt(_conditionPanel.getPrompt(), _conditionPanel);
         SpringUtil.makeCompactGrid(this, 3, 2, 6, 6, 8, 8);
-
-        if (isWorkletTask(task)) {
-            _cbxType.setSelectedItem(RuleType.ItemSelection);
-        }
     }
 
     private JLabel addPrompt(String prompt, Component c) {
@@ -178,20 +180,5 @@ public class RulePanel extends JPanel implements ItemListener {
         }
         return combo;
     }
-
-
-    private boolean isWorkletTask(YAWLAtomicTask task) {
-         if (task == null) return false;
-         YAWLServiceGateway decomposition =
-                 (YAWLServiceGateway) task.getDecomposition();
-         if (decomposition != null) {
-             YAWLServiceReference service = decomposition.getYawlService();
-             if (service != null) {
-                 String uri = service.getServiceID();
-                 return uri != null && uri.contains("workletService/ib");
-             }
-         }
-         return false;
-     }
 
 }

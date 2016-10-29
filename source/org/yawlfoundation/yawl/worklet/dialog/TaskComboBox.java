@@ -146,7 +146,7 @@ public class TaskComboBox extends JComboBox {
 
     private void clearItems() {
         removeAllItems();
-        _selectedTask = null;
+//        _selectedTask = null;
     }
 
 

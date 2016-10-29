@@ -5,6 +5,8 @@ import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLAtomicTask;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.util.SplitPaneUtil;
+import org.yawlfoundation.yawl.elements.YAWLServiceGateway;
+import org.yawlfoundation.yawl.elements.YAWLServiceReference;
 import org.yawlfoundation.yawl.elements.YDecomposition;
 import org.yawlfoundation.yawl.elements.YNet;
 import org.yawlfoundation.yawl.elements.data.YParameter;
@@ -51,6 +53,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
         _parent = parent;
         setContent(task, mode);
         setMode(mode);
+        initTaskSelections(task);
     }
 
 
@@ -85,7 +88,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
                     }
                 }
                 else {    // task combo
-                    variables = getVariables((YAWLAtomicTask) item);
+                    variables = getVariables((YAWLAtomicTask) item, getSelectedRule());
                 }
 
                 _dataContextPanel.setVariables(variables);
@@ -267,12 +270,12 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
 
 
     // cannot return emptyList here because there may be a later attempt to add to it
-    private java.util.List<VariableRow> getVariables(YAWLAtomicTask task) {
+    private java.util.List<VariableRow> getVariables(YAWLAtomicTask task, RuleType rule) {
         java.util.List<VariableRow> rows = task != null ?
                 getDataContext(task) : new ArrayList<VariableRow>();
 
         // external types need a trigger value
-        augmentDataForExternalRule(rows, getSelectedRule());
+        augmentDataForExternalRule(rows, rule);
 
         return rows;
 
@@ -282,7 +285,7 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
     private java.util.List<VariableRow> getVariables(RuleType rule) {
         java.util.List<VariableRow> rows = rule.isCaseLevelType() ?
                 getDataContext(null) :  // net level vars
-                getVariables(getSelectedTask());
+                getVariables(getSelectedTask(), rule);
 
         // external types need a trigger value
         augmentDataForExternalRule(rows, rule);
@@ -448,6 +451,30 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
 
     private boolean validateConclusion() {
         return _conclusionPanel.validateConclusion().isEmpty();
+    }
+
+
+    private void initTaskSelections(YAWLAtomicTask task) {
+        if (task != null) {
+            _rulePanel.setSelectedRule(isWorkletTask(task) ? RuleType.ItemSelection :
+                    RuleType.ItemPreconstraint);
+            _rulePanel.setSelectedTask(task);
+        }
+    }
+
+
+    private boolean isWorkletTask(YAWLAtomicTask task) {
+        if (task == null) return false;
+        YAWLServiceGateway decomposition =
+                (YAWLServiceGateway) task.getDecomposition();
+        if (decomposition != null) {
+            YAWLServiceReference service = decomposition.getYawlService();
+            if (service != null) {
+                String uri = service.getServiceID();
+                return uri != null && uri.contains("workletService/ib");
+            }
+        }
+        return false;
     }
 
 }
