@@ -2,8 +2,8 @@
 <!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
 <release>
   <version>4.1</version>
-    <build>717</build>
-    <timestamp>2016-10-29 19.53.51</timestamp>
+    <build>718</build>
+    <timestamp>2016-11-01 22.21.52</timestamp>
   <paths>
     <path id="host">https://raw.githubusercontent.com/</path>
     <path id="base">yawlfoundation/</path>
@@ -61,8 +61,8 @@
             size="1229289" timestamp="2015-08-13T05:38:33" path="C"/>
       <file name="lib/xmleditorkit.jar" md5="3d08ad29e38824929c5101bc61ce8816"
             size="72326" timestamp="2015-08-18T10:45:08" path="B"/>
-      <file name="lib/yawl-lib-4.1.jar" md5="f8a1ae132c52c743f6355438a1987e31"
-            size="2504986" timestamp="2016-10-29T19:53:45" path="B"/>
+      <file name="lib/yawl-lib-4.1.jar" md5="db9748159744712359cb06b8ea029474"
+            size="2505076" timestamp="2016-11-01T22:21:46" path="B"/>
       <file name="lib/YAWLEditor-analyser-4.1.jar" md5="d54b6e888f602462d19e8a3866adffbb"
             size="81647" timestamp="2016-05-10T04:16:23" path="B"/>
       <file name="lib/YAWLEditor-core-4.1.jar" md5="62aedaac14a947f6378845f8f2609ba8"
@@ -76,8 +76,8 @@
             md5="d3fa1bfb4a2992dd1d2354b5e78fc671" size="25615"
             timestamp="2016-05-10T04:16:24" path="B"/>
       <file name="plugins/YAWLEditor-worklet-4.1.jar"
-            md5="9c621c1a0fa3b9ab0d53d819148f7232" size="224448"
-            timestamp="2016-10-29T19:53:51" path="B"/>
+            md5="fbaec491d3ef36356ec1ad36bf916556" size="224454"
+            timestamp="2016-11-01T22:21:52" path="B"/>
       <file name="YAWLEditor4.1.jar" md5="499964176366249670ec01dc9af912bd" size="1615678"
             timestamp="2016-10-28T22:04:55" path="B"/>
   </files>
