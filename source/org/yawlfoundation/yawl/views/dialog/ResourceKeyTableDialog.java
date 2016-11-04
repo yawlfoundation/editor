@@ -18,7 +18,7 @@ public class ResourceKeyTableDialog extends JDialog {
     public ResourceKeyTableDialog(Map<String, Color> roleColorMap) {
         super(YAWLEditor.getInstance());
         add(buildTable(roleColorMap));
-        setResizable(false);
+        setResizable(true);
         pack();
         setLocationRelativeTo(YAWLEditor.getInstance());
     }

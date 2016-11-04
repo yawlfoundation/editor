@@ -2,7 +2,9 @@ package org.yawlfoundation.yawl.views.menu;
 
 import org.yawlfoundation.yawl.editor.ui.actions.YAWLBaseAction;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.YAWLCheckBoxMenuItem;
+import org.yawlfoundation.yawl.editor.ui.swing.menu.YAWLMenuItem;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.YAWLToggleToolBarButton;
+import org.yawlfoundation.yawl.editor.ui.swing.menu.YAWLToolBarButton;
 import org.yawlfoundation.yawl.views.resource.ResourceViewHandler;
 
 import javax.swing.*;
@@ -43,7 +45,7 @@ public class MenuBuilder {
     private void addButtons(JToolBar toolbar) {
         for (MenuAction menuAction : getMenuActions()) {
             if (menuAction != null) {
-                toolbar.add(newButton(menuAction.action, menuAction.iconName));
+                toolbar.add(newButton(menuAction));
             }
             else {
                 toolbar.addSeparator();
@@ -55,7 +57,7 @@ public class MenuBuilder {
     private void addItems(JMenu menuBar) {
         for (MenuAction menuAction : getMenuActions()) {
             if (menuAction != null) {
-                menuBar.add(newItem(menuAction.action, menuAction.iconName));
+                menuBar.add(newItem(menuAction));
             }
             else {
                 menuBar.addSeparator();
@@ -67,27 +69,45 @@ public class MenuBuilder {
     // populates both the menubar and toolbar
     private List<MenuAction> getMenuActions() {
         List<MenuAction> actions = new ArrayList<MenuAction>();
-        ResourceViewAction action = ResourceViewAction.getInstance();
-        actions.add(new MenuAction(action, "resource"));
-        _viewHandler = action.getViewHandler();
+        ResourceViewAction rvAction = ResourceViewAction.getInstance();
+        actions.add(new MenuAction(rvAction, "resource", true));
+        _viewHandler = rvAction.getViewHandler();
+
+        GraphViewAction gvAction = new GraphViewAction();
+        actions.add(new MenuAction(gvAction, "resource", false));
         return actions;
     }
 
 
-    private YAWLCheckBoxMenuItem newItem(YAWLBaseAction action, String iconName) {
-        setIcon(action, iconName);
-        YAWLCheckBoxMenuItem item = new YAWLCheckBoxMenuItem(action);
-        ((ViewsPluginAction) action).register(item);
-        setToolTipText(item, action);
+    private JMenuItem newItem(MenuAction menuAction) {
+        JMenuItem item;
+        setIcon(menuAction.action, menuAction.iconName);
+        if (menuAction.isToggle) {
+            item = new YAWLCheckBoxMenuItem(menuAction.action);
+            ((ViewsPluginAction) menuAction.action)
+                    .register((YAWLCheckBoxMenuItem) item);
+        }
+        else {
+            item = new YAWLMenuItem(menuAction.action);
+
+        }
+        setToolTipText(item, menuAction.action);
         return item;
     }
 
 
-    private YAWLToggleToolBarButton newButton(YAWLBaseAction action, String iconName) {
-        setIcon(action, iconName);
-        YAWLToggleToolBarButton button = new YAWLToggleToolBarButton(action);
-        ((ViewsPluginAction) action).register(button);
-        setToolTipText(button, action);
+    private AbstractButton newButton(MenuAction menuAction) {
+        AbstractButton button;
+        setIcon(menuAction.action, menuAction.iconName);
+        if (menuAction.isToggle) {
+            button = new YAWLToggleToolBarButton(menuAction.action);
+            ((ViewsPluginAction) menuAction.action)
+                    .register((YAWLToggleToolBarButton) button);
+        }
+        else {
+            button = new YAWLToolBarButton(menuAction.action);
+        }
+        setToolTipText(button, menuAction.action);
         return button;
     }
 
@@ -114,10 +134,12 @@ public class MenuBuilder {
 
         YAWLBaseAction action;
         String iconName;
+        boolean isToggle;
 
-        MenuAction(YAWLBaseAction a, String s) {
+        MenuAction(YAWLBaseAction a, String s, boolean b) {
             action = a;
             iconName = s;
+            isToggle = b;
         }
 
     }
