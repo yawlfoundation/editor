@@ -55,8 +55,6 @@ import java.util.Iterator;
  */
 public class RadialGraphView extends Display {
 
-    public static final String DATA_FILE = "/Users/adamsmj/Documents/Git/editor/source/org/yawlfoundation/yawl/views/test.xml";
-
     private static final String tree = "tree";
     private static final String treeNodes = "tree.nodes";
     private static final String treeEdges = "tree.edges";
@@ -206,7 +204,7 @@ public class RadialGraphView extends Display {
     // ------------------------------------------------------------------------
 
     public static void main(String argv[]) {
-        String infile = DATA_FILE;
+        String infile = "";
         String label = "name";
 
         if (argv.length > 1) {
@@ -224,7 +222,7 @@ public class RadialGraphView extends Display {
     }
 
     public static JPanel demo() {
-        return demo(DATA_FILE, "name");
+        return demo("", "name");
     }
 
     public static JPanel demo(String datafile, final String label) {
