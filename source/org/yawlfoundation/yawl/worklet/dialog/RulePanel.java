@@ -63,22 +63,24 @@ public class RulePanel extends JPanel implements ItemListener {
 
     public RuleType getSelectedRule() { return (RuleType) _cbxType.getSelectedItem(); }
 
+    public void setSelectedRule(int index) {
+        _cbxType.setSelectedIndex(index);
+    }
+
     public void setSelectedRule(RuleType rule) {
         _cbxType.setSelectedItem(rule);
     }
-
-    public void setSelectedRule(int index) { _cbxType.setSelectedIndex(index); }
 
      public YAWLAtomicTask getSelectedTask() {
          return getSelectedRule().isItemLevelType() ? _cbxTask.getSelectedTask() : null;
      }
 
-    public void setSelectedTask(YAWLAtomicTask task) {
-        _cbxTask.setSelectedItem(task);
-    }
-
     public void setSelectedTask(int index) {
         _cbxTask.setSelectedIndex(index);
+    }
+
+    public void setSelectedTask(YAWLAtomicTask task) {
+        _cbxTask.setSelectedItem(task);
     }
 
     public void updateCondition(VariableRow row) {
@@ -113,6 +115,17 @@ public class RulePanel extends JPanel implements ItemListener {
         Collections.sort(sortedItems);
         for (RuleType item : sortedItems) { _cbxType.addItem(item); };
     }
+
+
+    public void removeRuleComboItem(RuleType item) {
+        _cbxType.removeItem(item);
+    }
+
+
+    public void removeTaskComboItem(YAWLAtomicTask item) {
+        _cbxTask.removeItem(item);
+    }
+
 
     public void setTaskComboItems(Set<String> items) {
         _cbxTask.setItems(items);

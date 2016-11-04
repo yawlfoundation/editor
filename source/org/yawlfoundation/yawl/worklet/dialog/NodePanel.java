@@ -198,6 +198,14 @@ public class NodePanel extends JPanel implements EventListener, ItemListener,
         _rulePanel.setTaskComboItems(items);
     }
 
+    public void removeRuleComboItem(RuleType item) {
+        _rulePanel.removeRuleComboItem(item);
+    }
+
+    public void removeTaskComboItem(YAWLAtomicTask item) {
+        _rulePanel.removeTaskComboItem(item);
+    }
+
     private void setMode(DialogMode mode) {
         _mode = mode;
         _txtDescription.setEditable(mode != DialogMode.Viewing);

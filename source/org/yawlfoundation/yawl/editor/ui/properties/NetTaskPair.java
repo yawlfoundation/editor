@@ -96,35 +96,28 @@ public class NetTaskPair {
 
     private String getText(YDecomposition decomposition) {
         StringBuilder s = new StringBuilder();
+        Set<String> inputs = decomposition.getInputParameters().keySet();
+        Set<String> outputs = decomposition.getOutputParameters().keySet();
+
+        int io = 0;
+        for (String input : inputs) if (outputs.contains(input)) io++;
+        int inOnly = inputs.size() - io;
+        int outOnly = outputs.size() - io;
 
         // only count locals at the net level
         if (decomposition instanceof YNet) {
             int locals = ((YNet) decomposition).getLocalVariables().size();
             if (locals > 0) {
 
-                // outputs also locals, so decrement
-                int outputs = decomposition.getOutputParameters().size();
-                s.append("Local(").append(locals - outputs).append(") ");
+                // locals have shadow output, so decrement
+                s.append("Local(").append(locals - outOnly).append(") ");
             }
         }
-        s.append(getIOText(decomposition));
-        return s.toString();
-    }
 
-
-    private String getIOText(YDecomposition decomposition) {
-        Set<String> inputs = decomposition.getInputParameters().keySet();
-        Set<String> outputs = decomposition.getOutputParameters().keySet();
-        int io = 0;
-        int i = inputs.size();
-        int o = outputs.size();
-
-        for (String input : inputs) if (outputs.contains(input)) io++;
-        StringBuilder s = new StringBuilder();
-        if (i - io > 0) s.append("In(").append(i - io).append(") ");
+        if (inOnly > 0) s.append("In(").append(inOnly).append(") ");
         if (io > 0) s.append("I/O(").append(io).append(") ");
-        if (o - io > 0) s.append("Out(").append(o - io).append(")");
-        return s.toString().trim();
+        if (outOnly - io > 0) s.append("Out(").append(outOnly).append(")");
+        return s.toString();
     }
 
 }

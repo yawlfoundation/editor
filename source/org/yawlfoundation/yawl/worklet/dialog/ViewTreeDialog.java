@@ -18,6 +18,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -84,7 +86,14 @@ public class ViewTreeDialog extends AbstractNodeDialog
             selectedType = _nodePanel.getSelectedRule();
         }
 
-        setTree(getTree(selectedType, getSelectedTaskID()), null);
+        String selectedTaskID = getSelectedTaskID();
+        RdrTree tree = getAvailableTree(selectedType, selectedTaskID);
+        if (tree != null) {
+            setTree(tree, null);
+            if (selectedType.isItemLevelType() && !tree.getTaskId().equals(selectedTaskID)) {
+                _nodePanel.setSelectedTask(0);
+            }
+        }
     }
 
 
@@ -96,6 +105,23 @@ public class ViewTreeDialog extends AbstractNodeDialog
     private RdrTree getTree(RuleType ruleType, String taskID) {
         taskID = WorkletClient.getInstance().getOldTaskID(taskID);
         return _rdrSet != null ? _rdrSet.getTree(ruleType, taskID) : null;
+    }
+
+
+    private RdrTree getAvailableTree(RuleType ruleType, String selectedTaskID) {
+        RdrTree tree = getTree(ruleType, selectedTaskID);
+        if (tree == null) {
+            RdrTreeSet treeSet = _rdrSet != null ? _rdrSet.getTreeSet(ruleType) : null;
+            if (treeSet != null) {
+                java.util.List<String> taskList =
+                        new ArrayList<String>(treeSet.getAllTasks());
+                Collections.sort(taskList);
+                if (!taskList.isEmpty()) {
+                    tree = getTree(ruleType, taskList.get(0));
+                }
+            }
+        }
+        return tree;
     }
 
 
@@ -128,6 +154,7 @@ public class ViewTreeDialog extends AbstractNodeDialog
                                 _rdrSet.removeTreeSet(rType);
                                 MessageDialog.info("There are no more " +
                                         rType + " rules.", "Remove Rule Success");
+                                _nodePanel.removeRuleComboItem(rType);
                                 _nodePanel.setSelectedRule(0);
                                 break;
                             case RdrTreeRemoved:
@@ -135,6 +162,7 @@ public class ViewTreeDialog extends AbstractNodeDialog
                                 MessageDialog.info("There are no more " + rType +
                                                  " rules for task '" + taskID + "'.",
                                         "Remove Rule Success");
+                                _nodePanel.removeTaskComboItem(getSelectedTask());
                                 _nodePanel.setSelectedTask(0);
                                 break;
                             case RdrNodeRemoved:
@@ -208,7 +236,7 @@ public class ViewTreeDialog extends AbstractNodeDialog
 
     private JPanel getNodePanel() {
         _nodePanel = new NodePanel(null, this, DialogMode.Viewing);
-        _nodePanel.setRuleComboItems(_rdrSet.getRules());
+        _nodePanel.setRuleComboItems(getPopulatedRules());
         return _nodePanel;
     }
 
@@ -234,6 +262,21 @@ public class ViewTreeDialog extends AbstractNodeDialog
             }
         }
         return tasks;
+    }
+
+
+    private Set<RuleType> getPopulatedRules() {
+        Set<RuleType> rules = new HashSet<RuleType>();
+        for (RuleType rule : _rdrSet.getRules()) {
+            RdrTreeSet treeSet = _rdrSet.getTreeSet(rule);
+            for (RdrTree tree : treeSet.getAll()) {
+                if (tree.nodeCount() > 1) {
+                    rules.add(rule);
+                    break;
+                }
+            }
+        }
+        return rules;
     }
 
 }
