@@ -54,11 +54,10 @@ class ExportRuleSetAction extends AbstractRuleSetAction {
             else {
                 StringUtil.stringToFile(fExport, rdrSets.get(0));
             }
+            MessageDialog.info(selections.size() + " rule set" +
+                         (selections.size() > 1 ? "s" : "") + " exported",
+                 "Export Selected Rule Sets");
         }
-
-        MessageDialog.info(selections.size() + " rule set" +
-                        (selections.size() > 1 ? "s" : "") + " exported",
-                "Export Selected Rule Sets");
     }
 
 

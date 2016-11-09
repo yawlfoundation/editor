@@ -665,7 +665,7 @@
             <include name="${package.dir}/ui/util/CheckSumTask.java"/>
             <include name="${package.base.dir}/configuration/ConfigurationPlugin.java"/>
             <include name="${package.base.dir}/decobar/DecoratorToolbarPlugin.java"/>
-            <include name="${package.base.dir}/views/ViewsPlugin.java"/>
+            <!--<include name="${package.base.dir}/views/ViewsPlugin.java"/>-->
             <include name="${package.base.dir}/worklet/WorkletEditorPlugin.java"/>
             <classpath>
             	<pathelement location="${engine.lib.jar.path}" />
