@@ -1,0 +1,83 @@
+@prefix : <http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#>.
+@include <RDFS>.
+
+# Extends flowsInto from the element prior to a composite task to the first task of the composite task’s subnet
+# SWRL: flowsInto(?T1, ?T2) ^ decomposesTo(?T2, ?D) ^ YNet(?D) ^ hasInputCondition(?D, ?i) ^ flowsInto(?i, ?T3) -> flowsInto(?T1, ?T3)
+
+[R1: (?E :flowsInto ?CT) (?CT :decomposesTo ?N) (?N :hasInputCondition ?IC) (?IC :flowsInto ?SubT) -> (?E :flowsInto ?SubT)]
+
+# Extends flowsInto from final task of a subnet to the net element following the subnet’s container composite task
+# SWRL: flowsInto(?T1, ?T2) ^ decomposesTo(?T1, ?D) ^ YNet(?D) ^ hasOutputCondition(?D, ?o) ^ flowsInto(?T3, ?o) -> flowsInto(?T3, ?T2)
+
+[R2: (?CT :flowsInto ?E) (?CT :decomposesTo ?N) (?N :hasOutputCondition ?O) (?SubT :flowsInto ?O) -> (?SubT :flowsInto ?E)]
+
+
+# A task has an input variable that reads from a particular net variable
+# SWRL: YTask(?T) ^ hasStartingMapping(?T, ?m) ^ hasExpression(?m, ?e) ^ refersTo(?e, ?v) -> readsDataFrom(?T, ?v)
+
+[R3: (?T :hasStartingMapping ?m) (?m :hasExpression ?e) (?e :refersTo ?v) -> (?T :readsDataFrom ?v)]
+
+# A task has an output variable that writes to a particular net variable
+# SWRL: YTask(?T) ^ hasCompletedMapping(?T, ?m) ^ mapsTo(?m, ?v) -> writesDataTo(?T, ?v)
+
+[R4: (?T :hasCompletedMapping ?m) (?m :mapsTo ?v) -> (?T :writesDataTo ?v)]
+
+
+# A certain task variable’s value is mapped to a certain net variable
+# SWRL: YTask(?T) ^ hasCompletedMapping(?T, ?m) ^ hasExpression(?m, ?e) ^ refersTo(?e, ?vt) ^ mapsTo(?m, ?vn) -> mapsValueTo(?vt, ?vn)
+
+[R5: (?T :hasCompletedMapping ?m) (?m :hasExpression ?e) (?e :refersTo ?vt) (?m :mapsTo ?vn) -> (?vt :mapsValueTo ?vn)]
+
+# A certain net variable’s value is mapped to a certain task variable
+# SWRL: YTask(?T) ^ hasStartingMapping(?T, ?m) ^ hasExpression(?m, ?e) ^ refersTo(?e, ?vn) ^ mapsTo(?m, ?vt) -> mapsValueTo(?vn, ?vt)
+
+[R6: (?T2 :hasStartingMapping ?m) (?m :hasExpression ?e) (?e :refersTo ?vn) (?m :mapsTo ?vt) -> (?vn :mapsValueTo ?vt)]
+
+
+# Task 2 reads from a net variable sometime after Task 1 writes to it
+# SWRL: readsDataFrom(?T2, ?v) ^ writesDataTo(?T1, ?v) ^ hasPredecessor(?T2, ?T1) -> hasDataPredecessor(?T2, ?T1)
+
+[R7: (?T2 :readsDataFrom ?v) (?T1 :writesDataTo ?v) (?T2 :hasPredecessor ?T1) -> (?T2 :hasDataPredecessor ?T1)]
+
+# Task 2 reads from a net variable sometime after Task 1 writes to it, and Task 2 immediately follows Task 1
+# SWRL: hasDataPredecessor(?T1, ?T2) ^ flowsInto(?T2, ?T1) -> dataFlowsFrom(?T1, ?T2)
+
+[R8: (?T1 :hasDataPredecessor ?T2) (?T2 :flowsInto ?T1) -> (?T1 :dataFlowsFrom ?T2)]
+
+
+# SWRL: YTask(?T1) ^ YTask(?T2) ^ YNet(?D) ^ decomposesTo(?T1, ?D) ^ hasExternalNetElement(?D, ?T2) ^ writesDataTo(?T2, ?V1) ^ mapsValueTo(?V1, ?V2) ^ YTask(?T3) ^ readsDataFrom(?T3, ?V2) ^ hasPredecessor(?T3, ?V2) -> hasDataPredecessor(?T3, ?T2)
+
+[R9: (?T1 :decomposesTo ?D) (?D :hasExternalNetElement ?T2) (?T2 :writesDataTo ?V1) (?V1 :mapsValueTo ?V2) (?T3 :readsDataFrom ?V2) (?T3 :hasPredecessor ?T2) -> (?T3 :hasDataPredecessor ?T2)]
+
+ 
+# SWRL: readsDataFrom(?T2, ?V) ^ hasInputParameter(?D, ?V) ^ YTask(?T1) ^ YTask(?T2) ^ YNet(?D) ^ decomposesTo(?T1, ?D) ^ hasExternalNetElement(?D, ?T2) -> hasDataPredecessor(?T2, ?T1)
+
+[R10: (?T2 :readsDataFrom ?V) (?D :hasInputParameter ?V) (?T1 :decomposesTo ?D) (?D :hasExternalNetElement ?T2) -> (?T2 :hasDataPredecessor ?T1)]
+
+
+[R11: (?T1 :dataFlowsFrom ?T2) (?T2 :hasRole ?R2) (?T1 :hasRole ?R1) -> (?R1 :passesDataTo ?R2)]
+
+#[R12: (?T1 :flowsInto ?T2) -> (?T2 :flowsFrom ?T1)]
+
+#[R13: (?T1 :flowsInto ?T2) (?T2 :flowsInto ?T3) -> (?T3 :hasPredecessor ?T1)]
+
+#[R14: (?T1 :hasDataPredecessor ?T2) (?T2 :hasDataPredecessor ?T3) -> (?T1 :hasDataPredecessor ?T3)]
+
+[rdfs2:   (?x ?p ?y), (?p rdfs:domain ?c) -> (?x rdf:type ?c)]
+[rdfs3:   (?x ?p ?y), (?p rdfs:range ?c) -> (?y rdf:type ?c)]
+
+[rdfs6:   (?a ?p ?b), (?p rdfs:subPropertyOf ?q) -> (?a ?q ?b)]
+[rdfs5:   (?x rdfs:subPropertyOf ?y), (?y rdfs:subPropertyOf ?z) -> (?x rdfs:subPropertyOf ?z)]
+
+[rdfs9:   (?x rdfs:subClassOf ?y), (?a rdf:type ?x) -> (?a rdf:type ?y)]
+[rdfs11:  (?x rdfs:subClassOf ?y), (?y rdfs:subClassOf ?z) -> (?x rdfs:subClassOf ?z)]
+
+[owlinv:  (?x ?p ?y), (?p owl:inverseOf ?q) -> (?y ?q ?x)]
+[owlinv2: (?p owl:inverseOf ?q) -> (?q owl:inverseOf ?p)]
+
+[owltra:  (?x ?p ?y), (?y ?p ?z), (?p rdf:type owl:TransitiveProperty) -> (?x ?p ?z)]
+
+[owlsam:  (?x ?p ?y), (?x owl:sameAs ?z) -> (?z ?p ?y)]
+[owlsam2: (?x owl:sameAs ?y) -> (?y owl:sameAs ?x)]
+
+

@@ -40,6 +40,18 @@ public class Triple {
     }
 
 
+    public void invert() {
+        String temp = subject;
+        subject = object;
+        object = temp;
+    }
+
+
+    public String toCSV() {
+        return getSubject() + "," + getPredicate() + "," + getObject();
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,17 +59,21 @@ public class Triple {
 
         Triple triple = (Triple) o;
 
-        return subject.equals(triple.subject) &&
-                predicate.equals(triple.predicate) &&
-                object.equals(triple.object);
+        return equals(subject, triple.subject) &&
+                equals(predicate, triple.predicate) &&
+                equals(object, triple.object);
 
+    }
+
+    private boolean equals(String a, String b) {
+        return (a == null && b == null) || (a != null && a.equals(b));
     }
 
     @Override
     public int hashCode() {
-        int result = subject.hashCode();
-        result = 31 * result + predicate.hashCode();
-        result = 31 * result + object.hashCode();
+        int result = subject != null ? subject.hashCode() : 0;
+        result = 31 * result + (predicate != null ? predicate.hashCode() : 0);
+        result = 31 * result + (object != null ? object.hashCode() : 0);
         return result;
     }
 

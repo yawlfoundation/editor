@@ -1,5 +1,6 @@
 package org.yawlfoundation.yawl.views.ontology;
 
+import org.apache.jena.ontology.OntModel;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -9,37 +10,11 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * @author Michael Adams
- *         - prototype by Gary Grossgarten (h-brs.de)
- *         <p>
- *         Test class (manually loads and saves files)
+ * @date 8/11/16
  */
+public class OntologyWriter {
 
-public class Main {
-
-
-    public static void main(String[] args) {
-        try {
-            SpecificationParser specificationParser = loadSpecification();
-            if (specificationParser != null) {
-                exportAsOwl(populateOntology(specificationParser));
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private static OntologyPopulator populateOntology(SpecificationParser specificationParser) {
-        OntologyPopulator ontologyPopulator = new OntologyPopulator(
-                "source/org/yawlfoundation/yawl/views/ontology/file/SpecificationOntology.owl");
-        ontologyPopulator.addIndividuals(specificationParser);
-        ontologyPopulator.addObjectProperties(specificationParser);
-        return ontologyPopulator;
-    }
-
-
-    private static void exportAsOwl(final OntologyPopulator ontologyPopulator) throws IOException, NoSuchAlgorithmException {
+    public void export(final OntModel model) throws IOException, NoSuchAlgorithmException {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -48,7 +23,7 @@ public class Main {
                     try {
                         Writer writer = new BufferedWriter(new OutputStreamWriter(
                                 new FileOutputStream(path), "UTF-8"));
-                        ontologyPopulator.outputTo(writer);
+                        model.getBaseModel().write(writer);
                         writer.close();
                     }
                     catch (IOException e) {
@@ -57,12 +32,6 @@ public class Main {
                 }
             }
         });
-    }
-
-
-    private static SpecificationParser loadSpecification() throws IOException, NoSuchAlgorithmException {
-        String path = getSelectedFilePath("yawl", false);
-        return path != null ? new SpecificationParser(path) : null;
     }
 
 
@@ -78,6 +47,5 @@ public class Main {
         return option == JFileChooser.APPROVE_OPTION ?
                 fileChooser.getSelectedFile().getAbsolutePath() : null;
     }
-
 
 }

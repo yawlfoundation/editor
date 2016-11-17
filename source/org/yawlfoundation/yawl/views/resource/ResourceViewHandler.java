@@ -74,7 +74,7 @@ public class ResourceViewHandler {
     }
 
 
-    private void removeViews() {
+    public void removeViews() {
         for (NetGraph graph : _views.keySet()) {
             NetGraphUI graphUI = (NetGraphUI) graph.getUI();
             ResourceView view = _views.get(graph);

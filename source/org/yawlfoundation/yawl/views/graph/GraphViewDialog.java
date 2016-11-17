@@ -19,6 +19,7 @@ public class GraphViewDialog extends JDialog {
 
     public GraphViewDialog(InputStream is) {
         super(YAWLEditor.getInstance());
+        setTitle("Role Relations Graph");
         setContentPane(getContent(is));
         setResizable(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -29,6 +30,7 @@ public class GraphViewDialog extends JDialog {
 
     private JPanel getContent(InputStream is) {
         JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(new EmptyBorder(0,5,0,5));
         try {
             Graph g = new GraphMLReader().readGraph(is);
             RadialGraphView view = new RadialGraphView(g, "name");

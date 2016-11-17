@@ -305,11 +305,31 @@ public class SpecificationParser {
         _taskResources = new HashMap<YTask, TaskResources>();
         ResourceParser parser = new ResourceParser();
         for (YTask task : _tasks) {
-            TaskResources resources = parser.parse(task);
-            if (resources != null) {
-                _taskResources.put(task, resources);
+            if (hasResources(task)) {
+                TaskResources resources = parser.parse(task);
+                if (hasRelevantResourcing(resources)) {
+                    _taskResources.put(task, resources);
+                }
             }
         }
+    }
+
+
+    private boolean hasResources(YTask task) {
+        YDecomposition decomposition = task.getDecompositionPrototype();
+        if (decomposition instanceof YAWLServiceGateway) {
+            YAWLServiceGateway gateway = (YAWLServiceGateway) decomposition;
+            return gateway.getYawlService() == null && gateway.requiresResourcingDecisions();
+        }
+        return false;
+    }
+
+
+    // only interested in roles, fam tasks, and 4 eyes tasks
+    private boolean hasRelevantResourcing(TaskResources resources) {
+        return resources != null && ! (resources.getRoles().isEmpty() &&
+                resources.getFamiliarTask() == null &&
+                resources.getFourEyesTask() == null);
     }
 
 }

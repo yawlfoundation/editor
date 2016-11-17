@@ -1,17 +1,12 @@
 package org.yawlfoundation.yawl.views.graph;
 
-import org.yawlfoundation.yawl.editor.core.resourcing.ResourceDataSet;
-import org.yawlfoundation.yawl.resourcing.resource.Role;
 import org.yawlfoundation.yawl.util.XNode;
 import org.yawlfoundation.yawl.views.ontology.Triple;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Michael Adams
@@ -19,13 +14,10 @@ import java.util.Set;
  */
 public class GraphMLWriter {
 
-    public static final boolean USE_PREDICATE_NODES = true;
-    public static final boolean IGNORE_PREDICATE_NODES = false;
-
     private static final String NS = "http://graphml.graphdrawing.org/xmlns";
 
 
-    public String toXML(Set<Triple> triples, boolean usePredicateNodes) {
+    public String toXML(List<Triple> triples) {
         XNode root = new XNode("graphml");
         root.addAttribute("xmlns", NS);
         XNode graphNode = root.addChild("graph");
@@ -33,8 +25,7 @@ public class GraphMLWriter {
 
         graphNode.addChild(getDataSchema());
 
-        Map<String, XNode> nodeMap = getNodeMap(
-                getUniqueNodeNames(triples, usePredicateNodes));
+        Map<String, XNode> nodeMap = getNodeMap(getUniqueNodeNames(triples));
 
         graphNode.addChildren(nodeMap.values());
         graphNode.addChildren(getEdges(triples, nodeMap));
@@ -43,9 +34,9 @@ public class GraphMLWriter {
     }
 
 
-    public InputStream toInputStream(Set<Triple> triples)
+    public InputStream toInputStream(List<Triple> triples)
             throws UnsupportedEncodingException {
-        String xml = toXML(triples, false);
+        String xml = toXML(triples);
         return new ByteArrayInputStream(xml.getBytes("UTF-8"));
     }
 
@@ -61,14 +52,11 @@ public class GraphMLWriter {
     }
 
 
-    private Set<String> getUniqueNodeNames(Set<Triple> triples, boolean usePredicateNodes) {
+    private Set<String> getUniqueNodeNames(List<Triple> triples) {
         Set<String> names = new HashSet<String>();
         for (Triple triple : triples) {
             names.add(triple.getSubject());
-            names.add(getRoleName(triple.getObject()));
-            if (usePredicateNodes) {
-                names.add(triple.getPredicate());
-            }
+            names.add(triple.getObject());
         }
         return names;
     }
@@ -88,11 +76,11 @@ public class GraphMLWriter {
     }
 
 
-    private Set<XNode> getEdges(Set<Triple> triples, Map<String, XNode> nodeMap) {
+    private Set<XNode> getEdges(List<Triple> triples, Map<String, XNode> nodeMap) {
         Set<XNode> edges = new HashSet<XNode>();
         for (Triple triple : triples) {
             XNode source = nodeMap.get(triple.getSubject());
-            XNode target = nodeMap.get(getRoleName(triple.getObject()));
+            XNode target = nodeMap.get(triple.getObject());
 
             XNode edge = new XNode("edge");
             edge.addAttribute("source", source.getAttributeValue("id"));
@@ -101,13 +89,6 @@ public class GraphMLWriter {
         }
         return edges;
     }
-
-
-    public String getRoleName(String roleID) {
-        Role role = ResourceDataSet.getRole(roleID);
-        return role != null ? role.getName() : "unknown";
-    }
-
 
 }
 

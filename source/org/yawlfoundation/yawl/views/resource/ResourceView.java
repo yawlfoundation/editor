@@ -7,6 +7,8 @@ import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLTask;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraph;
 import org.yawlfoundation.yawl.editor.ui.net.OverlaidView;
 import org.yawlfoundation.yawl.editor.ui.net.utilities.NetUtilities;
+import org.yawlfoundation.yawl.elements.YAWLServiceGateway;
+import org.yawlfoundation.yawl.elements.YAWLServiceReference;
 import org.yawlfoundation.yawl.elements.YDecomposition;
 import org.yawlfoundation.yawl.views.ontology.OntologyHandler;
 import org.yawlfoundation.yawl.views.ontology.OntologyQueryException;
@@ -98,7 +100,12 @@ public class ResourceView implements OverlaidView {
     private void overlayTask(Graphics2D g, YAWLAtomicTask task, Set<String> roleSet,
                              Map<String, Color> colorMap, double scale) {
         Set<Color> colorSet = new HashSet<Color>();
-        if (roleSet == null) {
+
+        YAWLServiceReference service = getService(task);
+        if (service != null)  {             // special case - overrides resourcing
+            writeService(g, service, task, scale);
+        }
+        else if (roleSet == null) {
             colorSet.add(Color.WHITE);
         }
         else {
@@ -315,4 +322,30 @@ public class ResourceView implements OverlaidView {
         return decomp != null && decomp.getCodelet() != null;
     }
 
+
+    private YAWLServiceReference getService(YAWLAtomicTask task) {
+        YAWLServiceGateway gateway = (YAWLServiceGateway) task.getDecomposition();
+        return gateway != null ? gateway.getYawlService() : null;
+    }
+
+
+    private void writeService(Graphics2D g, YAWLServiceReference service,
+                              YAWLAtomicTask task, double scale) {
+        Rectangle2D boundingRect = getBoundingRect((YAWLTask) task, scale);
+        String id = service.getServiceID();
+        if (id != null) {
+            String name = id.substring(0, id.lastIndexOf('/'));  // -'/ib'
+            name = name.substring(name.lastIndexOf('/') + 1);   // - 'http:...'
+            name = name.substring(0, name.lastIndexOf("Service"));
+            g.setBackground(Color.BLACK);
+            g.fill(boundingRect);
+            g.setColor(Color.WHITE);
+            Font font = g.getFont();
+            g.setFont(font.deriveFont((float) (6 * scale)));
+            g.drawString(name, (float) boundingRect.getX() + 5,
+                    (float) boundingRect.getMaxY() - 10);
+            g.setFont(font);
+        }
+
+    }
 }

@@ -1,9 +1,12 @@
 package org.yawlfoundation.yawl.views.ontology;
 
-import org.apache.jena.ontology.*;
+import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.ObjectProperty;
+import org.apache.jena.ontology.OntClass;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.impl.OntModelImpl;
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.shared.JenaException;
-import org.apache.jena.util.FileManager;
 import org.yawlfoundation.yawl.elements.*;
 import org.yawlfoundation.yawl.elements.data.YParameter;
 import org.yawlfoundation.yawl.elements.data.YVariable;
@@ -11,8 +14,6 @@ import org.yawlfoundation.yawl.views.ontology.mapping.Expression;
 import org.yawlfoundation.yawl.views.ontology.mapping.Mapping;
 import org.yawlfoundation.yawl.views.ontology.resourcing.TaskResources;
 
-import java.io.InputStream;
-import java.io.Writer;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class OntologyPopulator {
 
     public static final String NAMESPACE = "http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#";
 
-    private OntModel ontology;
+    private OntModel _ontModel;
 
     // Classes (mirroring YAWL classes)
     private OntClass yNet;
@@ -114,40 +115,20 @@ public class OntologyPopulator {
     private Map<YVariable, Individual> variableToIndividualLookup;
 
 
-    public OntologyPopulator() {
-    }
-
-    public OntologyPopulator(String ontoFile) {
-        loadOntologyModel(ontoFile);
-    }
-
-    /**
-     * loads the ontology from a given path and initializes the
-     * Classes and Object Properties of the respective ontology
-     * for further actions
-     */
-    public void loadOntologyModel(String ontoFile) {
-
-        OntModel ontoModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, null);
-        try {
-            InputStream in = FileManager.get().open(ontoFile);
-            try {
-                ontoModel.read(in, null);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-            System.out.println("Ontology " + ontoFile + " loaded.");
-        }
-        catch (JenaException je) {
-            System.err.println("ERROR" + je.getMessage());
-            je.printStackTrace();
-            System.exit(0);
-        }
-        ontology = ontoModel;
+    public OntologyPopulator(OntModel model) {
+        Model copy = ModelFactory.createModelForGraph(model.getGraph());
+        _ontModel = new OntModelImpl(model.getSpecification(), copy);
         initOntClasses();
         initObjectProperties();
     }
+
+
+    public OntModel populate(SpecificationParser specificationParser) {
+        addIndividuals(specificationParser);
+        addObjectProperties(specificationParser);
+        return _ontModel;
+    }
+
 
     // initializes the Object Properties of the imported ontology
     private void initObjectProperties() {
@@ -174,7 +155,7 @@ public class OntologyPopulator {
     }
 
     private ObjectProperty getObjectProperty(String name) {
-        return ontology.getObjectProperty(NAMESPACE + name);
+        return _ontModel.getObjectProperty(NAMESPACE + name);
     }
 
     // initializes the Classes of the imported ontology
@@ -194,7 +175,7 @@ public class OntologyPopulator {
     }
 
     private OntClass getOntClass(String name) {
-        return ontology.getOntClass(NAMESPACE + name);
+        return _ontModel.getOntClass(NAMESPACE + name);
     }
 
     /**
@@ -244,34 +225,8 @@ public class OntologyPopulator {
     }
 
 
-    /**
-     * can be utilized to print the ontology to the console in a certain format
-     *
-     * @param param is used as the format identifier
-     */
-    public void outputAs(String param) {
-        ontology.getBaseModel().write(System.out, param);
-    }
-
-    /**
-     * can be utilized to print the ontology to the console in owl format
-     */
-    public void output() {
-        ontology.getBaseModel().write(System.out);
-    }
-
-    /**
-     * can be utilized to print the ontology to a certain Writer (file export)
-     *
-     * @param writer is used to specify how to export the ontology
-     */
-    public void outputTo(Writer writer) {
-        ontology.getBaseModel().write(writer);
-        System.out.println("File successfully exported");
-    }
-
     public OntModel getOntModel() {
-        return ontology;
+        return _ontModel;
     }
 
     /**
@@ -291,7 +246,7 @@ public class OntologyPopulator {
     public void addYTaskIndividuals(Set<YTask> taskSet) {
         taskIndividuals = new HashMap<Individual, YTask>();
         for (YTask task : taskSet) {
-            taskIndividuals.put(ontology.createIndividual(
+            taskIndividuals.put(_ontModel.createIndividual(
                     NamingConventions.getNameFor(task), yTask), task);
         }
     }
@@ -304,7 +259,7 @@ public class OntologyPopulator {
     public void addYDecompositionIndividuals(Set<YAWLServiceGateway> decompositionSet) {
         decompositionIndividuals = new HashMap<Individual, YDecomposition>();
         for (YDecomposition decomposition : decompositionSet) {
-            decompositionIndividuals.put(ontology.createIndividual(
+            decompositionIndividuals.put(_ontModel.createIndividual(
                     NamingConventions.getNameFor(decomposition),
                     yDecomposition), decomposition);
         }
@@ -319,7 +274,7 @@ public class OntologyPopulator {
     public void addYNetIndividuals(Set<YNet> netSet) {
         netIndividuals = new HashMap<Individual, YNet>();
         for (YNet net : netSet) {
-            netIndividuals.put(ontology.createIndividual(
+            netIndividuals.put(_ontModel.createIndividual(
                     NamingConventions.getNameFor(net), yNet), net);
         }
     }
@@ -333,7 +288,7 @@ public class OntologyPopulator {
     public void addYInputConditionIndividuals(Set<YInputCondition> inputConditionSet) {
         inputConditionIndividuals = new HashMap<Individual, YInputCondition>();
         for (YInputCondition condition : inputConditionSet) {
-            inputConditionIndividuals.put(ontology.createIndividual(
+            inputConditionIndividuals.put(_ontModel.createIndividual(
                     NamingConventions.getNameFor(condition),
                     yInputCondition), condition);
         }
@@ -348,7 +303,7 @@ public class OntologyPopulator {
     public void addYOutputConditionIndividuals(Set<YOutputCondition> outputConditionSet) {
         outputConditionIndividuals = new HashMap<Individual, YOutputCondition>();
         for (YOutputCondition condition : outputConditionSet) {
-            outputConditionIndividuals.put(ontology.createIndividual(
+            outputConditionIndividuals.put(_ontModel.createIndividual(
                     NamingConventions.getNameFor(condition),
                     yOutputCondition), condition);
 
@@ -359,7 +314,7 @@ public class OntologyPopulator {
     public void addConditionIndividuals(Set<YCondition> conditionSet) {
         conditionIndividuals = new HashMap<Individual, YCondition>();
         for (YCondition condition : conditionSet) {
-            conditionIndividuals.put(ontology.createIndividual(
+            conditionIndividuals.put(_ontModel.createIndividual(
                     NamingConventions.getNameFor(condition),
                     yCondition), condition);
 
@@ -376,7 +331,7 @@ public class OntologyPopulator {
     public void addYInputParameterIndividuals(Set<YParameter> inputParameters) {
         inputParameterIndividuals = new HashMap<Individual, YParameter>();
         for (YParameter parameter : inputParameters) {
-            inputParameterIndividuals.put(ontology.createIndividual(
+            inputParameterIndividuals.put(_ontModel.createIndividual(
                     NamingConventions.getNameFor(parameter), yVariable),
                     parameter);
         }
@@ -390,7 +345,7 @@ public class OntologyPopulator {
     public void addYOutputParameterIndividuals(Set<YParameter> outputParameters) {
         outputParameterIndividuals = new HashMap<Individual, YParameter>();
         for (YParameter parameter : outputParameters) {
-            outputParameterIndividuals.put(ontology.createIndividual(
+            outputParameterIndividuals.put(_ontModel.createIndividual(
                     NamingConventions.getNameFor(parameter), yVariable),
                     parameter);
         }
@@ -400,7 +355,7 @@ public class OntologyPopulator {
     public void addLocalVariableIndividuals(Set<YVariable> localVariables) {
         localVariableIndividuals = new HashMap<Individual, YVariable>();
         for (YVariable variable : localVariables) {
-            localVariableIndividuals.put(ontology.createIndividual(
+            localVariableIndividuals.put(_ontModel.createIndividual(
                     NamingConventions.getNameFor(variable), yVariable),
                     variable);
         }
@@ -408,7 +363,7 @@ public class OntologyPopulator {
 
 
     public void addYSpecificationIndividual(YSpecification specification) {
-        specificationIndividual = ontology.createIndividual(
+        specificationIndividual = _ontModel.createIndividual(
                 NamingConventions.getNameFor(specification), ySpecification);
     }
 
@@ -424,7 +379,7 @@ public class OntologyPopulator {
 
     private void addExpressionIndividuals(Map<Individual, Mapping> map) {
         for (Mapping mapping : map.values()) {
-            expressionIndividuals.put(ontology.createIndividual(
+            expressionIndividuals.put(_ontModel.createIndividual(
                     NamingConventions.getNameFor(mapping.getExpression()), expression),
                     mapping.getExpression());
         }
@@ -439,7 +394,7 @@ public class OntologyPopulator {
     private void addIOParameterIndividuals(Set<YParameter> ioParameters) {
         ioParameterIndividuals = new HashMap<Individual, YParameter>();
         for (YParameter parameter : ioParameters) {
-            Individual i = ontology.createIndividual(
+            Individual i = _ontModel.createIndividual(
                     NamingConventions.getNameFor(parameter), yVariable);
             ioParameterIndividuals.put(i, parameter);
         }
@@ -467,14 +422,14 @@ public class OntologyPopulator {
 
     private void addCompletedMappingIndividual(Mapping completedMapping) {
         String completed = NamingConventions.getNameFor(completedMapping);
-        completedMappingIndividuals.put(ontology.createIndividual(completed, mapping),
+        completedMappingIndividuals.put(_ontModel.createIndividual(completed, mapping),
                 completedMapping);
     }
 
 
     private void addStartingMappingIndividual(Mapping startingMapping) {
         String starting = NamingConventions.getNameFor(startingMapping);
-        startingMappingIndividuals.put(ontology.createIndividual(starting, mapping),
+        startingMappingIndividuals.put(_ontModel.createIndividual(starting, mapping),
                 startingMapping);
     }
 
@@ -493,10 +448,10 @@ public class OntologyPopulator {
 
         for (String pid : participants) {
             participantIndividuals.put(
-                    ontology.createIndividual(NAMESPACE + pid, Participant), pid);
+                    _ontModel.createIndividual(NAMESPACE + pid, Participant), pid);
         }
         for (String rid : roles) {
-            roleIndividuals.put(ontology.createIndividual(NAMESPACE + rid, Role), rid);
+            roleIndividuals.put(_ontModel.createIndividual(NAMESPACE + rid, Role), rid);
         }
     }
 
@@ -507,10 +462,10 @@ public class OntologyPopulator {
             if (iTask != null) {
                 TaskResources resources = resourcesMap.get(task);
                 for (String pid : resources.getParticipants()) {
-                    iTask.addProperty(hasParticipant, ontology.getIndividual(NAMESPACE + pid));
+                    iTask.addProperty(hasParticipant, _ontModel.getIndividual(NAMESPACE + pid));
                 }
                 for (String rid : resources.getRoles()) {
-                    iTask.addProperty(hasRole, ontology.getIndividual(NAMESPACE + rid));
+                    iTask.addProperty(hasRole, _ontModel.getIndividual(NAMESPACE + rid));
                 }
                 String famTask = resources.getFamiliarTask();
                 if (famTask != null) {

@@ -19,13 +19,8 @@ import prefuse.activity.SlowInSlowOutPacer;
 import prefuse.controls.*;
 import prefuse.data.Graph;
 import prefuse.data.Node;
-import prefuse.data.Table;
 import prefuse.data.Tuple;
 import prefuse.data.event.TupleSetListener;
-import prefuse.data.io.GraphMLReader;
-import prefuse.data.query.SearchQueryBinding;
-import prefuse.data.search.PrefixSearchTupleSet;
-import prefuse.data.search.SearchTupleSet;
 import prefuse.data.tuple.DefaultTupleSet;
 import prefuse.data.tuple.TupleSet;
 import prefuse.render.AbstractShapeRenderer;
@@ -34,24 +29,16 @@ import prefuse.render.EdgeRenderer;
 import prefuse.render.LabelRenderer;
 import prefuse.util.ColorLib;
 import prefuse.util.FontLib;
-import prefuse.util.ui.JFastLabel;
-import prefuse.util.ui.JSearchPanel;
-import prefuse.util.ui.UILib;
 import prefuse.visual.VisualItem;
 import prefuse.visual.expression.InGroupPredicate;
 import prefuse.visual.sort.TreeDepthItemSorter;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.util.Iterator;
 
 
 /**
- * Demonstration of a node-link tree viewer
- *
- * @author <a href="http://jheer.org">jeffrey heer</a>
- * @version 1.0
+ * A node-link tree viewer
+ * Modified from original code from: http://jheer.org
  */
 public class RadialGraphView extends Display {
 
@@ -60,32 +47,27 @@ public class RadialGraphView extends Display {
     private static final String treeEdges = "tree.edges";
     private static final String linear = "linear";
 
-    private LabelRenderer m_nodeRenderer;
-    private EdgeRenderer m_edgeRenderer;
-
-    private String m_label = "label";
 
     public RadialGraphView(Graph g, String label) {
         super(new Visualization());
-        m_label = label;
 
         // -- set up visualization --
         m_vis.add(tree, g);
         m_vis.setInteractive(treeEdges, null, false);
 
         // -- set up renderers --
-        m_nodeRenderer = new LabelRenderer(m_label);
-        m_nodeRenderer.setRenderType(AbstractShapeRenderer.RENDER_TYPE_DRAW_AND_FILL);
-        m_nodeRenderer.setHorizontalAlignment(Constants.CENTER);
-        m_nodeRenderer.setRoundedCorner(12, 12);
-        m_nodeRenderer.setHorizontalPadding(6);
-        m_nodeRenderer.setVerticalPadding(3);
+        LabelRenderer nodeRenderer = new LabelRenderer(label);
+        nodeRenderer.setRenderType(AbstractShapeRenderer.RENDER_TYPE_DRAW_AND_FILL);
+        nodeRenderer.setHorizontalAlignment(Constants.CENTER);
+        nodeRenderer.setRoundedCorner(12, 12);
+        nodeRenderer.setHorizontalPadding(6);
+        nodeRenderer.setVerticalPadding(3);
 
-        m_edgeRenderer = new EdgeRenderer(
+        EdgeRenderer edgeRenderer = new EdgeRenderer(
                 Constants.EDGE_TYPE_LINE, Constants.EDGE_ARROW_FORWARD);
 
-        DefaultRendererFactory rf = new DefaultRendererFactory(m_nodeRenderer);
-        rf.add(new InGroupPredicate(treeEdges), m_edgeRenderer);
+        DefaultRendererFactory rf = new DefaultRendererFactory(nodeRenderer);
+        rf.add(new InGroupPredicate(treeEdges), edgeRenderer);
         m_vis.setRendererFactory(rf);
 
         // -- set up processing actions --
@@ -189,102 +171,18 @@ public class RadialGraphView extends Display {
                     }
                 }
         );
-
-        SearchTupleSet search = new PrefixSearchTupleSet();
-        m_vis.addFocusGroup(Visualization.SEARCH_ITEMS, search);
-        search.addTupleSetListener(new TupleSetListener() {
-            public void tupleSetChanged(TupleSet t, Tuple[] add, Tuple[] rem) {
-                m_vis.cancel("animatePaint");
-                m_vis.run("recolor");
-                m_vis.run("animatePaint");
-            }
-        });
+        m_vis.run("repaint");
+//        SearchTupleSet search = new PrefixSearchTupleSet();
+//        m_vis.addFocusGroup(Visualization.SEARCH_ITEMS, search);
+//        search.addTupleSetListener(new TupleSetListener() {
+//            public void tupleSetChanged(TupleSet t, Tuple[] add, Tuple[] rem) {
+//                m_vis.cancel("animatePaint");
+//                m_vis.run("recolor");
+//                m_vis.run("animatePaint");
+//            }
+//        });
     }
 
-    // ------------------------------------------------------------------------
-
-    public static void main(String argv[]) {
-        String infile = "";
-        String label = "name";
-
-        if (argv.length > 1) {
-            infile = argv[0];
-            label = argv[1];
-        }
-
-        UILib.setPlatformLookAndFeel();
-
-        JFrame frame = new JFrame("p r e f u s e  |  r a d i a l g r a p h v i e w");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(demo(infile, label));
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-    public static JPanel demo() {
-        return demo("", "name");
-    }
-
-    public static JPanel demo(String datafile, final String label) {
-        Graph g = null;
-        try {
-            g = new GraphMLReader().readGraph(datafile);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-        return demo(g, label);
-    }
-
-    public static JPanel demo(Graph g, final String label) {
-        // create a new radial tree view
-        final RadialGraphView gview = new RadialGraphView(g, label);
-        Visualization vis = gview.getVisualization();
-
-        // create a search panel for the tree map
-        SearchQueryBinding sq = new SearchQueryBinding(
-                (Table) vis.getGroup(treeNodes), label,
-                (SearchTupleSet) vis.getGroup(Visualization.SEARCH_ITEMS));
-        JSearchPanel search = sq.createSearchPanel();
-        search.setShowResultCount(true);
-        search.setBorder(BorderFactory.createEmptyBorder(5, 5, 4, 0));
-        search.setFont(FontLib.getFont("Tahoma", Font.PLAIN, 11));
-
-        final JFastLabel title = new JFastLabel("                 ");
-        title.setPreferredSize(new Dimension(350, 20));
-        title.setVerticalAlignment(SwingConstants.BOTTOM);
-        title.setBorder(BorderFactory.createEmptyBorder(3, 0, 0, 0));
-        title.setFont(FontLib.getFont("Tahoma", Font.PLAIN, 16));
-
-        gview.addControlListener(new ControlAdapter() {
-            public void itemEntered(VisualItem item, MouseEvent e) {
-                if (item.canGetString(label))
-                    title.setText(item.getString(label));
-            }
-
-            public void itemExited(VisualItem item, MouseEvent e) {
-                title.setText(null);
-            }
-        });
-
-        Box box = new Box(BoxLayout.X_AXIS);
-        box.add(Box.createHorizontalStrut(10));
-        box.add(title);
-        box.add(Box.createHorizontalGlue());
-        box.add(search);
-        box.add(Box.createHorizontalStrut(3));
-
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(gview, BorderLayout.CENTER);
-        panel.add(box, BorderLayout.SOUTH);
-
-        Color BACKGROUND = Color.WHITE;
-        Color FOREGROUND = Color.DARK_GRAY;
-        UILib.setColor(panel, BACKGROUND, FOREGROUND);
-
-        return panel;
-    }
 
     // ------------------------------------------------------------------------
 

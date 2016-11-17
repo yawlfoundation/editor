@@ -19,8 +19,8 @@ class ResourceViewAction extends YAWLSelectedNetAction implements ViewsPluginAct
 
     {
         putValue(Action.SHORT_DESCRIPTION, "Resource View Overlay");
-        putValue(Action.NAME, "Resource View");
-        putValue(Action.LONG_DESCRIPTION, "Colours tasks by selected roles");
+        putValue(Action.NAME, "Resource Color Overlay");
+        putValue(Action.LONG_DESCRIPTION, "Color tasks by their roles");
         putValue(Action.MNEMONIC_KEY, KeyEvent.VK_R);
 
         _viewHandler = new ResourceViewHandler();

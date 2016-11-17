@@ -32,7 +32,7 @@ public class MenuBuilder {
     public JMenu getMenu() {
         JMenu menu = new JMenu("Process Views");
         addItems(menu);
-        menu.setIcon(getMenuIcon("views"));
+        menu.setIcon(getMenuIcon("view"));
         menu.setMnemonic('V');
         return menu;
     }
@@ -74,7 +74,20 @@ public class MenuBuilder {
         _viewHandler = rvAction.getViewHandler();
 
         GraphViewAction gvAction = new GraphViewAction();
-        actions.add(new MenuAction(gvAction, "resource", false));
+        actions.add(new MenuAction(gvAction, "graphview", false));
+
+        DataViewAction dvAction = new DataViewAction();
+        actions.add(new MenuAction(dvAction, "dataview", false));
+
+        QueryAction qAction = new QueryAction();
+        actions.add(new MenuAction(qAction, "search", false));
+
+        WriteTriplesAction wrAction = new WriteTriplesAction();
+        actions.add(new MenuAction(wrAction, "triples", false));
+
+        SaveOntologyAction svAction = new SaveOntologyAction();
+        actions.add(new MenuAction(svAction, "save", false));
+
         return actions;
     }
 

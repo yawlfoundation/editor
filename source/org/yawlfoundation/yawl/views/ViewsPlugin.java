@@ -45,6 +45,7 @@ public class ViewsPlugin extends YEditorPluginAdapter {
     @Override
     public void closeSpecification() {
         OntologyHandler.unload();
+        _menuBuilder.getViewHandler().removeViews();
     }
 
     @Override

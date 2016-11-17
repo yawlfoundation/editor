@@ -71,7 +71,8 @@ public class ResourceConstraintsOverlay {
 
 
     private Rectangle2D getTaskBounds(String taskID) {
-        return ((YAWLTask) _taskMap.get(taskID)).getBounds();
+        YAWLTask task = (YAWLTask) _taskMap.get(taskID);
+        return task != null ? task.getBounds() : null;
     }
 
 
@@ -163,11 +164,13 @@ public class ResourceConstraintsOverlay {
         for (Triple triple : triples) {
             Rectangle2D T1 = getTaskBounds(triple.getSubject());
             Rectangle2D T2 = getTaskBounds(triple.getObject());
-            Point2D[] pathPoints = getPathPoints(T1, T2, scale);
-            Path2D path = getConstraintPath(pathPoints);
-            g.draw(path);
+            if (! (T1 == null || T2 == null)) {
+                Point2D[] pathPoints = getPathPoints(T1, T2, scale);
+                Path2D path = getConstraintPath(pathPoints);
+                g.draw(path);
 
-            paintIcon(g, getIconPosition(path), iconName);
+                paintIcon(g, getIconPosition(path), iconName);
+            }
         }
     }
 
