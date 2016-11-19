@@ -18,13 +18,12 @@ public class OntologyReader {
      * Classes and Object Properties of the respective ontology
      * for further actions
      */
-    public OntModel read(String ontoFile) {
+    public OntModel read(InputStream is) {
         // OntModelSpec.OWL_MEM_MINI_RULE_INF
         // PelletReasonerFactory.THE_SPEC
         OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-        InputStream in = FileManager.get().open(ontoFile);
         try {
-            ontModel.read(in, null);
+            ontModel.read(is, null);
             return ontModel;
         }
         catch (Exception e) {
@@ -32,5 +31,12 @@ public class OntologyReader {
             return null;
         }
     }
+
+
+    public OntModel read(String ontoFile) {
+        InputStream is = FileManager.get().open(ontoFile);
+        return read(is);
+    }
+
 
 }

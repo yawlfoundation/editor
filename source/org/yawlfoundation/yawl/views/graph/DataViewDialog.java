@@ -62,16 +62,6 @@ public class DataViewDialog extends JDialog implements TableModelListener {
         }
     }
 
-//    private JPanel getContent(InputStream is) {
-//        JPanel panel = new JPanel(new BorderLayout());
-//        panel.setBorder(new EmptyBorder(0,5,0,5));
-//        panel.add(getFilterPanel(), BorderLayout.WEST);
-//        panel.add(getButtonBar(), BorderLayout.SOUTH);
-//        createViewPanel();
-//        _viewPanel.add(getView(is));
-//        panel.add(_viewPanel, BorderLayout.CENTER);
-//        return panel;
-//    }
 
     private JPanel getContent(InputStream is) {
         JPanel panel = new JPanel(new BorderLayout());

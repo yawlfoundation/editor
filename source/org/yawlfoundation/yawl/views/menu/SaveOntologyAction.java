@@ -2,6 +2,7 @@ package org.yawlfoundation.yawl.views.menu;
 
 import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.views.ontology.OntologyHandler;
 
 import javax.swing.*;
@@ -23,7 +24,14 @@ class SaveOntologyAction extends YAWLSelectedNetAction {
             OntologyHandler.load(SpecificationModel.getHandler());
         }
 
-        OntologyHandler.save();
+        if (OntologyHandler.save()) {
+            MessageDialog.info("OWL file successfully saved to disk",
+                    "OWL File Save");
+        }
+        else {
+            MessageDialog.error("Failed to save OWL file to disk",
+                    "OWL File Save");
+        }
     }
 
 }

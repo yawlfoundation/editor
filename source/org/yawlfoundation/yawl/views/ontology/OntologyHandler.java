@@ -5,12 +5,16 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.reasoner.Reasoner;
+import org.apache.jena.reasoner.ReasonerRegistry;
 import org.apache.jena.reasoner.rulesys.GenericRuleReasoner;
 import org.apache.jena.reasoner.rulesys.Rule;
 import org.yawlfoundation.yawl.editor.core.YSpecificationHandler;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.util.StringUtil;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,11 +26,14 @@ import java.util.Set;
  */
 public class OntologyHandler {
 
-    private static final String BASE_ONT_FILE =
-            "source/org/yawlfoundation/yawl/views/ontology/file/SpecificationOntology.owl";
+//    private static final String BASE_ONT_FILE =
+//            "source/org/yawlfoundation/yawl/views/ontology/file/SpecificationOntology.owl";
+//
+//    private static final String RULES_FILE_URL =
+//            "file:source/org/yawlfoundation/yawl/views/ontology/file/rules.txt";
 
-    private static final String RULES_FILE_URL =
-            "file:source/org/yawlfoundation/yawl/views/ontology/file/rules.txt";
+    private static final String BASE_ONT_URL = "/org/yawlfoundation/yawl/views/ontology/file/SpecificationOntology.owl";
+    private static final String RULES_FILE_URL = "/org/yawlfoundation/yawl/views/ontology/file/rules.txt";
 
 
     private static List<Rule> _rules;            // rules from file
@@ -61,6 +68,7 @@ public class OntologyHandler {
     }
 
 
+    //**
     public static boolean save() {
         if (! isLoaded()) {
             load(SpecificationModel.getHandler());
@@ -81,7 +89,8 @@ public class OntologyHandler {
         return query(null, predStr, null);
     }
 
-    public static List<Triple> swrlQuery(String predStr) throws OntologyQueryException {
+    public static List<Triple> swrlQuery(String predStr)
+            throws OntologyQueryException, QueryParseException {
         return swrlQuery(null, predStr, null);
     }
 
@@ -109,19 +118,6 @@ public class OntologyHandler {
     }
 
 
-    public static List<Triple> swrlQuery(String sSubject, String sPredicate, String sObject)
-            throws OntologyQueryException {
-        if (_infModel == null) {
-            throw new OntologyQueryException("No specification loaded.");
-        }
-        Resource subject = sSubject == null ? null :
-                _infModel.getResource(OntologyPopulator.NAMESPACE + sSubject);
-        Property predicate = sPredicate == null ? null :
-                _infModel.getProperty(OntologyPopulator.NAMESPACE + sPredicate);
-        RDFNode object = null;       // todo
-        return swrlQuery(subject, predicate, object);
-    }
-
 
     private static InfModel getInfModel(OntModel model) {
         Reasoner reasoner = new GenericRuleReasoner(getRules());
@@ -131,18 +127,31 @@ public class OntologyHandler {
     }
 
 
-    private static List<Triple> swrlQuery(Resource subject, Property predicate, RDFNode object) {
+    public static List<Triple> swrlQuery(String subject, String predicate, String object)
+            throws QueryParseException {
         List<Triple> triples = new ArrayList<Triple>();
+        String s = subject == null ? "?s" :
+                "<" + OntologyPopulator.NAMESPACE + subject.trim() + ">";
+        String p = predicate == null ? "?p" :
+                "<" + OntologyPopulator.NAMESPACE + predicate.trim() + ">";
+        String o = object == null ? "?o" :
+                "<" + OntologyPopulator.NAMESPACE + object.trim() + ">";
 
-        String queryStr = "SELECT ?x ?y WHERE { ?x <" + predicate + "> ?y }";
+        String queryStr = String.format("SELECT %s %s %s WHERE { %s %s %s }",
+                 (s.startsWith("?") ? s : ""),
+                 (p.startsWith("?") ? p : ""),
+                 (o.startsWith("?") ? o : ""),
+                 s, p, o);
+
         Query query = QueryFactory.create(queryStr);
         QueryExecution qexec = QueryExecutionFactory.create(query, _infModel);
         ResultSet results = qexec.execSelect();
         for (; results.hasNext(); ) {
             QuerySolution soln = results.nextSolution();
-            String s = soln.getResource("?x").getLocalName();
-            String o = soln.getResource("?y").getLocalName();
-            triples.add(new Triple(s, predicate.toString(), o));
+            String rs = subject != null ? subject : soln.getResource(s).getLocalName();
+            String rp = predicate != null ? predicate : soln.getResource(p).getLocalName();
+            String ro = object != null ? object : soln.getResource(o).getLocalName();
+            triples.add(new Triple(rs, rp, ro));
         }
         return triples;
     }
@@ -191,7 +200,9 @@ public class OntologyHandler {
 
     private static OntModel getBaseModel() {
 //        if (_baseModel == null) {
-            _baseModel = new OntologyReader().read(BASE_ONT_FILE);
+        InputStream is = OntologyHandler.class.getResourceAsStream(BASE_ONT_URL);
+        _baseModel = new OntologyReader().read(is);
+        //    _baseModel = new OntologyReader().read(BASE_ONT_URL);
 //        }
         return _baseModel;
     }
@@ -199,11 +210,15 @@ public class OntologyHandler {
 
     private static List<Rule> getRules() {
         if (_rules == null) {
-//            GenericRuleReasoner rdfsReasoner =
-//                    (GenericRuleReasoner) ReasonerRegistry.getRDFSReasoner();
-//            _rules = new ArrayList<Rule>(rdfsReasoner.getRules());
-//            _rules.addAll(Rule.rulesFromURL(RULES_FILE_URL));
-            _rules = Rule.rulesFromURL(RULES_FILE_URL);
+            InputStream is = OntologyHandler.class.getResourceAsStream(RULES_FILE_URL);
+            String rules = StringUtil.streamToString(is);
+            BufferedReader reader = new BufferedReader(new StringReader(rules));
+            Rule.Parser parser = Rule.rulesParserFromReader(reader);
+            _rules = Rule.parseRules(parser);
+
+            GenericRuleReasoner rdfsReasoner =
+                    (GenericRuleReasoner) ReasonerRegistry.getRDFSReasoner();
+            _rules.addAll(rdfsReasoner.getRules());
         }
         return _rules;
     }

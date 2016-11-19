@@ -49,6 +49,7 @@
     <property name="deploy.dir" value="deploy" />
     <property name="javadoc.dir" value="${output.dir}/javadoc" />
     <property name="analyzer.dir" value="${build.dir}/analyzer" />
+    <property name="log.file" value="${build.dir}/log.txt"/>
 
     <!--
     	Define output file names
@@ -94,7 +95,12 @@
     <property name="macify" value="macify-1.4.jar"/>
     <property name="servlet" value="servlet-api.jar"/>
 	<property name="junit" value="junit-4.4.jar"/>
-    <property name="jena-core" value="jena-core-3.1.0.jar"/>
+
+    <property name="jena-core" value="jena-core-3.1.1.jar"/>
+    <property name="jena-arq" value="jena-arq-3.1.1.jar"/>
+    <property name="prefuse" value="prefuse.jar"/>
+    <property name="slf4j-api" value="slf4j-api-1.7.21.jar"/>
+    <property name="slf4j-simple" value="slf4j-simple-1.7.21.jar"/>
 
     <fileset id="editorOnlyDeps" dir="${library.dir}/standard"
              includes="${automaton} ${forms} ${imgscalr} ${jcal}
@@ -104,7 +110,7 @@
 	<fileset id="junitDeps" file="${tools.dir}/${junit}" />
 
     <fileset id="viewsPluginDeps" dir="${library.dir}/plugins/views"
-             includes="${jena-core}"/>
+             includes="${jena-core} ${jena-arq} ${prefuse} ${slf4j-api}"/>
 
 
     <!--
@@ -386,7 +392,7 @@
             <srcfiles dir="${source.dir}/${package.base.dir}/worklet/"
                       includes="**/*"/>
         </uptodate>
-        <echo message="Worklet plugin jar is up to date: ${viewPlugin.uptodate}"/>
+        <echo message="Views plugin jar is up to date: ${viewPlugin.uptodate}"/>
     </target>
 
     <target name="buildViewsPluginJar"
@@ -398,28 +404,37 @@
         <mkdir dir="${output.dir}/plugins"/>
         <mkdir dir="${output.dir}/plugins/lib"/>
 
-        <copy file="${library.dir}/plugins/views/${jena-core}"
-              todir="${output.dir}/plugins/lib"/>
+        <!--<copy todir="${output.dir}/plugins/lib">-->
+             <!--<fileset dir="${library.dir}/plugins/views"/>-->
+                      <!--&lt;!&ndash;includes="${jena-core} ${jena-arq} ${prefuse}&ndash;&gt;-->
+                      <!--&lt;!&ndash;${slf4j-api}"/>&ndash;&gt;-->
+        <!--</copy>-->
 
-        <manifestclasspath property="views.manifest.cp"
-                           jarfile="${output.dir}/plugins/${views.plugin.jar.name}">
-            <classpath>
-                <fileset dir="${output.dir}/lib" includes="*.jar"/>
-                <fileset dir="${output.dir}" includes="${ui.jar.name}"/>
-                <fileset dir="${output.dir}/plugins/lib" includes="${jena-core}"/>
-            </classpath>
-        </manifestclasspath>
-        <manifest file="views.mf">
-            <attribute name="Class-Path" value="${views.manifest.cp}"/>
-        </manifest>
+        <!--<manifestclasspath property="views.manifest.cp"-->
+                           <!--jarfile="${output.dir}/plugins/${views.plugin.jar.name}">-->
+            <!--&lt;!&ndash;<classpath>&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash;<fileset dir="${output.dir}/lib"&ndash;&gt;&ndash;&gt;-->
+                         <!--&lt;!&ndash;&lt;!&ndash;includes="log4j-slf4j-impl*.jar"/>&ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash;<fileset dir="${output.dir}" includes="${ui.jar.name}"/>&ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;<fileset dir="${output.dir}/plugins/lib"/>&ndash;&gt;-->
+                         <!--&lt;!&ndash;&lt;!&ndash;includes="${jena-core} ${jena-arq} ${prefuse}&ndash;&gt;&ndash;&gt;-->
+                         <!--&lt;!&ndash;&lt;!&ndash;${slf4j-api}"/>&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;</classpath>&ndash;&gt;-->
+        <!--</manifestclasspath>-->
+        <!--<manifest file="views.mf">-->
+            <!--<attribute name="Class-Path" value="${views.manifest.cp}"/>-->
+        <!--</manifest>-->
 
         <copy toDir="${classes.dir}/${package.base.dir}/views/menu/icon">
             <fileset dir="${source.dir}/${package.base.dir}/views/menu/icon"/>
         </copy>
 
+        <copy toDir="${classes.dir}/${package.base.dir}/views/ontology/file">
+            <fileset dir="${source.dir}/${package.base.dir}/views/ontology/file"/>
+        </copy>
+
         <jar jarfile="${output.dir}/plugins/${views.plugin.jar.name}"
              basedir="${classes.dir}"
-             manifest="views.mf"
              includes="${package.base.dir}/views/**"/>
         <copy file="${output.dir}/plugins/${views.plugin.jar.name}"
               todir="${deploy.dir}/plugins"/>
@@ -654,6 +669,7 @@
 	-->
     <target name="compile" depends="clean, copyLibs">
         <echo message="Compiling: ${root.source.file.path}" />
+        <!--<record name="${log.file}" action="start"/>-->
         <javac debug="yes"
                source="${java.target.version}"
                srcdir="${source.dir}"
@@ -665,7 +681,7 @@
             <include name="${package.dir}/ui/util/CheckSumTask.java"/>
             <include name="${package.base.dir}/configuration/ConfigurationPlugin.java"/>
             <include name="${package.base.dir}/decobar/DecoratorToolbarPlugin.java"/>
-            <!--<include name="${package.base.dir}/views/ViewsPlugin.java"/>-->
+            <include name="${package.base.dir}/views/ViewsPlugin.java"/>
             <include name="${package.base.dir}/worklet/WorkletEditorPlugin.java"/>
             <classpath>
             	<pathelement location="${engine.lib.jar.path}" />
@@ -674,6 +690,7 @@
                 <fileset refid="viewsPluginDeps"/>
             </classpath>
         </javac>
+        <!--<record name="${log.file}" action="stop"/>-->
     </target>
 
 

@@ -5,7 +5,7 @@ import org.yawlfoundation.yawl.editor.ui.util.UserSettings;
 
 /**
  * Sets a couple of system properties for mac users, then calls the main editor class.
- * Note: the setProperty calls won't 'take' unless there are in a separate class to the
+ * Note: the setProperty calls won't 'take' unless they are in a separate class to the
  * main GUI
  * @author Michael Adams
  * @date 21/11/2013
