@@ -18,9 +18,10 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.dialog.component;
 
+import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
@@ -35,9 +36,9 @@ public class ButtonBar extends JPanel {
 
     public ButtonBar(ActionListener listener) {
         setBorder(new EmptyBorder(10, 0, 10, 0));
-        _btnCancel = createButton("Cancel", listener);
+        _btnCancel = ButtonUtil.createButton("Cancel", listener);
         add(_btnCancel);
-        _btnOK = createButton("OK", listener);
+        _btnOK = ButtonUtil.createButton("OK", listener);
         _btnOK.setEnabled(false);
         add(_btnOK);
     }
@@ -53,18 +54,9 @@ public class ButtonBar extends JPanel {
 
 
     public JButton addButton(String label, ActionListener listener) {
-        JButton btn = createButton(label, listener);
+        JButton btn = ButtonUtil.createButton(label, listener);
         add(btn);
         return btn;
     }
 
-
-    private JButton createButton(String label, ActionListener listener) {
-        JButton button = new JButton(label);
-        button.setActionCommand(label);
-        button.setMnemonic(label.charAt(0));
-        button.setPreferredSize(new Dimension(70,25));
-        button.addActionListener(listener);
-        return button;
-    }
 }

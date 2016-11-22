@@ -349,6 +349,34 @@
     
 
 
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#passesDataToIndirectly -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#passesDataToIndirectly">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Role"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Role"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#passesWorkTo -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#passesWorkTo">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Role"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Role"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#passesWorkToIndirectly -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#passesWorkToIndirectly">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Role"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Role"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#readsDataFrom -->
 
     <owl:ObjectProperty rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#readsDataFrom">

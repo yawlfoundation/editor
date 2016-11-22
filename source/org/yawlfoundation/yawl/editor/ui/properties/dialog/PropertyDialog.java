@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.properties.dialog;
 
+import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
 import org.yawlfoundation.yawl.editor.ui.util.ResourceLoader;
 
 import javax.swing.*;
@@ -62,22 +63,14 @@ public abstract class PropertyDialog extends JDialog {
     protected JPanel getButtonBar(ActionListener listener) {
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(5,5,10,5));
-        btnCancel = createButton("Cancel", listener);
+        btnCancel = ButtonUtil.createButton("Cancel", listener);
         panel.add(btnCancel);
-        btnOK = createButton("OK", listener);
+        btnOK = ButtonUtil.createButton("OK", listener);
         btnOK.setEnabled(false);
         panel.add(btnOK);
         return panel;
     }
 
-
-    protected JButton createButton(String caption, ActionListener listener) {
-        JButton btn = new JButton(caption);
-        btn.setActionCommand(caption);
-        btn.setPreferredSize(new Dimension(75,25));
-        btn.addActionListener(listener);
-        return btn;
-    }
 
 
     protected ImageIcon getMenuIcon(String iconName) {

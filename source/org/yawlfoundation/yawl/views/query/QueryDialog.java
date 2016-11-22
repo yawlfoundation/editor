@@ -1,7 +1,9 @@
 package org.yawlfoundation.yawl.views.query;
 
+import org.yawlfoundation.yawl.editor.core.resourcing.ResourceDataSet;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
-import org.yawlfoundation.yawl.util.StringUtil;
+import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
+import org.yawlfoundation.yawl.resourcing.resource.Role;
 import org.yawlfoundation.yawl.views.ontology.OntologyHandler;
 import org.yawlfoundation.yawl.views.ontology.Triple;
 
@@ -10,8 +12,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -21,14 +23,17 @@ import java.util.Map;
  * @author Michael Adams
  * @date 16/11/16
  */
-public class QueryDialog extends JDialog implements ActionListener, KeyListener {
+public class QueryDialog extends JDialog implements ActionListener {
 
     private JComboBox _subject;
     private JComboBox _predicate;
     private JComboBox _object;
-    private JTextArea _results;
+    private ColorTextPane _results;
+    private JLabel _status;
 
-    private Map<JComboBox, String> _lastEntry;
+    private final Map<JComboBox, String> _lastEntry;
+
+    private final Color PRED_COLOR = new Color(0,102,204);
 
 
     public QueryDialog() {
@@ -40,7 +45,7 @@ public class QueryDialog extends JDialog implements ActionListener, KeyListener 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pack();
         setLocationRelativeTo(YAWLEditor.getInstance());
-        setMinimumSize(getSize());
+        setMinimumSize(new Dimension(getSize().width, 400));
     }
 
 
@@ -54,10 +59,7 @@ public class QueryDialog extends JDialog implements ActionListener, KeyListener 
             run();
         }
         else if (cmd.equals("Clear")) {
-            _subject.setSelectedItem(null);
-            _predicate.setSelectedItem(null);
-            _object.setSelectedItem(null);
-            _results.setText(null);
+            clear();
         }
         else if (cmd.equals("Exit")) {
             setVisible(false);
@@ -65,25 +67,11 @@ public class QueryDialog extends JDialog implements ActionListener, KeyListener 
     }
 
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            run();
-        }
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {}
-
-    @Override
-    public void keyReleased(KeyEvent e) {}
-
-
     private JPanel getContent() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(new EmptyBorder(5,5,0,5));
         panel.add(getEntryPanel(), BorderLayout.NORTH);
-        panel.add(getResultsPanel(), BorderLayout.CENTER);
+        panel.add(getCentrePanel(), BorderLayout.CENTER);
         panel.add(getButtonBar(), BorderLayout.SOUTH);
         return panel;
     }
@@ -147,18 +135,46 @@ public class QueryDialog extends JDialog implements ActionListener, KeyListener 
 
 
     private JScrollPane getResultsPanel() {
-        _results = new JTextArea(20, 10);
+        _results = new ColorTextPane();
+        _results.addColor(PRED_COLOR);
         _results.setEditable(false);
         _results.setBackground(Color.WHITE);
+
+        // allow Ctrl-C copy for non-editable text area
+        _results.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.isMetaDown() || e.isControlDown()) {
+                     if (e.getKeyCode() == KeyEvent.VK_C) {
+                         _results.setEditable(true);
+                         _results.copy();
+                         _results.setEditable(false);
+                     }
+                 }
+                super.keyReleased(e);
+            }
+        });
+
         return new JScrollPane(_results);
     }
 
 
+    private JPanel getCentrePanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        _status = new JLabel();
+        panel.add(_status, BorderLayout.SOUTH);
+        panel.add(getResultsPanel(), BorderLayout.CENTER);
+        return panel;
+    }
+
     private JPanel getButtonBar() {
         JPanel panel = new JPanel();
-        panel.add(createButton("Exit", this));
-        panel.add(createButton("Clear", this));
-        panel.add(createButton("Run", this));
+        panel.add(ButtonUtil.createButton("Exit", this));
+        panel.add(ButtonUtil.createButton("Clear", this));
+
+        JButton btnRun = ButtonUtil.createButton("Run", this);
+        getRootPane().setDefaultButton(btnRun);
+        panel.add(btnRun);
         return panel;
     }
 
@@ -168,18 +184,28 @@ public class QueryDialog extends JDialog implements ActionListener, KeyListener 
         cbx.setEditable(true);
         cbx.setPrototypeDisplayValue("0123456789012345678901234567890123456789");
         cbx.addActionListener(this);
-        cbx.addKeyListener(this);
         _lastEntry.put(cbx, null);
         return cbx;
     }
 
 
+    private void clear() {
+        _subject.setSelectedItem(null);
+        _predicate.setSelectedItem(null);
+        _object.setSelectedItem(null);
+        _results.setText(null);
+    }
+
+
     private void updateCombo(JComboBox combo) {
         String entry = (String) combo.getSelectedItem();
-        _lastEntry.put(combo, entry.isEmpty() ? null : entry);
+        if (entry != null && entry.isEmpty()) {
+            entry = null;
+        }
+        _lastEntry.put(combo, entry);
+        if (entry == null) return;
 
         // if unique entry, add it to the combo's items
-        if (StringUtil.isNullOrEmpty(entry)) return;
         for (int i=0; i < combo.getItemCount(); i++) {
             if (combo.getItemAt(i).equals(entry)) {
                 return;
@@ -191,16 +217,6 @@ public class QueryDialog extends JDialog implements ActionListener, KeyListener 
     }
 
 
-    private JButton createButton(String label, ActionListener listener) {
-        JButton button = new JButton(label);
-        button.setActionCommand(label);
-        button.setMnemonic(label.charAt(0));
-        button.setPreferredSize(new Dimension(70,25));
-        button.addActionListener(listener);
-        return button;
-    }
-
-
     private void run() {
         _results.setText(null);
         String s = _lastEntry.get(_subject);
@@ -209,27 +225,42 @@ public class QueryDialog extends JDialog implements ActionListener, KeyListener 
 
         java.util.List<Triple> results = OntologyHandler.swrlQuery(s, p, o);
         if (results.isEmpty()) {
-            _results.append("No triples found matching query.");
+            _status.setText("No triples found matching query");
             return;
         }
 
-        Collections.sort(results, new TripleSubjectSorter());
+        Collections.sort(results, new TripleSorter());
+        _results.setEditable(true);
         for (Triple triple : results) {
-            _results.append(triple.getSubject());
+            _results.append(getName(triple.getSubject()));
             _results.append(" ");
             String pred = triple.getPredicate();
-            _results.append(pred.substring(pred.indexOf('#') + 1));
+            _results.append(pred.substring(pred.indexOf('#') + 1), PRED_COLOR);
             _results.append(" ");
-            _results.append(triple.getObject());
+            _results.append(getName(triple.getObject()));
             _results.append(" ");
             _results.append("\n");
         }
+        _results.setEditable(false);
+        _status.setText(results.size() + " triple" +
+                (results.size() > 1 ? "s" : "") + " returned");
+    }
+
+
+    private String getName(String roleID) {
+        if (roleID != null && roleID.startsWith("RO")) {
+            Role role = ResourceDataSet.getRole(roleID);
+            if (role != null) {
+                return role.getName();
+            }
+        }
+        return roleID;
     }
 
 
     /*********************************************************************/
 
-    class TripleSubjectSorter implements Comparator<Triple> {
+    class TripleSorter implements Comparator<Triple> {
         @Override
         public int compare(Triple o1, Triple o2) {
             int c = compare(o1.getSubject(), o2.getSubject());

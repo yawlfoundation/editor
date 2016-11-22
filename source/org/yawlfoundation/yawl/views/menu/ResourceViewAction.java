@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-class ResourceViewAction extends YAWLSelectedNetAction implements ViewsPluginAction {
+public class ResourceViewAction extends YAWLSelectedNetAction implements ViewsPluginAction {
 
     private final static ResourceViewAction INSTANCE = new ResourceViewAction();
     private boolean _selected;
@@ -52,6 +52,13 @@ class ResourceViewAction extends YAWLSelectedNetAction implements ViewsPluginAct
             if (_toolBarButton != null) _toolBarButton.setSelected(_selected);
         }
         _viewHandler.enableView(_selected);
+    }
+
+
+    public void deselect() {
+        if (_menuItem != null) _menuItem.setSelected(false);
+        if (_toolBarButton != null) _toolBarButton.setSelected(false);
+        _viewHandler.enableView(false);
     }
 
 

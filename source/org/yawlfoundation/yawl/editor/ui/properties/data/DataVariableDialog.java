@@ -25,6 +25,7 @@ import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLTask;
 import org.yawlfoundation.yawl.editor.ui.properties.data.binding.OutputBindings;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationUndoManager;
 import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
+import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
 import org.yawlfoundation.yawl.elements.YCompositeTask;
 import org.yawlfoundation.yawl.elements.YDecomposition;
 import org.yawlfoundation.yawl.elements.YNet;
@@ -394,24 +395,14 @@ public class DataVariableDialog extends JDialog
     private JPanel createButtonBar() {
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(10,0,0,0));
-        panel.add(createButton("Cancel"));
-        btnApply = createButton("Apply");
+        panel.add(ButtonUtil.createButton("Cancel", this));
+        btnApply = ButtonUtil.createButton("Apply", this);
         btnApply.setEnabled(false);
         panel.add(btnApply);
-        btnOK = createButton("OK");
+        btnOK = ButtonUtil.createButton("OK", this);
         btnOK.setEnabled(false);
         panel.add(btnOK);
         return panel;
-    }
-
-
-    private JButton createButton(String label) {
-        JButton button = new JButton(label);
-        button.setPreferredSize(new Dimension(70,25));
-        button.setActionCommand(label);
-        button.setMnemonic(label.charAt(0));
-        button.addActionListener(this);
-        return button;
     }
 
 

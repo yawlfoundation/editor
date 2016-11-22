@@ -22,6 +22,7 @@ import org.yawlfoundation.yawl.editor.core.resourcing.YResourceHandler;
 import org.yawlfoundation.yawl.editor.ui.resourcing.ResourceDialog;
 import org.yawlfoundation.yawl.editor.ui.resourcing.panel.FilterListPanel;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
 import org.yawlfoundation.yawl.resourcing.filters.AbstractFilter;
 import org.yawlfoundation.yawl.resourcing.resource.AbstractResourceAttribute;
 import org.yawlfoundation.yawl.resourcing.resource.Capability;
@@ -123,20 +124,10 @@ public class FilterDialog extends JDialog implements ActionListener {
     private JPanel createButtonBar(ResourceDialog owner) {
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(10, 0, 10, 0));
-        panel.add(createButton("Cancel"));
-        panel.add(createButton("OK"));
+        panel.add(ButtonUtil.createButton("Cancel", this));
+        panel.add(ButtonUtil.createButton("OK", this));
         return panel;
      }
-
-
-    private JButton createButton(String label) {
-        JButton button = new JButton(label);
-        button.setActionCommand(label);
-        button.setMnemonic(label.charAt(0));
-        button.setPreferredSize(new Dimension(70,25));
-        button.addActionListener(this);
-        return button;
-    }
 
 
     private void updateSelectedFilter() {

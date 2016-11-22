@@ -52,6 +52,11 @@ public class Triple {
     }
 
 
+    public boolean hasDuplicateResources() {
+        return (subject == null && object == null) ||
+                (subject != null && subject.equals(object));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,7 +67,6 @@ public class Triple {
         return equals(subject, triple.subject) &&
                 equals(predicate, triple.predicate) &&
                 equals(object, triple.object);
-
     }
 
     private boolean equals(String a, String b) {

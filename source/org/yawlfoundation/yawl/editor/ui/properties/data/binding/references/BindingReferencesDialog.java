@@ -38,6 +38,7 @@ package org.yawlfoundation.yawl.editor.ui.properties.data.binding.references;
 
 import org.yawlfoundation.yawl.editor.core.data.BindingReference;
 import org.yawlfoundation.yawl.editor.ui.properties.data.DataVariableDialog;
+import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -95,20 +96,10 @@ public class BindingReferencesDialog extends JDialog implements ActionListener {
     private JPanel createButtonBar() {
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(10,0,0,0));
-        JButton btnClose = createButton("Close");
+        JButton btnClose = ButtonUtil.createButton("Close", this);
         getRootPane().setDefaultButton(btnClose);
         panel.add(btnClose);
         return panel;
-    }
-
-
-    private JButton createButton(String label) {
-        JButton button = new JButton(label);
-        button.setPreferredSize(new Dimension(70,25));
-        button.setActionCommand(label);
-        button.setMnemonic(label.charAt(0));
-        button.addActionListener(this);
-        return button;
     }
 
 }

@@ -7,9 +7,11 @@ import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 import org.yawlfoundation.yawl.editor.ui.plugin.YEditorPluginAdapter;
 import org.yawlfoundation.yawl.elements.YAtomicTask;
 import org.yawlfoundation.yawl.views.menu.MenuBuilder;
+import org.yawlfoundation.yawl.views.menu.ResourceViewAction;
 import org.yawlfoundation.yawl.views.ontology.OntologyHandler;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Set;
 
 /**
@@ -46,6 +48,13 @@ public class ViewsPlugin extends YEditorPluginAdapter {
     public void closeSpecification() {
         OntologyHandler.unload();
         _menuBuilder.getViewHandler().removeViews();
+        for (Window window : Window.getWindows()) {
+            if (window instanceof JDialog) {
+                JDialog dialog = (JDialog) window;
+                dialog.setVisible(false);
+            }
+        }
+        ResourceViewAction.getInstance().deselect();
     }
 
     @Override

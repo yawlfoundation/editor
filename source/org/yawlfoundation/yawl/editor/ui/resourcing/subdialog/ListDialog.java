@@ -19,6 +19,7 @@
 package org.yawlfoundation.yawl.editor.ui.resourcing.subdialog;
 
 import org.yawlfoundation.yawl.editor.ui.resourcing.listmodel.AbstractResourceListModel;
+import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -131,19 +132,9 @@ public class ListDialog extends JDialog implements ActionListener, CaretListener
     private JPanel createButtonBar() {
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(10, 0, 10, 0));
-        panel.add(createButton("Cancel"));
-        panel.add(createButton("OK"));
+        panel.add(ButtonUtil.createButton("Cancel", this));
+        panel.add(ButtonUtil.createButton("OK", this));
         return panel;
-    }
-
-
-    private JButton createButton(String label) {
-        JButton button = new JButton(label);
-        button.setActionCommand(label);
-        button.setMnemonic(label.charAt(0));
-        button.setPreferredSize(new Dimension(70,25));
-        button.addActionListener(this);
-        return button;
     }
 
 

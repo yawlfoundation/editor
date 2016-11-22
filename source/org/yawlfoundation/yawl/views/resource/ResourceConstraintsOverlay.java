@@ -1,11 +1,12 @@
 package org.yawlfoundation.yawl.views.resource;
 
+import org.imgscalr.Scalr;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLAtomicTask;
 import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLTask;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraph;
-import org.yawlfoundation.yawl.views.ontology.Triple;
 import org.yawlfoundation.yawl.views.ontology.OntologyHandler;
 import org.yawlfoundation.yawl.views.ontology.OntologyQueryException;
+import org.yawlfoundation.yawl.views.ontology.Triple;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,8 +15,8 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -26,7 +27,7 @@ import java.util.Set;
  */
 public class ResourceConstraintsOverlay {
 
-    private static final String ICON_PATH = "source/org/yawlfoundation/yawl/views/icons/";
+    private static final String ICON_PATH = "/org/yawlfoundation/yawl/views/resource/icon/";
     private static final String FAM_TASK_ICON_NAME = "famTask.png";
     private static final String FOUR_EYES_ICON_NAME = "fourEyes.png";
     private NetGraph _graph;
@@ -112,6 +113,7 @@ public class ResourceConstraintsOverlay {
 
         scalePoint(p1, scale);
         scalePoint(p2, scale);
+        scalePoint(pb, scale);
 
         return new Point2D[] { p1, pb, p2 };
     }
@@ -169,33 +171,60 @@ public class ResourceConstraintsOverlay {
                 Path2D path = getConstraintPath(pathPoints);
                 g.draw(path);
 
-                paintIcon(g, getIconPosition(path), iconName);
+                paintIcon(g, getIconPosition(path), iconName, scale);
             }
         }
     }
 
 
-    private void paintIcon(Graphics2D g, Point2D location, String iconName) {
+    private void paintIcon(Graphics2D g, Point2D location, String iconName, double scale) {
         if (location != null) {
-            Icon icon = getIcon(iconName);
+            Icon icon = getIcon(iconName, scale);
             if (icon != null) {
                 int x = (int) location.getX();
-                int y = (int) location.getY();
+                int y = (int) location.getY() - icon.getIconHeight() / 2;
                 icon.paintIcon(null, g, x, y);
             }
         }
     }
 
 
-    private Icon getIcon(String iconName) {
+    private Icon getIcon(String iconName, double scale) {
+        Icon icon = null;
         if (iconName.equals(FAM_TASK_ICON_NAME)) {
-            return getFamTaskIcon();
+            icon = getFamTaskIcon();
         }
         if (iconName.equals(FOUR_EYES_ICON_NAME)) {
-            return getFourEyesIcon();
+            icon = getFourEyesIcon();
         }
-        return null;
+        if (scale != 1.0) {
+            icon = resizeIcon(icon, scale);
+        }
+        return icon;
     }
+
+
+    private Icon resizeIcon(Icon icon, double scale) {
+        BufferedImage image = toBufferedImage(((ImageIcon) icon).getImage());
+        image = Scalr.resize(image, (int) (16 * scale));
+        return image != null ? new ImageIcon(image) : icon;
+    }
+
+
+    public static BufferedImage toBufferedImage(Image img) {
+        if (img instanceof BufferedImage) {
+            return (BufferedImage) img;
+        }
+
+        BufferedImage bImg = new BufferedImage(img.getWidth(null),
+                img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D bGr = bImg.createGraphics();
+        bGr.drawImage(img, 0, 0, null);
+        bGr.dispose();
+        return bImg;
+    }
+
 
 
     private Icon getFamTaskIcon() {
@@ -217,7 +246,8 @@ public class ResourceConstraintsOverlay {
     private Icon loadIcon(String iconFileName) {
         try {
             String path = ICON_PATH + iconFileName;
-            BufferedImage image = ImageIO.read(new File(path));
+            InputStream is = this.getClass().getResourceAsStream(path);
+            BufferedImage image = ImageIO.read(is);
             if (image != null) {
                 return new ImageIcon(image);
             }

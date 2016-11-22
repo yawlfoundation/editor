@@ -96,11 +96,21 @@
     <property name="servlet" value="servlet-api.jar"/>
 	<property name="junit" value="junit-4.4.jar"/>
 
-    <property name="jena-core" value="jena-core-3.1.1.jar"/>
+    <!-- Libraries for views plugin-->
+    <property name="commons-lang3" value="commons-lang3-3.3.2.jar"/>
+    <property name="commons-collections4" value="commons-collections4-4.1.jar"/>
     <property name="jena-arq" value="jena-arq-3.1.1.jar"/>
+    <property name="jena-base" value="jena-base-3.1.1.jar"/>
+    <property name="jena-core" value="jena-core-3.1.1.jar"/>
+    <property name="jena-iri" value="jena-iri-3.1.1.jar"/>
+    <property name="jena-shaded-guava" value="jena-shaded-guava-3.1.1.jar"/>
     <property name="prefuse" value="prefuse.jar"/>
     <property name="slf4j-api" value="slf4j-api-1.7.21.jar"/>
-    <property name="slf4j-simple" value="slf4j-simple-1.7.21.jar"/>
+    <property name="poi" value="poi-3.15.jar"/>
+    <property name="poi-ooxml" value="poi-ooxml-3.15.jar"/>
+    <property name="poi-ooxml-schemas" value="poi-ooxml-schemas-3.15.jar"/>
+    <property name="xmlbeans" value="xmlbeans-2.6.0.jar"/>
+
 
     <fileset id="editorOnlyDeps" dir="${library.dir}/standard"
              includes="${automaton} ${forms} ${imgscalr} ${jcal}
@@ -110,7 +120,10 @@
 	<fileset id="junitDeps" file="${tools.dir}/${junit}" />
 
     <fileset id="viewsPluginDeps" dir="${library.dir}/plugins/views"
-             includes="${jena-core} ${jena-arq} ${prefuse} ${slf4j-api}"/>
+             includes="${commons-lang3} ${commons-collections4}
+                       ${jena-core} ${jena-arq} ${jena-iri} ${jena-base}
+                       ${jena-shaded-guava} ${prefuse} ${slf4j-api}
+                       ${poi} ${poi-ooxml} ${poi-ooxml-schemas} ${xmlbeans}"/>
 
 
     <!--
@@ -389,7 +402,7 @@
     <target name="check.viewsPlugin">
         <uptodate property="viewPlugin.uptodate"
                   targetfile="${output.dir}/plugins/${views.plugin.jar.name}">
-            <srcfiles dir="${source.dir}/${package.base.dir}/worklet/"
+            <srcfiles dir="${source.dir}/${package.base.dir}/views/"
                       includes="**/*"/>
         </uptodate>
         <echo message="Views plugin jar is up to date: ${viewPlugin.uptodate}"/>
@@ -402,31 +415,13 @@
 
         <echo message="Building jar: ${views.plugin.jar.name}"/>
         <mkdir dir="${output.dir}/plugins"/>
-        <mkdir dir="${output.dir}/plugins/lib"/>
-
-        <!--<copy todir="${output.dir}/plugins/lib">-->
-             <!--<fileset dir="${library.dir}/plugins/views"/>-->
-                      <!--&lt;!&ndash;includes="${jena-core} ${jena-arq} ${prefuse}&ndash;&gt;-->
-                      <!--&lt;!&ndash;${slf4j-api}"/>&ndash;&gt;-->
-        <!--</copy>-->
-
-        <!--<manifestclasspath property="views.manifest.cp"-->
-                           <!--jarfile="${output.dir}/plugins/${views.plugin.jar.name}">-->
-            <!--&lt;!&ndash;<classpath>&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash;<fileset dir="${output.dir}/lib"&ndash;&gt;&ndash;&gt;-->
-                         <!--&lt;!&ndash;&lt;!&ndash;includes="log4j-slf4j-impl*.jar"/>&ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash;<fileset dir="${output.dir}" includes="${ui.jar.name}"/>&ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;<fileset dir="${output.dir}/plugins/lib"/>&ndash;&gt;-->
-                         <!--&lt;!&ndash;&lt;!&ndash;includes="${jena-core} ${jena-arq} ${prefuse}&ndash;&gt;&ndash;&gt;-->
-                         <!--&lt;!&ndash;&lt;!&ndash;${slf4j-api}"/>&ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;</classpath>&ndash;&gt;-->
-        <!--</manifestclasspath>-->
-        <!--<manifest file="views.mf">-->
-            <!--<attribute name="Class-Path" value="${views.manifest.cp}"/>-->
-        <!--</manifest>-->
 
         <copy toDir="${classes.dir}/${package.base.dir}/views/menu/icon">
             <fileset dir="${source.dir}/${package.base.dir}/views/menu/icon"/>
+        </copy>
+
+        <copy toDir="${classes.dir}/${package.base.dir}/views/resource/icon">
+            <fileset dir="${source.dir}/${package.base.dir}/views/resource/icon"/>
         </copy>
 
         <copy toDir="${classes.dir}/${package.base.dir}/views/ontology/file">
@@ -544,6 +539,7 @@
    	-->
     <target name="copyLibs" depends="initialize">
     	<copy todir="${output.dir}/lib">
+            <fileset refid="viewsPluginDeps" />
     		<fileset refid="editorOnlyDeps" />
     		<fileset refid="neededEngineDeps" />
     		<fileset file="${engine.lib.jar.path}" />

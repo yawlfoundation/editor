@@ -55,13 +55,16 @@
 [R10: (?T2 :readsDataFrom ?V) (?D :hasInputParameter ?V) (?T1 :decomposesTo ?D) (?D :hasExternalNetElement ?T2) -> (?T2 :hasDataPredecessor ?T1)]
 
 
-[R11: (?T1 :dataFlowsFrom ?T2) (?T2 :hasRole ?R2) (?T1 :hasRole ?R1) -> (?R1 :passesDataTo ?R2)]
+[R11: (?T2 :dataFlowsFrom ?T1) (?T2 :hasRole ?R2) (?T1 :hasRole ?R1) -> (?R1 :passesDataTo ?R2)]
 
-#[R12: (?T1 :flowsInto ?T2) -> (?T2 :flowsFrom ?T1)]
+[R12: (?T2 :hasDataPredecessor ?T1) (?T2 :hasRole ?R2) (?T1 :hasRole ?R1) -> (?R1 :passesDataToIndirectly ?R2)]
 
-#[R13: (?T1 :flowsInto ?T2) (?T2 :flowsInto ?T3) -> (?T3 :hasPredecessor ?T1)]
+[R13: (?T2 :flowsFrom ?T1) (?T2 :hasRole ?R2) (?T1 :hasRole ?R1) -> (?R1 :passesWorkTo ?R2)]
 
-#[R14: (?T1 :hasDataPredecessor ?T2) (?T2 :hasDataPredecessor ?T3) -> (?T1 :hasDataPredecessor ?T3)]
+[R14: (?T2 :hasPredecessor ?T1) (?T2 :hasRole ?R2) (?T1 :hasRole ?R1) -> (?R1 :passesWorkToIndirectly ?R2)]
+
+
+# Some general RDF rules
 
 [rdfs2:   (?x ?p ?y), (?p rdfs:domain ?c) -> (?x rdf:type ?c)]
 [rdfs3:   (?x ?p ?y), (?p rdfs:range ?c) -> (?y rdf:type ?c)]

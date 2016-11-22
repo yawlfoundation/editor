@@ -26,6 +26,7 @@ import org.yawlfoundation.yawl.editor.ui.resourcing.panel.PrimaryResourcesPanel;
 import org.yawlfoundation.yawl.editor.ui.resourcing.panel.SecondaryResourcesPanel;
 import org.yawlfoundation.yawl.editor.ui.resourcing.panel.TaskPrivilegesPanel;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
 import org.yawlfoundation.yawl.elements.YAtomicTask;
 import org.yawlfoundation.yawl.elements.YNet;
 
@@ -139,22 +140,12 @@ public class ResourceDialog extends JDialog
     private JPanel createButtonBar() {
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(10,0,10,0));
-        panel.add(createButton("Cancel"));
-        btnApply = createButton("Apply");
+        panel.add(ButtonUtil.createButton("Cancel", this));
+        btnApply = ButtonUtil.createButton("Apply", this);
         btnApply.setEnabled(false);
         panel.add(btnApply);
-        panel.add(createButton("OK"));
+        panel.add(ButtonUtil.createButton("OK", this));
         return panel;
-    }
-
-
-    private JButton createButton(String label) {
-        JButton button = new JButton(label);
-        button.setActionCommand(label);
-        button.setMnemonic(label.charAt(0));
-        button.setPreferredSize(new Dimension(70,25));
-        button.addActionListener(this);
-        return button;
     }
 
 

@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.editor.ui.specification;
 
 import org.yawlfoundation.yawl.editor.core.resourcing.validation.InvalidReference;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
+import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -105,19 +106,9 @@ public class InvalidResourceReferencesDialog extends JDialog implements ActionLi
     private JPanel createButtonBar() {
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(10, 0, 10, 0));
-        panel.add(createButton());
+        panel.add(ButtonUtil.createButton("OK", this));
         return panel;
      }
-
-
-    private JButton createButton() {
-        JButton button = new JButton("OK");
-        button.setActionCommand("OK");
-        button.setMnemonic("OK".charAt(0));
-        button.setPreferredSize(new Dimension(70,25));
-        button.addActionListener(this);
-        return button;
-    }
 
 
     private JPanel getWarnIcon() {

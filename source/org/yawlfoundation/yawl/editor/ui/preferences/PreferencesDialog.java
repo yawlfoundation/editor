@@ -21,6 +21,7 @@ package org.yawlfoundation.yawl.editor.ui.preferences;
 import com.l2fprod.common.swing.JButtonBar;
 import com.l2fprod.common.swing.plaf.misc.IconPackagerButtonBarUI;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
+import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
 import org.yawlfoundation.yawl.editor.ui.util.ResourceLoader;
 
 import javax.swing.*;
@@ -177,21 +178,12 @@ public class PreferencesDialog extends JDialog
     protected JPanel getButtonBar(ActionListener listener) {
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(5,5,10,5));
-        panel.add(createButton("Cancel", listener));
-        _btnApply = createButton("Apply", listener);
+        panel.add(ButtonUtil.createButton("Cancel", listener));
+        _btnApply = ButtonUtil.createButton("Apply", listener);
         _btnApply.setEnabled(false);
         panel.add(_btnApply);
-        panel.add(createButton("OK", listener));
+        panel.add(ButtonUtil.createButton("OK", listener));
         return panel;
-    }
-
-
-    protected JButton createButton(String caption, ActionListener listener) {
-        JButton btn = new JButton(caption);
-        btn.setActionCommand(caption);
-        btn.setPreferredSize(new Dimension(75,25));
-        btn.addActionListener(listener);
-        return btn;
     }
 
 }

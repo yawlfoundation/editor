@@ -34,6 +34,7 @@ import org.yawlfoundation.yawl.editor.ui.repository.action.RepositoryRemoveActio
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationUndoManager;
 import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
 import org.yawlfoundation.yawl.editor.ui.swing.menu.YAWLToolBarButton;
+import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
 import org.yawlfoundation.yawl.elements.YAttributeMap;
 import org.yawlfoundation.yawl.elements.YDecomposition;
 import org.yawlfoundation.yawl.util.StringUtil;
@@ -253,7 +254,7 @@ public class ExtendedAttributesDialog extends PropertyDialog
     protected JPanel getButtonBar(ActionListener listener) {
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(10, 0, 10, 0));
-        btnOK = createButton("OK", listener);
+        btnOK = ButtonUtil.createButton("OK", listener);
         panel.add(btnOK);
         return panel;
     }

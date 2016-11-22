@@ -21,6 +21,7 @@ package org.yawlfoundation.yawl.editor.ui.resourcing.subdialog;
 import org.yawlfoundation.yawl.editor.core.resourcing.DynParam;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.resourcing.ResourceDialog;
+import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
 import org.yawlfoundation.yawl.elements.YAtomicTask;
 import org.yawlfoundation.yawl.elements.data.YVariable;
 import org.yawlfoundation.yawl.schema.XSDType;
@@ -145,21 +146,11 @@ public class NetParamDialog extends JDialog implements ActionListener {
     private JPanel createButtonBar() {
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(10, 0, 10, 0));
-        panel.add(createButton("Cancel"));
-        _btnOK = createButton("OK");
+        panel.add(ButtonUtil.createButton("Cancel", this));
+        _btnOK = ButtonUtil.createButton("OK", this);
         panel.add(_btnOK);
         return panel;
      }
-
-
-    private JButton createButton(String label) {
-        JButton button = new JButton(label);
-        button.setActionCommand(label);
-        button.setMnemonic(label.charAt(0));
-        button.setPreferredSize(new Dimension(70,25));
-        button.addActionListener(this);
-        return button;
-    }
 
 
     private void setSelectedButton(DynParam param) {

@@ -148,12 +148,28 @@ public class OntologyHandler {
         ResultSet results = qexec.execSelect();
         for (; results.hasNext(); ) {
             QuerySolution soln = results.nextSolution();
-            String rs = subject != null ? subject : soln.getResource(s).getLocalName();
-            String rp = predicate != null ? predicate : soln.getResource(p).getLocalName();
-            String ro = object != null ? object : soln.getResource(o).getLocalName();
+            String rs = getResourceName(soln, s, subject);
+            String rp = getResourceName(soln, p, predicate);
+            String ro = getResourceName(soln, o, object);
             triples.add(new Triple(rs, rp, ro));
         }
         return triples;
+    }
+
+
+    private static String getResourceName(QuerySolution soln, String var,
+                                          String defaultName) {
+        if (defaultName != null) {
+            return defaultName;
+        }
+        Resource resource = soln.getResource(var);
+        if (resource != null) {
+            String uri = resource.getURI();
+            if (uri != null) {
+                return uri.replace(OntologyPopulator.NAMESPACE, "");
+            }
+        }
+        return "[blank node]";
     }
 
 

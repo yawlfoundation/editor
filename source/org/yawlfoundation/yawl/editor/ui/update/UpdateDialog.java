@@ -140,22 +140,14 @@ public class UpdateDialog extends JDialog
 
     private JPanel getButtonPanel() {
         JPanel panel = new JPanel();
-        JButton btnCancel = createButton("Cancel");
+        JButton btnCancel = ButtonUtil.createButton("Cancel", this);
         panel.add(btnCancel);
-        _btnDownload = createButton("Download");
+        _btnDownload = ButtonUtil.createButton("Download", this);
         panel.add(_btnDownload);
-        _btnUpdateAndRestart = createButton("Update & Restart");
+        _btnUpdateAndRestart = ButtonUtil.createButton("Update & Restart", this);
         panel.add(_btnUpdateAndRestart);
         ButtonUtil.setEqualWidths(panel);
         return panel;
-    }
-
-
-    protected JButton createButton(String caption) {
-        JButton btn = new JButton(caption);
-        btn.setActionCommand(caption);
-        btn.addActionListener(this);
-        return btn;
     }
 
 

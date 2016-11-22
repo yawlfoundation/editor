@@ -3,9 +3,9 @@ package org.yawlfoundation.yawl.views.menu;
 import org.yawlfoundation.yawl.editor.ui.actions.net.YAWLSelectedNetAction;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.swing.MessageDialog;
-import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.views.ontology.OntologyHandler;
 import org.yawlfoundation.yawl.views.ontology.Triple;
+import org.yawlfoundation.yawl.views.util.XLSWriter;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -34,11 +34,18 @@ class WriteTriplesAction extends YAWLSelectedNetAction {
             File f = getSelectedFilePath();
             if (f != null) {
                 if (! f.getAbsolutePath().contains(".")) {
-                    f = new File(f.getAbsolutePath() + ".csv");
+                    f = new File(f.getAbsolutePath() + ".xlsx");
                 }
-                StringUtil.stringToFile(f, getTriplesAsString(triples));
-                MessageDialog.info(triples.size() + " triples saved to file",
-                        "Write Triples");
+                if (write(f, triples)) {
+                    MessageDialog.info(
+                            triples.size() + " triples saved to Excel file",
+                            "Write Triples");
+                }
+                else {
+                    MessageDialog.error(
+                            "Error writing to Excel file",
+                            "Write Triples");
+                }
             }
         }
         else {
@@ -51,7 +58,7 @@ class WriteTriplesAction extends YAWLSelectedNetAction {
     private File getSelectedFilePath() {
         JFileChooser fileChooser = new JFileChooser();
         FileFilter filter = new FileNameExtensionFilter(
-                "Comma Separated Values", "csv");
+                "Excel Workbook", "xlsx");
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setFileFilter(filter);
         int option = fileChooser.showSaveDialog(null);
@@ -59,12 +66,12 @@ class WriteTriplesAction extends YAWLSelectedNetAction {
     }
 
 
-    private String getTriplesAsString(Set<Triple> triples) {
-        StringBuilder sb = new StringBuilder();
+    private boolean write(File f, Set<Triple> triples) {
+        XLSWriter writer = new XLSWriter();
+        writer.writeRow("SUBJECT", "PREDICATE", "OBJECT");
         for (Triple triple : triples) {
-            sb.append(triple.toCSV()).append('\n');
+            writer.writeRow(triple);
         }
-        return sb.toString();
+        return writer.output(f);
     }
-
 }

@@ -2,6 +2,7 @@ package org.yawlfoundation.yawl.editor.ui.util;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * @author Michael Adams
@@ -33,4 +34,15 @@ public class ButtonUtil {
             }
         }
     }
+
+
+    public static JButton createButton(String label, ActionListener listener) {
+        JButton button = new JButton(label);
+        button.setActionCommand(label);
+        button.setMnemonic(label.charAt(0));
+        button.setPreferredSize(new Dimension(70, PREFERRED_HEIGHT));
+        button.addActionListener(listener);
+        return button;
+    }
+
 }

@@ -34,6 +34,7 @@ import prefuse.visual.expression.InGroupPredicate;
 import prefuse.visual.sort.TreeDepthItemSorter;
 
 import java.util.Iterator;
+import java.util.logging.*;
 
 
 /**
@@ -50,6 +51,8 @@ public class RadialGraphView extends Display {
 
     public RadialGraphView(Graph g, String label) {
         super(new Visualization());
+        setHighQuality(true);
+        setDebugLevel(Level.WARNING);
 
         // -- set up visualization --
         m_vis.add(tree, g);
@@ -111,7 +114,7 @@ public class RadialGraphView extends Display {
 
         // create the tree layout action
         RadialTreeLayout treeLayout = new RadialTreeLayout(tree);
-        //treeLayout.setAngularBounds(-Math.PI/2, Math.PI);
+ //       treeLayout.setAngularBounds(-Math.PI/2, Math.PI);
         m_vis.putAction("treeLayout", treeLayout);
 
         CollapsedSubtreeLayout subLayout = new CollapsedSubtreeLayout(tree);
@@ -172,17 +175,18 @@ public class RadialGraphView extends Display {
                 }
         );
         m_vis.run("repaint");
-//        SearchTupleSet search = new PrefixSearchTupleSet();
-//        m_vis.addFocusGroup(Visualization.SEARCH_ITEMS, search);
-//        search.addTupleSetListener(new TupleSetListener() {
-//            public void tupleSetChanged(TupleSet t, Tuple[] add, Tuple[] rem) {
-//                m_vis.cancel("animatePaint");
-//                m_vis.run("recolor");
-//                m_vis.run("animatePaint");
-//            }
-//        });
     }
 
+
+    public static void setDebugLevel(Level newLvl) {
+        Logger rootLogger = LogManager.getLogManager().getLogger("");
+        Handler[] handlers = rootLogger.getHandlers();
+        rootLogger.setLevel(newLvl);
+        for (Handler h : handlers) {
+            if(h instanceof FileHandler)
+                h.setLevel(newLvl);
+        }
+    }
 
     // ------------------------------------------------------------------------
 

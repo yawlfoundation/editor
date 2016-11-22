@@ -18,23 +18,29 @@ import java.util.List;
  */
 public class MenuBuilder {
 
+    private JToolBar _toolbar;
+    private JMenu _menu;
     private ResourceViewHandler _viewHandler;
 
 
     public JToolBar getToolBar() {
-        JToolBar toolBar = new JToolBar("Process Views", JToolBar.HORIZONTAL);
-        toolBar.setRollover(true);
-        addButtons(toolBar);
-        return toolBar;
+        if (_toolbar == null) {
+            _toolbar = new JToolBar("Process Views", JToolBar.HORIZONTAL);
+            _toolbar.setRollover(true);
+            addButtons(_toolbar);
+        }
+        return _toolbar;
     }
 
 
     public JMenu getMenu() {
-        JMenu menu = new JMenu("Process Views");
-        addItems(menu);
-        menu.setIcon(getMenuIcon("view"));
-        menu.setMnemonic('V');
-        return menu;
+        if (_menu == null) {
+            _menu = new JMenu("Process Views");
+            addItems(_menu);
+            _menu.setIcon(getMenuIcon("view"));
+            _menu.setMnemonic('V');
+        }
+        return _menu;
     }
 
     public ResourceViewHandler getViewHandler() {
