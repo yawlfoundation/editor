@@ -7,6 +7,7 @@ import org.yawlfoundation.yawl.views.ontology.Triple;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * @author Michael Adams
@@ -14,7 +15,10 @@ import java.io.IOException;
  */
 public class XLSWriter {
 
-    Workbook _workbook;
+    private Workbook _workbook;
+
+    private int[] maxChars = new int[3];
+
 
     public XLSWriter() {
         _workbook = new XSSFWorkbook();
@@ -27,13 +31,31 @@ public class XLSWriter {
         for (int i=0; i < values.length; i++) {
             Cell cell = row.createCell(i);
             cell.setCellValue(values[i]);
+            storeMaxLen(values[i], i);
          }
          return row;
     }
 
 
+    public void writeHeader(String... values) {
+        Row row = writeRow(values);
+        CellStyle style = getHeaderCellStyle();
+        for (int i=0; i < row.getPhysicalNumberOfCells(); i++) {
+            row.getCell(i).setCellStyle(style);
+        }
+    }
+
+
     public void writeRow(Triple triple) {
         writeRow(triple.getSubject(), triple.getPredicate(), triple.getObject());
+    }
+
+
+    public void fixColumnWidths() {
+        for (int i = 0; i< maxChars.length; i++) {
+            int width = (int)(maxChars[i] * 1.14388) * 256;
+            getSheet().setColumnWidth(i, width);
+        }
     }
 
 
@@ -60,9 +82,32 @@ public class XLSWriter {
         return _workbook.getSheetAt(0);
     }
 
+
     private Row createRow() {
         Sheet sheet = getSheet();
         int rowCount = sheet.getPhysicalNumberOfRows();
         return sheet.createRow(rowCount);
     }
+
+
+    private CellStyle getHeaderCellStyle() {
+        Font font = _workbook.createFont();
+        font.setFontHeightInPoints((short)13);
+        font.setFontName("Calibri");
+        font.setBold(true);
+        CellStyle style = _workbook.createCellStyle();
+        style.setFont(font);
+        return style;
+    }
+
+
+    private void storeMaxLen(String s, int i) {
+        if (i >= maxChars.length) {
+            maxChars = Arrays.copyOf(maxChars, i + 1);
+        }
+        if (s != null && s.length() > maxChars[i]) {
+            maxChars[i] = s.length();
+        }
+    }
+
 }

@@ -3,10 +3,7 @@ package org.yawlfoundation.yawl.views.graph;
 import prefuse.Constants;
 import prefuse.Display;
 import prefuse.Visualization;
-import prefuse.action.ActionList;
-import prefuse.action.GroupAction;
-import prefuse.action.ItemAction;
-import prefuse.action.RepaintAction;
+import prefuse.action.*;
 import prefuse.action.animate.ColorAnimator;
 import prefuse.action.animate.PolarLocationAnimator;
 import prefuse.action.animate.QualityControlAnimator;
@@ -33,7 +30,9 @@ import prefuse.visual.VisualItem;
 import prefuse.visual.expression.InGroupPredicate;
 import prefuse.visual.sort.TreeDepthItemSorter;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.*;
 
 
@@ -52,86 +51,102 @@ public class RadialGraphView extends Display {
     public RadialGraphView(Graph g, String label) {
         super(new Visualization());
         setHighQuality(true);
-        setDebugLevel(Level.WARNING);
+        setDebugLevel(Level.WARNING);             // suppress info msgs
+        setupVisualisation(g);
+        setupRenderers(label);
+        createActions();
+        animatePaintChange();
+        animateTransitions();
+        initDisplay();
+        layoutGraph();
+    }
 
-        // -- set up visualization --
-        m_vis.add(tree, g);
-        m_vis.setInteractive(treeEdges, null, false);
 
-        // -- set up renderers --
-        LabelRenderer nodeRenderer = new LabelRenderer(label);
-        nodeRenderer.setRenderType(AbstractShapeRenderer.RENDER_TYPE_DRAW_AND_FILL);
-        nodeRenderer.setHorizontalAlignment(Constants.CENTER);
-        nodeRenderer.setRoundedCorner(12, 12);
-        nodeRenderer.setHorizontalPadding(6);
-        nodeRenderer.setVerticalPadding(3);
+    private void createActions() {
+        Map<String, Action> actionMap = new HashMap<String, Action>();
+        createColorActions(actionMap);
+        createFontActions(actionMap);
+        createLayoutActions(actionMap);
+        createFilterActions(actionMap);
+    }
 
-        EdgeRenderer edgeRenderer = new EdgeRenderer(
-                Constants.EDGE_TYPE_LINE, Constants.EDGE_ARROW_FORWARD);
 
-        DefaultRendererFactory rf = new DefaultRendererFactory(nodeRenderer);
-        rf.add(new InGroupPredicate(treeEdges), edgeRenderer);
-        m_vis.setRendererFactory(rf);
+    private void createFontActions(Map<String, Action> actionMap) {
+        FontAction fonts = new FontAction(treeNodes,
+                FontLib.getFont("Tahoma", 14));
+        fonts.add("ingroup('_focus_')", FontLib.getFont("Tahoma", 16));
+        actionMap.put("fonts", fonts);
+    }
 
-        // -- set up processing actions --
 
-        // colors
+    private void createColorActions(Map<String, Action> actionMap) {
         ItemAction nodeColor = new NodeColorAction(treeNodes);
         ItemAction textColor = new TextColorAction(treeNodes);
-        m_vis.putAction("textColor", textColor);
-
         ItemAction edgeColor = new ColorAction(treeEdges,
                 VisualItem.STROKECOLOR, ColorLib.rgb(160, 160, 160));
         ItemAction edgeArrowColor = new ColorAction(treeEdges,
                 VisualItem.FILLCOLOR, ColorLib.rgb(160, 160, 160));
-
         ColorAction borderColor = new BorderColorAction(treeNodes);
 
-        FontAction fonts = new FontAction(treeNodes,
-                FontLib.getFont("Tahoma", 14));
-        fonts.add("ingroup('_focus_')", FontLib.getFont("Tahoma", 16));
+        actionMap.put("textColor", textColor);
+        actionMap.put("nodeColor", nodeColor);
+        actionMap.put("edgeColor", edgeColor);
+        actionMap.put("edgeArrowColor", edgeArrowColor);
+        actionMap.put("borderColor", borderColor);
 
-        // recolor
         ActionList recolor = new ActionList();
         recolor.add(textColor);
         recolor.add(edgeColor);
         recolor.add(edgeArrowColor);
         recolor.add(borderColor);
         recolor.add(nodeColor);
-        m_vis.putAction("recolor", recolor);
 
-        // repaint
         ActionList repaint = new ActionList();
         repaint.add(recolor);
         repaint.add(new RepaintAction());
-        m_vis.putAction("repaint", repaint);
 
-        // animate paint change
+        m_vis.putAction("textColor", textColor);
+        m_vis.putAction("nodeColor", nodeColor);
+        m_vis.putAction("recolor", recolor);
+        m_vis.putAction("repaint", repaint);
+    }
+
+
+    private void createFilterActions(Map<String, Action> actionMap) {
+        ActionList filter = new ActionList();
+        filter.add(new TreeRootAction(tree));
+        filter.add(actionMap.get("fonts"));
+        filter.add(actionMap.get("treeLayout"));
+        filter.add(actionMap.get("subLayout"));
+        filter.add(actionMap.get("textColor"));
+        filter.add(actionMap.get("nodeColor"));
+        filter.add(actionMap.get("edgeColor"));
+        m_vis.putAction("filter", filter);
+    }
+
+
+    private void createLayoutActions(Map<String, Action> actionMap) {
+        RadialTreeLayout treeLayout = new RadialTreeLayout(tree);
+        //       treeLayout.setAngularBounds(-Math.PI/2, Math.PI);
+        CollapsedSubtreeLayout subLayout = new CollapsedSubtreeLayout(tree);
+
+        actionMap.put("treeLayout", treeLayout);
+        actionMap.put("subLayout", subLayout);
+
+        m_vis.putAction("treeLayout", treeLayout);
+        m_vis.putAction("subLayout", subLayout);
+    }
+
+
+    private void animatePaintChange() {
         ActionList animatePaint = new ActionList(400);
         animatePaint.add(new ColorAnimator(treeNodes));
         animatePaint.add(new RepaintAction());
         m_vis.putAction("animatePaint", animatePaint);
+    }
 
-        // create the tree layout action
-        RadialTreeLayout treeLayout = new RadialTreeLayout(tree);
- //       treeLayout.setAngularBounds(-Math.PI/2, Math.PI);
-        m_vis.putAction("treeLayout", treeLayout);
 
-        CollapsedSubtreeLayout subLayout = new CollapsedSubtreeLayout(tree);
-        m_vis.putAction("subLayout", subLayout);
-
-        // create the filtering and layout
-        ActionList filter = new ActionList();
-        filter.add(new TreeRootAction(tree));
-        filter.add(fonts);
-        filter.add(treeLayout);
-        filter.add(subLayout);
-        filter.add(textColor);
-        filter.add(nodeColor);
-        filter.add(edgeColor);
-        m_vis.putAction("filter", filter);
-
-        // animated transition
+    private void animateTransitions() {
         ActionList animate = new ActionList(1250);
         animate.setPacingFunction(new SlowInSlowOutPacer());
         animate.add(new QualityControlAnimator());
@@ -141,10 +156,10 @@ public class RadialGraphView extends Display {
         animate.add(new RepaintAction());
         m_vis.putAction("animate", animate);
         m_vis.alwaysRunAfter("filter", "animate");
+    }
 
-        // ------------------------------------------------
 
-        // initialize the display
+    private void initDisplay() {
         setSize(600, 600);
         setItemSorter(new TreeDepthItemSorter());
         addControlListener(new DragControl());
@@ -153,15 +168,13 @@ public class RadialGraphView extends Display {
         addControlListener(new PanControl());
         addControlListener(new FocusControl(1, "filter"));
         addControlListener(new HoverActionControl("repaint"));
+    }
 
-        // ------------------------------------------------
 
-        // filter graph and perform layout
+    private void layoutGraph() {
         m_vis.run("filter");
 
         // maintain a set of items that should be interpolated linearly
-        // this isn't absolutely necessary, but makes the animations nicer
-        // the PolarLocationAnimator should read this set and act accordingly
         m_vis.addFocusGroup(linear, new DefaultTupleSet());
         m_vis.getGroup(Visualization.FOCUS_ITEMS).addTupleSetListener(
                 new TupleSetListener() {
@@ -187,6 +200,30 @@ public class RadialGraphView extends Display {
                 h.setLevel(newLvl);
         }
     }
+
+
+    private void setupVisualisation(Graph g) {
+        m_vis.add(tree, g);
+        m_vis.setInteractive(treeEdges, null, false);
+    }
+
+
+    private void setupRenderers(String label) {
+        LabelRenderer nodeRenderer = new LabelRenderer(label);
+        nodeRenderer.setRenderType(AbstractShapeRenderer.RENDER_TYPE_DRAW_AND_FILL);
+        nodeRenderer.setHorizontalAlignment(Constants.CENTER);
+        nodeRenderer.setRoundedCorner(12, 12);
+        nodeRenderer.setHorizontalPadding(6);
+        nodeRenderer.setVerticalPadding(3);
+
+        EdgeRenderer edgeRenderer = new EdgeRenderer(
+                Constants.EDGE_TYPE_LINE, Constants.EDGE_ARROW_FORWARD);
+
+        DefaultRendererFactory rf = new DefaultRendererFactory(nodeRenderer);
+        rf.add(new InGroupPredicate(treeEdges), edgeRenderer);
+        m_vis.setRendererFactory(rf);
+    }
+
 
     // ------------------------------------------------------------------------
 

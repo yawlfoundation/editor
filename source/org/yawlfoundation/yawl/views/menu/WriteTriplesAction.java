@@ -32,11 +32,13 @@ class WriteTriplesAction extends YAWLSelectedNetAction {
         Set<Triple> triples = OntologyHandler.swrlQuery();
         if (! triples.isEmpty()) {
             File f = getSelectedFilePath();
+            long m = System.currentTimeMillis();
             if (f != null) {
                 if (! f.getAbsolutePath().contains(".")) {
                     f = new File(f.getAbsolutePath() + ".xlsx");
                 }
                 if (write(f, triples)) {
+                    System.out.println((System.currentTimeMillis() - m) + "mSecs");
                     MessageDialog.info(
                             triples.size() + " triples saved to Excel file",
                             "Write Triples");
@@ -68,10 +70,11 @@ class WriteTriplesAction extends YAWLSelectedNetAction {
 
     private boolean write(File f, Set<Triple> triples) {
         XLSWriter writer = new XLSWriter();
-        writer.writeRow("SUBJECT", "PREDICATE", "OBJECT");
+        writer.writeHeader("SUBJECT", "PREDICATE", "OBJECT");
         for (Triple triple : triples) {
             writer.writeRow(triple);
         }
+        writer.fixColumnWidths();
         return writer.output(f);
     }
 }
