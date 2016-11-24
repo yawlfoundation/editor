@@ -73,6 +73,7 @@ public abstract class AbstractViewDialog extends JDialog implements TableModelLi
         _viewPanel.removeAll();
         if (! triples.isEmpty()) {
             JComponent view = getView(toInputStream(triples));
+            view.setSize(_viewPanel.getSize());
             _viewPanel.add(view, BorderLayout.CENTER);
         }
         _viewPanel.invalidate();

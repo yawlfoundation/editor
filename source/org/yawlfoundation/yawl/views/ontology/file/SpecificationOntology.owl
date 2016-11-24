@@ -395,6 +395,24 @@
     
 
 
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#roleReadsDataFrom -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#roleReadsDataFrom">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Role"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YVariable"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#roleWritesDataTo -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#roleWritesDataTo">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#Role"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#YVariable"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#writesDataTo -->
 
     <owl:ObjectProperty rdf:about="http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#writesDataTo">

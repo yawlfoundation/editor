@@ -7,7 +7,7 @@ import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 import org.yawlfoundation.yawl.editor.ui.plugin.YEditorPluginAdapter;
 import org.yawlfoundation.yawl.elements.YAtomicTask;
 import org.yawlfoundation.yawl.views.menu.MenuBuilder;
-import org.yawlfoundation.yawl.views.menu.ResourceViewAction;
+import org.yawlfoundation.yawl.views.menu.ResourceOverlayAction;
 import org.yawlfoundation.yawl.views.ontology.OntologyHandler;
 
 import javax.swing.*;
@@ -54,7 +54,7 @@ public class ViewsPlugin extends YEditorPluginAdapter {
                 dialog.setVisible(false);
             }
         }
-        ResourceViewAction.getInstance().deselect();
+        ResourceOverlayAction.getInstance().deselect();
     }
 
     @Override

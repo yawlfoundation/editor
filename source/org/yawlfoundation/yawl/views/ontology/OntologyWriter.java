@@ -14,11 +14,12 @@ import java.security.NoSuchAlgorithmException;
  */
 public class OntologyWriter {
 
+
     public void export(final OntModel model) throws IOException, NoSuchAlgorithmException {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                String path = getSelectedFilePath("owl", true);
+                String path = getSelectedFilePath("owl");
                 if (path != null) {
                     try {
                         Writer writer = new BufferedWriter(new OutputStreamWriter(
@@ -35,14 +36,13 @@ public class OntologyWriter {
     }
 
 
-    private static String getSelectedFilePath(String filterExtn, boolean save) {
+    private String getSelectedFilePath(String filterExtn) {
         JFileChooser fileChooser = new JFileChooser();
         FileFilter filter = new FileNameExtensionFilter(
                 filterExtn.toUpperCase(), filterExtn);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setFileFilter(filter);
-        int option = save ? fileChooser.showSaveDialog(null) :
-                fileChooser.showOpenDialog(null);
+        int option = fileChooser.showSaveDialog(null);
 
         return option == JFileChooser.APPROVE_OPTION ?
                 fileChooser.getSelectedFile().getAbsolutePath() : null;

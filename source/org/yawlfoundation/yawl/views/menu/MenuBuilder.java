@@ -75,7 +75,7 @@ public class MenuBuilder {
     // populates both the menubar and toolbar
     private List<MenuAction> getMenuActions() {
         List<MenuAction> actions = new ArrayList<MenuAction>();
-        ResourceViewAction rvAction = ResourceViewAction.getInstance();
+        ResourceOverlayAction rvAction = ResourceOverlayAction.getInstance();
         actions.add(new MenuAction(rvAction, "resource", true));
         _viewHandler = rvAction.getViewHandler();
 

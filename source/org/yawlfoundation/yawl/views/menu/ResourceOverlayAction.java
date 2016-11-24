@@ -9,9 +9,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-public class ResourceViewAction extends YAWLSelectedNetAction implements ViewsPluginAction {
+public class ResourceOverlayAction extends YAWLSelectedNetAction implements ViewsPluginAction {
 
-    private final static ResourceViewAction INSTANCE = new ResourceViewAction();
+    private final static ResourceOverlayAction INSTANCE = new ResourceOverlayAction();
     private boolean _selected;
     private ResourceViewHandler _viewHandler;
     private YAWLToggleToolBarButton _toolBarButton;
@@ -26,11 +26,11 @@ public class ResourceViewAction extends YAWLSelectedNetAction implements ViewsPl
         _viewHandler = new ResourceViewHandler();
     }
 
-    private ResourceViewAction() {
+    private ResourceOverlayAction() {
         super();
     }
 
-    public static ResourceViewAction getInstance() {
+    public static ResourceOverlayAction getInstance() {
         return INSTANCE;
     }
 

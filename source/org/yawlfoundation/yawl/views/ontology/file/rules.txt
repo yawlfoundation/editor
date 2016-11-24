@@ -63,6 +63,12 @@
 
 [R14: (?T2 :hasPredecessor ?T1) (?T2 :hasRole ?R2) (?T1 :hasRole ?R1) -> (?R1 :passesWorkToIndirectly ?R2)]
 
+[R15: (?T :readsDataFrom ?V) (?T :hasRole ?R) -> (?R :roleReadsDataFrom ?V)]
+
+[R16: (?T :writesDataTo ?V) (?T :hasRole ?R) -> (?R :roleWritesDataTo ?V)]
+
+[R17: (?T2 :hasFamiliarTask ?T1) (?T1 :hasRole ?R) -> (?T2 :hasRole ?R) ]
+
 
 # Some general RDF rules
 
