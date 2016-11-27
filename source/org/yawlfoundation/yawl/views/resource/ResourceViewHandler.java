@@ -9,22 +9,42 @@ import org.yawlfoundation.yawl.views.util.ColorSelector;
 import org.yawlfoundation.yawl.views.dialog.ResourceKeyTableDialog;
 import org.yawlfoundation.yawl.views.ontology.OntologyHandler;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
 /**
  * @author Michael Adams
  * @date 25/10/2016
  */
-public class ResourceViewHandler {
+public class ResourceViewHandler implements ActionListener {
 
     private final Map<NetGraph, ResourceView> _views;
     private ResourceKeyTableDialog _legendDialog;
     private boolean _enabled;
 
-
     public ResourceViewHandler() {
         _views = new HashMap<NetGraph, ResourceView>();
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        boolean selected = ((JCheckBox) e.getSource()).isSelected();
+        String cmd = e.getActionCommand();
+        if (cmd.equals("constraints")) {
+            for (ResourceView view : _views.values()) {
+                view.setShowConstraints(selected);
+            }
+        }
+        else if (cmd.equals("services")) {
+            for (ResourceView view : _views.values()) {
+                view.setShowServices(selected);
+            }
+        }
+        YAWLEditor.getNetsPane().getSelectedGraph().repaint();
     }
 
 
@@ -108,10 +128,16 @@ public class ResourceViewHandler {
     private void showLegend(Map<String, Color> colorMap) {
         if (!colorMap.isEmpty()) {
             if (_legendDialog == null) {
-                _legendDialog = new ResourceKeyTableDialog(colorMap);
+                _legendDialog = new ResourceKeyTableDialog(colorMap, this);
             }
             else {
                 _legendDialog.setValues(colorMap);
+                for (ResourceView view : _views.values()) {
+                    view.setShowConstraints(_legendDialog.isConstraintsSelected());
+                }
+                for (ResourceView view : _views.values()) {
+                    view.setShowServices(_legendDialog.isServicesSelected());
+                }
             }
             _legendDialog.setVisible(true);
         }

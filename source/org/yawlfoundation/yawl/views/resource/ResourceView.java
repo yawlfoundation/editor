@@ -33,6 +33,8 @@ public class ResourceView implements OverlaidView {
     private Map<String, YAWLAtomicTask> _taskMap;            // [taskID, task]
     private Map<String, Set<String>> _resourceMap;           // [taskID, set of roles]
     private Map<String, Color> _colorMap;                    // [roleID, color]
+    private boolean _showConstraints;
+    private boolean _showServices;
 
 
     public ResourceView(NetGraph graph) {
@@ -51,7 +53,9 @@ public class ResourceView implements OverlaidView {
             Set<String> roles = _resourceMap.get(taskID);
             overlayTask((Graphics2D) g, task, roles, _colorMap, _graph.getScale());
         }
-        _constraintsOverlay.paint(g);
+        if (_showConstraints) {
+            _constraintsOverlay.paint(g);
+        }
     }
 
 
@@ -65,6 +69,15 @@ public class ResourceView implements OverlaidView {
 
     public void setColorMap(Map<String, Color> colorMap) {
         _colorMap = colorMap;
+    }
+
+    public void setShowConstraints(boolean show) {
+        _showConstraints = show;
+    }
+
+
+    public void setShowServices(boolean show) {
+        _showServices = show;
     }
 
 
@@ -103,7 +116,12 @@ public class ResourceView implements OverlaidView {
 
         YAWLServiceReference service = getService(task);
         if (service != null)  {             // special case - overrides resourcing
-            writeService(g, service, task, scale);
+            if (_showServices) {
+                writeService(g, service, task, scale);
+            }
+            else {
+                colorSet.add(Color.WHITE);
+            }
         }
         else if (roleSet == null) {
             colorSet.add(Color.WHITE);

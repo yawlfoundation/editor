@@ -15,24 +15,16 @@ import java.security.NoSuchAlgorithmException;
 public class OntologyWriter {
 
 
-    public void export(final OntModel model) throws IOException, NoSuchAlgorithmException {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                String path = getSelectedFilePath("owl");
-                if (path != null) {
-                    try {
-                        Writer writer = new BufferedWriter(new OutputStreamWriter(
-                                new FileOutputStream(path), "UTF-8"));
-                        model.getBaseModel().write(writer);
-                        writer.close();
-                    }
-                    catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
+    public boolean export(final OntModel model) throws IOException, NoSuchAlgorithmException {
+        String path = getSelectedFilePath("owl");
+        if (path != null) {
+            Writer writer = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(path), "UTF-8"));
+            model.getBaseModel().write(writer);
+            writer.close();
+            return true;
+        }
+        return false;
     }
 
 

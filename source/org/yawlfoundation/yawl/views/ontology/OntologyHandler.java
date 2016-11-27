@@ -74,13 +74,11 @@ public class OntologyHandler {
             load(SpecificationModel.getHandler());
         }
         try {
-            new OntologyWriter().export(_populatedModel);
-            return true;
+            return new OntologyWriter().export(_populatedModel);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-
         return false;
     }
 
