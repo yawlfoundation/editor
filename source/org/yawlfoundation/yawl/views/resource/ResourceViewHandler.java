@@ -126,7 +126,7 @@ public class ResourceViewHandler implements ActionListener {
 
 
     private void showLegend(Map<String, Color> colorMap) {
-        if (!colorMap.isEmpty()) {
+//        if (!colorMap.isEmpty()) {
             if (_legendDialog == null) {
                 _legendDialog = new ResourceKeyTableDialog(colorMap, this);
             }
@@ -140,7 +140,7 @@ public class ResourceViewHandler implements ActionListener {
                 }
             }
             _legendDialog.setVisible(true);
-        }
+//        }
     }
 
 

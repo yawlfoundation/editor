@@ -83,16 +83,16 @@ public class MenuBuilder {
         actions.add(new MenuAction(gvAction, "graphview", false));
 
         DataViewAction dvAction = new DataViewAction();
-        actions.add(new MenuAction(dvAction, "dataview", false));
+        actions.add(new MenuAction(dvAction, "chart", false));
+
+        TaskIOAction tioAction = new TaskIOAction();
+        actions.add(new MenuAction(tioAction, "table", false));
 
         QueryAction qAction = new QueryAction();
         actions.add(new MenuAction(qAction, "search", false));
 
-        WriteTriplesAction wrAction = new WriteTriplesAction();
-        actions.add(new MenuAction(wrAction, "triples", false));
-
-        SaveOntologyAction svAction = new SaveOntologyAction();
-        actions.add(new MenuAction(svAction, "save", false));
+        WriteToFileAction wrAction = new WriteToFileAction();
+        actions.add(new MenuAction(wrAction, "save", false));
 
         return actions;
     }

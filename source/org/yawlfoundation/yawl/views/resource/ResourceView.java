@@ -118,6 +118,7 @@ public class ResourceView implements OverlaidView {
         if (service != null)  {             // special case - overrides resourcing
             if (_showServices) {
                 writeService(g, service, task, scale);
+                return;                      // no more to do
             }
             else {
                 colorSet.add(Color.WHITE);
@@ -355,7 +356,8 @@ public class ResourceView implements OverlaidView {
             String name = id.substring(0, id.lastIndexOf('/'));  // -'/ib'
             name = name.substring(name.lastIndexOf('/') + 1);   // - 'http:...'
             name = name.substring(0, name.lastIndexOf("Service"));
-            g.setBackground(Color.BLACK);
+            Color color = g.getColor();
+            g.setColor(Color.BLACK);
             g.fill(boundingRect);
             g.setColor(Color.WHITE);
             Font font = g.getFont();
@@ -363,7 +365,8 @@ public class ResourceView implements OverlaidView {
             g.drawString(name, (float) boundingRect.getX() + 5,
                     (float) boundingRect.getMaxY() - 10);
             g.setFont(font);
+            g.setColor(color);
         }
-
     }
+
 }

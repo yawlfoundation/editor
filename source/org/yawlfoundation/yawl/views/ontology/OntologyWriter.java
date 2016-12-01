@@ -16,10 +16,14 @@ public class OntologyWriter {
 
 
     public boolean export(final OntModel model) throws IOException, NoSuchAlgorithmException {
-        String path = getSelectedFilePath("owl");
-        if (path != null) {
+        return export(getSelectedFilePath("owl"), model);
+    }
+
+
+    public boolean export(File f, OntModel model) throws IOException {
+        if (f != null) {
             Writer writer = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(path), "UTF-8"));
+                    new FileOutputStream(f), "UTF-8"));
             model.getBaseModel().write(writer);
             writer.close();
             return true;
@@ -28,7 +32,7 @@ public class OntologyWriter {
     }
 
 
-    private String getSelectedFilePath(String filterExtn) {
+    private File getSelectedFilePath(String filterExtn) {
         JFileChooser fileChooser = new JFileChooser();
         FileFilter filter = new FileNameExtensionFilter(
                 filterExtn.toUpperCase(), filterExtn);
@@ -37,7 +41,7 @@ public class OntologyWriter {
         int option = fileChooser.showSaveDialog(null);
 
         return option == JFileChooser.APPROVE_OPTION ?
-                fileChooser.getSelectedFile().getAbsolutePath() : null;
+                fileChooser.getSelectedFile() : null;
     }
 
 }

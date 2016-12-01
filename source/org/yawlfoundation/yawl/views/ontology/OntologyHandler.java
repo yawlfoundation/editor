@@ -13,6 +13,7 @@ import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.util.StringUtil;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -83,12 +84,26 @@ public class OntologyHandler {
     }
 
 
+    public static boolean save(File f) {
+        if (! isLoaded()) {
+            load(SpecificationModel.getHandler());
+        }
+        try {
+            return new OntologyWriter().export(f, _populatedModel);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
     public static QueryResult query(String predStr) throws OntologyQueryException {
         return query(null, predStr, null);
     }
 
     public static List<Triple> swrlQuery(String predStr)
-            throws OntologyQueryException, QueryParseException {
+            throws QueryParseException {
         return swrlQuery(null, predStr, null);
     }
 
@@ -97,6 +112,7 @@ public class OntologyHandler {
         return getAllStatements();
     }
 
+    // all triples returned with full namespaces
     public static Set<Triple> swrlQuery() {
         return getAllTriples();
     }
@@ -128,12 +144,9 @@ public class OntologyHandler {
     public static List<Triple> swrlQuery(String subject, String predicate, String object)
             throws QueryParseException {
         List<Triple> triples = new ArrayList<Triple>();
-        String s = subject == null ? "?s" :
-                "<" + OntologyPopulator.NAMESPACE + subject.trim() + ">";
-        String p = predicate == null ? "?p" :
-                "<" + OntologyPopulator.NAMESPACE + predicate.trim() + ">";
-        String o = object == null ? "?o" :
-                "<" + OntologyPopulator.NAMESPACE + object.trim() + ">";
+        String s = subject == null ? "?s" : prepareArgument(subject);
+        String p = predicate == null ? "?p" : prepareArgument(predicate);
+        String o = object == null ? "?o" : prepareArgument(object);
 
         String queryStr = String.format("SELECT %s %s %s WHERE { %s %s %s }",
                  (s.startsWith("?") ? s : ""),
@@ -152,6 +165,18 @@ public class OntologyHandler {
             triples.add(new Triple(rs, rp, ro));
         }
         return triples;
+    }
+
+
+    private static String prepareArgument(String arg) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<");
+        if (! arg.startsWith("http:")) {
+            sb.append(OntologyPopulator.NAMESPACE);           // add default NS
+        }
+        sb.append(arg.trim());
+        sb.append(">");
+        return sb.toString();
     }
 
 
@@ -181,9 +206,9 @@ public class OntologyHandler {
 
         for (; results.hasNext(); ) {
             QuerySolution soln = results.nextSolution();
-            String s = soln.getResource("?x").getLocalName();
-            String p = soln.getResource("?p").getLocalName();
-            String o = soln.getResource("?y").getLocalName();
+            String s = soln.getResource("?x").toString();
+            String p = soln.getResource("?p").toString();
+            String o = soln.getResource("?y").toString();
             Triple t = new Triple(s, p, o);
             triples.add(t);
         }

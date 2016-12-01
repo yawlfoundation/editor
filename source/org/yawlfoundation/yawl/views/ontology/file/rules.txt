@@ -49,7 +49,7 @@
 
 [R9: (?T1 :decomposesTo ?D) (?D :hasExternalNetElement ?T2) (?T2 :writesDataTo ?V1) (?V1 :mapsValueTo ?V2) (?T3 :readsDataFrom ?V2) (?T3 :hasPredecessor ?T2) -> (?T3 :hasDataPredecessor ?T2)]
 
- 
+
 # SWRL: readsDataFrom(?T2, ?V) ^ hasInputParameter(?D, ?V) ^ YTask(?T1) ^ YTask(?T2) ^ YNet(?D) ^ decomposesTo(?T1, ?D) ^ hasExternalNetElement(?D, ?T2) -> hasDataPredecessor(?T2, ?T1)
 
 [R10: (?T2 :readsDataFrom ?V) (?D :hasInputParameter ?V) (?T1 :decomposesTo ?D) (?D :hasExternalNetElement ?T2) -> (?T2 :hasDataPredecessor ?T1)]
@@ -68,6 +68,8 @@
 [R16: (?T :writesDataTo ?V) (?T :hasRole ?R) -> (?R :roleWritesDataTo ?V)]
 
 [R17: (?T2 :hasFamiliarTask ?T1) (?T1 :hasRole ?R) -> (?T2 :hasRole ?R) ]
+
+[R18: (?T1 :flowsInto ?T2) (?T2 :decomposesTo ?D) (?D :hasExternalNetElement ?T3) -> (?T3 :hasPredecessor ?T2)]
 
 
 # Some general RDF rules
