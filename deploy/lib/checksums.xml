@@ -2,8 +2,8 @@
 <!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
 <release>
   <version>4.1</version>
-  <build>726</build>
-  <timestamp>2016-12-02 21.24.32</timestamp>
+  <build>727</build>
+  <timestamp>2016-12-02 21.49.05</timestamp>
   <paths>
     <path id="host">https://raw.githubusercontent.com/</path>
     <path id="base">yawlfoundation/</path>
@@ -44,7 +44,7 @@
     <file name="plugins/YAWLEditor-configuration-4.1.jar" md5="c4c0df5c9b22c1bb5d1bd5fe0a380868" size="163277" timestamp="2016-10-28T22:04:55" path="B"/>
     <file name="plugins/YAWLEditor-decobar-4.1.jar" md5="d3fa1bfb4a2992dd1d2354b5e78fc671" size="25615" timestamp="2016-05-10T04:16:24" path="B"/>
     <file name="plugins/YAWLEditor-worklet-4.1.jar" md5="38777854095f7da9f923ffeb16726766" size="225265" timestamp="2016-11-09T16:42:26" path="B"/>
-    <file name="YAWLEditor4.1.jar" md5="b01676b21ba5ba4ea59cd2b834a89408" size="1614317" timestamp="2016-12-02T21:24:32" path="B"/>
+    <file name="YAWLEditor4.1.jar" md5="f029be39db1c249d5227c8ecef8e0329" size="1614412" timestamp="2016-12-02T21:49:05" path="B"/>
   </files>
 </release>
 

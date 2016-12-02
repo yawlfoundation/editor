@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 public class ButtonUtil {
 
     private static final int PREFERRED_HEIGHT = 25;
+    private static final int PREFERRED_WIDTH = 70;
 
     public static void setEqualWidths(JPanel panel) {
         Component widestButton = null;
@@ -40,9 +41,17 @@ public class ButtonUtil {
         JButton button = new JButton(label);
         button.setActionCommand(label);
         button.setMnemonic(label.charAt(0));
-        button.setPreferredSize(new Dimension(70, PREFERRED_HEIGHT));
+        button.setPreferredSize(new Dimension(getPreferredWidth(button), PREFERRED_HEIGHT));
         button.addActionListener(listener);
         return button;
+    }
+
+
+    private static int getPreferredWidth(JButton button) {
+        return Math.max(button.getPreferredSize().width, PREFERRED_WIDTH);
+//        return SwingUtilities2.stringWidth(button,
+//                button.getFontMetrics(button.getFont().deriveFont(Font.BOLD)),
+//                button.getText()) + 20;
     }
 
 }
