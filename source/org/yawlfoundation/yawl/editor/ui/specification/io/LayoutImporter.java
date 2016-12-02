@@ -139,12 +139,13 @@ public class LayoutImporter {
         if (label != null) {
             AttributeMap updateMap = getLabelAttributes(layout);
             Rectangle loadedBounds = (Rectangle) updateMap.get(GraphConstants.BOUNDS);
+            Rectangle2D labelBounds = (Rectangle2D) label.getAttributes().get(GraphConstants.BOUNDS);
             if (loadedBounds != null) {
                 updateMap.put(GraphConstants.BOUNDS, new Rectangle2D.Double(
                         loadedBounds.getX(),
                         loadedBounds.getY(),
-                        loadedBounds.getWidth(),
-                        loadedBounds.getHeight()));
+                        Math.max(loadedBounds.getWidth(), labelBounds.getWidth()),
+                        Math.max(loadedBounds.getHeight(), labelBounds.getHeight())));
             }
             label.getAttributes().applyMap(updateMap);
         }

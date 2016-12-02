@@ -2,8 +2,8 @@
 <!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
 <release>
   <version>4.1</version>
-  <build>725</build>
-  <timestamp>2016-11-22 14.59.00</timestamp>
+  <build>726</build>
+  <timestamp>2016-12-02 21.24.32</timestamp>
   <paths>
     <path id="host">https://raw.githubusercontent.com/</path>
     <path id="base">yawlfoundation/</path>
@@ -37,14 +37,14 @@
     <file name="lib/servlet-api.jar" md5="8b0753b8fa779bc80c3f8db57b8b6372" size="88224" timestamp="2015-08-13T05:38:33" path="A"/>
     <file name="lib/xercesImpl.jar" md5="da09b75b562ca9a8e9a535d2148be8e4" size="1229289" timestamp="2015-08-13T05:38:33" path="C"/>
     <file name="lib/xmleditorkit.jar" md5="3d08ad29e38824929c5101bc61ce8816" size="72326" timestamp="2015-08-18T10:45:08" path="B"/>
-    <file name="lib/yawl-lib-4.1.jar" md5="f33a356c6ea32e4bb947d8645e8a76d6" size="2506580" timestamp="2016-11-17T20:58:55" path="B"/>
+    <file name="lib/yawl-lib-4.1.jar" md5="96ca1e333d9c97f497c068bcfe0ea937" size="2507450" timestamp="2016-12-01T13:01:45" path="B"/>
     <file name="lib/YAWLEditor-analyser-4.1.jar" md5="d54b6e888f602462d19e8a3866adffbb" size="81647" timestamp="2016-05-10T04:16:23" path="B"/>
     <file name="lib/YAWLEditor-core-4.1.jar" md5="62aedaac14a947f6378845f8f2609ba8" size="177114" timestamp="2016-10-24T13:20:13" path="B"/>
     <file name="lib/YAWLEditor-icons.jar" md5="79e9718b2713b9c70fb2bfd60dddcdfc" size="363754" timestamp="2015-08-18T10:45:08" path="B"/>
     <file name="plugins/YAWLEditor-configuration-4.1.jar" md5="c4c0df5c9b22c1bb5d1bd5fe0a380868" size="163277" timestamp="2016-10-28T22:04:55" path="B"/>
     <file name="plugins/YAWLEditor-decobar-4.1.jar" md5="d3fa1bfb4a2992dd1d2354b5e78fc671" size="25615" timestamp="2016-05-10T04:16:24" path="B"/>
     <file name="plugins/YAWLEditor-worklet-4.1.jar" md5="38777854095f7da9f923ffeb16726766" size="225265" timestamp="2016-11-09T16:42:26" path="B"/>
-    <file name="YAWLEditor4.1.jar" md5="12a2a3736dc1778815d9560b1051e495" size="1614249" timestamp="2016-11-22T14:32:44" path="B"/>
+    <file name="YAWLEditor4.1.jar" md5="b01676b21ba5ba4ea59cd2b834a89408" size="1614317" timestamp="2016-12-02T21:24:32" path="B"/>
   </files>
 </release>
 
