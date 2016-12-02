@@ -62,9 +62,9 @@ public class DataViewDialog extends AbstractViewDialog {
         }
         try {
             java.util.List<Triple> triples = processTriples(
-                    OntologyHandler.swrlQuery(predFrom), true, prefix);
+                    OntologyHandler.sparqlQuery(predFrom), true, prefix);
             triples.addAll(processTriples(
-                    OntologyHandler.swrlQuery(predTo), false, prefix));
+                    OntologyHandler.sparqlQuery(predTo), false, prefix));
             setTriples(triples);
         }
         catch (Exception oqe) {

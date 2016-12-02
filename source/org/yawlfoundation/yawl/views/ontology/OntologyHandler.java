@@ -102,9 +102,9 @@ public class OntologyHandler {
         return query(null, predStr, null);
     }
 
-    public static List<Triple> swrlQuery(String predStr)
+    public static List<Triple> sparqlQuery(String predStr)
             throws QueryParseException {
-        return swrlQuery(null, predStr, null);
+        return sparqlQuery(null, predStr, null);
     }
 
 
@@ -113,7 +113,7 @@ public class OntologyHandler {
     }
 
     // all triples returned with full namespaces
-    public static Set<Triple> swrlQuery() {
+    public static Set<Triple> sparqlQuery() {
         return getAllTriples();
     }
 
@@ -141,22 +141,20 @@ public class OntologyHandler {
     }
 
 
-    public static List<Triple> swrlQuery(String subject, String predicate, String object)
+    public static List<Triple> sparqlQuery(String subject, String predicate, String object)
             throws QueryParseException {
-        List<Triple> triples = new ArrayList<Triple>();
         String s = subject == null ? "?s" : prepareArgument(subject);
         String p = predicate == null ? "?p" : prepareArgument(predicate);
         String o = object == null ? "?o" : prepareArgument(object);
 
         String queryStr = String.format("SELECT %s %s %s WHERE { %s %s %s }",
-                 (s.startsWith("?") ? s : ""),
-                 (p.startsWith("?") ? p : ""),
-                 (o.startsWith("?") ? o : ""),
-                 s, p, o);
+                (s.startsWith("?") ? s : ""),
+                (p.startsWith("?") ? p : ""),
+                (o.startsWith("?") ? o : ""),
+                s, p, o);
 
-        Query query = QueryFactory.create(queryStr);
-        QueryExecution qexec = QueryExecutionFactory.create(query, _infModel);
-        ResultSet results = qexec.execSelect();
+        List<Triple> triples = new ArrayList<Triple>();
+        ResultSet results = runSparqlQuery(queryStr);
         for (; results.hasNext(); ) {
             QuerySolution soln = results.nextSolution();
             String rs = getResourceName(soln, s, subject);
@@ -165,6 +163,13 @@ public class OntologyHandler {
             triples.add(new Triple(rs, rp, ro));
         }
         return triples;
+    }
+
+
+    public static ResultSet runSparqlQuery(String queryStr) throws QueryParseException {
+        Query query = QueryFactory.create(queryStr);
+        QueryExecution qexec = QueryExecutionFactory.create(query, _infModel);
+        return qexec.execSelect();
     }
 
 

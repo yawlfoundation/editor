@@ -21,7 +21,8 @@ public class FlowsComparator implements Comparator<String> {
         if (!OntologyHandler.isLoaded()) {
             OntologyHandler.load(SpecificationModel.getHandler());
         }
-        _predecessorList = OntologyHandler.swrlQuery("hasPredecessor");
+        _netToInputCondition = new HashMap<String, String>();
+        _predecessorList = OntologyHandler.sparqlQuery("hasPredecessor");
     }
 
 
@@ -56,7 +57,7 @@ public class FlowsComparator implements Comparator<String> {
 
     private int handleLoop(String id1, String id2) {
         if (_flowsIntoList == null) {
-            _flowsIntoList = OntologyHandler.swrlQuery("flowsInto");
+            _flowsIntoList = OntologyHandler.sparqlQuery("flowsInto");
             _netToInputCondition = new HashMap<String, String>();
         }
         return getShortestPath(id1) - getShortestPath(id2);
@@ -99,7 +100,6 @@ public class FlowsComparator implements Comparator<String> {
     }
 
 
-
     private String getInputCondition(String netID) {
         String icID = _netToInputCondition.get(netID);
         if (icID == null) {
@@ -116,7 +116,7 @@ public class FlowsComparator implements Comparator<String> {
 
 
     private String query(String s, String p, String o) {
-        List<Triple> triples = OntologyHandler.swrlQuery(s, p, o);
+        List<Triple> triples = OntologyHandler.sparqlQuery(s, p, o);
         if (!triples.isEmpty()) {
             if (s == null) return triples.get(0).getSubject();
             if (o == null) return triples.get(0).getObject();

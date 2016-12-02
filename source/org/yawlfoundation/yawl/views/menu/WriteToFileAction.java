@@ -39,7 +39,7 @@ class WriteToFileAction extends YAWLSelectedNetAction {
                  writeToOWL(f);
             }
             else {
-                Set<Triple> triples = OntologyHandler.swrlQuery();
+                Set<Triple> triples = OntologyHandler.sparqlQuery();
                 if (!triples.isEmpty()) {
                     if (filter.getDescription().startsWith("Comma")) {
                         writeToCSV(f, triples);

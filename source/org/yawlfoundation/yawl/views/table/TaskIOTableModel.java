@@ -69,11 +69,11 @@ public class TaskIOTableModel extends DefaultTableModel {
     }
 
 
-    public int getWidestLabel() {
-        int max = 0;
+    public String getWidestLabel() {
+        String max = "";
         for (TaskIO tio : _taskIOList) {
-            if (max < tio.getID().length()) {
-                max = tio.getID().length();
+            if (max.length() < tio.getID().length()) {
+                max = tio.getID();
             }
         }
         return max;
@@ -83,23 +83,24 @@ public class TaskIOTableModel extends DefaultTableModel {
         if (!OntologyHandler.isLoaded()) {
             OntologyHandler.load(SpecificationModel.getHandler());
         }
-        List<String> netNames = getNamesByType("YNet");
-        populateVars(netNames);
         populateTasks();
+        populateVars();
     }
 
 
-    private void populateVars(List<String> netNames) {
+    private void populateVars() {
         _varList = new ArrayList<String>();
+        List<String> netNames = getNamesByType("YNet");
         for (String netName : netNames) {
              _varList.addAll(getNetVars(netName));
         }
+        Collections.sort(_varList, new ColumnSorter());
     }
 
 
     private List<String> getNamesByType(String object) {
         List<String> names = new ArrayList<String>();
-        List<Triple> triples = OntologyHandler.swrlQuery(null,
+        List<Triple> triples = OntologyHandler.sparqlQuery(null,
                 "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", object);
         for (Triple triple : triples) {
             names.add(triple.getSubject());
@@ -109,16 +110,20 @@ public class TaskIOTableModel extends DefaultTableModel {
 
 
     private List<String> getNetVars(String netName) {
-        List<String> vars = new ArrayList<String>();
+
+        // use set to avoid duplicates
+        Set<String> vars = new HashSet<String>();
         getObjects(vars, netName, "hasLocalVariable");
         getObjects(vars, netName, "hasInputParameter");
         getObjects(vars, netName, "hasOutputParameter");
-        return vars;
+
+        // convert to list for model
+        return new ArrayList<String>(vars);
     }
 
 
-    private void getObjects(List<String> vars, String netName, String predicate) {
-        List<Triple> triples = OntologyHandler.swrlQuery(netName, predicate, null);
+    private void getObjects(Set<String> vars, String netName, String predicate) {
+        List<Triple> triples = OntologyHandler.sparqlQuery(netName, predicate, null);
         for (Triple triple : triples) {
             vars.add(triple.getObject());
         }
@@ -128,9 +133,10 @@ public class TaskIOTableModel extends DefaultTableModel {
     private void populateTasks() {
         _taskIOList = new ArrayList<TaskIO>();
         List<String> taskIDs = getNamesByType("YTask");
+        removeEmptyTasks(taskIDs);
         Collections.sort(taskIDs, new FlowsComparator());
-        List<Triple> readsFrom = OntologyHandler.swrlQuery("readsDataFrom");
-        List<Triple> writesTo = OntologyHandler.swrlQuery("writesDataTo");
+        List<Triple> readsFrom = OntologyHandler.sparqlQuery("readsDataFrom");
+        List<Triple> writesTo = OntologyHandler.sparqlQuery("writesDataTo");
         for (String taskID : taskIDs) {
             Set<String> reads = getVars(readsFrom, taskID);
             Set<String> writes = getVars(writesTo, taskID);
@@ -147,6 +153,53 @@ public class TaskIOTableModel extends DefaultTableModel {
             }
         }
         return vars;
+    }
+
+
+    private void removeEmptyTasks(List<String> tasks) {
+        List<String> nonEmptyTasks = new ArrayList<String>();
+        List<Triple> triples = OntologyHandler.sparqlQuery("decomposesTo");
+        for (Triple t : triples) {
+            nonEmptyTasks.add(t.getSubject());
+        }
+        List<String> emptyTasks = new ArrayList<String>();
+        for (String task : tasks) {
+            if (! nonEmptyTasks.contains(task)) {
+                emptyTasks.add(task);
+            }
+        }
+        tasks.removeAll(emptyTasks);
+    }
+
+
+    /*************************************************************************/
+
+    class ColumnSorter implements Comparator<String> {
+
+        List<String> netOrder = getNetOrder();
+
+        @Override
+        public int compare(String s1, String s2) {
+            String net1 = s1.substring(0, s1.indexOf('!'));
+            String net2 = s2.substring(0, s2.indexOf('!'));
+            int order = netOrder.indexOf(net1) - netOrder.indexOf(net2);
+
+            // if same net, order on full var name
+            return order == 0 ? s1.compareTo(s2) : order;
+        }
+
+
+        List<String> getNetOrder() {
+            List<String> order = new ArrayList<String>();
+            for (TaskIO tio : _taskIOList) {
+                String id = tio.getID();
+                String netName = id.substring(0, id.indexOf('!'));
+                if (! order.contains(netName)) {
+                    order.add(netName);
+                }
+            }
+            return order;
+        }
     }
 
 }

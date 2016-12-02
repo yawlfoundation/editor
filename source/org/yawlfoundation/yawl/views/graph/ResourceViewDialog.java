@@ -85,7 +85,7 @@ public class ResourceViewDialog extends AbstractViewDialog implements ActionList
         }
         try {
             java.util.List<Triple> triples =
-                    processTriples(OntologyHandler.swrlQuery(predicate));
+                    processTriples(OntologyHandler.sparqlQuery(predicate));
             if (_table != null) {
                 getTableModel(_table).setValues(getRoles(triples));
             }

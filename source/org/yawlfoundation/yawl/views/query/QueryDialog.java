@@ -1,9 +1,12 @@
 package org.yawlfoundation.yawl.views.query;
 
+import org.apache.jena.query.QueryParseException;
+import org.apache.jena.query.ResultSet;
 import org.yawlfoundation.yawl.editor.core.resourcing.ResourceDataSet;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
 import org.yawlfoundation.yawl.resourcing.resource.Role;
+import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.views.ontology.OntologyHandler;
 import org.yawlfoundation.yawl.views.ontology.Triple;
 
@@ -30,6 +33,7 @@ public class QueryDialog extends JDialog implements ActionListener {
     private JComboBox _object;
     private ColorTextPane _results;
     private JLabel _status;
+    private String _lastDefinedQuery = "";
 
     private final Map<JComboBox, String> _lastEntry;
 
@@ -60,6 +64,9 @@ public class QueryDialog extends JDialog implements ActionListener {
         }
         else if (cmd.equals("Clear")) {
             clear();
+        }
+        else if (cmd.equals("Define")) {
+            define();
         }
         else if (cmd.equals("Exit")) {
             setVisible(false);
@@ -171,6 +178,7 @@ public class QueryDialog extends JDialog implements ActionListener {
         JPanel panel = new JPanel();
         panel.add(ButtonUtil.createButton("Exit", this));
         panel.add(ButtonUtil.createButton("Clear", this));
+        panel.add(ButtonUtil.createButton("Define", this));
 
         JButton btnRun = ButtonUtil.createButton("Run", this);
         getRootPane().setDefaultButton(btnRun);
@@ -223,12 +231,17 @@ public class QueryDialog extends JDialog implements ActionListener {
         String p = _lastEntry.get(_predicate);
         String o = _lastEntry.get(_object);
 
-        java.util.List<Triple> results = OntologyHandler.swrlQuery(s, p, o);
-        if (results.isEmpty()) {
-            _status.setText("No triples found matching query");
-            return;
+        java.util.List<Triple> results = OntologyHandler.sparqlQuery(s, p, o);
+        if (! results.isEmpty()) {
+            displayResults(results);
         }
+        else {
+            _status.setText("No triples found matching query");
+        }
+    }
 
+
+    private void displayResults(java.util.List<Triple> results) {
         Collections.sort(results, new TripleSorter());
         _results.setEditable(true);
         for (Triple triple : results) {
@@ -255,6 +268,11 @@ public class QueryDialog extends JDialog implements ActionListener {
             }
         }
         return roleID;
+    }
+
+
+    private void define() {
+        new SparqlQueryDialog().setVisible(true);
     }
 
 
