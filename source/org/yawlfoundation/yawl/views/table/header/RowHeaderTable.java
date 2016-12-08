@@ -153,7 +153,7 @@ public class RowHeaderTable extends JTable
 
 
     private int getOptimalColumnWidth() {
-        String label = ((TaskIOTableModel) main.getModel()).getWidestLabel();
+        String label = ((TaskIOTableModel) main.getModel()).getWidestRowLabel();
         return SwingUtilities2.stringWidth(this,
                 this.getFontMetrics(this.getFont().deriveFont(Font.BOLD)),
                 label) + 10;

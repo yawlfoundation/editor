@@ -10,16 +10,14 @@ import org.apache.jena.reasoner.rulesys.GenericRuleReasoner;
 import org.apache.jena.reasoner.rulesys.Rule;
 import org.yawlfoundation.yawl.editor.core.YSpecificationHandler;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
+import org.yawlfoundation.yawl.editor.ui.util.FileLocations;
 import org.yawlfoundation.yawl.util.StringUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Michael Adams
@@ -35,6 +33,9 @@ public class OntologyHandler {
 
     private static final String BASE_ONT_URL = "/org/yawlfoundation/yawl/views/ontology/file/SpecificationOntology.owl";
     private static final String RULES_FILE_URL = "/org/yawlfoundation/yawl/views/ontology/file/rules.txt";
+
+    public static final File USER_RULE_FILE =
+              new File(FileLocations.getPluginsPath() + "/user.rules");
 
 
     private static List<Rule> _rules;            // rules from file
@@ -66,6 +67,11 @@ public class OntologyHandler {
 
     public static void update(YSpecificationHandler handler) {
         load(handler);                                // spec changed, so reload
+    }
+
+
+    public static void reloadRules() {
+        _infModel = getInfModel(_populatedModel);
     }
 
 
@@ -263,8 +269,28 @@ public class OntologyHandler {
             GenericRuleReasoner rdfsReasoner =
                     (GenericRuleReasoner) ReasonerRegistry.getRDFSReasoner();
             _rules.addAll(rdfsReasoner.getRules());
+
+            _rules.addAll(getUserDefinedRules());
         }
         return _rules;
+    }
+
+
+    private static List<Rule> getUserDefinedRules() {
+        if (USER_RULE_FILE.exists()) {
+            String rulesStr = StringUtil.fileToString(USER_RULE_FILE);
+            if (rulesStr != null) {
+                try {
+                    BufferedReader reader = new BufferedReader(new StringReader(rulesStr));
+                    Rule.Parser parser = Rule.rulesParserFromReader(reader);
+                    return Rule.parseRules(parser);
+                }
+                catch (Rule.ParserException rpe) {
+                    rpe.printStackTrace();
+                }
+            }
+        }
+        return Collections.emptyList();
     }
 
 }

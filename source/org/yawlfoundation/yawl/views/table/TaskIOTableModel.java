@@ -39,11 +39,11 @@ public class TaskIOTableModel extends DefaultTableModel {
 
 
     public int getColumnCount() {
-        return _varList.size();
+        return _taskIOList.size();
     }
 
     public String getColumnName(int col) {
-        return _varList.get(col);
+        return _taskIOList.get(col).getID();
     }
 
     public Class getColumnClass(int columnIndex) {
@@ -55,25 +55,25 @@ public class TaskIOTableModel extends DefaultTableModel {
     }
 
     public int getRowCount() {
-        return _taskIOList != null ? _taskIOList.size() : 0;
+        return _varList != null ? _varList.size() : 0;
     }
 
 
     public Object getValueAt(int row, int col) {
-        return _taskIOList.get(row).getValue(_varList.get(col));
+        return _taskIOList.get(col).getValue(_varList.get(row));
     }
 
 
     public String getRowHeaderValueAt(int row) {
-        return _taskIOList.get(row).getID();
+        return _varList.get(row);
     }
 
 
-    public String getWidestLabel() {
+    public String getWidestRowLabel() {
         String max = "";
-        for (TaskIO tio : _taskIOList) {
-            if (max.length() < tio.getID().length()) {
-                max = tio.getID();
+        for (String var : _varList) {
+            if (max.length() < var.length()) {
+                max = var;
             }
         }
         return max;
@@ -94,7 +94,7 @@ public class TaskIOTableModel extends DefaultTableModel {
         for (String netName : netNames) {
              _varList.addAll(getNetVars(netName));
         }
-        Collections.sort(_varList, new ColumnSorter());
+        Collections.sort(_varList, new RowSorter());
     }
 
 
@@ -174,7 +174,7 @@ public class TaskIOTableModel extends DefaultTableModel {
 
     /*************************************************************************/
 
-    class ColumnSorter implements Comparator<String> {
+    class RowSorter implements Comparator<String> {
 
         List<String> netOrder = getNetOrder();
 

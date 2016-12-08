@@ -107,7 +107,7 @@ public class ResourceConstraintsOverlay {
                 p2 = new Point2D.Double(T2.getX(), T2.getY());
             }
             pb = new Point2D.Double(
-                    (p1.getX() + p2.getX()) / 2 - (Math.abs(p2.getX() - p1.getX()) / 4),
+                    (p1.getX() + p2.getX()) / 2 - (Math.abs(p2.getY() - p1.getY()) / 4),
                     (p1.getY() + p2.getY()) / 2);
         }
 
@@ -171,18 +171,28 @@ public class ResourceConstraintsOverlay {
                 Path2D path = getConstraintPath(pathPoints);
                 g.draw(path);
 
-                paintIcon(g, getIconPosition(path), iconName, scale);
+                boolean horizontal = isHorizontal(pathPoints);
+                Point2D position = getIconPosition(path, horizontal);
+                paintIcon(g, position, iconName, horizontal, scale);
             }
         }
     }
 
 
-    private void paintIcon(Graphics2D g, Point2D location, String iconName, double scale) {
+    private void paintIcon(Graphics2D g, Point2D location, String iconName,
+                           boolean isHorizontal, double scale) {
         if (location != null) {
             Icon icon = getIcon(iconName, scale);
             if (icon != null) {
+                int midIcon = icon.getIconHeight() / 2;
                 int x = (int) location.getX();
-                int y = (int) location.getY() - icon.getIconHeight() / 2;
+                int y = (int) location.getY();
+                if (isHorizontal) {
+                    y -= midIcon;
+                }
+                else {
+                    x -= midIcon;
+                }
                 icon.paintIcon(null, g, x, y);
             }
         }
@@ -201,6 +211,15 @@ public class ResourceConstraintsOverlay {
             icon = resizeIcon(icon, scale);
         }
         return icon;
+    }
+
+
+    private boolean isHorizontal(Point2D[] pathPoints) {
+        Point2D start = pathPoints[0];
+        Point2D end = pathPoints[pathPoints.length - 1];
+        double diffX = Math.abs(start.getX() - end.getX());
+        double diffY = Math.abs(start.getY() - end.getY());
+        return diffX >= diffY;
     }
 
 
@@ -261,7 +280,7 @@ public class ResourceConstraintsOverlay {
 
     // since the curved path has not yet appeared on the canvas, here it is reproduced
     // in a BufferedImage, so that the precise y-coord mid-line can be found
-    private Point2D getIconPosition(Path2D path) {
+    private Point2D getIconPosition(Path2D path, boolean isHorizontal) {
         try {
             // create the Image
             Rectangle rect = path.getBounds();
@@ -279,16 +298,31 @@ public class ResourceConstraintsOverlay {
             g.draw(path);
             g.dispose();
 
-            // starting at min-y, test each y at midline-x for the curve color
-            int midX = rect.x + (rect.width / 2);
-            for (int y = 0; y < rect.y + rect.height; y++) {
-                if (y < 0) continue;
-                int pixelRGB = bi.getRGB(midX, y);
+            if (isHorizontal) {
 
-                // if the current pixel is same color as curve, return this point
-                if (pathRGB == pixelRGB) {
-                    return new Point2D.Double(midX, y);
+                // starting at min-y, test each y at midline-x for the curve color
+                int midX = rect.x + (rect.width / 2);
+                for (int y = 0; y < rect.y + rect.height; y++) {
+                    if (y < 0) continue;
+                    int pixelRGB = bi.getRGB(midX, y);
+
+                    // if the current pixel is same color as curve, return this point
+                    if (pathRGB == pixelRGB) {
+                        return new Point2D.Double(midX, y);
+                    }
                 }
+            }
+            else {
+                int midY = rect.y + (rect.height / 2);
+                 for (int x = 0; x < rect.x + rect.width; x++) {
+                     if (x < 0) continue;
+                     int pixelRGB = bi.getRGB(x, midY);
+
+                     // if the current pixel is same color as curve, return this point
+                     if (pathRGB == pixelRGB) {
+                         return new Point2D.Double(x, midY);
+                     }
+                 }
             }
         }
         catch (Exception e) {

@@ -91,6 +91,9 @@ public class MenuBuilder {
         QueryAction qAction = new QueryAction();
         actions.add(new MenuAction(qAction, "search", false));
 
+        UserRulesAction urAction = new UserRulesAction();
+        actions.add(new MenuAction(urAction, "edit", false));
+
         WriteToFileAction wrAction = new WriteToFileAction();
         actions.add(new MenuAction(wrAction, "save", false));
 
