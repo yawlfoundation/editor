@@ -161,14 +161,11 @@ public class YAWLEditor extends JFrame implements FileStateListener {
     }
 
     private static void loadChosenSpecification(String fileName) {
+        if (fileName == null && UserSettings.getReloadLastSpecOnStartup()) {
+            fileName = UserSettings.getMostRecentFileName();
+        }
         if (fileName != null) {
             FileOperations.open(fileName);
-        }
-        else if (UserSettings.getReloadLastSpecOnStartup()) {
-            String lastSpec = UserSettings.getMostRecentFileName();
-            if (lastSpec != null) {
-                FileOperations.open(lastSpec);
-            }
         }
     }
 
@@ -369,6 +366,16 @@ public class YAWLEditor extends JFrame implements FileStateListener {
         }
         else {
             this.setLocation(pos.x, pos.y);
+        }
+
+        if (! UserSettings.hasRunOnce()) {
+            UserSettings.setVerifyOnSave(true);
+            UserSettings.setAnalyseOnSave(false);
+            UserSettings.setAutoIncrementVersionOnSave(true);
+            UserSettings.setFileBackupOnSave(true);
+            UserSettings.setFileVersioningOnSave(false);
+            UserSettings.setShowFileOptionsDialogOnSave(true);
+            UserSettings.setReloadLastSpecOnStartup(true);
         }
 
         // initialise analysis 'off' for new installs

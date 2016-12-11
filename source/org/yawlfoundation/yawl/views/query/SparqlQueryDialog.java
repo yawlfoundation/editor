@@ -6,7 +6,9 @@ import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.swing.JAlternatingRowColorTable;
 import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
 import org.yawlfoundation.yawl.util.StringUtil;
+import org.yawlfoundation.yawl.views.graph.GenericViewDialog;
 import org.yawlfoundation.yawl.views.ontology.OntologyHandler;
+import org.yawlfoundation.yawl.views.ontology.Triple;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -15,7 +17,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * @author Michael Adams
@@ -27,6 +29,8 @@ public class SparqlQueryDialog extends JDialog implements ActionListener {
     private JTextArea _errorArea;
     private SparqlResultsTableModel _tableModel;
     private TableRowSorter<TableModel> _tableSorter;
+    private JButton _btnGraph;
+    private java.util.List<Triple> _triples = new ArrayList<Triple>();
 
     private static final String PREFIXES =
             "PREFIX : <http://www.semanticweb.org/yawl/ontologies/YSpecificationOntology#>\n" +
@@ -55,6 +59,9 @@ public class SparqlQueryDialog extends JDialog implements ActionListener {
         }
         else if (cmd.equals("Clear")) {
             clear();
+        }
+        else if (cmd.equals("Graph")) {
+            graph();
         }
         else if (cmd.equals("Exit")) {
             setVisible(false);
@@ -120,6 +127,10 @@ public class SparqlQueryDialog extends JDialog implements ActionListener {
         panel.add(ButtonUtil.createButton("Exit", this));
         panel.add(ButtonUtil.createButton("Clear", this));
 
+        _btnGraph = ButtonUtil.createButton("Graph", this);
+        _btnGraph.setEnabled(false);
+        panel.add(_btnGraph);
+
         JButton btnRun = ButtonUtil.createButton("Run", this);
         getRootPane().setDefaultButton(btnRun);
         panel.add(btnRun);
@@ -154,6 +165,11 @@ public class SparqlQueryDialog extends JDialog implements ActionListener {
     }
 
 
+    private void graph() {
+        new GenericViewDialog(_triples).setVisible(true);
+    }
+
+
     private void setSortKeys(int colCount) {
         java.util.List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
         for (int i=0; i < colCount; i++) {
@@ -161,7 +177,6 @@ public class SparqlQueryDialog extends JDialog implements ActionListener {
         }
         _tableSorter.setSortKeys(sortKeys);
     }
-
 
 
     private void error(String msg) {

@@ -21,6 +21,7 @@ package org.yawlfoundation.yawl.editor.core.connection;
 import org.yawlfoundation.yawl.engine.interfce.Interface_Client;
 import org.yawlfoundation.yawl.engine.interfce.interfaceA.InterfaceA_EnvironmentBasedClient;
 import org.yawlfoundation.yawl.resourcing.rsInterface.ResourceGatewayClient;
+import org.yawlfoundation.yawl.resourcing.rsInterface.WorkQueueGatewayClient;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -266,6 +267,9 @@ public abstract class YConnection {
         if (client instanceof ResourceGatewayClient) {
             return ((ResourceGatewayClient) client).connect(_userid, _password);
         }
+        if (client instanceof WorkQueueGatewayClient) {
+            return ((WorkQueueGatewayClient) client).connect(_userid, _password);
+        }
         return null;
     }
 
@@ -276,7 +280,7 @@ public abstract class YConnection {
      * @return true if the current session handle is valid
      * @throws IOException if there is some problem connecting to the YAWL instance
      */
-   private boolean checkConnection(Interface_Client client) throws IOException  {
+    private boolean checkConnection(Interface_Client client) throws IOException  {
 
         // this construct was required because Interface_Client does not have a
         // generic 'checkConnection' method
@@ -288,6 +292,10 @@ public abstract class YConnection {
         if (client instanceof ResourceGatewayClient) {
             ResourceGatewayClient irClient = (ResourceGatewayClient) client;
             return irClient.successful(irClient.checkConnection(_handle));
+        }
+        if (client instanceof WorkQueueGatewayClient) {
+            WorkQueueGatewayClient wqClient = (WorkQueueGatewayClient) client;
+            return wqClient.successful(wqClient.checkConnection(_handle));
         }
         return false;
     }

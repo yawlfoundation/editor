@@ -43,7 +43,7 @@ public class UserSettings {
     private static final String INTERNAL_FRAME_WIDTH = "internalFrameWidth";
     private static final String INTERNAL_FRAME_HEIGHT = "internalFrameHeight";
 
-    // analysis settings
+    // file option settings
     private static final String VERIFY_ON_SAVE = "verifyWithExportCheck";
     private static final String ANALYSE_ON_SAVE = "analyseWithExportCheck";
     private static final String AUTO_INCREMENT_VERSION_ON_SAVE = "autoIncVersionExportCheck";
@@ -51,6 +51,8 @@ public class UserSettings {
     private static final String FILE_VERSIONING_ON_SAVE = "savePreviousOnExportCheck";
     private static final String FILE_OPTIONS_DIALOG_ON_SAVE = "showFileOptionsDialog";
     private static final String FILE_OPTIONS_RELOAD_ON_STARTUP = "reloadLastSpecOnStartup";
+
+    // analysis settings
     private static final String RESET_NET_ANALYSIS = "resetNetAnalysisCheck";
     private static final String SOUNDNESS_ANALYSIS = "resetSoundnessCheck";
     private static final String WEAK_SOUNDNESS_ANALYSIS = "resetWeakSoundnessCheck";

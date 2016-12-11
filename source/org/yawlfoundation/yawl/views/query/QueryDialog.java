@@ -1,12 +1,10 @@
 package org.yawlfoundation.yawl.views.query;
 
-import org.apache.jena.query.QueryParseException;
-import org.apache.jena.query.ResultSet;
 import org.yawlfoundation.yawl.editor.core.resourcing.ResourceDataSet;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
 import org.yawlfoundation.yawl.resourcing.resource.Role;
-import org.yawlfoundation.yawl.util.StringUtil;
+import org.yawlfoundation.yawl.views.graph.GenericViewDialog;
 import org.yawlfoundation.yawl.views.ontology.OntologyHandler;
 import org.yawlfoundation.yawl.views.ontology.Triple;
 
@@ -33,7 +31,8 @@ public class QueryDialog extends JDialog implements ActionListener {
     private JComboBox _object;
     private ColorTextPane _results;
     private JLabel _status;
-    private String _lastDefinedQuery = "";
+    private JButton _btnGraph;
+    private java.util.List<Triple> _triples;
 
     private final Map<JComboBox, String> _lastEntry;
 
@@ -67,6 +66,9 @@ public class QueryDialog extends JDialog implements ActionListener {
         }
         else if (cmd.equals("Define")) {
             define();
+        }
+        else if (cmd.equals("Graph")) {
+            graph();
         }
         else if (cmd.equals("Exit")) {
             setVisible(false);
@@ -180,6 +182,10 @@ public class QueryDialog extends JDialog implements ActionListener {
         panel.add(ButtonUtil.createButton("Clear", this));
         panel.add(ButtonUtil.createButton("Define", this));
 
+        _btnGraph = ButtonUtil.createButton("Graph", this);
+        _btnGraph.setEnabled(false);
+        panel.add(_btnGraph);
+
         JButton btnRun = ButtonUtil.createButton("Run", this);
         getRootPane().setDefaultButton(btnRun);
         panel.add(btnRun);
@@ -237,13 +243,16 @@ public class QueryDialog extends JDialog implements ActionListener {
         }
         else {
             _status.setText("No triples found matching query");
+            _btnGraph.setEnabled(false);
         }
     }
 
 
     private void displayResults(java.util.List<Triple> results) {
         Collections.sort(results, new TripleSorter());
+        _triples = results;
         _results.setEditable(true);
+        _btnGraph.setEnabled(true);
         for (Triple triple : results) {
             _results.append(getName(triple.getSubject()));
             _results.append(" ");
@@ -273,6 +282,11 @@ public class QueryDialog extends JDialog implements ActionListener {
 
     private void define() {
         new SparqlQueryDialog().setVisible(true);
+    }
+
+
+    private void graph() {
+        new GenericViewDialog(_triples).setVisible(true);
     }
 
 

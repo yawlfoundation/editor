@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.editor.core;
 
 import org.yawlfoundation.yawl.editor.core.connection.YEngineConnection;
 import org.yawlfoundation.yawl.editor.core.connection.YResourceConnection;
+import org.yawlfoundation.yawl.editor.core.connection.YWorkQueueConnection;
 import org.yawlfoundation.yawl.elements.YAWLServiceReference;
 import org.yawlfoundation.yawl.elements.YSpecification;
 import org.yawlfoundation.yawl.elements.data.YParameter;
@@ -35,6 +36,7 @@ import org.yawlfoundation.yawl.resourcing.resource.*;
 import org.yawlfoundation.yawl.resourcing.resource.nonhuman.NonHumanCategory;
 import org.yawlfoundation.yawl.resourcing.resource.nonhuman.NonHumanResource;
 import org.yawlfoundation.yawl.resourcing.rsInterface.ResourceGatewayClient;
+import org.yawlfoundation.yawl.resourcing.rsInterface.WorkQueueGatewayClient;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -51,6 +53,7 @@ public class YConnector {
 
     private static final YEngineConnection _engConn = new YEngineConnection();
     private static final YResourceConnection _resConn = new YResourceConnection();
+    private static final YWorkQueueConnection _wqConn = new YWorkQueueConnection();
 
     // ensure this is never instantiated - static methods only
     private YConnector() {}
@@ -68,20 +71,25 @@ public class YConnector {
 
     public static void disconnectResource() { _resConn.disconnect(); }
 
+    public static void disconnectWorkQueue() { _wqConn.disconnect(); }
+
     public static void disconnect() {
         disconnectEngine();
         disconnectResource();
+        disconnectWorkQueue();
     }
 
 
     public static void setUserID(String id) {
         _engConn.setUserID(id);
         _resConn.setUserID(id);
+        _wqConn.setUserID(id);
     }
 
     public static void setPassword(String pw) {
         _engConn.setPassword(pw);
         _resConn.setPassword(pw);
+        _wqConn.setPassword(pw);
     }
 
     public static void setEngineURL(URL url) { _engConn.setURL(url); }
@@ -102,6 +110,7 @@ public class YConnector {
 
     public static void setResourceURL(String host, int port) throws MalformedURLException {
         _resConn.setURL(host, port);
+        _wqConn.setURL(host, port);
     }
 
 
@@ -183,6 +192,10 @@ public class YConnector {
         return _resConn.getClient();
     }
 
+    public static WorkQueueGatewayClient getWorkQueueClient() {
+        return (WorkQueueGatewayClient) _wqConn.getClient();
+    }
+
     public static Map<String, String> getExternalDataGateways() throws IOException {
         return _engConn.getExternalDataGateways();
     }
@@ -230,9 +243,15 @@ public class YConnector {
         return _engConn.cancelAllCases(specID);
     }
 
+
     public static void unloadAllVersions(YSpecificationID specID, boolean cancelCases)
             throws IOException {
-        _engConn.unloadAllVersions(specID, cancelCases);
+        for (YSpecificationID thisID : getAllLoadedVersions(specID)) {
+            if (cancelCases) {
+                cancelAllCases(thisID);
+            }
+            _wqConn.unloadSpecification(thisID);
+        }
     }
 
 
