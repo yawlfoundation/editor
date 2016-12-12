@@ -61,11 +61,12 @@ class AboutEditorDialog extends JDialog {
     public AboutEditorDialog() {
         super(YAWLEditor.getInstance());
         setUndecorated(true);
-        setModal(true);
+        //setModal(true);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setContentPane(getAboutPanel());
         setSize(430, 200);
         addKeyListener(this);
+        addClickOutsideListener();
         pack();
         setLocationRelativeTo(YAWLEditor.getInstance());
     }
@@ -214,6 +215,21 @@ class AboutEditorDialog extends JDialog {
         c.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent keyEvent) {
                 setVisible(false);
+            }
+        });
+    }
+
+
+    private void addClickOutsideListener() {
+        final AboutEditorDialog dialog = this;
+        dialog.addWindowFocusListener(new WindowFocusListener() {
+
+            public void windowGainedFocus(WindowEvent e) {
+                //do nothing
+            }
+
+            public void windowLostFocus(WindowEvent e) {
+                dialog.setVisible(false);
             }
         });
     }
