@@ -161,9 +161,18 @@ public abstract class TypeValueBuilder {
                 return new RestrictionSampleValueGenerator(field.getRestriction())
                         .generateValue();
             }
+            if (isTimerExpiryField(field)) {
+                return XSDType.getSampleValue("dateTime");
+            }
             return XSDType.getSampleValue(field.getDataTypeUnprefixed());
         }
         return "";
+    }
+
+
+    private boolean isTimerExpiryField(DynFormField field) {
+        return "expiry".equals(field.getName()) && field.hasParent() &&
+                field.getParent().getDataTypeUnprefixed().equals("YTimerType");
     }
 
 
