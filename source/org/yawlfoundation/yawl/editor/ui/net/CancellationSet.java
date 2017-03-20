@@ -58,6 +58,9 @@ public class CancellationSet implements Serializable, Cloneable {
 
     public Color getOwnerTaskBackground() { return _ownerTaskBackground; }
 
+    public void setOwnerTaskBackground(Color bg) {
+        _ownerTaskBackground = bg;
+    }
 
     public Set<YAWLCell> getMembers() {
         return _members;

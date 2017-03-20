@@ -136,6 +136,12 @@ public class CancellationSetModel implements GraphSelectionListener {
         return _currentSet != null ? _currentSet.getOwnerTaskBackground() : null;
     }
 
+    public void setTriggeringTaskBackground(Color bg) {
+        if (_currentSet != null) {
+            _currentSet.setOwnerTaskBackground(bg);
+        }
+    }
+
     private void notify(CancellationSetModelListener listener, int notificationType) {
         if (_currentSet != null) {
             listener.notify(notificationType, _currentSet.getOwnerTask());

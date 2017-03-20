@@ -737,6 +737,8 @@ public class NetGraph extends JGraph {
 
     private void showCurrentCancellationSet() {
         YAWLTask triggeringTask = cancellationSetModel.getTriggeringTask();
+        cancellationSetModel.setTriggeringTaskBackground(
+                triggeringTask.getBackgroundColor());
         changeCellBackground(triggeringTask,
                 CancellationSetModel.CANCELLATION_SET_TRIGGER_BACKGROUND);
         for (YAWLCell cell : triggeringTask.getCancellationSet().getMembers()) {
