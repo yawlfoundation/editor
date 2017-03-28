@@ -176,7 +176,7 @@ public class SpecificationFileHandler {
 
         // make sure the selected file name has the correct '.yawl' extension
         if (! file.getName().endsWith(EXTENSION)) {
-            file = new File(file.getName() + EXTENSION);
+            file = new File(file.getParentFile(), file.getName() + EXTENSION);
         }
 
         if (matchesExistingFile(file)) {
