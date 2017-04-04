@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.configuration;
 
+import org.jdom2.Element;
 import org.jgraph.graph.VertexView;
 import org.yawlfoundation.yawl.configuration.element.TaskConfiguration;
 import org.yawlfoundation.yawl.configuration.element.TaskConfigurationCache;
@@ -214,11 +215,9 @@ public class ConfigurationPlugin implements YEditorPlugin {
             getNetConfiguration(netModel);
             for (YAWLTask task : NetUtilities.getAllTasks(netModel)) {
                 TaskConfiguration configuration = cache.add(netModel, task);
-                YTask yTask = task.getTask();
-                if (yTask.getConfigurationElement() != null) {
-                    ConfigurationImporter.CTaskList.add(configuration);
-                    ConfigurationImporter.map.put(configuration,
-                        yTask.getConfigurationElement());
+                Element configElement = task.getTask().getConfigurationElement();
+                if (configElement != null) {
+                    ConfigurationImporter.addConfiguration(configuration, configElement);
                 }
             }
         }

@@ -74,15 +74,17 @@ public class ResourceDialog extends JDialog
             enableApplyButton(true);
         }
         else {
+            if (action.equals("Refresh")) {
+                SpecificationModel.getHandler().getResourceHandler().resetCache();
+            }
 
             // if OK or Apply clicked, and there is data changes to save
-            if (! action.equals("Cancel") && btnApply.isEnabled()) {
+            else if (!action.equals("Cancel") && btnApply.isEnabled()) {
                 updateTaskResources();
                 enableApplyButton(false);
             }
 
-            // if OK or Cancel clicked, hide form
-            if (! action.equals("Apply")) {
+            if (action.equals("OK") || action.equals("Cancel")) {
                 setVisible(false);
             }
         }
@@ -138,14 +140,24 @@ public class ResourceDialog extends JDialog
 
 
     private JPanel createButtonBar() {
-        JPanel panel = new JPanel();
-        panel.setBorder(new EmptyBorder(10,0,10,0));
-        panel.add(ButtonUtil.createButton("Cancel", this));
+        JPanel innerPanel = new JPanel();
+        innerPanel.setBorder(new EmptyBorder(10,0,10,0));
+        innerPanel.add(ButtonUtil.createButton("Cancel", this));
         btnApply = ButtonUtil.createButton("Apply", this);
         btnApply.setEnabled(false);
-        panel.add(btnApply);
-        panel.add(ButtonUtil.createButton("OK", this));
-        return panel;
+        innerPanel.add(btnApply);
+        innerPanel.add(ButtonUtil.createButton("OK", this));
+        
+        JPanel refreshPanel = new JPanel();
+        JButton btnRefresh = ButtonUtil.createButton("refresh","Refresh", 25, this);
+        btnRefresh.setBorderPainted(false);
+        btnRefresh.setToolTipText("Refresh resource data");
+        refreshPanel.add(btnRefresh);
+
+        JPanel outerPanel = new JPanel(new BorderLayout());
+        outerPanel.add(refreshPanel, BorderLayout.EAST);
+        outerPanel.add(innerPanel, BorderLayout.CENTER);
+        return outerPanel;
     }
 
 

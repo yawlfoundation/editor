@@ -98,7 +98,7 @@ public class ValidationResultsParser {
                     " has no outgoing flows.",
                     "Every task and condition must be connected on some path between the " +
                     "input and output conditions of a net, and therefore must have at " +
-                    "least one outgoing flow (exception the output condition). Add a " +
+                    "least one outgoing flow (except the output condition). Add a " +
                     "flow out of the task to resolve this issue.");
         }
         if (message.contains("preset size must be > 0")) {
@@ -145,7 +145,7 @@ public class ValidationResultsParser {
                     "The decomposition is either (1) not associated with any task " +
                     "or (2) its task is currently not connected to any net. If (1), you " +
                     "can remove this decomposition now using the 'File->Delete Orphaned " +
-                    "Decompositions' menu, or have it automatically discarded when the " +
+                    "Decompositions' menu item, or have it automatically discarded when the " +
                     "file is next saved. If (2), you should either connect or remove " +
                     "the task from its net.");
         }

@@ -20,11 +20,9 @@
 
 package org.yawlfoundation.yawl.configuration;
 
-import org.yawlfoundation.yawl.configuration.ProcessConfigurationModel;
-
 public interface ProcessConfigurationModelListener {
 
-    public abstract void processConfigurationModelStateChanged(
+    void processConfigurationModelStateChanged(
             ProcessConfigurationModel.PreviewState previewState,
             ProcessConfigurationModel.ApplyState applyState);    
 }

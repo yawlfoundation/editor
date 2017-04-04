@@ -48,19 +48,19 @@ import java.util.*;
 
 public class ConfigurationImporter {
 	
-	public static final Map<TaskConfiguration, Element> map =
+	private static final Map<TaskConfiguration, Element> map =
             new HashMap<TaskConfiguration, Element>();
-	public static final LinkedList<TaskConfiguration> CTaskList =
-            new LinkedList<TaskConfiguration>();
 
 	public ConfigurationImporter(){
 		
 	}
 
-	public static void ApplyConfiguration(){
+	public static void addConfiguration(TaskConfiguration configuration, Element element) {
+		map.put(configuration, element);
+	}
 
-		while(!CTaskList.isEmpty()){
-            TaskConfiguration taskConfiguration = CTaskList.removeFirst();
+	public static void ApplyConfiguration(){
+        for (TaskConfiguration taskConfiguration : map.keySet()) {
 			NetGraph net = taskConfiguration.getGraphModel().getGraph();
 			Element root = map.get(taskConfiguration);
 			Element configuration = root.getChild("configuration", root.getNamespace());
@@ -166,7 +166,7 @@ public class ConfigurationImporter {
 			 InputPorts.add(port);
 			 i++;
 		 }
-             taskConfig.setInputCPorts(InputPorts);
+//             taskConfig.setInputCPorts(InputPorts);
 		 }
 	}
 
@@ -264,7 +264,7 @@ public class ConfigurationImporter {
 			 outputPorts.add(port);
 			 i++;
 		 }
-             taskConfig.setOutputCPorts(outputPorts);
+//             taskConfig.setOutputCPorts(outputPorts);
 	}
 	}
 

@@ -47,11 +47,18 @@ public class ButtonUtil {
     }
 
 
+    public static JButton createButton(String icon, String label, int size,
+                                       ActionListener listener) {
+         JButton button = new JButton(ResourceLoader.getMenuIcon(icon));
+         button.setActionCommand(label);
+         button.setPreferredSize(new Dimension(size, size));
+         button.addActionListener(listener);
+         return button;
+     }
+
+
     private static int getPreferredWidth(JButton button) {
         return Math.max(button.getPreferredSize().width, PREFERRED_WIDTH);
-//        return SwingUtilities2.stringWidth(button,
-//                button.getFontMetrics(button.getFont().deriveFont(Font.BOLD)),
-//                button.getText()) + 20;
     }
 
 }
