@@ -71,7 +71,12 @@ public class NetProperties extends YPropertiesBean {
 
     public String getTitle() { return specHandler.getTitle(); }
 
-    public void setTitle(String title) { specHandler.setTitle(title); }
+    public void setTitle(String title) {
+        if (StringUtil.isNullOrEmpty(title)) {                 // nullify empty title
+            title = null;
+        }
+        specHandler.setTitle(title);
+    }
 
 
     public String getDescription() {

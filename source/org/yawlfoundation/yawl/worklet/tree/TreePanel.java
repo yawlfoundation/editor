@@ -30,8 +30,10 @@ public class TreePanel extends JPanel {
         _parent = parent;
 
         addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
                 TreeNode node = setSelectedNode(e);
                 if (node != null) _parent.nodeSelected(node.getRdrNode());
             }
