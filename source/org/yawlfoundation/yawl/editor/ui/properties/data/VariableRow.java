@@ -130,7 +130,6 @@ public class VariableRow implements Comparable<VariableRow> {
 
     public void setValidBindings() {
         hasValidInputBinding = true;
-        hasValidInputBinding = true;
     }
 
     public String getName() { return endValues.name; }

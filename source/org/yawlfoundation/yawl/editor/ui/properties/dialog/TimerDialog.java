@@ -20,14 +20,15 @@ package org.yawlfoundation.yawl.editor.ui.properties.dialog;
 
 import com.toedter.calendar.JDateChooser;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
-import org.yawlfoundation.yawl.editor.ui.swing.AbstractDoneDialog;
-import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.TimerDataVariableComboBox;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.JTimeSpinner;
+import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.TimerDataVariableComboBox;
+import org.yawlfoundation.yawl.editor.ui.swing.AbstractDoneDialog;
 import org.yawlfoundation.yawl.elements.YNet;
 import org.yawlfoundation.yawl.elements.YTimerParameters;
 import org.yawlfoundation.yawl.engine.time.YWorkItemTimer;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -47,6 +48,7 @@ public class TimerDialog extends AbstractDoneDialog implements ActionListener {
     private TimerDataVariableComboBox timerVariableComboBox;
     private JPanel dateValueField;
     private JTimeSpinner durationValueField;
+    private JCheckBox chkWorkDays;
     private JPanel expiresPanel;
     private JPanel beginsPanel;
     private ButtonGroup expiresGroup;
@@ -151,6 +153,7 @@ public class TimerDialog extends AbstractDoneDialog implements ActionListener {
             }
             case Duration: {
                 durationValueField.setDurationValue(content.getDuration());
+                chkWorkDays.setSelected(content.isWorkDaysOnly());
                 durationButton.setSelected(true);
                 performAction(durationButton, "duration");
                 break;
@@ -175,6 +178,7 @@ public class TimerDialog extends AbstractDoneDialog implements ActionListener {
         }
         else if (durationButton.isSelected()) {
             timerParameters.set(getTrigger(), durationValueField.getDuration());
+            timerParameters.setWorkDaysOnly(chkWorkDays.isSelected());
         }
         else if (variableButton.isSelected()) {
             timerParameters.set(timerVariableComboBox.getSelectedVariable().getPreferredName());
@@ -231,6 +235,7 @@ public class TimerDialog extends AbstractDoneDialog implements ActionListener {
     private void enableWidgets(String action) {
         enablePanel(dateValueField, action.equals("exactly"));
         durationValueField.setEnabled(action.equals("duration"));
+        chkWorkDays.setEnabled(action.equals("duration"));
         boolean varSelected = action.equals("variable");
         enablePanel(timerVariableComboBox.getParent(), varSelected);
         offerButton.setSelected(varSelected);
@@ -255,10 +260,17 @@ public class TimerDialog extends AbstractDoneDialog implements ActionListener {
     private JPanel buildPanel() {
 
         // expires panel
+ //       expiresPanel = new JPanel(new GridLayout(3, 1));
         expiresPanel = new JPanel(new BorderLayout());
-        expiresPanel.setBorder(new TitledBorder("Expires"));
-        expiresPanel.add(buildExpiresButtonsPanel(), BorderLayout.WEST);
-        expiresPanel.add(buildExpiresWidgetsPanel(), BorderLayout.CENTER);
+//        expiresPanel.setBorder(new TitledBorder("Expires"));
+        expiresPanel.setBorder(new CompoundBorder(new TitledBorder("Expires"),
+                new EmptyBorder(7,10,0,10)));
+//        expiresPanel.add(buildExpiresButtonsPanel(), BorderLayout.WEST);
+//        expiresPanel.add(buildExpiresWidgetsPanel(), BorderLayout.CENTER);
+        buildExpiresButtons();
+        expiresPanel.add(buildExpiresDateTimePanel(), BorderLayout.NORTH);
+        expiresPanel.add(buildExpiresDurationPanel(), BorderLayout.CENTER);
+        expiresPanel.add(buildExpiresVariablePanel(), BorderLayout.SOUTH);
 
         // final panel
         JPanel panel = new JPanel(new BorderLayout());
@@ -304,6 +316,29 @@ public class TimerDialog extends AbstractDoneDialog implements ActionListener {
     }
 
 
+    private void buildExpiresButtons() {
+        exactlyButton = new JRadioButton("At exactly");
+        exactlyButton.setMnemonic(KeyEvent.VK_E);
+        exactlyButton.setActionCommand("exactly");
+        exactlyButton.addActionListener(this);
+        exactlyButton.setSelected(true);
+
+        durationButton = new JRadioButton("After duration");
+        durationButton.setMnemonic(KeyEvent.VK_D);
+        durationButton.setActionCommand("duration");
+        durationButton.addActionListener(this);
+
+        variableButton = new JRadioButton("Via variable");
+        variableButton.setMnemonic(KeyEvent.VK_V);
+        variableButton.setActionCommand("variable");
+        variableButton.addActionListener(this);
+
+        expiresGroup = new ButtonGroup();
+        expiresGroup.add(exactlyButton);
+        expiresGroup.add(durationButton);
+        expiresGroup.add(variableButton);
+    }
+
     private JPanel buildExpiresButtonsPanel() {
         exactlyButton = new JRadioButton("At exactly");
         exactlyButton.setMnemonic(KeyEvent.VK_E);
@@ -335,6 +370,34 @@ public class TimerDialog extends AbstractDoneDialog implements ActionListener {
     }
 
 
+    private JPanel buildExpiresDateTimePanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        JPanel btnPanel = new JPanel();
+        btnPanel.add(exactlyButton);
+        panel.add(btnPanel, BorderLayout.WEST);
+        panel.add(buildDateTimeValueField(), BorderLayout.CENTER);
+        return panel;
+    }
+
+    private JPanel buildExpiresDurationPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(new EmptyBorder(5,0,8,0));
+        JPanel btnPanel = new JPanel();
+        btnPanel.add(durationButton);
+        panel.add(btnPanel, BorderLayout.WEST);
+        panel.add(buildDurationValueField(), BorderLayout.CENTER);
+        return panel;
+    }
+
+    private JPanel buildExpiresVariablePanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        JPanel btnPanel = new JPanel();
+        btnPanel.add(variableButton);
+        panel.add(btnPanel, BorderLayout.WEST);
+        panel.add(buildVariableComboBox(), BorderLayout.CENTER);
+        return panel;
+    }
+
     private JPanel buildExpiresWidgetsPanel() {
         JPanel expiresWidgetsPanel = new JPanel();
         expiresWidgetsPanel.setLayout(new BoxLayout(expiresWidgetsPanel, BoxLayout.Y_AXIS));
@@ -348,13 +411,13 @@ public class TimerDialog extends AbstractDoneDialog implements ActionListener {
 
     private JPanel buildDateTimeValueField() {
         dateValueField = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
-        dateValueField.setBorder(new EmptyBorder(3,5,3,3));
+        dateValueField.setBorder(new EmptyBorder(0,32,0,0));
         JDateChooser chooser = new JDateChooser();
         chooser.setMinSelectableDate(Calendar.getInstance().getTime());
         chooser.setDate(Calendar.getInstance().getTime());
 
         // workaround for too narrow an edit field
-        chooser.setDateFormatString(" dd/MM/yyyy ");
+        chooser.setDateFormatString("  dd/MM/yyyy  ");
         dateValueField.add(chooser) ;
 
         JTimeSpinner spinner = new JTimeSpinner();
@@ -365,18 +428,24 @@ public class TimerDialog extends AbstractDoneDialog implements ActionListener {
 
 
     private JPanel buildDurationValueField() {
-        JPanel panel = new JPanel();
-        panel.setBorder(new EmptyBorder(3,0,3,3));
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(new EmptyBorder(0,7,0,0));
         durationValueField = new JTimeSpinner(JTimeSpinner.DURATION_TYPE);
         durationValueField.setMinimumSize(durationValueField.getPreferredSize());
-        panel.add(durationValueField);
+        panel.add(durationValueField, BorderLayout.CENTER);
+
+        JPanel chkPanel = new JPanel(new BorderLayout());
+        chkPanel.setBorder(new EmptyBorder(3,0,0,0));
+        chkWorkDays = new JCheckBox("Working days only");
+        chkPanel.add(chkWorkDays, BorderLayout.EAST);
+        panel.add(chkPanel, BorderLayout.SOUTH);
         return panel;
     }
 
 
     private JPanel buildVariableComboBox() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(new EmptyBorder(3,5,3,3));
+        panel.setBorder(new EmptyBorder(2,20,10,0));
         timerVariableComboBox = new TimerDataVariableComboBox();
         panel.add(timerVariableComboBox, BorderLayout.CENTER);
 

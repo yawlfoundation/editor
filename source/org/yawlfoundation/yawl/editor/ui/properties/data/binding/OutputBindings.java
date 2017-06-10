@@ -289,8 +289,9 @@ public class OutputBindings {
             currentBindings.remove(binding);
         }
         updateTaskBindings(currentBindings);
-        for (String binding : _externalBindings.values()) {
-            currentBindings.put(binding, "");
+        for (String var : _externalBindings.keySet()) {
+            String binding = _externalBindings.get(var);
+            currentBindings.put(binding, var);
         }
         clear();
     }

@@ -211,6 +211,9 @@ public class DataTypeChangeValidator {
                 row.setValue(origValue);
             }
         }
+        else {
+            row.setValidOutputBinding(false);        // missing binding for IO or O var
+        }
     }
 
 
