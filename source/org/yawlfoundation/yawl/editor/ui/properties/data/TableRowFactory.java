@@ -20,7 +20,6 @@ package org.yawlfoundation.yawl.editor.ui.properties.data;
 
 import org.yawlfoundation.yawl.elements.YDecomposition;
 import org.yawlfoundation.yawl.elements.YNet;
-import org.yawlfoundation.yawl.elements.YTask;
 import org.yawlfoundation.yawl.elements.data.YParameter;
 import org.yawlfoundation.yawl.elements.data.YVariable;
 
@@ -32,7 +31,7 @@ import java.util.*;
  */
 public class TableRowFactory {
 
-    public List<VariableRow> createRows(YDecomposition decomposition, YTask task) {
+    public List<VariableRow> createRows(YDecomposition decomposition) {
         String decompositionID = decomposition.getID();
         Set<String> ioNames = new HashSet<String>();
         java.util.List<VariableRow> rows = new ArrayList<VariableRow>();

@@ -21,7 +21,6 @@ package org.yawlfoundation.yawl.editor.ui.update;
 import org.yawlfoundation.yawl.editor.core.util.FileUtil;
 import org.yawlfoundation.yawl.editor.ui.util.BuildProperties;
 import org.yawlfoundation.yawl.editor.ui.util.FileLocations;
-import org.yawlfoundation.yawl.util.StartMenuUpdater;
 import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.util.XNode;
 
@@ -37,7 +36,6 @@ public class PostUpdateTasks {
 
     // change this method to suit
     public boolean go() {
-        updateOSMenus();
         fixSetEnvBat();
         return cleanup();
     }
@@ -70,26 +68,6 @@ public class PostUpdateTasks {
     private boolean deleteFile(String homeDir, String fileName) {
         File f = FileUtil.makeFile(homeDir, fileName);
         return ! f.exists() || f.delete();
-    }
-
-
-    private void updateOSMenus() {
-        if (! FileUtil.isWindows()) return;
-
-        File parentDir = getInstalledRootDir();
-        String parentFolder = parentDir.getAbsolutePath();
-        StartMenuUpdater smu = new StartMenuUpdater();
-        smu.getSettings()
-                .setFolderName("YAWL - " + new BuildProperties().getVersion())
-                .setDescription("YAWL Process Editor")
-                .setTargetPath(parentFolder + File.separator + "YAWL.bat")
-                .setArguments("editor")
-                .setWorkingDir(parentFolder)
-                .setMenuName("Editor")
-                .setIconLocation(parentFolder + File.separator + "icons" +
-                        File.separator + "editor32.ico");
-        smu.update();
-        smu.checkBatFile(parentDir);
     }
 
 

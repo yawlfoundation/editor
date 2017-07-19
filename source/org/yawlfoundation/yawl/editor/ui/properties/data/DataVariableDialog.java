@@ -427,10 +427,10 @@ public class DataVariableDialog extends JDialog
     private java.util.List<VariableRow> createTableRows(TableType tableType) {
         TableRowFactory rowFactory = new TableRowFactory();
         if (tableType == TableType.Net) {
-            return rowFactory.createRows(net, null);
+            return rowFactory.createRows(net);
         }
         else {
-            java.util.List<VariableRow> rows = rowFactory.createRows(decomposition, task);
+            java.util.List<VariableRow> rows = rowFactory.createRows(decomposition);
             initMappings(rows);
             return rows;
         }

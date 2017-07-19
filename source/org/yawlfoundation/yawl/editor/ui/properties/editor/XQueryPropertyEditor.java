@@ -20,8 +20,16 @@ package org.yawlfoundation.yawl.editor.ui.properties.editor;
 
 import com.l2fprod.common.swing.renderer.DefaultCellRenderer;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
+import org.yawlfoundation.yawl.editor.ui.elements.model.YAWLTask;
+import org.yawlfoundation.yawl.editor.ui.net.utilities.NetUtilities;
+import org.yawlfoundation.yawl.editor.ui.properties.data.TableRowFactory;
+import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.properties.data.validation.BindingTypeValidator;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.XQueryDialog;
+import org.yawlfoundation.yawl.elements.YDecomposition;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Michael Adams
@@ -45,10 +53,11 @@ public class XQueryPropertyEditor extends DialogPropertyEditor {
     }
 
     protected void showDialog() {
-        XQueryDialog xqDialog = new XQueryDialog(YAWLEditor.getInstance());
+        List<VariableRow> taskVariables = getTaskVariables();
+        XQueryDialog xqDialog = new XQueryDialog(YAWLEditor.getInstance(), taskVariables);
         xqDialog.setTitle("Edit XQuery");
-        xqDialog.setTypeValidator(new BindingTypeValidator(
-                YAWLEditor.getNetsPane().getSelectedYNet()));
+        xqDialog.setTypeValidator(
+                new BindingTypeValidator(taskVariables, "string"));
         xqDialog.setText(currentQuery);
         xqDialog.setVisible(true);
         if (! xqDialog.cancelled()) {
@@ -59,6 +68,18 @@ public class XQueryPropertyEditor extends DialogPropertyEditor {
                 firePropertyChange(oldQuery, query);
             }
         }
+    }
+
+
+    private List<VariableRow> getTaskVariables() {
+        YAWLTask task = NetUtilities.getSelectedTask();
+        if (task != null) {
+            YDecomposition decomposition = task.getDecomposition();
+            if (decomposition != null) {
+                return new TableRowFactory().createRows(decomposition);
+            }
+        }
+        return Collections.emptyList();
     }
 
 }

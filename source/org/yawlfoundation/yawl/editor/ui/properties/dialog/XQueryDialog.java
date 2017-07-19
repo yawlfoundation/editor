@@ -22,6 +22,7 @@ import org.yawlfoundation.yawl.editor.core.data.YDataHandlerException;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.data.editorpane.XQueryEditorPane;
 import org.yawlfoundation.yawl.editor.ui.data.editorpane.XQueryValidatingEditorPane;
+import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.properties.data.validation.BindingTypeValidator;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.util.XMLUtilities;
@@ -43,10 +44,12 @@ public class XQueryDialog extends PropertyDialog implements ActionListener {
 
     private XQueryValidatingEditorPane _xQueryEditor;
     private boolean _cancelled;
+    private final java.util.List<VariableRow> _taskRows;
 
 
-    public XQueryDialog(Window parent) {
+    public XQueryDialog(Window parent, java.util.List<VariableRow> taskRows) {
         super(parent, false);
+        _taskRows = taskRows;
         add(getContent());
         setPreferredSize(new Dimension(420, 290));
         getOKButton().setEnabled(true);
@@ -116,7 +119,7 @@ public class XQueryDialog extends PropertyDialog implements ActionListener {
 
     private JPanel createVarList() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(new JLabel("Net Variables: "), BorderLayout.WEST);
+        panel.add(new JLabel("Task Variables: "), BorderLayout.WEST);
         JComboBox combo = new JComboBox(getComboItems());
         combo.setEnabled(combo.getItemCount() > 0);
         panel.setPreferredSize(new Dimension(400, 26));
@@ -127,10 +130,10 @@ public class XQueryDialog extends PropertyDialog implements ActionListener {
 
 
     private Vector<String> getComboItems() {
-        YNet net = YAWLEditor.getNetsPane().getSelectedYNet();
         Vector<String> varIDs = new Vector<String>();
-        varIDs.addAll(net.getInputParameterNames());
-        varIDs.addAll(net.getLocalVariables().keySet());
+        for (VariableRow row : _taskRows) {
+            varIDs.add(row.getName());
+        }
         Collections.sort(varIDs);
         return varIDs;
     }
@@ -161,8 +164,11 @@ public class XQueryDialog extends PropertyDialog implements ActionListener {
 
     private String createXQuery(String varID) {
         YNet net = YAWLEditor.getNetsPane().getSelectedYNet();
+
+        // if this method is called, _taskrows is guaranteed to be not empty
+        String decompID = _taskRows.get(0).getDecompositionID();
         StringBuilder s = new StringBuilder("/");
-        s.append(net.getID())
+        s.append(decompID)
          .append("/")
          .append(varID)
          .append("/")

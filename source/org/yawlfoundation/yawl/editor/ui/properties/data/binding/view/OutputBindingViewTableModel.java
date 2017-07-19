@@ -153,6 +153,11 @@ class OutputBindingViewTableModel extends AbstractTableModel
                 }
             }
         }
+        for (String binding : summary.keySet()) {
+            if (binding.startsWith("#external:")) {
+                bindings.add(new Binding(binding, "<external>"));
+            }
+        }
         fireTableDataChanged();
     }
 

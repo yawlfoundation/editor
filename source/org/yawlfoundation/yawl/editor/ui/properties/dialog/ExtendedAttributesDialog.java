@@ -170,8 +170,7 @@ public class ExtendedAttributesDialog extends PropertyDialog
     private void setUp(VariableRow row) {
         attributes = row.getAttributes();
         udAttributes = new UserDefinedAttributesBinder(propertySheet, attributes);
-        properties = new ExtendedAttributeProperties(propertySheet, udAttributes,
-                row);
+        properties = new ExtendedAttributeProperties(propertySheet, udAttributes, row);
         bind(properties, udAttributes, row.getDataType(), row.isOutput());
         setTitle("Attributes for Variable: " + row.getName());
     }

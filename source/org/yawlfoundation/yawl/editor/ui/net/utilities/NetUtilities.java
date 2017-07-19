@@ -20,6 +20,7 @@ package org.yawlfoundation.yawl.editor.ui.net.utilities;
 
 import org.apache.logging.log4j.LogManager;
 import org.yawlfoundation.yawl.editor.core.controlflow.YCompoundFlow;
+import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.elements.model.*;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraph;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
@@ -257,6 +258,23 @@ public final class NetUtilities {
                 Collections.<YAWLFlowRelation>emptySet();
     }
 
+
+    public static YAWLTask getSelectedTask() {
+        NetGraph graph = YAWLEditor.getNetsPane().getSelectedGraph();
+        if (graph != null) {
+            Object cell = graph.getSelectionCell();
+            if (cell instanceof VertexContainer) {
+                YAWLVertex vertex = ((VertexContainer) cell).getVertex();
+                if (vertex instanceof YAWLTask) {
+                    return (YAWLTask) vertex;
+                }
+            }
+            else if (cell instanceof YAWLTask) {
+                return (YAWLTask) cell;
+            }
+        }
+        return null;
+    }
 
 
     /**
