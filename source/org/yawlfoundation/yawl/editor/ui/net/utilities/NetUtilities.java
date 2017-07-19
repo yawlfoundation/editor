@@ -259,6 +259,9 @@ public final class NetUtilities {
     }
 
 
+    /**
+     * @return the task currently selected on the canvas, if any
+     */
     public static YAWLTask getSelectedTask() {
         NetGraph graph = YAWLEditor.getNetsPane().getSelectedGraph();
         if (graph != null) {
