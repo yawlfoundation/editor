@@ -37,7 +37,10 @@ public class MoreDialog extends JDialog {
         public void eventDispatched(AWTEvent event) {
             if (event instanceof MouseEvent) {
                 MouseEvent evt = (MouseEvent) event;
-                if (evt.getID() == MouseEvent.MOUSE_RELEASED) {
+
+                // don't hide form if mouse release is on the form's scrollbar
+                if (evt.getID() == MouseEvent.MOUSE_RELEASED &&
+                        ! isDialogScrollBarClick(evt)) {
                     setVisible(false);
                 }
             }
@@ -154,6 +157,14 @@ public class MoreDialog extends JDialog {
             x = mode.getWidth() - WIDTH;               // slide it left
         }
         return new Point((int) x, (int) y);
+    }
+
+
+    private boolean isDialogScrollBarClick(MouseEvent me) {
+        Component c = me.getComponent();
+        return (c instanceof JScrollBar) &&
+                this.equals(((JScrollBar) c).getTopLevelAncestor());
+
     }
 
 }
