@@ -71,10 +71,18 @@ public class DataTypeChangeValidator {
         BindingTypeValidator inputValidator = newBindingTypeValidator(netVars, null, null);
         BindingTypeValidator outputValidator = newBindingTypeValidator(netVars, taskVars,
                 newType);
-        revalidateTaskBindings(netVar, newType, inputValidator, outputValidator);
+        revalidateTaskInputBindings(inputValidator);
+        revalidateTaskOutputBindings(netVar, newType, outputValidator);
+        refreshDialog();
     }
 
 
+
+    private void revalidateTaskInputBindings(BindingTypeValidator inputValidator) {
+        for (VariableRow row : getTaskVariables()) {
+            validateInputBinding(inputValidator, row);
+        }
+    }
 
     /**
      * Revalidates all referencing task variable bindings when a net variable changes its
@@ -82,16 +90,13 @@ public class DataTypeChangeValidator {
      * @param netVar the net-level variable changing its data type
      * @param newType the data type being changed to
      */
-    public void revalidateTaskBindings(VariableRow netVar, String newType,
-                                       BindingTypeValidator inputValidator,
-                                       BindingTypeValidator outputValidator) {
+    private void revalidateTaskOutputBindings(VariableRow netVar, String newType,
+                                              BindingTypeValidator outputValidator) {
 
         String origType = netVar.getDataType();
         String origValue = netVar.getValue();
         netVar.setDataType(newType);
         for (VariableRow row : getTaskVariables()) {
-            validateInputBinding(inputValidator, row);
-
             if (row.isOutput() || row.isInputOutput()) {
                 String outputBinding = getOutputBindings().getBindingFromSource(
                         row.getName());
@@ -111,7 +116,6 @@ public class DataTypeChangeValidator {
         }
         netVar.setDataType(origType);
         netVar.setValue(origValue);
-        getVariableDialog().getTaskTablePanel().setBindingIconsForSelection();
     }
 
 
@@ -132,17 +136,20 @@ public class DataTypeChangeValidator {
                     BindingTypeValidator outputValidator =
                             newBindingTypeValidator(netVars, taskVars, null);
 
+                    revalidateTaskInputBindings(inputValidator);
+
                     for (VariableRow netVar : netVars) {
                         String dataType = netVar.getDataType();
                         outputValidator.setDataType(dataType);
-                        revalidateTaskBindings(netVar, dataType,
-                                inputValidator, outputValidator);
+                        revalidateTaskOutputBindings(netVar, dataType, outputValidator);
                     }
                 }
                 return null;
             }
 
-            protected void done() { getVariableDialog().enableButtonsIfValid(); }
+            protected void done() {
+                refreshDialog();
+            }
 
         }.execute();
 
@@ -323,6 +330,13 @@ public class DataTypeChangeValidator {
 
     private DataVariableDialog getVariableDialog() {
         return tablePanel.getVariableDialog();
+    }
+
+
+    private void refreshDialog() {
+        TaskVariableTablePanel taskPanel = getVariableDialog().getTaskTablePanel();
+        taskPanel.setBindingIconsForSelection();
+        taskPanel.refreshTable();
     }
 
 }

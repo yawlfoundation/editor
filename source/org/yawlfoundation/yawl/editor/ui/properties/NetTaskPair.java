@@ -116,7 +116,7 @@ public class NetTaskPair {
 
         if (inOnly > 0) s.append("In(").append(inOnly).append(") ");
         if (io > 0) s.append("I/O(").append(io).append(") ");
-        if (outOnly - io > 0) s.append("Out(").append(outOnly).append(")");
+        if (outOnly > 0) s.append("Out(").append(outOnly).append(")");
         return s.toString();
     }
 
