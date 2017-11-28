@@ -88,9 +88,9 @@ public class DataUtils {
         String s = binding.trim();
         if (s.startsWith("{") && s.endsWith("}")) {
             String unBraced = s.substring(1, s.length() - 1);
-            if (! (unBraced.contains("{") || unBraced.contains("}"))) {
+//            if (! (unBraced.contains("{") || unBraced.contains("}"))) {
                 return unBraced;
-            }
+//            }
         }
         return s;
     }
