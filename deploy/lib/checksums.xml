@@ -36,7 +36,6 @@
     <file name="lib/yawl-lib-4.2.jar" md5="91222a8ffd45f03425bb595d4a911774" size="2625012" timestamp="2017-11-29T13:26:20" path="B"/>
     <file name="lib/commons-codec-1.9.jar" md5="75615356605c8128013da9e3ac62a249" size="263965" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/YAWLEditor-core-4.1.jar" md5="972d0b7ea584cee06ce5f418e8834474" size="178914" timestamp="2016-12-12T07:41:46" path="B"/>
-    <file name="lib/yawl-lib-4.1.jar" md5="1a1892414f74a94756f886b1345ad97e" size="2625003" timestamp="2017-11-28T12:57:19" path="B"/>
     <file name="lib/log4j-api-2.3.jar" md5="94241ab3197b95a813d896820b3f6a87" size="135903" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/YAWLEditor-analyser-4.2.jar" md5="cb936da6a82f4d06c1b2923c9faae4f3" size="81647" timestamp="2017-11-29T13:26:26" path="B"/>
     <file name="lib/xercesImpl.jar" md5="da09b75b562ca9a8e9a535d2148be8e4" size="1229289" timestamp="2015-08-13T13:38:33" path="C"/>
@@ -51,5 +50,32 @@
     <file name="lib/commons-lang-2.3.jar" md5="dcdcbb47176603907c9f79a1349193eb" size="245274" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/jcalendar-1.4.jar" md5="0a0863943cf89741c7a0c2721027446d" size="165052" timestamp="2015-08-13T13:38:33" path="A"/>
   </files>
+  <cleanup>
+      <file name="lib/jdom.jar"/>
+     	<file name="lib/jgoodies-common-1.6.0.jar"/>
+     	<file name="lib/jgoodies-looks-2.5.3.jar"/>
+     	<file name="lib/jgraph4yawl-3.0.jar"/>
+     	<file name="lib/yawl-lib-3.0.jar"/>
+  	<file name="lib/yawl-lib-4.0.jar"/>
+  	<file name="lib/yawl-lib-4.1.jar"/>
+     	<file name="lib/YAWLEditor-analyser-3.0.jar"/>
+     	<file name="lib/YAWLEditor-core-3.0.jar"/>
+     	<file name="plugins/YAWLEditor-configuration-3.0.jar"/>
+     	<file name="plugins/YAWLEditor-decobar-3.0.jar"/>
+     	<file name="plugins/YAWLEditor-worklet-3.0.jar"/>
+     	<file name="YAWLEditor3.0.jar"/>
+  	<file name="lib/YAWLEditor-analyser-4.0.jar"/>
+  	<file name="lib/YAWLEditor-core-4.0.jar"/>
+  	<file name="plugins/YAWLEditor-configuration-4.0.jar"/>
+  	<file name="plugins/YAWLEditor-decobar-4.0.jar"/>
+  	<file name="plugins/YAWLEditor-worklet-4.0.jar"/>
+  	<file name="YAWLEditor4.0.jar"/>
+  	<file name="lib/YAWLEditor-analyser-4.1.jar"/>
+  	<file name="lib/YAWLEditor-core-4.1.jar"/>
+  	<file name="plugins/YAWLEditor-configuration-4.1.jar"/>
+  	<file name="plugins/YAWLEditor-decobar-4.1.jar"/>
+  	<file name="plugins/YAWLEditor-worklet-4.1.jar"/>
+  	<file name="YAWLEdito4.1.jar"/>
+  </cleanup>
 </release>
 
