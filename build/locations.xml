@@ -33,13 +33,13 @@
         <file name="lib/servlet-api.jar" path="A"/>
         <file name="lib/xercesImpl.jar" path="C"/>
         <file name="lib/xmleditorkit.jar" path="B"/>
-        <file name="lib/yawl-lib-4.1.jar" path="B"/>
-        <file name="lib/YAWLEditor-analyser-4.1.jar" path="B"/>
-        <file name="lib/YAWLEditor-core-4.1.jar" path="B"/>
+        <file name="lib/yawl-lib-4.2.jar" path="B"/>
+        <file name="lib/YAWLEditor-analyser-4.2.jar" path="B"/>
+        <file name="lib/YAWLEditor-core-4.2.jar" path="B"/>
         <file name="lib/YAWLEditor-icons.jar" path="B"/>
-        <file name="plugins/YAWLEditor-configuration-4.1.jar" path="B"/>
-        <file name="plugins/YAWLEditor-decobar-4.1.jar" path="B"/>
-        <file name="plugins/YAWLEditor-worklet-4.1.jar" path="B"/>
-        <file name="YAWLEditor4.1.jar" path="B"/>
+        <file name="plugins/YAWLEditor-configuration-4.2.jar" path="B"/>
+        <file name="plugins/YAWLEditor-decobar-4.2.jar" path="B"/>
+        <file name="plugins/YAWLEditor-worklet-4.2.jar" path="B"/>
+        <file name="YAWLEditor4.2.jar" path="B"/>
     </files>
 </locations>
