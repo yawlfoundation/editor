@@ -176,10 +176,11 @@ public final class NetUtilities {
         if (cell instanceof Decorator) {
             Decorator decorator = (Decorator) cell;
             return (getContainerID((VertexContainer) decorator.getParent()));
-         }
-        else {
+        }
+        else if (cell instanceof YAWLVertex) {
             return ((YAWLVertex) cell).getID();
         }
+        return null;
     }
 
 

@@ -2,8 +2,8 @@
 <!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
 <release>
   <version>4.1</version>
-  <build>741</build>
-  <timestamp>2017-11-28 14.19.11</timestamp>
+  <build>742</build>
+  <timestamp>2017-11-29 10.22.20</timestamp>
   <paths>
     <path id="host">https://raw.githubusercontent.com/</path>
     <path id="base">yawlfoundation/</path>
@@ -16,7 +16,7 @@
     <file name="plugins/YAWLEditor-decobar-4.1.jar" md5="d3fa1bfb4a2992dd1d2354b5e78fc671" size="25615" timestamp="2016-05-10T12:16:24" path="B"/>
     <file name="plugins/YAWLEditor-worklet-4.1.jar" md5="07378a76c3187c6992ed2a00acb724ce" size="225373" timestamp="2017-04-06T09:46:59" path="B"/>
     <file name="plugins/YAWLEditor-configuration-4.1.jar" md5="81680a54e99ee5e07ee726353338a160" size="163270" timestamp="2017-04-05T08:04:14" path="B"/>
-    <file name="YAWLEditor4.1.jar" md5="7aa0738d23e81bc4f2e1fec8f7bae110" size="1618316" timestamp="2017-11-28T14:19:11" path="B"/>
+    <file name="YAWLEditor4.1.jar" md5="3ecd0538878a84454bb79ff9b3f384e7" size="1618333" timestamp="2017-11-29T10:22:20" path="B"/>
     <file name="lib/log4j-1.2-api-2.3.jar" md5="97f562c4f299dc5f5f72e66ded465416" size="36875" timestamp="2015-08-25T16:58:07" path="C"/>
     <file name="lib/log4j-core-2.3.jar" md5="110ab3e3e4f3780921e8ee5dde3373ad" size="827024" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/jgoodies-common-1.8.1.jar" md5="7e6bc1cd169e4f78d9529af34a876f00" size="37807" timestamp="2015-08-13T13:38:33" path="A"/>
