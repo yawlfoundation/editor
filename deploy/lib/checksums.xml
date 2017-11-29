@@ -35,7 +35,6 @@
     <file name="lib/jgoodies-looks-2.7.0.jar" md5="f6f746ee51c49a2d91e30bdfc8043443" size="400791" timestamp="2015-08-13T13:38:33" path="A"/>
     <file name="lib/yawl-lib-4.2.jar" md5="91222a8ffd45f03425bb595d4a911774" size="2625012" timestamp="2017-11-29T13:26:20" path="B"/>
     <file name="lib/commons-codec-1.9.jar" md5="75615356605c8128013da9e3ac62a249" size="263965" timestamp="2015-08-13T13:38:33" path="C"/>
-    <file name="lib/YAWLEditor-core-4.1.jar" md5="972d0b7ea584cee06ce5f418e8834474" size="178914" timestamp="2016-12-12T07:41:46" path="B"/>
     <file name="lib/log4j-api-2.3.jar" md5="94241ab3197b95a813d896820b3f6a87" size="135903" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/YAWLEditor-analyser-4.2.jar" md5="cb936da6a82f4d06c1b2923c9faae4f3" size="81647" timestamp="2017-11-29T13:26:26" path="B"/>
     <file name="lib/xercesImpl.jar" md5="da09b75b562ca9a8e9a535d2148be8e4" size="1229289" timestamp="2015-08-13T13:38:33" path="C"/>
