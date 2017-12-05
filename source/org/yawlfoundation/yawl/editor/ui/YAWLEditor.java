@@ -52,7 +52,7 @@ import java.util.List;
 
 public class YAWLEditor extends JFrame implements FileStateListener {
 
-    public static final String DEFAULT_VERSION = "4.1";
+    public static final String DEFAULT_VERSION = "4.2";
     public static final String BUILD_VERSION = getBuildVersion();
     private static YPropertySheet sheet;
     private static PaletteBar paletteBar;
