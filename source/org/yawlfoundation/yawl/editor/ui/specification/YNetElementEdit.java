@@ -188,6 +188,7 @@ public class YNetElementEdit {
         if (! (newElement instanceof YTask)) return;
         YTask oldTask = (YTask) oldElement;
         YTask newTask = (YTask) newElement;
+        newTask.setName(oldTask.getName());
         newTask.setDocumentation(oldTask.getDocumentation());
         newTask.setCustomFormURI(oldTask.getCustomFormURL());
         newTask.setDecompositionPrototype(oldTask.getDecompositionPrototype());

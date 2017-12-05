@@ -20,7 +20,7 @@
         <file name="lib/jdom-2.0.5.jar" path="C"/>
         <file name="lib/jgoodies-common-1.8.1.jar" path="A"/>
         <file name="lib/jgoodies-looks-2.7.0.jar" path="A"/>
-        <file name="lib/jgraph4yawl-4.1.jar" path="B"/>
+        <file name="lib/jgraph4yawl-4.2.jar" path="B"/>
         <file name="lib/l2fprod-common-all.jar" path="A"/>
         <file name="lib/log4j-1.2-api-2.3.jar" path="C"/>
         <file name="lib/log4j-api-2.3.jar" path="C"/>

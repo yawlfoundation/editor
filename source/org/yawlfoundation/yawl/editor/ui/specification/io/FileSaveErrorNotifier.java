@@ -23,6 +23,9 @@ public class FileSaveErrorNotifier {
         if (errMsg.contains("Permission denied") || errMsg.contains("Access is denied")) {
             showPermissionDeniedError(errMsg);
         }
+        else if (errMsg.contains("cannot find the path")) {
+            showBadPathError(errMsg);
+        }
         else {
             showGeneralError(e, fileName, errMsg);
         }
@@ -30,10 +33,24 @@ public class FileSaveErrorNotifier {
 
 
     private void showPermissionDeniedError(String errMsg) {
+        showUserError(errMsg,
+                ".\nYou do not have the necessary file permissions to save to that directory.\n"
+        );
+    }
+
+
+    private void showBadPathError(String errMsg) {
+        String detail = errMsg.contains("zip") ?
+                ".\nYou have opened the specification file from inside a compressed (zip) file.\n" :
+                ".\n";
+        showUserError(errMsg, detail);
+    }
+
+
+    private void showUserError(String errMsg, String detail) {
         MessageDialog.error(
-                "Failed to save this specification to " + errMsg +
-                ".\nYou do not have the necessary file permissions to write to that directory.\n" +
-                "Please use 'File...Save As' to save the file to a different location.",
+                "Failed to save this specification to " + errMsg + detail +
+                "Please use 'File...Save As' to save the specification file to a different location.",
                 "Save File Error");
     }
 

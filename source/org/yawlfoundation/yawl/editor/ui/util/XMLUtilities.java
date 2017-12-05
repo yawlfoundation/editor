@@ -39,15 +39,15 @@ public class XMLUtilities {
     public static String toValidNCName(String name) {
         if (name == null) return null;
         if (name.isEmpty()) return name;
-        StringBuilder sb = new StringBuilder(name.length());
+        StringBuilder sb = new StringBuilder(name.length() + 1);
 
         // ensure valid starter
-        int cp = name.codePointAt(0);
-        char start = XMLChar.isNCNameStart(cp) ? name.charAt(0) : '_';
-        sb.append(start);
+        if (!XMLChar.isNCNameStart(name.codePointAt(0))) {
+            sb.append('_');
+        }
 
-        for (int i=1; i < name.length(); i++) {
-            cp = name.codePointAt(i);
+        for (int i=0; i < name.length(); i++) {
+            int cp = name.codePointAt(i);
             if (Character.isWhitespace(cp)) {
                 sb.append('_');
             }
