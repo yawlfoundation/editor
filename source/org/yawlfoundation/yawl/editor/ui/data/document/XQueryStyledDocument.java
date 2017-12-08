@@ -18,12 +18,11 @@
 
 package org.yawlfoundation.yawl.editor.ui.data.document;
 
-import net.sf.saxon.s9api.SaxonApiException;
 import org.yawlfoundation.yawl.editor.ui.data.Validity;
 import org.yawlfoundation.yawl.editor.ui.data.editorpane.ValidityEditorPane;
 import org.yawlfoundation.yawl.editor.ui.properties.data.validation.ExpressionMatcher;
+import org.yawlfoundation.yawl.editor.ui.properties.data.validation.XQueryEvaluator;
 import org.yawlfoundation.yawl.elements.predicate.PredicateEvaluatorCache;
-import org.yawlfoundation.yawl.util.SaxonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,21 +85,10 @@ public class XQueryStyledDocument extends AbstractXMLStyledDocument {
             text = substituteExternals(text);
 
             // dereference reserved XML chars when not a splitter or joiner query
-            if (!text.startsWith("for $")) text = encodeEscapes(text);
+//            if (!text.startsWith("for $")) text = encodeEscapes(text);
 
-            try {
-                SaxonUtil.compileXQuery(preEditorText + text + postEditorText);
-                errorList = SaxonUtil.getCompilerMessages();
-                setContentValidity(errorList.isEmpty() ? Validity.VALID : Validity.INVALID);
-            }
-            catch (SaxonApiException e) {
-                String message = e.getMessage();
-                if (message.contains("\n")) {
-                    message = message.split("\n")[1].trim();
-                }
-                errorList.add(message);
-                setContentValidity(Validity.INVALID);
-            }
+            errorList.addAll(XQueryEvaluator.compile(text));
+            setContentValidity(errorList.isEmpty() ? Validity.VALID : Validity.INVALID);
         }
     }
 

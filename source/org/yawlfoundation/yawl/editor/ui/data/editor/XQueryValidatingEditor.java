@@ -27,6 +27,7 @@ public class XQueryValidatingEditor extends XQueryEditor {
         _typeChecker = checker;
         _isSplitPredicate = isSplitPredicate;
         checker.waitForInitialisation(2000);
+        documentValidityChanged(getCurrentValidity());
     }
 
     /**

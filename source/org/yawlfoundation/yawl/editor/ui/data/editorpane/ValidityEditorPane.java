@@ -107,6 +107,15 @@ public class ValidityEditorPane extends JEditorPane
         }
     }
 
+
+    public Validity getCurrentValidity() {
+        Color fg = getForeground();
+        if (fg == VALID_COLOR) return Validity.VALID;
+        if (fg == INVALID_COLOR) return Validity.INVALID;
+        return Validity.UNCERTAIN;
+    }
+
+    
     public void configure() {
         Color element = new Color(9, 9, 155);
         Color attribute = new Color(23, 23, 240);

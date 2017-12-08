@@ -10,6 +10,7 @@ import org.yawlfoundation.yawl.elements.predicate.PredicateEvaluatorCache;
 import org.yawlfoundation.yawl.resourcing.jsf.dynform.DynFormField;
 import org.yawlfoundation.yawl.resourcing.jsf.dynform.FormParameter;
 import org.yawlfoundation.yawl.resourcing.util.DataSchemaBuilder;
+import org.yawlfoundation.yawl.schema.XSDType;
 import org.yawlfoundation.yawl.util.SaxonUtil;
 import org.yawlfoundation.yawl.util.StringUtil;
 
@@ -129,7 +130,15 @@ public class BindingTypeValidator extends TypeValueBuilder {
                         }
                     }
                     else {
-                        return Collections.singletonList("Invalid expression (perhaps spelling?)");
+                        String msg;
+                        if (prepared.endsWith("text()") && !XSDType.isBuiltInType(_dataTypeName)) {
+                            msg = "Invalid expression, perhaps because binding ends in " +
+                                    "'text()' for complex target data type";
+                        }
+                        else {
+                            msg = "Invalid expression (perhaps spelling?)";
+                        }
+                        return Collections.singletonList(msg);
                     }
                 }
             }
@@ -297,17 +306,7 @@ public class BindingTypeValidator extends TypeValueBuilder {
      */
     private String evaluateQuery(String query, Document dataDocument)
             throws SaxonApiException {
-        boolean wrapped = query.startsWith("<");
-        if (wrapped) {
-            query = StringUtil.wrap(query,"foo_bar");
-        }
-        String evaluated = SaxonUtil.evaluateQuery(query, dataDocument);
-
-        // for an MI input var, the child type is being targeted, so we need to
-        // return the evaluated content of the child element
-        if (_multiInstance) evaluated = StringUtil.unwrap(StringUtil.unwrap(evaluated));
-
-        return wrapped ? StringUtil.unwrap(evaluated) : evaluated;
+        return XQueryEvaluator.evaluate(query, dataDocument, _multiInstance);
     }
 
 

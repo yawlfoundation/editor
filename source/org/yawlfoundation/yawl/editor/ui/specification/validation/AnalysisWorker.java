@@ -63,10 +63,16 @@ public class AnalysisWorker extends SwingWorker<Void, Void> implements AnalysisC
 
     protected void done() {
         try {
-            get();
+            if (!isCancelled()) {
+                get();
+            }
         }
         catch (Exception e) {
-            MessageDialog.error(e.getMessage(), "Unexpected Error");
+            String msg = e.getMessage();
+            if (msg == null) {
+                msg = e.getClass().getName();
+            }
+            MessageDialog.error(msg, "Unexpected Error");
         }
     }
 
