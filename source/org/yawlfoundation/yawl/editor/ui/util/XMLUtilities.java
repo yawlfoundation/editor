@@ -19,6 +19,8 @@
 package org.yawlfoundation.yawl.editor.ui.util;
 
 import org.apache.xerces.util.XMLChar;
+import org.yawlfoundation.yawl.editor.ui.properties.data.validation.ExpressionMatcher;
+import org.yawlfoundation.yawl.util.JDOMUtil;
 import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.util.XNode;
 import org.yawlfoundation.yawl.util.XNodeParser;
@@ -91,6 +93,9 @@ public class XMLUtilities {
 
     public static String formatXML(String xml, boolean prettify, boolean wrap) {
         if ((xml != null) && (xml.trim().startsWith("<"))) {
+            if (xml.contains("{")) {
+                xml = escapeExpressions(xml);
+            }
             String temp = wrap ? StringUtil.wrap(xml, "temp") : xml;
             XNode node = new XNodeParser(true).parse(temp);
             if (node != null) {
@@ -115,6 +120,16 @@ public class XMLUtilities {
         while(xml.charAt(i++) == '\t') insert.append('\t');
         insert.append('{');
         return xml.replaceAll("\\}\\s*\\{", insert.toString());
+    }
+
+
+    private static String escapeExpressions(String xml) {
+        ExpressionMatcher matcher = new ExpressionMatcher("\\{.*\\}");
+        for (String match : matcher.getMatches(xml)) {
+            String escaped = JDOMUtil.encodeEscapes(match);
+            xml = xml.replace(match, escaped);
+        }
+        return xml;
     }
 
 }
