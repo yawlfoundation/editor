@@ -124,7 +124,7 @@ public class XMLUtilities {
 
 
     private static String escapeExpressions(String xml) {
-        ExpressionMatcher matcher = new ExpressionMatcher("\\{.*\\}");
+        ExpressionMatcher matcher = new ExpressionMatcher("\\{.+?\\}");
         for (String match : matcher.getMatches(xml)) {
             String escaped = JDOMUtil.encodeEscapes(match);
             xml = xml.replace(match, escaped);

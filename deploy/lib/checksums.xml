@@ -2,8 +2,8 @@
 <!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
 <release>
   <version>4.2</version>
-  <build>750</build>
-  <timestamp>2017-12-15 13.16.50</timestamp>
+  <build>751</build>
+  <timestamp>2018-02-28 11.12.51</timestamp>
   <paths>
     <path id="host">https://raw.githubusercontent.com/</path>
     <path id="base">yawlfoundation/</path>
@@ -16,7 +16,7 @@
     <file name="plugins/YAWLEditor-decobar-4.2.jar" md5="e48b95a8eb959e95032cfc96031ee54b" size="25729" timestamp="2017-11-29T13:26:27" path="B"/>
     <file name="plugins/YAWLEditor-worklet-4.2.jar" md5="8049fac7ff4a5e297a9d0ba1d410daef" size="225394" timestamp="2017-11-29T13:26:27" path="B"/>
     <file name="plugins/YAWLEditor-configuration-4.2.jar" md5="78cd26267341783aab6315bd211f05be" size="163291" timestamp="2017-11-29T13:26:27" path="B"/>
-    <file name="YAWLEditor4.2.jar" md5="3b0754e4d1c1037b6022e21f0a38fc09" size="1797593" timestamp="2017-12-15T13:16:50" path="B"/>
+    <file name="YAWLEditor4.2.jar" md5="68b237645c73be84ce00020d954b4caa" size="1797595" timestamp="2018-02-28T11:12:51" path="B"/>
     <file name="lib/jgraph4yawl-4.2.jar" md5="d3f02e3008bcb587635f038a94fd0d27" size="240850" timestamp="2017-11-29T13:26:26" path="B"/>
     <file name="lib/log4j-1.2-api-2.3.jar" md5="97f562c4f299dc5f5f72e66ded465416" size="36875" timestamp="2015-08-25T16:58:07" path="C"/>
     <file name="lib/log4j-core-2.3.jar" md5="110ab3e3e4f3780921e8ee5dde3373ad" size="827024" timestamp="2015-08-13T13:38:33" path="C"/>
@@ -30,7 +30,7 @@
     <file name="lib/YAWLEditor-icons.jar" md5="79e9718b2713b9c70fb2bfd60dddcdfc" size="363754" timestamp="2015-08-18T18:45:08" path="B"/>
     <file name="lib/YAWLEditor-core-4.2.jar" md5="f632f9d744abc35d3160cc42e1292dad" size="178914" timestamp="2017-11-29T13:26:26" path="B"/>
     <file name="lib/jgoodies-looks-2.7.0.jar" md5="f6f746ee51c49a2d91e30bdfc8043443" size="400791" timestamp="2015-08-13T13:38:33" path="A"/>
-    <file name="lib/yawl-lib-4.2.jar" md5="79ec580e4b51ffd910ecf5603ccbf0d9" size="2625187" timestamp="2017-12-15T13:16:42" path="B"/>
+    <file name="lib/yawl-lib-4.2.jar" md5="6852759b7e9afb023ad5517e8ed5876b" size="2626327" timestamp="2018-02-28T11:12:43" path="B"/>
     <file name="lib/commons-codec-1.9.jar" md5="75615356605c8128013da9e3ac62a249" size="263965" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/log4j-api-2.3.jar" md5="94241ab3197b95a813d896820b3f6a87" size="135903" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/YAWLEditor-analyser-4.2.jar" md5="cb936da6a82f4d06c1b2923c9faae4f3" size="81647" timestamp="2017-11-29T13:26:26" path="B"/>
