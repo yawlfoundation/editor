@@ -40,8 +40,8 @@ import java.util.Enumeration;
 public class DecoratorToolBar extends JToolBar implements GraphStateListener,
         FileStateListener {
 
-    private ButtonGroup _splitGroup = new ButtonGroup();
-    private ButtonGroup _joinGroup = new ButtonGroup();
+    private ButtonGroup _splitGroup;
+    private ButtonGroup _joinGroup;
 
 
     public DecoratorToolBar() {
@@ -86,12 +86,17 @@ public class DecoratorToolBar extends JToolBar implements GraphStateListener,
 
 
     public void specificationFileStateChange(FileState state) {
-        if (state == FileState.Open) {
-            for (Component c : getComponents()) {
-                if (c instanceof YAWLToggleToolBarButton) {
-                    YAWLToggleToolBarButton button = (YAWLToggleToolBarButton) c;
+        for (Component c : getComponents()) {
+            if (c instanceof YAWLToggleToolBarButton) {
+                YAWLToggleToolBarButton button = (YAWLToggleToolBarButton) c;
+                if (state == FileState.Open) {
                     ((DecoratorAction) button.getAction()).setTask();
                 }
+                else if (state == FileState.Closed) {
+                    ((DecoratorAction) button.getAction()).setTask(null);
+                    button.setSelected(false);
+                }
+                button.setEnabled(state != FileState.Closed);
             }
         }
     }
