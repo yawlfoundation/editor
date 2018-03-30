@@ -188,7 +188,8 @@ public class BindingTypeValidator extends TypeValueBuilder {
                 _externalMatcher = new ExpressionMatcher("#external:\\w+\\s*:\\w+\\s*");
                 _timerMatcher = new ExpressionMatcher("timer\\(\\w+\\)\\s*!?=\\s*" +
                                    "'(dormant|active|closed|expired)'");
-                _xpathMatcher = new ExpressionMatcher("/\\w*(/\\w*)*(/text\\(\\)|/\\*|$)");
+                _xpathMatcher = new ExpressionMatcher(
+                        "\\/[\\w\\d.-]+(\\/[\\w\\d.-]+)+(\\/text\\(\\)|\\/\\*|$)");
 
                 _rootName = getNet().getRootDataElementName();
                 _dataTypeName = dataTypeName != null ? dataTypeName : "boolean";
