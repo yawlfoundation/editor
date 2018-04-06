@@ -273,6 +273,7 @@ public class CellProperties extends NetProperties {
                 if (isComposite) {
                     YAWLEditorNetPanel panel = YAWLEditor.getNetsPane().newNet(false, id);
                     decomposition = panel.getNet().getNetModel().getDecomposition();
+                    if (vertex.getName() == null) vertex.setName(getLabel(decomposition));
                 }
                 else {
                     decomposition = flowHandler.addTaskDecomposition(id);
