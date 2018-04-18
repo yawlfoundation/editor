@@ -25,6 +25,19 @@ public class XQueryEvaluator {
     }
 
 
+    public static boolean isEmpty(String query, Document document, boolean isMultiInstance) {
+        try {
+            String result = evaluate(emtify(query), document, isMultiInstance);
+            System.out.println(result);
+            return "true".equalsIgnoreCase(result);
+        }
+        catch (SaxonApiException sae) {
+            System.out.println("false");
+            return false;
+        }
+    }
+
+
     public static List<String> compile(String query) {
         try {
             SaxonUtil.compileXQuery(prepare(query));
@@ -91,5 +104,13 @@ public class XQueryEvaluator {
         sb.append("<foo_bar>{").append(query).append("}</foo_bar>");
         return sb.toString();
     }
+
+
+    private static String emtify(String query) {
+        StringBuilder sb = new StringBuilder(query.length() + 7);
+        sb.append("empty(").append(query).append(")");
+        return sb.toString();
+    }
+
 
 }

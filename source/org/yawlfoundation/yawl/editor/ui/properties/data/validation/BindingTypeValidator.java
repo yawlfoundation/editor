@@ -121,7 +121,7 @@ public class BindingTypeValidator extends TypeValueBuilder {
                 if (! StringUtil.isNullOrEmpty(prepared)) {
                     checkPathsExist(prepared, _dataDocument);
                     String query = evaluateQuery(prepared, _dataDocument);
-                    if (isValidQuery(query)) {
+                    if (isValidQuery(query) || returnsEmptySet(prepared)) {
                         List<String> errors = getDataHandler().validate(_dataTypeName, query);
                         if (!errors.isEmpty()) {
                             errors.add(0, "Invalid value for target data type '" +
@@ -365,6 +365,11 @@ public class BindingTypeValidator extends TypeValueBuilder {
      */
     private boolean isValidQuery(String query) {
         return ! query.isEmpty() || _dataTypeName.equals("string");
+    }
+
+
+    private boolean returnsEmptySet(String preparedQuery) {
+        return XQueryEvaluator.isEmpty(preparedQuery, _dataDocument, _multiInstance);
     }
 
 

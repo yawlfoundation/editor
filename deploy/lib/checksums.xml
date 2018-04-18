@@ -2,8 +2,8 @@
 <!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
 <release>
   <version>4.2</version>
-  <build>755</build>
-  <timestamp>2018-04-06 17.43.15</timestamp>
+  <build>756</build>
+  <timestamp>2018-04-18 20.44.46</timestamp>
   <paths>
     <path id="host">https://raw.githubusercontent.com/</path>
     <path id="base">yawlfoundation/</path>
@@ -16,7 +16,7 @@
     <file name="plugins/YAWLEditor-decobar-4.2.jar" md5="5536a445b975ac22370297996a4c0329" size="25779" timestamp="2018-03-08T13:57:24" path="B"/>
     <file name="plugins/YAWLEditor-worklet-4.2.jar" md5="8049fac7ff4a5e297a9d0ba1d410daef" size="225394" timestamp="2017-11-29T13:26:27" path="B"/>
     <file name="plugins/YAWLEditor-configuration-4.2.jar" md5="78cd26267341783aab6315bd211f05be" size="163291" timestamp="2017-11-29T13:26:27" path="B"/>
-    <file name="YAWLEditor4.2.jar" md5="24fb7eae7cc8f4e3d02cdd37b5cd3fd0" size="1797621" timestamp="2018-04-06T17:43:15" path="B"/>
+    <file name="YAWLEditor4.2.jar" md5="5538fc1ae304210f395bf408360d15e8" size="1797974" timestamp="2018-04-18T20:44:46" path="B"/>
     <file name="lib/jgraph4yawl-4.2.jar" md5="d3f02e3008bcb587635f038a94fd0d27" size="240850" timestamp="2017-11-29T13:26:26" path="B"/>
     <file name="lib/log4j-1.2-api-2.3.jar" md5="97f562c4f299dc5f5f72e66ded465416" size="36875" timestamp="2015-08-25T16:58:07" path="C"/>
     <file name="lib/log4j-core-2.3.jar" md5="110ab3e3e4f3780921e8ee5dde3373ad" size="827024" timestamp="2015-08-13T13:38:33" path="C"/>
