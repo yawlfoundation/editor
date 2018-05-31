@@ -100,13 +100,15 @@ public class DataContextTablePanel extends JPanel implements CellEditorListener 
     public Element getDataElement(String rootName) {
         XNode root = new XNode(validateXMLLabel(rootName));
         for (VariableRow row : table.getTableModel().getVariables()) {
+            String rowValue = row.getValue();
+            if (rowValue == null) continue;
             XNode rowNode = new XNode(JDOMUtil.encodeEscapes(row.getName()));
             rowNode.addAttribute("type", row.getDataType());
             if (XSDType.isBuiltInType(row.getDataType())) {
-                rowNode.setText(row.getValue(), true);
+                rowNode.setText(rowValue, true);
             }
             else {                  // complex data type
-                rowNode.addContent(row.getValue());
+                rowNode.addContent(rowValue);
             }
             root.addChild(rowNode);
         }
