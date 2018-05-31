@@ -131,7 +131,7 @@ public class ConditionPanel extends JPanel implements ActionListener {
         if (text != null) {
             _status.set(text);
         }
-        else _status.clear();
+        else _status.setOK("OK");
     }
 
 

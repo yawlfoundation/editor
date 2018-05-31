@@ -22,6 +22,7 @@ import org.jdom2.Element;
 import org.yawlfoundation.yawl.editor.ui.properties.data.StatusPanel;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.MiniToolBar;
+import org.yawlfoundation.yawl.schema.XSDType;
 import org.yawlfoundation.yawl.util.JDOMUtil;
 import org.yawlfoundation.yawl.util.StringUtil;
 import org.yawlfoundation.yawl.util.XNode;
@@ -99,9 +100,14 @@ public class DataContextTablePanel extends JPanel implements CellEditorListener 
     public Element getDataElement(String rootName) {
         XNode root = new XNode(validateXMLLabel(rootName));
         for (VariableRow row : table.getTableModel().getVariables()) {
-            XNode rowNode = new XNode(JDOMUtil.encodeEscapes(row.getName()),
-                    JDOMUtil.encodeEscapes(row.getValue()));
+            XNode rowNode = new XNode(JDOMUtil.encodeEscapes(row.getName()));
             rowNode.addAttribute("type", row.getDataType());
+            if (XSDType.isBuiltInType(row.getDataType())) {
+                rowNode.setText(row.getValue(), true);
+            }
+            else {                  // complex data type
+                rowNode.addContent(row.getValue());
+            }
             root.addChild(rowNode);
         }
         return root.toElement();
