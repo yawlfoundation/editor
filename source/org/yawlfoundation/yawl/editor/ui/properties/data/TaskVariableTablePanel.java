@@ -54,10 +54,6 @@ public class TaskVariableTablePanel extends VariableTablePanel
     private JButton btnExAttributes;
     private JButton btnLog;
 
-    private BindingTypeValidator inputBindingValidator;
-    private BindingTypeValidator outputBindingValidator;
-
-
 
     public TaskVariableTablePanel(java.util.List<VariableRow> rows,
                                   String decompositionID, DataVariableDialog parent) {
@@ -161,18 +157,14 @@ public class TaskVariableTablePanel extends VariableTablePanel
             parent.getMultiInstanceHandler() : null;
 
         if (scope == YDataHandler.INPUT) {
-            if (inputBindingValidator == null) {
-                inputBindingValidator = new BindingTypeValidator(netVars, "string");
-            }
             dialog = new InputBindingDialog(taskID, selectedVar,
-                    netVars, taskVars, miHandler, inputBindingValidator);
+                    netVars, taskVars, miHandler,
+                    new BindingTypeValidator(netVars, "string"));
         }
         else if (scope == YDataHandler.OUTPUT) {
-            if (outputBindingValidator == null) {
-                outputBindingValidator = new BindingTypeValidator(taskVars, "string");
-            }
             dialog = new OutputBindingDialog(taskID, selectedVar, netVars, taskVars,
-                    parent.getOutputBindings(), miHandler, outputBindingValidator);
+                    parent.getOutputBindings(), miHandler,
+                    new BindingTypeValidator(taskVars, "string"));
         }
         if (dialog != null) {
             dialog.setVisible(true);
