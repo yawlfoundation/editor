@@ -75,7 +75,7 @@ public class XQueryStyledDocument extends AbstractXMLStyledDocument {
         errorList.clear();
         if (isValidating()) {
             String text = getEditor().getText();
-            if (text.equals("")) {
+            if (text.isEmpty()) {
                 errorList.add("Query required");
                 setContentValidity(Validity.INVALID);
                 return;
@@ -87,7 +87,9 @@ public class XQueryStyledDocument extends AbstractXMLStyledDocument {
             // dereference reserved XML chars when not a splitter or joiner query
 //            if (!text.startsWith("for $")) text = encodeEscapes(text);
 
-            errorList.addAll(XQueryEvaluator.compile(text));
+            if (! text.isEmpty()) {    // empty now if an external predicate
+                errorList.addAll(XQueryEvaluator.compile(text));
+            }
             setContentValidity(errorList.isEmpty() ? Validity.VALID : Validity.INVALID);
         }
     }
