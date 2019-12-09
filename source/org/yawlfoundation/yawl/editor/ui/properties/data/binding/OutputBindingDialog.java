@@ -36,8 +36,9 @@ import java.util.Map;
 public class OutputBindingDialog extends AbstractDataBindingDialog {
 
     private final OutputBindings _outputBindings;
-    private final WorkingSelection _workingSelection;
     private final Map<String, String> _externalUndoMap;
+    private final WorkingSelection _workingSelection;
+    private WorkingSelection _initialSelection;
     private TaskVariablePanel _generatePanel;
     private NetVariablePanel _targetPanel;
 
@@ -147,6 +148,8 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
             }
             if (! guessedTarget) setEditorText(binding);
         }
+        _initialSelection = new WorkingSelection();
+        _initialSelection.set(_workingSelection);
     }
 
 
@@ -335,8 +338,17 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
 
         void set(String i, String b, boolean g) { item = i; binding = b; isGateway = g; }
 
+        void set(WorkingSelection ws) { set(ws.item, ws.binding, ws.isGateway); }
+
+        boolean equals(WorkingSelection other) {
+            return item != null && item.equals(other.item) &&
+                    binding != null && binding.equals(other.binding) &&
+                    isGateway == other.isGateway;
+        }
+
         void save(String editedBinding) {
-            if (! editedBinding.equals(binding)) {
+            if (shouldSave(editedBinding)) {
+                _outputBindings.removeBindingForTarget(_initialSelection.item);  // in case of net var change
                 if (isGateway) {
                     _outputBindings.setExternalBinding(_generatePanel.getSelectedItem(),
                             formatQuery(editedBinding, false));
@@ -347,6 +359,13 @@ public class OutputBindingDialog extends AbstractDataBindingDialog {
                     validateBinding(query);
                 }
             }
+        }
+
+
+        private boolean shouldSave(String editedBinding) {
+            return ! (_initialSelection.equals(this) &&
+                    editedBinding.equals(binding) &&
+                    editedBinding.equals(_initialSelection.binding));
         }
 
         private void validateBinding(String binding) {
