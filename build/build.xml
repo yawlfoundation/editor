@@ -32,8 +32,8 @@
     <!--
     	Define java and release versions
     -->
-    <property name="ant.build.javac.source" value="${java.target.version}"/>
-    <property name="ant.build.javac.target" value="${java.target.version}"/>
+<!--    <property name="ant.build.javac.source" value="${java.target.version}"/>-->
+<!--    <property name="ant.build.javac.target" value="${java.target.version}"/>-->
     <property name="version" value="${editor.release.version}"/>
 
     <!--
@@ -667,11 +667,9 @@
         <echo message="Compiling: ${root.source.file.path}" />
         <!--<record name="${log.file}" action="start"/>-->
         <javac debug="yes"
-               source="${java.target.version}"
                srcdir="${source.dir}"
                destdir="${classes.dir}"
-               verbose="true"
-               bootclasspath="${java.boot.classpath}" >
+               verbose="true">
             <include name="${root.source.file.path}"/>
             <include name="${package.dir}/ui/plugin/YEditorPluginAdapter.java"/>
             <include name="${package.dir}/ui/util/CheckSumTask.java"/>

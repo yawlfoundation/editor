@@ -127,6 +127,11 @@ public class YControlFlowHandler {
     public void setRootNet(YNet net) throws YControlFlowHandlerException {
         checkSpecificationExists();
         _specification.setRootNet(net);
+        for (YNet n : getNets()) {
+            YAttributeMap map = n.getAttributes();
+            map.remove("isRootNet");
+            n.setAttributes(map);
+        }
     }
 
     public YNet addNet(String netName)
