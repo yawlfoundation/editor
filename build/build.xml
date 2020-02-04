@@ -32,8 +32,6 @@
     <!--
     	Define java and release versions
     -->
-<!--    <property name="ant.build.javac.source" value="${java.target.version}"/>-->
-<!--    <property name="ant.build.javac.target" value="${java.target.version}"/>-->
     <property name="version" value="${editor.release.version}"/>
 
     <!--
@@ -216,7 +214,7 @@
             <attribute name="Main-Class" value="${root.launcher}" />
         	<attribute name="Class-Path" value="${manifest.cp}" />
             <attribute name="SplashScreen-Image"
-                       value="${package.dir}/ui/resources/yawlSplashScreen42.png" />
+                       value="${package.dir}/ui/resources/yawlSplashScreen43.png" />
             <attribute name="Implementation-Version"
                        value="${editor.release.version}.${this.build.number}" />
         </manifest>

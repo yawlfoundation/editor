@@ -54,7 +54,7 @@ public class AboutEditorAction extends YAWLBaseAction {
 class AboutEditorDialog extends JDialog {
 
     private static final Color BACK_COLOUR = new Color(254,254,240);
-    private static final String FORUM_URL = "http://yawlfoundation.org/forum";
+    private static final String FORUM_URL = "http://www.yaug.org/forum";
     private static final String ISSUES_URL = "https://github.com/yawlfoundation/yawl/issues";
 
 
