@@ -2,7 +2,7 @@
 <!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
 <release>
   <version>4.3</version>
-  <build>767</build>
+  <build>768</build>
   <timestamp>2020-02-03 16.39.47</timestamp>
   <paths>
     <path id="host">https://raw.githubusercontent.com/</path>
@@ -18,7 +18,7 @@
     <file name="plugins/YAWLEditor-configuration-4.3.jar" md5="08a5efc7f230c23a80873dc5d8489a71" size="163297" timestamp="2020-01-31T17:06:30" path="B"/>
     <file name="YAWLEditor4.3.jar" md5="e773f9be34c399aa98aea84ed59cd20d" size="1831537" timestamp="2020-02-03T16:39:47" path="B"/>
     <file name="lib/log4j-1.2-api-2.3.jar" md5="97f562c4f299dc5f5f72e66ded465416" size="36875" timestamp="2015-08-25T16:58:07" path="C"/>
-    <file name="lib/jgraph4yawl-4.3.jar" md5="247acf74960607d8af0f0b78d35bfd3a" size="240857" timestamp="2020-01-31T17:06:29" path=""/>
+    <file name="lib/jgraph4yawl-4.3.jar" md5="247acf74960607d8af0f0b78d35bfd3a" size="240857" timestamp="2020-01-31T17:06:29" path="B"/>
     <file name="lib/log4j-core-2.3.jar" md5="110ab3e3e4f3780921e8ee5dde3373ad" size="827024" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/jgoodies-common-1.8.1.jar" md5="7e6bc1cd169e4f78d9529af34a876f00" size="37807" timestamp="2015-08-13T13:38:33" path="A"/>
     <file name="lib/saxon9-dom.jar" md5="43b292289250700524ddd21d82e23f79" size="126167" timestamp="2015-08-13T13:38:33" path="C"/>
