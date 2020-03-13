@@ -20,7 +20,7 @@
         <file name="lib/jdom-2.0.5.jar" path="C"/>
         <file name="lib/jgoodies-common-1.8.1.jar" path="A"/>
         <file name="lib/jgoodies-looks-2.7.0.jar" path="A"/>
-        <file name="lib/jgraph4yawl-4.2.jar" path="B"/>
+        <file name="lib/jgraph4yawl-4.3.1.jar" path="B"/>
         <file name="lib/l2fprod-common-all.jar" path="A"/>
         <file name="lib/log4j-1.2-api-2.3.jar" path="C"/>
         <file name="lib/log4j-api-2.3.jar" path="C"/>
@@ -33,13 +33,13 @@
         <file name="lib/servlet-api.jar" path="A"/>
         <file name="lib/xercesImpl.jar" path="C"/>
         <file name="lib/xmleditorkit.jar" path="B"/>
-        <file name="lib/yawl-lib-4.2.jar" path="B"/>
-        <file name="lib/YAWLEditor-analyser-4.2.jar" path="B"/>
-        <file name="lib/YAWLEditor-core-4.2.jar" path="B"/>
+        <file name="lib/yawl-lib-4.3.1.jar" path="B"/>
+        <file name="lib/YAWLEditor-analyser-4.3.1.jar" path="B"/>
+        <file name="lib/YAWLEditor-core-4.3.1.jar" path="B"/>
         <file name="lib/YAWLEditor-icons.jar" path="B"/>
-        <file name="plugins/YAWLEditor-configuration-4.2.jar" path="B"/>
-        <file name="plugins/YAWLEditor-decobar-4.2.jar" path="B"/>
-        <file name="plugins/YAWLEditor-worklet-4.2.jar" path="B"/>
-        <file name="YAWLEditor4.2.jar" path="B"/>
+        <file name="plugins/YAWLEditor-configuration-4.3.1.jar" path="B"/>
+        <file name="plugins/YAWLEditor-decobar-4.3.1.jar" path="B"/>
+        <file name="plugins/YAWLEditor-worklet-4.3.1.jar" path="B"/>
+        <file name="YAWLEditor4.3.1.jar" path="B"/>
     </files>
 </locations>
