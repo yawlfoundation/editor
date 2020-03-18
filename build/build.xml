@@ -83,10 +83,12 @@
 		libraries, which are *not* stored in the Editor source tree to
 		avoid compatibility and maintenance issues.
 	-->
+    <!-- Standard libraries -->
     <property name="automaton" value="automaton.jar"/>
     <property name="forms" value="forms_rt.jar"/>
     <property name="imgscalr" value="imgscalr-lib-4.2.jar"/>
     <property name="jcal" value="jcalendar-1.4.jar"/>
+    <property name="activation" value="jakarta.activation-1.2.1.jar"/>
     <property name="goodies-common" value="jgoodies-common-1.8.1.jar"/>
     <property name="goodies-looks" value="jgoodies-looks-2.7.0.jar"/>
     <property name="l2fprod" value="l2fprod-common-all.jar"/>
@@ -111,7 +113,7 @@
 
 
     <fileset id="editorOnlyDeps" dir="${library.dir}/standard"
-             includes="${automaton} ${forms} ${imgscalr} ${jcal}
+             includes="${automaton} ${forms} ${imgscalr} ${jcal} ${activation}
 			           ${goodies-common} ${goodies-looks} ${l2fprod}
 			           ${macify} ${servlet}" />
 
