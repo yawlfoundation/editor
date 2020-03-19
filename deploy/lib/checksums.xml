@@ -28,7 +28,7 @@
     <file name="lib/jgraph4yawl-4.3.1.jar" md5="b3b436d5a3d88cee74de21f260ddfde8" size="240857" timestamp="2020-03-13T17:38:30" path="B"/>
     <file name="lib/automaton.jar" md5="c51399ee94634d6590e1ddb6ae253238" size="176313" timestamp="2015-08-13T13:38:33" path="A"/>
     <file name="lib/YAWLEditor-icons.jar" md5="79e9718b2713b9c70fb2bfd60dddcdfc" size="363754" timestamp="2015-08-18T18:45:08" path="B"/>
-    <file name="lib/jakarta.activation-1.2.1.jar" md5="dc519b1f09bbaf9274ea5da358a00110" size="65690" timestamp="2020-03-16T10:11:09" path="A"/>
+    <file name="lib/jakarta.activation-1.2.1.jar" md5="dc519b1f09bbaf9274ea5da358a00110" size="65690" timestamp="2020-03-16T10:11:09" path="B"/>
     <file name="lib/jgoodies-looks-2.7.0.jar" md5="f6f746ee51c49a2d91e30bdfc8043443" size="400791" timestamp="2015-08-13T13:38:33" path="A"/>
     <file name="lib/commons-codec-1.9.jar" md5="75615356605c8128013da9e3ac62a249" size="263965" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/log4j-api-2.3.jar" md5="94241ab3197b95a813d896820b3f6a87" size="135903" timestamp="2015-08-13T13:38:33" path="C"/>
