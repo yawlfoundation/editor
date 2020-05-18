@@ -20,7 +20,7 @@ package org.yawlfoundation.yawl.editor.ui.properties.data.binding;
 
 import org.yawlfoundation.yawl.editor.ui.properties.data.DataUtils;
 import org.yawlfoundation.yawl.elements.YTask;
-import org.yawlfoundation.yawl.elements.data.external.ExternalDBGatewayFactory;
+import org.yawlfoundation.yawl.elements.data.external.ExternalDataGatewayFactory;
 import org.yawlfoundation.yawl.util.StringUtil;
 
 import java.util.HashMap;
@@ -407,7 +407,7 @@ public class OutputBindings {
 
 
     protected boolean isGateway(String binding) {
-        return ExternalDBGatewayFactory.isExternalDBMappingExpression(binding);
+        return ExternalDataGatewayFactory.isExternalDataMappingExpression(binding);
     }
 
 

@@ -22,7 +22,7 @@ import org.yawlfoundation.yawl.editor.core.data.YDataHandler;
 import org.yawlfoundation.yawl.elements.YAttributeMap;
 import org.yawlfoundation.yawl.elements.data.YParameter;
 import org.yawlfoundation.yawl.elements.data.YVariable;
-import org.yawlfoundation.yawl.elements.data.external.ExternalDBGatewayFactory;
+import org.yawlfoundation.yawl.elements.data.external.ExternalDataGatewayFactory;
 import org.yawlfoundation.yawl.logging.YLogPredicate;
 import org.yawlfoundation.yawl.schema.XSDType;
 import org.yawlfoundation.yawl.util.StringUtil;
@@ -328,7 +328,7 @@ public class VariableRow implements Comparable<VariableRow> {
 
 
     private boolean isExternalGateway(String binding) {
-        return ExternalDBGatewayFactory.isExternalDBMappingExpression(binding);
+        return ExternalDataGatewayFactory.isExternalDataMappingExpression(binding);
     }
 
 

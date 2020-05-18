@@ -20,7 +20,7 @@ package org.yawlfoundation.yawl.editor.ui.properties.data.binding;
 
 import org.yawlfoundation.yawl.editor.core.data.YDataHandler;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
-import org.yawlfoundation.yawl.elements.data.external.ExternalDBGatewayFactory;
+import org.yawlfoundation.yawl.elements.data.external.ExternalDataGatewayFactory;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -104,7 +104,7 @@ class NetVariablePanel extends AbstractBindingPanel implements ActionListener {
                 _varsCombo.setEnabled(false);
             }
         }
-        else if (ExternalDBGatewayFactory.isExternalDBMappingExpression(item)) {
+        else if (ExternalDataGatewayFactory.isExternalDataMappingExpression(item)) {
             initExternalSelection(item);
         }
         else if (_varsCombo.getItemCount() > 0) {
