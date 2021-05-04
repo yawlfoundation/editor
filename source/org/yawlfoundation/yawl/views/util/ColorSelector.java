@@ -2,10 +2,8 @@ package org.yawlfoundation.yawl.views.util;
 
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @author Michael Adams
@@ -35,19 +33,41 @@ public class ColorSelector {
 
     // returns a list of colors of the requested size
     public static List<Color> get(int size) {
-        return size <= _colors.size() ? _colors.subList(0, size) : generate(size);
+        return size <= _colors.size() ? _colors.subList(0, size) : generate(_colors, size);
     }
 
 
-    private static List<Color> generate(int size) {
-        for (int i = _colors.size(); i <= size; i++) {
-            _colors.add(nextColor());
+    public static List<Color> get(int size, List<Color> exceptionSet) {
+        List<Color> colorList = new ArrayList<>(size);
+        for (Color candidate : _colors) {
+            if (!isSimilarToExisting(exceptionSet, candidate)) {
+                colorList.add(candidate);
+                if (colorList.size() == size) {
+                    return colorList;
+                }
+            }
         }
-        return _colors;
+        List<Color> combinedList = new ArrayList<>(exceptionSet);
+        combinedList.addAll(colorList);
+        int leftToGet = size - colorList.size();
+        for (int i = 0; i < leftToGet; i++) {
+             Color color = nextColor(combinedList);
+             colorList.add(color);
+             combinedList.add(color);
+         }
+         return colorList;
     }
 
 
-    private static Color nextColor() {
+    private static List<Color> generate(List<Color> colors, int size) {
+        for (int i = colors.size(); i <= size; i++) {
+            colors.add(nextColor(colors));
+        }
+        return colors;
+    }
+
+
+    private static Color nextColor(List<Color> colors) {
         Random random = new Random();
         Color next = null;
         boolean similar = true;     // init the loop
@@ -59,15 +79,15 @@ public class ColorSelector {
             float saturation = (random.nextInt(2000) + 1000) / 10000f;    // 0.1f to 0.3f
             next = Color.getHSBColor(hue, saturation, luminance);
 
-            similar = isSimilarToExisting(next);
+            similar = isSimilarToExisting(colors, next);
         }
         return next;
     }
 
 
     // simple check to ensure not too similar to existing color
-    private static boolean isSimilarToExisting(Color c) {
-        for (Color existing : _colors) {
+    private static boolean isSimilarToExisting(List<Color> colors, Color c) {
+        for (Color existing : colors) {
             int red = Math.abs(c.getRed() - existing.getRed());
             int green = Math.abs(c.getGreen() - existing.getGreen());
             int blue = Math.abs(c.getBlue() - existing.getBlue());

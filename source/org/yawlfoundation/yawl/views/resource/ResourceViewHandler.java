@@ -5,14 +5,15 @@ import org.yawlfoundation.yawl.editor.ui.net.NetGraph;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraphModel;
 import org.yawlfoundation.yawl.editor.ui.net.NetGraphUI;
 import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
-import org.yawlfoundation.yawl.views.util.ColorSelector;
 import org.yawlfoundation.yawl.views.dialog.ResourceKeyTableDialog;
 import org.yawlfoundation.yawl.views.ontology.OntologyHandler;
+import org.yawlfoundation.yawl.views.util.ColorSelector;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.*;
 
 /**
@@ -105,14 +106,31 @@ public class ResourceViewHandler implements ActionListener {
 
 
     private Map<String, Color> buildColorMap() {
-        Set<String> roleSet = getUniqueRoles();
-        java.util.List<Color> colorSet = ColorSelector.get(roleSet.size());
-        Map<String, Color> colorMap = new HashMap<String, Color>();
-        Iterator<Color> itr = colorSet.iterator();
-        for (String role : roleSet) {
-            colorMap.put(role, itr.next());
+        PersistedRoleColors rcProps = new PersistedRoleColors();
+        Map<String, Color> colorMap = rcProps.load();
+        Set<String> allRoles = getUniqueRoles();
+        Set<String> uncoloredRoles = getUncoloredRoles(allRoles, colorMap.keySet());
+        if (!uncoloredRoles.isEmpty()) {
+            List<Color> takenColors = new ArrayList<>(colorMap.values());
+            java.util.List<Color> colorSet = ColorSelector.get(uncoloredRoles.size(), takenColors);
+            Iterator<Color> itr = colorSet.iterator();
+            for (String role : uncoloredRoles) {
+                colorMap.put(role, itr.next());
+            }
+            rcProps.save(colorMap);   // append the new pairs
         }
         return colorMap;
+    }
+
+
+    private Set<String> getUncoloredRoles(Set<String> allRoles, Collection<String> coloredRoles) {
+        Set<String> uncoloredRoles = new HashSet<>();
+        for (String role : allRoles) {
+            if (! coloredRoles.contains(role)) {
+                uncoloredRoles.add(role);
+            }
+        }
+        return uncoloredRoles;
     }
 
 
