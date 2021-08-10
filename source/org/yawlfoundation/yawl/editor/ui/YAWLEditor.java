@@ -35,6 +35,7 @@ import org.yawlfoundation.yawl.editor.ui.swing.specification.BottomPanel;
 import org.yawlfoundation.yawl.editor.ui.update.BackgroundUpdateChecker;
 import org.yawlfoundation.yawl.editor.ui.util.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -42,6 +43,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.List;
 
@@ -52,7 +54,7 @@ import java.util.List;
 
 public class YAWLEditor extends JFrame implements FileStateListener {
 
-    public static final String DEFAULT_VERSION = "4.3.1";
+    public static final String DEFAULT_VERSION = "4.5";
     public static final String BUILD_VERSION = getBuildVersion();
     private static YPropertySheet sheet;
     private static PaletteBar paletteBar;
@@ -131,15 +133,20 @@ public class YAWLEditor extends JFrame implements FileStateListener {
     }
 
     private static void setLookAndFeel() {
-        if (MenuUtilities.isMacOS()) {
-            new MacListener();
+        try {
+            UIManager.setLookAndFeel(new Plastic3DLookAndFeel());
         }
-        else {
+        catch (Exception e) {
+            // accept default LaF
+        }
+        if (MenuUtilities.isMacOS()) {
             try {
-                UIManager.setLookAndFeel(new Plastic3DLookAndFeel());
+                String path = "/org/yawlfoundation/yawl/editor/ui/resources/yawlEditorLogo.png";
+                InputStream in = YAWLEditor.class.getResourceAsStream(path);
+                Taskbar.getTaskbar().setIconImage(ImageIO.read(in));
             }
             catch (Exception e) {
-                // accept default LaF
+                // taskbar unsupported
             }
         }
     }

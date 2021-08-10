@@ -1,13 +1,13 @@
 package org.yawlfoundation.yawl.views.table.header;
 
 import org.yawlfoundation.yawl.views.table.TaskIOTableModel;
-import sun.swing.SwingUtilities2;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
@@ -154,9 +154,9 @@ public class RowHeaderTable extends JTable
 
     private int getOptimalColumnWidth() {
         String label = ((TaskIOTableModel) main.getModel()).getWidestRowLabel();
-        return SwingUtilities2.stringWidth(this,
-                this.getFontMetrics(this.getFont().deriveFont(Font.BOLD)),
-                label) + 10;
+        return (int) (BasicGraphicsUtils.getStringWidth(this,
+						this.getFontMetrics(this.getFont().deriveFont(Font.BOLD)),
+						label) + 10);
     }
 
 

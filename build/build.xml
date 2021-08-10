@@ -216,7 +216,7 @@
             <attribute name="Main-Class" value="${root.launcher}" />
         	<attribute name="Class-Path" value="${manifest.cp}" />
             <attribute name="SplashScreen-Image"
-                       value="${package.dir}/ui/resources/yawlSplashScreen43.png" />
+                       value="${package.dir}/ui/resources/yawlSplashScreen45.png" />
             <attribute name="Implementation-Version"
                        value="${editor.release.version}.${this.build.number}" />
         </manifest>
@@ -554,7 +554,7 @@
     <target name="buildJars"
             depends="buildAnalyserJar, buildCoreJar, buildJGraphJar, buildBounceJar,
                      buildResourcesJar, buildUIJar, buildDecoratorToolBarPluginJar,
-                     buildConfigurationPluginJar, buildWorkletPluginJar"
+                     buildConfigurationPluginJar, buildWorkletPluginJar, buildViewsPluginJar"
             description="Builds all jars and copies required libraries"/>
 
     <!--
@@ -592,7 +592,6 @@
 
         <mkdir dir="${javadoc.dir}" />
         <javadoc packagenames="org.yawlfoundation.yawl.*"
-                 source="${java.target.version}"
                  destdir="${javadoc.dir}"
                  author="true"
                  version="true"
@@ -698,7 +697,6 @@
         <echo message="Compiling: ${configuration.base.file}" />
         <javac fork="yes"
                debug="yes"
-               source="${java.target.version}"
                srcdir="${source.dir}"
                destdir="${classes.dir}">
             <include name="${configuration.base.file}" />
@@ -721,7 +719,6 @@
         <echo message="Compiling: ${decorator.base.file}" />
         <javac fork="yes"
                debug="yes"
-               source="${java.target.version}"
                srcdir="${source.dir}"
                destdir="${classes.dir}">
             <include name="${decorator.base.file}" />
@@ -794,7 +791,6 @@
         <echo message="Compiling Test: ${package.dir}/Test${root.source.file}" />
         <javac fork="yes"
                debug="yes"
-               source="${java.target.version}"
                srcdir="${source.dir}"
                destdir="${classes.dir}">
 

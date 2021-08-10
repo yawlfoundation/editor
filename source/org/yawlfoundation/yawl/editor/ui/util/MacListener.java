@@ -2,10 +2,8 @@ package org.yawlfoundation.yawl.editor.ui.util;
 
 
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
-import org.simplericity.macify.eawt.Application;
 import org.simplericity.macify.eawt.ApplicationAdapter;
 import org.simplericity.macify.eawt.ApplicationEvent;
-import org.simplericity.macify.eawt.DefaultApplication;
 import org.yawlfoundation.yawl.editor.ui.actions.help.AboutEditorAction;
 import org.yawlfoundation.yawl.editor.ui.actions.specification.PrintSpecificationAction;
 import org.yawlfoundation.yawl.editor.ui.preferences.PreferencesDialog;
@@ -14,8 +12,8 @@ import org.yawlfoundation.yawl.editor.ui.specification.FileOperations;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.DefaultEditorKit;
+import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -26,16 +24,16 @@ import java.io.InputStream;
  */
 public class MacListener extends ApplicationAdapter {
 
-    private final Application application;
+//    private final Application application;
 
 
     public MacListener() {
-        application = new DefaultApplication();
-        application.addApplicationListener(this);
-        application.addPreferencesMenuItem();
-        application.setEnabledPreferencesMenu(true);
-        application.addAboutMenuItem();
-        application.setEnabledAboutMenu(true);
+//        application = new DefaultApplication();
+//        application.addApplicationListener(this);
+//        application.addPreferencesMenuItem();
+//        application.setEnabledPreferencesMenu(true);
+//        application.addAboutMenuItem();
+//        application.setEnabledAboutMenu(true);
         setIcon();
         setLaF();
     }
@@ -70,11 +68,17 @@ public class MacListener extends ApplicationAdapter {
     private void setIcon() {
         String path = "/org/yawlfoundation/yawl/editor/ui/resources/yawlEditorLogo.png";
         InputStream in = getClass().getResourceAsStream(path);
+//        try {
+//            application.setApplicationIconImage(ImageIO.read(in));
+//        }
+//        catch (Exception e) {
+//            // fuggetaboutit
+//        }
         try {
-            application.setApplicationIconImage(ImageIO.read(in));
+            Taskbar.getTaskbar().setIconImage(ImageIO.read(in));
         }
-        catch (IOException ioe) {
-            // fuggetaboutit
+        catch (Exception e) {
+            // taskbar unsupported
         }
     }
 
