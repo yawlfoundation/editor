@@ -50,4 +50,9 @@ public class LogPredicatePanel extends JPanel {
 
     public void setText(String text) { _textPane.setText(text); }
 
+    @Override
+    public void setEnabled(boolean enabled) {
+        _textPane.setEnabled(enabled);
+        super.setEnabled(enabled);
+    }
 }

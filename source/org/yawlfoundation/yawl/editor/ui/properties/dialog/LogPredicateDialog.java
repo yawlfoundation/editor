@@ -39,6 +39,7 @@ package org.yawlfoundation.yawl.editor.ui.properties.dialog;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.properties.LogPredicateTransport;
 import org.yawlfoundation.yawl.editor.ui.properties.data.VariableRow;
+import org.yawlfoundation.yawl.editor.ui.properties.data.VariableScope;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.LogPredicatePanel;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.LogPredicateScope;
 import org.yawlfoundation.yawl.logging.YLogPredicate;
@@ -79,6 +80,7 @@ public class LogPredicateDialog extends PropertyDialog implements ActionListener
     public LogPredicateDialog(VariableRow row) {
         this();
         setTitle("Log Entries for " + row.getName());
+        enableForUsage(row.getUsage());
         YLogPredicate predicate = row.getLogPredicate();
         if (predicate != null) {
             _onStartPanel.setText(predicate.getStartPredicate());
@@ -124,6 +126,13 @@ public class LogPredicateDialog extends PropertyDialog implements ActionListener
     public void actionPerformed(ActionEvent event) {
         _updated = event.getActionCommand().equals("OK");
         setVisible(false);
+    }
+
+    private void enableForUsage(int usage) {
+        switch (VariableScope.getScope(usage)) {
+            case INPUT:  _onCompletionPanel.setEnabled(false); break;
+            case OUTPUT: _onStartPanel.setEnabled(false); break;
+        }
     }
 
 }
