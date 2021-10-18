@@ -53,13 +53,13 @@ public class DecompositionProperties extends CellProperties {
     }
 
 
-    public LogPredicateTransport getLogPredicate() {
+    public LogPredicateTransport getTaskLogPredicate() {
         return _decomposition != null ?
                 new LogPredicateTransport(_decomposition, LogPredicateScope.Task) :
                 null;
     }
 
-    public void setLogPredicate(LogPredicateTransport lpt) {
+    public void setTaskLogPredicate(LogPredicateTransport lpt) {
         setDirty();     // all updates done in dialog
     }
 
