@@ -416,7 +416,7 @@ public class YAWLEditor extends JFrame implements FileStateListener {
                     UserSettings.getEnginePort());
         }
         catch (MalformedURLException mue) {
-            //
+            // ignore
         }
         try {
             YConnector.setResourceURL(UserSettings.getResourceHost(),
