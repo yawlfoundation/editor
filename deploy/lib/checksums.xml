@@ -2,8 +2,8 @@
 <!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
 <release>
   <version>4.5</version>
-  <build>791</build>
-  <timestamp>2021-12-13 12.47.46</timestamp>
+  <build>792</build>
+  <timestamp>2021-12-17 11.31.14</timestamp>
   <paths>
     <path id="host">https://raw.githubusercontent.com/</path>
     <path id="base">yawlfoundation/</path>
@@ -16,11 +16,12 @@
   <files>
     <file name="plugins/YAWLEditor-decobar-4.5.jar" md5="8d56d68c898494e2461fd7a35c1f65fd" size="26200" timestamp="2021-08-06T18:55:39" path="B"/>
     <file name="plugins/YAWLEditor-worklet-4.5.jar" md5="ebfc6740812a9ff01b89820582f66966" size="227534" timestamp="2021-08-06T18:55:39" path="B"/>
-    <file name="plugins/YAWLEditor-views-4.5.jar" md5="0bf9650ea376144b5dd0edafd75821bd" size="170498" timestamp="2021-12-13T12:47:46" path="B"/>
+    <file name="plugins/YAWLEditor-views-4.5.jar" md5="b2e4d8767fe5bab19ff0e31c71ab7111" size="170498" timestamp="2021-12-17T11:31:14" path="B"/>
     <file name="plugins/YAWLEditor-configuration-4.5.jar" md5="831f9e960b5a38b02b9d4f80ae33e5f6" size="163548" timestamp="2021-08-06T18:55:39" path="B"/>
-    <file name="YAWLEditor4.5.jar" md5="0e66aaeffa86ca64154c3175b5769e5c" size="1932898" timestamp="2021-12-13T12:43:56" path="B"/>
+    <file name="YAWLEditor4.5.jar" md5="317dd9c2a8d949ddb662315cbff75af5" size="1932898" timestamp="2021-12-17T11:31:14" path="B"/>
     <file name="lib/slf4j-api-1.7.21.jar" md5="c9be56284a92dcb2576679282eff80bf" size="41071" timestamp="2016-11-19T01:23:18" path="D"/>
     <file name="lib/xmlbeans-2.6.0.jar" md5="6591c08682d613194dacb01e95c78c2c" size="2730866" timestamp="2016-11-22T23:25:14" path="D"/>
+    <file name="lib/log4j-1.2-api-2.16.0.jar" md5="8c3730da4674197c7a050027021c46ad" size="207907" timestamp="2021-12-13T15:35:52" path="C"/>
     <file name="lib/jgoodies-common-1.8.1.jar" md5="7e6bc1cd169e4f78d9529af34a876f00" size="37807" timestamp="2015-08-13T13:38:33" path="A"/>
     <file name="lib/saxon9-dom.jar" md5="43b292289250700524ddd21d82e23f79" size="126167" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/xmleditorkit.jar" md5="3d08ad29e38824929c5101bc61ce8816" size="72326" timestamp="2015-08-18T18:45:08" path="B"/>
@@ -28,11 +29,11 @@
     <file name="lib/saxon9.jar" md5="cfb820253feef53ab606601b6435870c" size="5024396" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/jgraph4yawl-4.5.jar" md5="99e5f0cff825bcfa0f0305064aa22809" size="240966" timestamp="2021-08-06T18:55:38" path="B"/>
     <file name="lib/jena-arq-3.1.1.jar" md5="fa2a8f225a45042cad3abd00d9e07e01" size="2858398" timestamp="2016-11-18T23:00:42" path="D"/>
-    <file name="lib/log4j-api-2.15.0.jar" md5="2b3e0bcb18390299d689f39f4e96c715" size="301805" timestamp="2021-12-13T11:44:15" path="C"/>
-    <file name="lib/yawl-lib-4.5.jar" md5="7179edb39022cd7fe6d63dd5db500b88" size="2960704" timestamp="2021-12-13T11:44:15" path="B"/>
+    <file name="lib/log4j-core-2.16.0.jar" md5="cf0634270eafdbb083eb5951d7f2232d" size="1789565" timestamp="2021-12-13T15:35:38" path="C"/>
+    <file name="lib/log4j-slf4j-impl-2.16.0.jar" md5="92fbe1da470daedda665cde2ae5d790c" size="24258" timestamp="2021-12-13T15:36:20" path="C"/>
+    <file name="lib/yawl-lib-4.5.jar" md5="70d14b3198628689ceb13c3c09879fa0" size="2960704" timestamp="2021-12-17T11:31:04" path="B"/>
     <file name="lib/YAWLEditor-core-4.5.jar" md5="e3fe109be2b0f66a3be5693678df5024" size="180511" timestamp="2021-08-06T18:55:38" path="B"/>
     <file name="lib/poi-3.15.jar" md5="180cd5f6f178cbedd00316d44a42a171" size="2579580" timestamp="2016-11-22T23:13:16" path="D"/>
-    <file name="lib/log4j-1.2-api-2.15.0.jar" md5="188e0995f1dcb940c4a2afa20e74a6b6" size="207880" timestamp="2021-12-13T11:44:15" path="C"/>
     <file name="lib/automaton.jar" md5="c51399ee94634d6590e1ddb6ae253238" size="176313" timestamp="2015-08-13T13:38:33" path="A"/>
     <file name="lib/poi-ooxml-schemas-3.15.jar" md5="327a013becf0b826c134c42b252e7766" size="5859007" timestamp="2016-11-22T23:32:37" path="D"/>
     <file name="lib/commons-lang3-3.3.2.jar" md5="3128bf75a2549ebe38663401191bacab" size="412739" timestamp="2016-11-22T23:28:29" path="D"/>
@@ -40,8 +41,7 @@
     <file name="lib/jakarta.activation-1.2.1.jar" md5="dc519b1f09bbaf9274ea5da358a00110" size="65690" timestamp="2020-03-16T10:11:09" path="A"/>
     <file name="lib/jgoodies-looks-2.7.0.jar" md5="f6f746ee51c49a2d91e30bdfc8043443" size="400791" timestamp="2015-08-13T13:38:33" path="A"/>
     <file name="lib/commons-codec-1.9.jar" md5="75615356605c8128013da9e3ac62a249" size="263965" timestamp="2015-08-13T13:38:33" path="C"/>
-    <file name="lib/log4j-core-2.15.0.jar" md5="5985349db390cb5b11cb5f9a5c398a8d" size="1789769" timestamp="2021-12-13T11:44:15" path="C"/>
-    <file name="lib/log4j-slf4j-impl-2.15.0.jar" md5="2837b55bdc1f1cd821960c747ddc50b3" size="24232" timestamp="2021-12-13T11:44:15" path="C"/>
+    <file name="lib/log4j-api-2.16.0.jar" md5="c0338cbc28a4beec6b8ad3356b43e26f" size="301892" timestamp="2021-12-13T15:35:17" path="C"/>
     <file name="lib/commons-collections4-4.1.jar" md5="45af6a8e5b51d5945de6c7411e290bd1" size="751238" timestamp="2016-11-22T23:28:29" path="D"/>
     <file name="lib/jena-iri-3.1.1.jar" md5="04005b4ccffbbb061ef83c672cc29d83" size="137898" timestamp="2016-11-05T04:59:52" path="D"/>
     <file name="lib/poi-ooxml-3.15.jar" md5="6b95361cab76a22e60109010f22c6628" size="1338241" timestamp="2016-11-22T23:13:16" path="D"/>
