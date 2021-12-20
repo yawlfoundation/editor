@@ -359,7 +359,7 @@ public class YAWLEditor extends JFrame implements FileStateListener {
         panel.setBorder(BorderFactory.createTitledBorder("Properties"));
         panel.add(sheet, BorderLayout.CENTER);
         Dimension size = sheet.getPreferredSize();
-        sheet.getTable().setBackground(getBackground());   // init uncoloured
+        sheet.getTable().setBackground(getBackground());    // init uncoloured
         panel.setMinimumSize(new Dimension((int) size.getWidth() + 20,
                 (int) size.getHeight() + 50));
         return panel;
