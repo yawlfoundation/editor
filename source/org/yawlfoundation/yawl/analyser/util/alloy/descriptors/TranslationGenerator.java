@@ -7,7 +7,6 @@ import org.yawlfoundation.yawl.elements.YTask;
 import org.yawlfoundation.yawl.elements.data.YVariable;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class TranslationGenerator {
@@ -25,6 +24,7 @@ public class TranslationGenerator {
             translationBuilder.append(inputDescriptorFactory(currentTask));
             translationBuilder.append(outputDescriptorFactory(currentTask));
         }
+        translationBuilder.append(DescriptionUtil.getShowPredPart(this._workFlow.getNetTasks().size(), this._getPredicateCount()));
         return translationBuilder.toString();
     }
 
@@ -48,12 +48,8 @@ public class TranslationGenerator {
         return new NoneJoinInputDescriptor(task, this.getVariableNames());
     }
 
-    private List<String> getVariableNames() {
-        ArrayList<String> variablesNames = new ArrayList<>();
-//        for (LocalVariable variable: this._workFlow.) {
-//            variablesNames.add(variable.name);
-//        }
-        return variablesNames;
+    private ArrayList<String> getVariableNames() {
+        return new ArrayList<String>(this._workFlow.getLocalVariables().keySet());
     }
 
     private OutputDescriptor outputDescriptorFactory(YTask task) {
@@ -61,5 +57,18 @@ public class TranslationGenerator {
         if (splitType != GatewayType.None)
             return new NotNoneSplitOutputDescriptor(task, this.getVariableNames());
         return new NoneSplitOutputDescriptor(task, this.getVariableNames());
+    }
+
+    private int _getPredicateCount() {
+        int conditionCount = 0;
+        for (YTask task : this._workFlow.getNetTasks()) {
+            if (task.getJoinType() == YTask._OR || task.getJoinType() == YTask._XOR) {
+                conditionCount += task.getPresetFlows().size();
+            }
+            if (task.getSplitType() == YTask._OR || task.getSplitType() == YTask._XOR) {
+                conditionCount += task.getPostsetFlows().size();
+            }
+        }
+        return conditionCount;
     }
 }
