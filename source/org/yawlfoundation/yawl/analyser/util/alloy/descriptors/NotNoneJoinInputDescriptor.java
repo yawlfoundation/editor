@@ -1,6 +1,5 @@
 package org.yawlfoundation.yawl.analyser.util.alloy.descriptors;
 
-import com.github.jsonldjava.utils.Obj;
 import org.yawlfoundation.yawl.elements.YFlow;
 import org.yawlfoundation.yawl.elements.YTask;
 
