@@ -132,27 +132,27 @@ public class Constants {
                         
                         
             fact{
-            	all s: State, s': s.next {
+            	all s: State, s_prime: s.next {
             		all x: s.token {
-            			x.split = "Xor" => {one f: x.flowsInto | f.predicate.value = 1 && f.nextTask in s'.token && f.nextTask.status = "Activated" && all f': (x.flowsInto  -  f)| f'.nextTask.status = "Deactive" }
+            			x.split = "Xor" => {one f: x.flowsInto | f.predicate.value = 1 && f.nextTask in s_prime.token && f.nextTask.status = "Activated" && all f_prime: (x.flowsInto  -  f)| f_prime.nextTask.status = "Deactive" }
             		}
             	}
             }
                         
                         
             fact{
-            	all s: State, s': s.next {
+            	all s: State, s_prime: s.next {
             		all x: s.token {
-            			x.split = "And" => {all f: x.flowsInto | f.predicate.value = 1 && f.nextTask in s'.token && f.nextTask.status = "Activated" }
+            			x.split = "And" => {all f: x.flowsInto | f.predicate.value = 1 && f.nextTask in s_prime.token && f.nextTask.status = "Activated" }
             		}
             	}
             }
                         
                         
             fact{
-            	all s: State, s': s.next {
+            	all s: State, s_prime: s.next {
             		all x: s.token {
-            			x.split = "Or" => {some f: x.flowsInto | f.predicate.value = 1 && f.nextTask in s'.token && f.nextTask.status = "Activated" && all f': (x.flowsInto  -  f)| f'.nextTask.status = "Deactive" }
+            			x.split = "Or" => {some f: x.flowsInto | f.predicate.value = 1 && f.nextTask in s_prime.token && f.nextTask.status = "Activated" && all f_prime: (x.flowsInto  -  f)| f_prime.nextTask.status = "Deactive" }
             		}
             	}
             }
@@ -162,10 +162,10 @@ public class Constants {
             // Definition of Cancellation Reigons
                         
             fact {
-            	all s: State, s':s.next {
+            	all s: State, s_prime:s.next {
             		all x: s.token {
-            			all t:x.flowsInto.nextTask | t in s'.token => {no o: x.cancellation_reigon_objects | o in s'.token } &&\s
-            											{all o: x.cancellation_reigon_objects { all f: o.flowsInto | f.nextTask not in s'.token }}
+            			all t:x.flowsInto.nextTask | t in s_prime.token => {no o: x.cancellation_reigon_objects | o in s_prime.token } &&\s
+            											{all o: x.cancellation_reigon_objects { all f: o.flowsInto | f.nextTask not in s_prime.token }}
             		}
             	}
             }
@@ -176,13 +176,13 @@ public class Constants {
             // Definition of the None split gateway behavior
             fact 						
             {
-            all s: State, s': s.next\s
+            all s: State, s_prime: s.next\s
             {
             all x: s.token\s
             {
             x.split = "None" => 	(
-            (x.flowsInto.nextTask in s'.token || x in s'.token) &&
-            !(x.flowsInto.nextTask in s'.token && x in s'.token)
+            (x.flowsInto.nextTask in s_prime.token || x in s_prime.token) &&
+            !(x.flowsInto.nextTask in s_prime.token && x in s_prime.token)
             				)\s
             }
             }
@@ -190,13 +190,13 @@ public class Constants {
             // Definition of the And split gateway behavior
             fact
             {
-            all s: State, s': s.next\s
+            all s: State, s_prime: s.next\s
             {
             all x: s.token\s
             {
             x.split = "And" => 		(
-            (s'.token = x || all y: x.flowsInto.nextTask | y in s'.token) &&
-            !(s'.token = x && all y: x.flowsInto.nextTask | y in s'.token)
+            (s_prime.token = x || all y: x.flowsInto.nextTask | y in s_prime.token) &&
+            !(s_prime.token = x && all y: x.flowsInto.nextTask | y in s_prime.token)
             					)
             }
             }
@@ -205,21 +205,21 @@ public class Constants {
             // Definition of the Xor split gateway behavior
                         
             fact {
-            	all s: State, s': s.next {
-            		all x: s.token{x.split = "Xor" =>((s'.token = x || all f: x.flowsInto | f.predicate.value = 1 =>\s
-            					{one t: f.nextTask | t in s'.token && no z: f.nextTask | z in s'.token && z != t}) &&
-            					!(s'.token = x && all f: x.flowsInto | f.predicate.value = 1 =>\s
-            					{one t: f.nextTask | t in s'.token && no z: f.nextTask | z in s'.token && z != t}))
+            	all s: State, s_prime: s.next {
+            		all x: s.token{x.split = "Xor" =>((s_prime.token = x || all f: x.flowsInto | f.predicate.value = 1 =>\s
+            					{one t: f.nextTask | t in s_prime.token && no z: f.nextTask | z in s_prime.token && z != t}) &&
+            					!(s_prime.token = x && all f: x.flowsInto | f.predicate.value = 1 =>\s
+            					{one t: f.nextTask | t in s_prime.token && no z: f.nextTask | z in s_prime.token && z != t}))
             		}
             	}
             }
                         
             //fact {
-            //	all s: State, s': s.next {
-            	//	all x: s.token{x.split = "Xor" =>(s'.token = x || (one f: x.flowsInto |  f.predicate.value = 1 =>\s
-            	//				{ one t: f.nextTask | t in s'.token && no z: f.nextTask | z in s'.token && z != t})) &&
-            	//				!(s'.token = x && (one f: x.flowsInto |  f.predicate.value = 1 =>\s
-            	//				{ one t: f.nextTask | t in s'.token && no z: f.nextTask | z in s'.token && z != t }))
+            //	all s: State, s_prime: s.next {
+            	//	all x: s.token{x.split = "Xor" =>(s_prime.token = x || (one f: x.flowsInto |  f.predicate.value = 1 =>\s
+            	//				{ one t: f.nextTask | t in s_prime.token && no z: f.nextTask | z in s_prime.token && z != t})) &&
+            	//				!(s_prime.token = x && (one f: x.flowsInto |  f.predicate.value = 1 =>\s
+            	//				{ one t: f.nextTask | t in s_prime.token && no z: f.nextTask | z in s_prime.token && z != t }))
             	//	}
             	//}
             //}
@@ -227,13 +227,13 @@ public class Constants {
             // Definition of the Or split gateway behavior
             fact
             {
-            all s: State, s': s.next\s
+            all s: State, s_prime: s.next\s
             {
             all x: s.token\s
             {
             x.split = "Or" => 		(
-            (x in s'.token || some y: x.flowsInto.nextTask | y in s'.token) &&
-            !(x in s'.token && some y: x.flowsInto.nextTask | y in s'.token)
+            (x in s_prime.token || some y: x.flowsInto.nextTask | y in s_prime.token) &&
+            !(x in s_prime.token && some y: x.flowsInto.nextTask | y in s_prime.token)
             					)
             }
             }
@@ -251,9 +251,9 @@ public class Constants {
             //Definition of the None join behavior
             fact
             {
-            all s: State, s': s.next\s
+            all s: State, s_prime: s.next\s
             {
-            all x: s'.token\s
+            all x: s_prime.token\s
             {
             x.join = "None" => 		(
             (flowsInto.nextTask.x in s.token || x in s.token) &&
@@ -265,9 +265,9 @@ public class Constants {
             // Definition of the And join behavior
             fact
             {
-            all s: State, s': s.next\s
+            all s: State, s_prime: s.next\s
             {
-            all x: s'.token\s
+            all x: s_prime.token\s
             {
             x.join = "And" => 	x.status = "Activated" && (
             (all y: flowsInto.nextTask.x | y in s.token || x in s.token) &&
@@ -278,8 +278,8 @@ public class Constants {
             }
             // Definition of the Xor join gateway behavior
             fact{
-            	all s: State, s': s.next{
-            		all x: s'.token{
+            	all s: State, s_prime: s.next{
+            		all x: s_prime.token{
             			x.join = "Xor" => x.status = "Activated" && ((one y: flowsInto.nextTask.x | y in s.token || x in s.token) &&\s
             						 !(one y: flowsInto.nextTask.x | y in s.token && x in s.token))
             		}
@@ -288,8 +288,8 @@ public class Constants {
                         
             // Definition of the Or join gateway behavior
             fact{
-            	all s: State, s': s.next{
-            		all x: s'.token{
+            	all s: State, s_prime: s.next{
+            		all x: s_prime.token{
             			x.join = "Or" =>((some y: flowsInto.nextTask.x | y in s.token || x in s.token) &&\s
             						 !(some y: flowsInto.nextTask.x | y in s.token && x in s.token))
             		}
@@ -297,8 +297,8 @@ public class Constants {
             }
                         
             fact{
-            	all s: State, s': s.next{
-            		all x: s'.token{
+            	all s: State, s_prime: s.next{
+            		all x: s_prime.token{
             			x.join = "Or" => x.status = "Activated" && all y: flowsInto.nextTask.x | y.status != "N/A"
             		}
             	}
@@ -327,8 +327,8 @@ public class Constants {
             // To prevent state token jump forward or backward
             fact
             {
-            all s: State, s': s.next | all t': Object1 | t' in s'.token =>
-             some t: Object1 | t in s.token && (t' = t || t in flowsInto.nextTask.t')
+            all s: State, s_prime: s.next | all t_prime: Object1 | t_prime in s_prime.token =>
+             some t: Object1 | t in s.token && (t_prime = t || t in flowsInto.nextTask.t_prime)
             }
                         
             """;
