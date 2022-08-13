@@ -54,6 +54,9 @@ public abstract class TaskDescriptor {
     }
 
     protected boolean isTaskOutputCondition(YExternalNetElement outputTask) {
-        return outputTask.getName().equals("outputCondition");
+        if (outputTask.getID() != null){
+            return outputTask.getID().equals("outputCondition");
+        }
+        return false;
     }
 }

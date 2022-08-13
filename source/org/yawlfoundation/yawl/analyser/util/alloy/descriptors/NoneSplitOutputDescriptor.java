@@ -4,7 +4,6 @@ import org.yawlfoundation.yawl.elements.YExternalNetElement;
 import org.yawlfoundation.yawl.elements.YTask;
 
 import java.util.List;
-import java.util.Set;
 
 public class NoneSplitOutputDescriptor extends OutputDescriptor {
     public NoneSplitOutputDescriptor(YTask taskNode, List<String> variables) {
@@ -27,22 +26,16 @@ public class NoneSplitOutputDescriptor extends OutputDescriptor {
     }
 
     private void addOutputOfRegularTask(YTask outputTask) {
-        this.strBuilder.append(String.format("""
-                fact
-                {
-                all t: task | t.label = "%s" => {
-                one t1: task | t1 = t.flowsInto.nextTask &&\st1%s
-                }
-                }""", this.taskNode.getName(), this.getOutputTaskDescription((YTask) this.taskNode.getPostsetFlows().toArray()[0])));
+        this.strBuilder.append(String.format("\nfact " +
+                "{\nall t: task | t.label = \"%s\" => {" +
+                "\none t1: task | t1 = t.flowsInto.nextTask && t1%s" +
+                "}" +
+                "}", this.taskNode.getName(), this.getOutputTaskDescription((YTask) this.taskNode.getPostsetFlows().toArray()[0])));
     }
 
     private void addOutputOfInputCondition(YTask outputTask) {
-        this.strBuilder.append(String.format("""
-                fact
-                {
-                    one t1: task | t1 = %s.flowsInto.nextTask &&
-                        t1%s
-                }""", this.taskNode.getName(), this.getOutputTaskDescription((YTask) this.taskNode.getPostsetFlows().toArray()[0])));
+        this.strBuilder.append(String.format("fact\n{one t1: task | t1 = %s.flowsInto.nextTask && t1%s}",
+                this.taskNode.getName(), this.getOutputTaskDescription((YTask) this.taskNode.getPostsetFlows().toArray()[0])));
     }
 
     protected String getOutputTaskDescription(YTask outputTask) {

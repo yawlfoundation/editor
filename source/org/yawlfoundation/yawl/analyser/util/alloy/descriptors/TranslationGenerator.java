@@ -1,5 +1,6 @@
 package org.yawlfoundation.yawl.analyser.util.alloy.descriptors;
 
+import org.yawlfoundation.yawl.analyser.util.alloy.Constants;
 import org.yawlfoundation.yawl.analyser.util.alloy.utils.DescriptionUtil;
 import org.yawlfoundation.yawl.analyser.util.alloy.utils.GatewayType;
 import org.yawlfoundation.yawl.elements.YNet;
@@ -19,10 +20,11 @@ public class TranslationGenerator {
     public String generate() {
         StringBuilder translationBuilder = new StringBuilder();
         translationBuilder.append(this._generateStateSignature());
+        translationBuilder.append(Constants.staticAlloyDefinitions);
         for (int i = 0; i < this._workFlow.getNetTasks().size(); i++) {
             YTask currentTask = this._workFlow.getNetTasks().get(i);
-            translationBuilder.append(inputDescriptorFactory(currentTask));
-            translationBuilder.append(outputDescriptorFactory(currentTask));
+            translationBuilder.append(inputDescriptorFactory(currentTask).getInputDescription());
+            translationBuilder.append(outputDescriptorFactory(currentTask).getOutputDescription());
         }
         translationBuilder.append(DescriptionUtil.getShowPredPart(this._workFlow.getNetTasks().size(), this._getPredicateCount()));
         return translationBuilder.toString();

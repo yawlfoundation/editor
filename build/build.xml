@@ -153,13 +153,13 @@
         This custom task writes checksum data for all files in a release build,
         from where it is used for auto updating
     -->
-    <taskdef name="checkSums"
-             classname="org.yawlfoundation.yawl.util.CheckSumTask">
-        <classpath>
-            <pathelement path="${classes.dir}"/>
-            <pathelement path="${engine.lib.jar.path}"/>
-        </classpath>
-    </taskdef>
+<!--    <taskdef name="checkSums"-->
+<!--             classname="org.yawlfoundation.yawl.editor.ui.util.CheckSumTask">-->
+<!--        <classpath>-->
+<!--            <pathelement path="${classes.dir}"/>-->
+<!--            <pathelement path="${engine.lib.jar.path}"/>-->
+<!--        </classpath>-->
+<!--    </taskdef>-->
 
     <scriptdef name="adjust.build.version" language="javascript">
         <attribute name="last.build.version" />
