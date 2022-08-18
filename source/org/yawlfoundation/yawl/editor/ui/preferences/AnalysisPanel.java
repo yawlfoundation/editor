@@ -38,6 +38,8 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
     private JCheckBox relaxedSoundnessCheckBox;
     private JCheckBox transitionInvariantCheckBox;
     private JCheckBox extendedCoverabilityCheckBox;
+    
+    private JCheckBox alloyAnalysisCheckbox;
 
     private JCheckBox resetNetAnalysisCheckBox;
     private JCheckBox weakSoundnessCheckBox;
@@ -104,6 +106,8 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
         content.add(getShowObservationsCheckBox(listener));
         content.add(getKeepOpenCheckBox(listener));
         content.add(getMaxMarkingsField());
+        
+        content.add(getAlloyAnalysisCheckBox(listener));
 
         content.add(getWofYawlAnalysisCheckBox(listener));
         content.add(getRelaxedSoundnessCheckBox(listener));
@@ -112,6 +116,22 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
 
         return content;
     }
+
+    private JCheckBox getAlloyAnalysisCheckBox(ActionListener listener) {
+        alloyAnalysisCheckbox = makeCheckBox("Use Alloy analysis",
+                KeyEvent.VK_Z, UserSettings.getResetNetAnalysis(), false, listener);
+        alloyAnalysisCheckbox.setBorder(new EmptyBorder(25, 0, 5, 0));
+        alloyAnalysisCheckbox.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent event) {
+                        // TODO
+                        return;
+                    }
+                }
+        );
+        return alloyAnalysisCheckbox;
+    }
+
 
     private JCheckBox getResetNetAnalysisCheckBox(ActionListener listener) {
         resetNetAnalysisCheckBox = makeCheckBox("Use the reset net analysis algorithm",
