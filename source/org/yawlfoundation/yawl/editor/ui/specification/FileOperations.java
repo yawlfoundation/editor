@@ -75,7 +75,9 @@ public class FileOperations {
             }
             case ConvertToAlloy: {
                 YNet rootNet = new SpecificationWriter().cleanSpecification().getRootNet();
-                System.out.println(new AlloyAnalyzer().analyzeWithAlloy(rootNet));
+                String code = new AlloyAnalyzer().analyzeWithAlloy(rootNet);
+                System.out.println(code);
+                YAWLEditor.getInstance().showAlloyCode(code);
                 break;
             }
             case Validate: {
