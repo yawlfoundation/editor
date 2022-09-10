@@ -77,6 +77,7 @@ public class ToolBarMenu extends YToolBar {
         addSeparator();
         add(new YAWLToolBarButton(new ValidateSpecificationAction()));
         add(new YAWLToolBarButton(new AnalyseSpecificationAction()));
+        add(new YAWLToolBarButton(new ConvertToAlloyAction()));
 
         addSeparator();
         add(new YAWLToolBarButton(new CreateNetAction()));

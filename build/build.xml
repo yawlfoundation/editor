@@ -153,13 +153,13 @@
         This custom task writes checksum data for all files in a release build,
         from where it is used for auto updating
     -->
-    <taskdef name="checkSums"
-             classname="org.yawlfoundation.yawl.editor.ui.util.CheckSumTask">
-        <classpath>
-            <pathelement path="${classes.dir}"/>
-            <pathelement path="${engine.lib.jar.path}"/>
-        </classpath>
-    </taskdef>
+<!--    <taskdef name="checkSums"-->
+<!--             classname="org.yawlfoundation.yawl.editor.ui.util.CheckSumTask">-->
+<!--        <classpath>-->
+<!--            <pathelement path="${classes.dir}"/>-->
+<!--            <pathelement path="${engine.lib.jar.path}"/>-->
+<!--        </classpath>-->
+<!--    </taskdef>-->
 
     <scriptdef name="adjust.build.version" language="javascript">
         <attribute name="last.build.version" />
@@ -202,8 +202,8 @@
         </copy>
         <copy file="${build.dir}/log4j2.xml" toDir="${output.dir}/lib/"/>
 
-        <adjust.build.version last.build.version="${build.number}"
-                              property="this.build.number"/>
+<!--        <adjust.build.version last.build.version="${build.number}"-->
+<!--                              property="this.build.number"/>-->
 
         <property name="manifestFile" value="${root.class.name}.mf" />
     	<manifestclasspath property="manifest.cp"

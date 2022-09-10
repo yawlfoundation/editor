@@ -223,6 +223,12 @@ public class YAWLEditor extends JFrame implements FileStateListener {
         bottomPanel.setProblemList(title, problemList);
         splitPane.setDividerLocation(0.8);
     }
+    
+    public void showAlloyCode(String code) {
+        bottomPanel.setAlloyCode(code);
+        bottomPanel.selectAlloyTab();
+        splitPane.setDividerLocation(0.8);
+    }
 
     public void specificationFileStateChange(FileState state) {
         switch (state) {

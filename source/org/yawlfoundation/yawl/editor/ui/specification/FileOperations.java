@@ -18,7 +18,9 @@
 
 package org.yawlfoundation.yawl.editor.ui.specification;
 
+import org.yawlfoundation.yawl.analyser.util.alloy.AlloyAnalyzer;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
+import org.yawlfoundation.yawl.editor.ui.specification.io.SpecificationWriter;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.FileState;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.FileStateListener;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.Publisher;
@@ -26,6 +28,7 @@ import org.yawlfoundation.yawl.editor.ui.specification.validation.AnalysisResult
 import org.yawlfoundation.yawl.editor.ui.specification.validation.SpecificationValidator;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.ValidationResultsParser;
 import org.yawlfoundation.yawl.editor.ui.util.CursorUtil;
+import org.yawlfoundation.yawl.elements.YNet;
 
 /**
  * @author Michael Adams
@@ -33,12 +36,14 @@ import org.yawlfoundation.yawl.editor.ui.util.CursorUtil;
  */
 public class FileOperations {
 
-    private enum Action { Open, OpenFile, Validate, Analyse, Save, SaveAs, Close, Exit }
+    private enum Action { Open, OpenFile, Validate, Analyse, ConvertToAlloy, Save, SaveAs, Close, Exit }
 
 
     public static void open()  { processAction(Action.Open); }
 
     public static void open(String fileName)  { processAction(Action.OpenFile, fileName); }
+
+    public static void convertToAlloy() {processAction(Action.ConvertToAlloy);}
 
     public static void validate()  { processAction(Action.Validate); }
 
@@ -66,6 +71,13 @@ public class FileOperations {
             }
             case OpenFile: {
                 handler.openFile(args[0]);
+                break;
+            }
+            case ConvertToAlloy: {
+                YNet rootNet = new SpecificationWriter().cleanSpecification().getRootNet();
+                String code = new AlloyAnalyzer().analyzeWithAlloy(rootNet);
+                System.out.println(code);
+                YAWLEditor.getInstance().showAlloyCode(code);
                 break;
             }
             case Validate: {

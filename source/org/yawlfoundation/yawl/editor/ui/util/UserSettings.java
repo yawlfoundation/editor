@@ -62,6 +62,7 @@ public class UserSettings {
     private static final String USE_YAWL_REDUCTION_RULES = "yawlReductionRules";
     private static final String USE_RESET_REDUCTION_RULES = "resetReductionRules";
     private static final String OR_JOIN_CYCLE_ANALYSIS = "resetOrjoinCycleCheck";
+    private static final String ALLOY_ANALYSIS = "alloyAnalysis";
     private static final String WOFYAWL_ANALYSIS = "wofYawlAnalysisCheck";
     private static final String STRUCTURAL_ANALYSIS = "wofYawlStructuralAnalysisCheck";
     private static final String BEHAVIOURAL_ANALYSIS = "wofYawlBehaviouralAnalysisCheck";
@@ -244,6 +245,10 @@ public class UserSettings {
 
     public static boolean getResetNetAnalysis() {
         return getBoolean(RESET_NET_ANALYSIS);
+    }
+    
+    public static boolean getAlloyAnalysis() {
+        return getBoolean(ALLOY_ANALYSIS);
     }
 
     public static void setSoundnessAnalysis(boolean soundness) {
