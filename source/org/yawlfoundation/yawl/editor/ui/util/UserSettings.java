@@ -69,6 +69,7 @@ public class UserSettings {
     private static final String EXTENDED_COVERABILITY = "wofYawlExtendedCoverabilityCheck";
     private static final String KEEP_ANALYSIS_DIALOG_OPEN = "keepAnalysisDialogOpenWhenDone";
     private static final String ANALYSER_MAX_MARKINGS = "analyserMaxMarkings";
+    private static final String ALLOY_OR_JOIN_CYCLE_ANALYSIS = "alloyOrjoinCycleCheck";
     private static final int DEFAULT_ANALYSER_MAX_MARKINGS = 1000;
 
     // engine & resource service settings
@@ -246,7 +247,10 @@ public class UserSettings {
     public static boolean getResetNetAnalysis() {
         return getBoolean(RESET_NET_ANALYSIS);
     }
-    
+
+    public static void setAlloyAnalysis(boolean alloy) {
+        setBoolean(ALLOY_ANALYSIS, alloy);
+    }
     public static boolean getAlloyAnalysis() {
         return getBoolean(ALLOY_ANALYSIS);
     }
@@ -359,6 +363,13 @@ public class UserSettings {
         _prefs.putInt(ANALYSER_MAX_MARKINGS, maxMarkings);
     }
 
+    public static void setAlloyOrJoinCycleAnalysis(boolean cycle) {
+        setBoolean(ALLOY_OR_JOIN_CYCLE_ANALYSIS, cycle);
+    }
+
+    public static boolean getAlloyOrJoinCycleAnalysis() {
+        return getBoolean(ALLOY_OR_JOIN_CYCLE_ANALYSIS);
+    }
     public static int getAnalyserMaxMarkings() {
         return _prefs.getInt(ANALYSER_MAX_MARKINGS, DEFAULT_ANALYSER_MAX_MARKINGS);
     }

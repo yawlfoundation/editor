@@ -48,7 +48,7 @@ public abstract class TaskDescriptor {
     }
 
     protected String getParsedPredicate(String predicate) {
-        if (predicate != null && !predicate.equals(""))
+        if (predicate != null && !predicate.equals("") && !predicate.equals("true()") && !predicate.equals("false()"))
             return String.format("&& %s", this._predicateParser.parse(predicate, this.variables));
         return "";
     }

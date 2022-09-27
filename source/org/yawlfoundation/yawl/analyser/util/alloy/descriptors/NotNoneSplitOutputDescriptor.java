@@ -1,5 +1,6 @@
 package org.yawlfoundation.yawl.analyser.util.alloy.descriptors;
 
+import org.apache.jena.base.Sys;
 import org.yawlfoundation.yawl.elements.YExternalNetElement;
 import org.yawlfoundation.yawl.elements.YFlow;
 import org.yawlfoundation.yawl.elements.YTask;
@@ -27,12 +28,11 @@ public class NotNoneSplitOutputDescriptor extends OutputDescriptor {
         for (int i = 0; i < outputFlows.size(); i++) {
             String nextTaskTitle = outputFlows.get(i).getNextElement().getName();
             String originalPredicate = outputFlows.get(i).getXpathPredicate();
-            predicateDescriptions[i] = String.format("fact all s: State | all t: task | t.label = \"%s\" && \n" +
-                            "\tt in s.token %s =>\t\t { one f:t.flowsInto | f.predicate.value = 1 && f.nextTask.label = \"%s\"}" +
-                            "}" +
-                            "\n fact{\n\tall s: State, s': s.next | all t: task, t':task | " +
-                            "t in s.token && t.label = \"%s\" && t' in s'.token && t'.label = \"%s\"" +
-                            "=> { one f: t.flowsInto | f.nextTask.label = \"%s\" && f.predicate.value = 1 %s}}",
+            predicateDescriptions[i] = String.format("""
+                            fact {all s: State | all t: task | t.label = "%s" &&\s
+                            \tt in s.token %s =>\t\t { one f:t.flowsInto | f.predicate.value = 1 && f.nextTask.label = "%s"}}
+                             fact{
+                            \tall s: State, s': s.next | all t: task, t':task | t in s.token && t.label = "%s" && t' in s'.token && t'.label = "%s"=> { one f: t.flowsInto | f.nextTask.label = "%s" && f.predicate.value = 1 %s}}""",
                     currentTaskTitle, getParsedPredicate(originalPredicate), nextTaskTitle, currentTaskTitle,
                     nextTaskTitle, nextTaskTitle, getParsedPredicate(originalPredicate));
         }
@@ -40,8 +40,13 @@ public class NotNoneSplitOutputDescriptor extends OutputDescriptor {
     }
 
     private String getTotalOutputTasksRelatedDescription() {
-        return String.format("\nfact{\nall t: task | t.label = \"%s\" => {" +
-                         "one %s: task | %s && \nall t%d: task | t%d in t.flowsInto.nextTask => %s}",
+        return String.format("""
+
+                        fact{
+                        all t: task | t.label = "%s" => {one %s: task | %s &&
+                        all t%d: task | t%d in t.flowsInto.nextTask => %s}
+                        }
+                        """,
                 this.taskNode.getName(), getOutputVariables(), getOutputTasksDescriptions(),
                 this.taskNode.getPostsetFlows().size(), this.taskNode.getPostsetFlows().size(),
                 getUtilityTaskDescription());
@@ -50,9 +55,8 @@ public class NotNoneSplitOutputDescriptor extends OutputDescriptor {
     protected String getOutputTasksDescriptions() {
         String[] outputDescriptions = new String[this.taskNode.getPostsetFlows().size()];
         for (int idx = 0; idx < this.taskNode.getPostsetFlows().size(); idx++) {
-            outputDescriptions[idx] = String.format("t%d in t.flowsInto.nextTask && t%s", idx,
+            outputDescriptions[idx] = String.format("t%d in t.flowsInto.nextTask && %s", idx,
                     _getOutputTaskDescription(idx));
-            idx++;
         }
         return String.join(" && \n", outputDescriptions);
     }
@@ -60,11 +64,11 @@ public class NotNoneSplitOutputDescriptor extends OutputDescriptor {
     private String _getOutputTaskDescription(int idx) {
         ArrayList<YFlow> outputFlows = new ArrayList<YFlow>(this.taskNode.getPostsetFlows());
         YExternalNetElement outputTask = outputFlows.get(idx).getNextElement();
-        if (isTaskOutputCondition(outputTask))
+        if (isTaskOutputCondition(outputTask)){
             return String.format("t%d = %s", idx, outputTask.getName());
-        String output = String.format("t%d.label = \"%s\"", idx, outputTask.getName());
-        if (outputTask instanceof YTask) {
-            YTask outputYTask = (YTask)outputTask;
+        }
+        String output = String.format("t%d.label = \"%s\"\n", idx, outputTask.getName());
+        if (outputTask instanceof YTask outputYTask) {
             output += String.format(" && t%d.split = \"%s\" && t%d.join = \"%s\"", outputYTask.getSplitType(),
                     idx, outputYTask.getJoinType(), idx);
         }

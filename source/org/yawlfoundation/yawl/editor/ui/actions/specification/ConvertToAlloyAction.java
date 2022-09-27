@@ -31,10 +31,8 @@ public class ConvertToAlloyAction extends YAWLOpenSpecificationAction
   {
     putValue(Action.SHORT_DESCRIPTION, getDisabledTooltipText());
     putValue(Action.NAME, "Convert to Alloy");
+    putValue(Action.SMALL_ICON, getMenuIcon("alloy"));
     putValue(Action.LONG_DESCRIPTION, "Convert rootNet of this specification to Alloy.");
-    putValue(Action.SMALL_ICON, getMenuIcon("Convert to Alloy"));
-//    putValue(Action.MNEMONIC_KEY, new Integer(java.awt.event.KeyEvent.VK_Y));
-//    putValue(Action.ACCELERATOR_KEY, MenuUtilities.getAcceleratorKeyStroke("shift A"));
   }
   
   public void actionPerformed(ActionEvent event) {

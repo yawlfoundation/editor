@@ -31,6 +31,7 @@
         <file name="lib/log4j-core-2.17.1.jar" path="C"/>
         <file name="lib/log4j-slf4j-impl-2.17.1.jar" path="C"/>
         <file name="lib/macify-1.4.jar" path="A"/>
+        <file name="lib/alloy4.2_2015-02-22.jar" path="A"/>
         <file name="lib/saxon9-dom.jar" path="C"/>
         <file name="lib/saxon9-s9api.jar" path="C"/>
         <file name="lib/saxon9.jar" path="C"/>

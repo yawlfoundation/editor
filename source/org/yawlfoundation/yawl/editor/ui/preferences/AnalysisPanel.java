@@ -51,6 +51,7 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
     private JCheckBox useYAWLReductionRulesCheckBox;
     private JCheckBox useResetReductionRulesCheckBox;
     private JCheckBox keepOpenCheckBox;
+    private JCheckBox alloyOrJoinCycleCheckBox;
     private JFormattedTextField maxMarkingsField;
 
     public AnalysisPanel(ActionListener actionListener, CaretListener caretListener) {
@@ -79,6 +80,8 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
         UserSettings.setShowObservations(showObservationsCheckBox.isSelected());
         UserSettings.setUseYawlReductionRules(useYAWLReductionRulesCheckBox.isSelected());
         UserSettings.setUseResetReductionRules(useResetReductionRulesCheckBox.isSelected());
+        UserSettings.setAlloyAnalysis(alloyAnalysisCheckbox.isSelected());
+        UserSettings.setAlloyOrJoinCycleAnalysis(alloyOrJoinCycleCheckBox.isSelected());
         UserSettings.setKeepAnalysisDialogOpen(keepOpenCheckBox.isSelected());
         UserSettings.setAnalyserMaxMarkings(
                 StringUtil.strToInt(maxMarkingsField.getText(),
@@ -108,6 +111,7 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
         content.add(getMaxMarkingsField());
         
         content.add(getAlloyAnalysisCheckBox(listener));
+        content.add(getAlloyOrJoinCycleCheckBox(listener));
 
         content.add(getWofYawlAnalysisCheckBox(listener));
         content.add(getRelaxedSoundnessCheckBox(listener));
@@ -115,21 +119,6 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
         content.add(getExtendedCoverabilityCheckBox(listener));
 
         return content;
-    }
-
-    private JCheckBox getAlloyAnalysisCheckBox(ActionListener listener) {
-        alloyAnalysisCheckbox = makeCheckBox("Use Alloy analysis",
-                KeyEvent.VK_Z, UserSettings.getResetNetAnalysis(), false, listener);
-        alloyAnalysisCheckbox.setBorder(new EmptyBorder(25, 0, 5, 0));
-        alloyAnalysisCheckbox.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent event) {
-                        // TODO
-                        return;
-                    }
-                }
-        );
-        return alloyAnalysisCheckbox;
     }
 
 
@@ -155,6 +144,10 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
             showObservationsCheckBox.setEnabled(enable);
             useYAWLReductionRulesCheckBox.setEnabled(enable);
             useResetReductionRulesCheckBox.setEnabled(enable);
+    }
+
+    private void enableAlloyCheckBoxes(boolean enable) {
+        alloyOrJoinCycleCheckBox.setEnabled(enable);
     }
 
     private JCheckBox getWeakSoundnessCheckBox(ActionListener listener) {
@@ -262,6 +255,27 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
                 "Extend coverability graph of an unbounded analysis net (slow)",
                 KeyEvent.VK_E, UserSettings.getExtendedCoverability(), true, listener);
         return extendedCoverabilityCheckBox;
+    }
+
+    private JCheckBox getAlloyAnalysisCheckBox(ActionListener listener) {
+        alloyAnalysisCheckbox = makeCheckBox("Use Alloy analysis",
+                KeyEvent.VK_Z, UserSettings.getResetNetAnalysis(), false, listener);
+        alloyAnalysisCheckbox.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent event) {
+                        enableAlloyCheckBoxes(alloyAnalysisCheckbox.isSelected());
+                    }
+                }
+        );
+        alloyAnalysisCheckbox.setBorder(new EmptyBorder(25, 0, 5, 0));
+        return alloyAnalysisCheckbox;
+    }
+
+    private JCheckBox getAlloyOrJoinCycleCheckBox(ActionListener listener) {
+        alloyOrJoinCycleCheckBox = makeCheckBox(
+                "Check or-join in cycle with ALLOY analysis",
+                KeyEvent.VK_E, UserSettings.getAlloyOrJoinCycleAnalysis(), true, listener);
+        return alloyOrJoinCycleCheckBox;
     }
 
 

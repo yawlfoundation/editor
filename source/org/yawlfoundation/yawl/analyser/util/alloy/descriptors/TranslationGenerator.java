@@ -19,6 +19,7 @@ public class TranslationGenerator {
 
     public String generate() {
         StringBuilder translationBuilder = new StringBuilder();
+        translationBuilder.append(this._generate_open_order());
         translationBuilder.append(this._generateStateSignature());
         translationBuilder.append(Constants.staticAlloyDefinitions);
         for (int i = 0; i < this._workFlow.getNetTasks().size(); i++) {
@@ -28,6 +29,13 @@ public class TranslationGenerator {
         }
         translationBuilder.append(DescriptionUtil.getShowPredPart(this._workFlow.getNetTasks().size(), this._getPredicateCount()));
         return translationBuilder.toString();
+    }
+
+    private String _generate_open_order() {
+        return """
+                /* Impose an ordering on the State. */
+            open util/ordering[State]
+            """;
     }
 
     private String _generateStateSignature() {

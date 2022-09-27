@@ -38,7 +38,8 @@ public class ValidationResultsParser {
 
         List<ValidationMessage> messageList = new ArrayList<ValidationMessage>();
         for (String message : messages) {
-             messageList.add(parse(message));
+            System.out.println(message);
+            messageList.add(parse(message));
         }
         Collections.sort(messageList);
         return messageList;
