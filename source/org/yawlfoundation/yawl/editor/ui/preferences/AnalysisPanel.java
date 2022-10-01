@@ -52,6 +52,7 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
     private JCheckBox useResetReductionRulesCheckBox;
     private JCheckBox keepOpenCheckBox;
     private JCheckBox alloyOrJoinCycleCheckBox;
+    private JCheckBox alloyAreAllTasksReachableCheckBox;
     private JFormattedTextField maxMarkingsField;
 
     public AnalysisPanel(ActionListener actionListener, CaretListener caretListener) {
@@ -82,6 +83,7 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
         UserSettings.setUseResetReductionRules(useResetReductionRulesCheckBox.isSelected());
         UserSettings.setAlloyAnalysis(alloyAnalysisCheckbox.isSelected());
         UserSettings.setAlloyOrJoinCycleAnalysis(alloyOrJoinCycleCheckBox.isSelected());
+        UserSettings.setAlloyAreAllTasksReachableAnalysis(alloyAreAllTasksReachableCheckBox.isSelected());
         UserSettings.setKeepAnalysisDialogOpen(keepOpenCheckBox.isSelected());
         UserSettings.setAnalyserMaxMarkings(
                 StringUtil.strToInt(maxMarkingsField.getText(),
@@ -112,6 +114,7 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
         
         content.add(getAlloyAnalysisCheckBox(listener));
         content.add(getAlloyOrJoinCycleCheckBox(listener));
+        content.add(getAlloyAreAllTasksReachableCheckBox(listener));
 
         content.add(getWofYawlAnalysisCheckBox(listener));
         content.add(getRelaxedSoundnessCheckBox(listener));
@@ -148,6 +151,7 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
 
     private void enableAlloyCheckBoxes(boolean enable) {
         alloyOrJoinCycleCheckBox.setEnabled(enable);
+        alloyAreAllTasksReachableCheckBox.setEnabled(enable);
     }
 
     private JCheckBox getWeakSoundnessCheckBox(ActionListener listener) {
@@ -276,6 +280,13 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
                 "Check or-join in cycle with ALLOY analysis",
                 KeyEvent.VK_E, UserSettings.getAlloyOrJoinCycleAnalysis(), true, listener);
         return alloyOrJoinCycleCheckBox;
+    }
+
+    private JCheckBox getAlloyAreAllTasksReachableCheckBox(ActionListener listener) {
+        alloyAreAllTasksReachableCheckBox = makeCheckBox(
+                "Check are all tasks reachable with ALLOY analysis",
+                KeyEvent.VK_S, UserSettings.getAlloyAreAllTasksReachableAnalysis(), true, listener);
+        return alloyAreAllTasksReachableCheckBox;
     }
 
 

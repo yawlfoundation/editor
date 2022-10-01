@@ -69,8 +69,9 @@ public class NotNoneSplitOutputDescriptor extends OutputDescriptor {
         }
         String output = String.format("t%d.label = \"%s\"\n", idx, outputTask.getName());
         if (outputTask instanceof YTask outputYTask) {
-            output += String.format(" && t%d.split = \"%s\" && t%d.join = \"%s\"", outputYTask.getSplitType(),
-                    idx, outputYTask.getJoinType(), idx);
+            output += String.format(" && t%s.split = \"%s\" && t%s.join = \"%s\"",
+                    this.getSplitGatewayTypeString(outputYTask), idx,
+                    this.getJoinGatewayTypeString(outputYTask), idx);
         }
         if (outputTask.getCancelledBySet().size() > 0) {
             output = output + this._getCancellationRegionDescription(outputTask, String.format("t%d", idx));

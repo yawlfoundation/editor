@@ -1,5 +1,6 @@
 package org.yawlfoundation.yawl.analyser.util;
 
+import org.apache.jena.base.Sys;
 import org.yawlfoundation.yawl.analyser.YAnalyserEvent;
 import org.yawlfoundation.yawl.analyser.YAnalyserEventListener;
 import org.yawlfoundation.yawl.analyser.YAnalyserEventType;
@@ -37,7 +38,12 @@ public class YAWLAlloyAnalyser {
             if (decomposition instanceof YNet yNet) {
                 if (options.isAlloyOrJoinCycle()) {
                     String result = checkOrJoinCycles(yNet);
-                    System.out.println(result);
+//                    System.out.println(result);
+                    msgBuffer.append(result);
+                }
+                if (options.areAlloyAllTasksReachable()){
+                    String result = areAllTasksReachable(yNet);
+//                    System.out.println(result);
                     msgBuffer.append(result);
                 }
             }
@@ -64,6 +70,14 @@ public class YAWLAlloyAnalyser {
     private String checkOrJoinCycles(YNet yNet) {
         try {
             return new AlloyValidator(yNet).checkOrJoinInLoop();
+        } catch (Exception e) {
+            return formatXMLMessage(e.getMessage(), false);
+        }
+    }
+
+    private String areAllTasksReachable(YNet yNet) {
+        try {
+            return new AlloyValidator(yNet).areAllTasksReachable();
         } catch (Exception e) {
             return formatXMLMessage(e.getMessage(), false);
         }

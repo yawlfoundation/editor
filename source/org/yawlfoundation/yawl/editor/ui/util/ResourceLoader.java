@@ -72,13 +72,11 @@ public class ResourceLoader {
 
     private static ImageIcon getImageAsIcon(String imageFile) {
         try {
-            System.out.println(imageFile);
             InputStream in = ResourceLoader.class.getResourceAsStream(imageFile);
             final byte[] imageByteBuffer = convertToByteArray(in);
             in.close();
             return new ImageIcon(imageByteBuffer);
         } catch (Exception e) {
-            System.out.println(e);
             LogManager.getLogger(ResourceLoader.class)
                     .warn("Unable to load icon from file: " + imageFile + ": " +
                     e.getMessage());

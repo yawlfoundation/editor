@@ -18,8 +18,6 @@
 
 package org.yawlfoundation.yawl.analyser;
 
-import org.apache.jena.base.Sys;
-
 /**
  * @author Michael Adams
  * @date 11/05/12
@@ -40,6 +38,7 @@ public class YAnalyserOptions {
     private boolean yawlReductionRules;
     private boolean resetShowObservations;
     private boolean alloyOrJoinCycle;
+    private boolean alloyAllTasksReachable;
 
 
     public static YAnalyserOptions newAllDisabledOptions() {
@@ -190,15 +189,23 @@ public class YAnalyserOptions {
     }
 
     public boolean isAlloyAnalysis() {
-        return isAlloyOrJoinCycle();
+        return isAlloyOrJoinCycle() || areAlloyAllTasksReachable();
     }
 
     public boolean isAlloyOrJoinCycle() {
         return alloyOrJoinCycle;
     }
 
+    public boolean areAlloyAllTasksReachable() {
+        return alloyAllTasksReachable;
+    }
+
     public void enableAlloyOrJoinCycle(boolean enable) {
         alloyOrJoinCycle = enable;
+    }
+
+    public void enableAlloyAllTasksReachable(boolean enable) {
+        alloyAllTasksReachable = enable;
     }
 
 }

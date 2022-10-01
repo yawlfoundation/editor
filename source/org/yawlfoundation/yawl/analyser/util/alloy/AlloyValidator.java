@@ -41,6 +41,34 @@ public class AlloyValidator {
         }
         return msg;
     }
+    public String areAllTasksReachable() throws Exception {
+        System.out.println("check whether all tasks are reachable or not!");
+        String alloySpecification = this.alloyGenerator.generate();
+        String msg = checkAreAllTasksReachable(alloySpecification);
+        if (msg.length() == 0) {
+            msg = formatXMLMessage("The net " + this._net.getID() +
+                    " has no OR-joins in a cycle.", true);
+        }
+        return msg;
+    }
+
+    private String checkAreAllTasksReachable(String alloySpecification) throws Exception {
+        StringBuilder resultBuilder = new StringBuilder();
+        for (YTask task : this._net.getNetTasks()) {
+            String specBuilder = alloySpecification + String.format("""
+                    assert is_any_state_task_is_token_in_it {
+                     	all t: task | t.label = "%s" => {
+                     		no s: State | t in s.token
+                     	}
+                     }
+                                    
+                    check is_any_state_task_is_token_in_it for %d
+                    """, task.getName(), this._net.getNetTasks().size());
+            resultBuilder.append(checkAlloySpec(specBuilder,
+                    String.format("Task %s is not reachable!", task.getName())));
+        }
+        return resultBuilder.toString();
+    }
 
     public String checkForCycles(String alloySpec) throws Exception {
         Set<YTask> ORJoins = getOrJoins();
@@ -53,12 +81,13 @@ public class AlloyValidator {
                                     
                     check no_or_join_in_loop for %d
                     """, task.getName(), this._net.getNetTasks().size());
-            resultBuilder.append(checkOrJoinForTask(specBuilder, task.getName()));
+            resultBuilder.append(checkAlloySpec(specBuilder,
+                    String.format("Task %s is an Or-Join and it is in loop!", task.getName())));
         }
         return resultBuilder.toString();
     }
 
-    private String checkOrJoinForTask(String alloySpec, String taskLabel) throws IOException, Err {
+    private String checkAlloySpec(String alloySpec, String warningStr) throws IOException, Err {
         String outputFilename = "E:/CE/Master/Thesis/saj76/YAWL_editor/output.xml";
         String outputFilename1 = "E:/CE/Master/Thesis/saj76/YAWL_editor/output1.xml";
         String tempFilename = "E:/CE/Master/Thesis/saj76/YAWL_editor/temp.als";
@@ -87,9 +116,9 @@ public class AlloyValidator {
                 }
                 return "";
             } catch (ErrorAPI e) {
-                return formatXMLMessage(String.format("Task %s is an Or-Join and it is in loop!", taskLabel), false);
+                return formatXMLMessage(warningStr, false);
             } catch (Exception e) {
-                return formatXMLMessage(String.format("Task %s is an Or-Join and it is in loop!", taskLabel), false);
+                return formatXMLMessage(warningStr, false);
             }
 
             // eval with existing A4Solution

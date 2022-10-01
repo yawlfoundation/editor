@@ -70,6 +70,7 @@ public class UserSettings {
     private static final String KEEP_ANALYSIS_DIALOG_OPEN = "keepAnalysisDialogOpenWhenDone";
     private static final String ANALYSER_MAX_MARKINGS = "analyserMaxMarkings";
     private static final String ALLOY_OR_JOIN_CYCLE_ANALYSIS = "alloyOrjoinCycleCheck";
+    private static final String ALLOY_ARE_ALL_TASKS_REACHABLE_ANALYSIS = "alloyIsAllTasksReachableCheck";
     private static final int DEFAULT_ANALYSER_MAX_MARKINGS = 1000;
 
     // engine & resource service settings
@@ -369,6 +370,14 @@ public class UserSettings {
 
     public static boolean getAlloyOrJoinCycleAnalysis() {
         return getBoolean(ALLOY_OR_JOIN_CYCLE_ANALYSIS);
+    }
+
+    public static void setAlloyAreAllTasksReachableAnalysis(boolean cycle) {
+        setBoolean(ALLOY_ARE_ALL_TASKS_REACHABLE_ANALYSIS, cycle);
+    }
+
+    public static boolean getAlloyAreAllTasksReachableAnalysis() {
+        return getBoolean(ALLOY_ARE_ALL_TASKS_REACHABLE_ANALYSIS);
     }
     public static int getAnalyserMaxMarkings() {
         return _prefs.getInt(ANALYSER_MAX_MARKINGS, DEFAULT_ANALYSER_MAX_MARKINGS);

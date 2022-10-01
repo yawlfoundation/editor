@@ -10,4 +10,8 @@ public abstract class InputDescriptor extends TaskDescriptor {
     }
 
     public abstract String getInputDescription();
+
+    public boolean isThisInputCondition(){
+        return false;
+    }
 }

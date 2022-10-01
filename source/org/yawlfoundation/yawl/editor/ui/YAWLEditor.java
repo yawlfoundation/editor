@@ -231,7 +231,7 @@ public class YAWLEditor extends JFrame implements FileStateListener {
     }
     
     public void showAlloyCode(String code) {
-        System.out.println(code);
+//        System.out.println(code);
         bottomPanel.setAlloyCode(code);
         bottomPanel.selectAlloyTab();
         splitPane.setDividerLocation(0.8);

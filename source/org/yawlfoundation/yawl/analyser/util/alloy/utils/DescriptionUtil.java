@@ -12,6 +12,7 @@ public class DescriptionUtil {
 
     public static String getShowPredPart(int objectCount, int predicateCount) {
         return String.format("""
+                
                 fact{#Boolean = %d}
                 fact{#Object1 = %d}
 
