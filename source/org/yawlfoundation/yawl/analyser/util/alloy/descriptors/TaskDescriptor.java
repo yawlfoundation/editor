@@ -2,7 +2,9 @@ package org.yawlfoundation.yawl.analyser.util.alloy.descriptors;
 
 import org.yawlfoundation.yawl.analyser.util.alloy.utils.DescriptionUtil;
 import org.yawlfoundation.yawl.analyser.util.alloy.utils.GatewayType;
+import org.yawlfoundation.yawl.editor.ui.elements.model.OutputCondition;
 import org.yawlfoundation.yawl.elements.YExternalNetElement;
+import org.yawlfoundation.yawl.elements.YOutputCondition;
 import org.yawlfoundation.yawl.elements.YTask;
 
 import java.util.List;
@@ -56,10 +58,7 @@ public abstract class TaskDescriptor {
     }
 
     protected boolean isTaskOutputCondition(YExternalNetElement outputTask) {
-        if (outputTask.getID() != null) {
-            return outputTask.getID().equals("outputCondition");
-        }
-        return false;
+        return outputTask instanceof YOutputCondition;
     }
 
     protected String getSplitGatewayTypeString(YExternalNetElement netElement) {

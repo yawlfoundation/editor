@@ -25,7 +25,6 @@ public class InputConditionOutputDescriptor {
     private String getOutputsOfInputConditionDescriptions() {
         ArrayList<String> descriptions = new ArrayList<>();
         for (YExternalNetElement outputElement : this.inputCondition.getPostsetElements()) {
-            System.out.println(outputElement.getName());
             descriptions.add(String.format("""
                     { one f:i.flowsInto | f.nextTask.label = "%s" && f.nextTask in s.next.token}
                     """, outputElement.getName()));

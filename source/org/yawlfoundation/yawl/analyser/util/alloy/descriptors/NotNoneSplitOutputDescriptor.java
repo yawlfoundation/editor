@@ -1,11 +1,13 @@
 package org.yawlfoundation.yawl.analyser.util.alloy.descriptors;
 
 import org.apache.jena.base.Sys;
+import org.yawlfoundation.yawl.elements.YCondition;
 import org.yawlfoundation.yawl.elements.YExternalNetElement;
 import org.yawlfoundation.yawl.elements.YFlow;
 import org.yawlfoundation.yawl.elements.YTask;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class NotNoneSplitOutputDescriptor extends OutputDescriptor {
@@ -24,10 +26,11 @@ public class NotNoneSplitOutputDescriptor extends OutputDescriptor {
     private String getPredicateConditionsDefinitions() {
         String[] predicateDescriptions = new String[this.taskNode.getPostsetFlows().size()];
         String currentTaskTitle = this.taskNode.getName();
-        ArrayList<YFlow> outputFlows = new ArrayList<YFlow>(this.taskNode.getPostsetFlows());
-        for (int i = 0; i < outputFlows.size(); i++) {
-            String nextTaskTitle = outputFlows.get(i).getNextElement().getName();
-            String originalPredicate = outputFlows.get(i).getXpathPredicate();
+        Iterator<YFlow> outputFlowsIterator = this.taskNode.getPostsetFlows().iterator();
+        for (int i = 0; i < this.taskNode.getPostsetFlows().size(); i++) {
+            YFlow currentFlow = outputFlowsIterator.next();
+            String nextTaskTitle = this._getOutputElementName(currentFlow.getNextElement());
+            String originalPredicate = currentFlow.getXpathPredicate();
             predicateDescriptions[i] = String.format("""
                             fact {all s: State | all t: task | t.label = "%s" &&\s
                             \tt in s.token %s =>\t\t { one f:t.flowsInto | f.predicate.value = 1 && f.nextTask.label = "%s"}}
@@ -39,11 +42,21 @@ public class NotNoneSplitOutputDescriptor extends OutputDescriptor {
         return String.join("\n", predicateDescriptions);
     }
 
+    private String _getOutputElementName(YExternalNetElement nextElement) {
+        if (this.isTaskOutputCondition(nextElement)){
+            return "output_condition";
+        }
+        else if (nextElement instanceof YCondition condition){
+            return condition.getPostsetElements().iterator().next().getName();
+        }
+        return nextElement.getName();
+    }
+
     private String getTotalOutputTasksRelatedDescription() {
         return String.format("""
 
                         fact{
-                        all t: task | t.label = "%s" => {one %s: task | %s &&
+                        all t: task | t.label = "%s" => {one %s: Object1 | %s &&
                         all t%d: task | t%d in t.flowsInto.nextTask => %s}
                         }
                         """,
@@ -54,25 +67,23 @@ public class NotNoneSplitOutputDescriptor extends OutputDescriptor {
 
     protected String getOutputTasksDescriptions() {
         String[] outputDescriptions = new String[this.taskNode.getPostsetFlows().size()];
-        for (int idx = 0; idx < this.taskNode.getPostsetFlows().size(); idx++) {
+        Iterator<YExternalNetElement> outputElementsIterator = this.taskNode.getPostsetElements().iterator();
+        for (int idx = 0; idx < this.taskNode.getPostsetElements().size(); idx++) {
             outputDescriptions[idx] = String.format("t%d in t.flowsInto.nextTask && %s", idx,
-                    _getOutputTaskDescription(idx));
+                    _getOutputTaskDescription(outputElementsIterator.next(), idx));
         }
         return String.join(" && \n", outputDescriptions);
     }
 
-    private String _getOutputTaskDescription(int idx) {
-        ArrayList<YFlow> outputFlows = new ArrayList<YFlow>(this.taskNode.getPostsetFlows());
-        YExternalNetElement outputTask = outputFlows.get(idx).getNextElement();
-        if (isTaskOutputCondition(outputTask)){
-            return String.format("t%d = %s", idx, outputTask.getName());
+    private String _getOutputTaskDescription(YExternalNetElement outputElement, int idx) {
+        if (isTaskOutputCondition(outputElement)){
+            return String.format("t%d = output_condition", idx);
         }
+        YTask outputTask = (YTask) outputElement.getPostsetElements().iterator().next();
         String output = String.format("t%d.label = \"%s\"\n", idx, outputTask.getName());
-        if (outputTask instanceof YTask outputYTask) {
-            output += String.format(" && t%s.split = \"%s\" && t%s.join = \"%s\"",
-                    this.getSplitGatewayTypeString(outputYTask), idx,
-                    this.getJoinGatewayTypeString(outputYTask), idx);
-        }
+        output += String.format(" && t%d.split = \"%s\" && t%d.join = \"%s\"",
+                idx, this.getSplitGatewayTypeString(outputTask),
+                idx, this.getJoinGatewayTypeString(outputTask));
         if (outputTask.getCancelledBySet().size() > 0) {
             output = output + this._getCancellationRegionDescription(outputTask, String.format("t%d", idx));
         }

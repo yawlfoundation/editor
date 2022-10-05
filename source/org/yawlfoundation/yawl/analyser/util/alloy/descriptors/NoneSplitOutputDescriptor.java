@@ -1,7 +1,8 @@
 package org.yawlfoundation.yawl.analyser.util.alloy.descriptors;
 
-import org.apache.jena.base.Sys;
-import org.yawlfoundation.yawl.elements.*;
+import org.yawlfoundation.yawl.elements.YExternalNetElement;
+import org.yawlfoundation.yawl.elements.YOutputCondition;
+import org.yawlfoundation.yawl.elements.YTask;
 
 import java.util.List;
 
