@@ -7,7 +7,7 @@ public class VariableDataTypeMapping {
     static {
         mapping = new HashMap<>();
         mapping.put("string", "String");
-        mapping.put("int", "Integer");
-        mapping.put("integer", "Integer");
+        mapping.put("int", "Int");
+        mapping.put("integer", "Int");
     }
 }

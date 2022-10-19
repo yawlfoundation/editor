@@ -77,15 +77,6 @@ public class Constants {
             \s
             \s
             \s
-             // task with And split have no predicate
-             fact
-             {
-             all t: task
-             {
-             t.split = "And" => #t.flowsInto.predicate = 0
-             }
-             }
-            \s
 
              // Definition of task statuses
             \s

@@ -2,7 +2,6 @@ package org.yawlfoundation.yawl.analyser.util.alloy.descriptors;
 
 import org.yawlfoundation.yawl.analyser.util.alloy.utils.DescriptionUtil;
 import org.yawlfoundation.yawl.analyser.util.alloy.utils.GatewayType;
-import org.yawlfoundation.yawl.editor.ui.elements.model.OutputCondition;
 import org.yawlfoundation.yawl.elements.YExternalNetElement;
 import org.yawlfoundation.yawl.elements.YOutputCondition;
 import org.yawlfoundation.yawl.elements.YTask;
@@ -14,8 +13,10 @@ public abstract class TaskDescriptor {
     protected final PredicateParser _predicateParser;
     protected StringBuilder strBuilder;
     protected List<String> variables;
+    private final String _toTransformOrJoin;
 
-    public TaskDescriptor(YTask taskNode, List<String> variables) {
+    public TaskDescriptor(YTask taskNode, List<String> variables, String toTransformOrJoin) {
+        this._toTransformOrJoin = toTransformOrJoin;
         this.taskNode = taskNode;
         this.strBuilder = new StringBuilder();
         this._predicateParser = new PredicateParser();
@@ -52,7 +53,10 @@ public abstract class TaskDescriptor {
     }
 
     protected String getParsedPredicate(String predicate) {
-        if (predicate != null && !predicate.equals("") && !predicate.equals("true()") && !predicate.equals("false()"))
+        if (predicate != null && predicate.equals("false()")){
+            return "1 = 2";
+        }
+        if (predicate != null && !predicate.equals("") && !predicate.equals("true()"))
             return String.format("&& %s", this._predicateParser.parse(predicate, this.variables));
         return "";
     }
@@ -72,7 +76,11 @@ public abstract class TaskDescriptor {
     protected String getJoinGatewayTypeString(YExternalNetElement netElement) {
         if (netElement instanceof YTask task) {
             if (task.getPresetElements().size() > 1) {
-                return toCamelCase(DescriptionUtil.getGatewayType(task.getJoinType()).toString());
+                GatewayType gatewayType = DescriptionUtil.getGatewayType(task.getJoinType());
+                if (this._toTransformOrJoin != null &&
+                        this._toTransformOrJoin.equals(task.getName()) && gatewayType == GatewayType.or)
+                    return toCamelCase(GatewayType.xor.toString());
+                return toCamelCase(gatewayType.toString());
             }
         }
         return toCamelCase(GatewayType.None.toString());

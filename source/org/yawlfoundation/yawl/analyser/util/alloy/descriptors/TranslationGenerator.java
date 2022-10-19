@@ -13,12 +13,14 @@ import java.util.Map;
 
 public class TranslationGenerator {
     private final YNet _workFlow;
+    private final String _toReplaceOrJoinName;
 
-    public TranslationGenerator(YNet workFlow) {
+    public TranslationGenerator(YNet workFlow, String toReplaceOrJoinName) {
         this._workFlow = workFlow;
+        this._toReplaceOrJoinName = toReplaceOrJoinName;
     }
 
-    public String generate() {
+    public String generateDescription() {
         StringBuilder translationBuilder = new StringBuilder();
         translationBuilder.append(this._generate_open_order());
         translationBuilder.append(this._generateStateSignature());
@@ -29,19 +31,30 @@ public class TranslationGenerator {
             System.out.println("-----------------------------------");
             System.out.println(currentTask.getInformation());
             System.out.println(currentTask.getName());
+            InputDescriptor inputDescriptor = inputDescriptorFactory(currentTask);
+            String inputDescription = inputDescriptor.getInputDescription();
+//            System.out.println(inputDescription);
+            translationBuilder.append(inputDescription);
+            OutputDescriptor outputDescriptor = outputDescriptorFactory(currentTask);
+            String outputDescription = outputDescriptor.getOutputDescription();
+//            System.out.println(outputDescription);
+            translationBuilder.append(outputDescription);
+//            System.out.println(inputDescriptor.getClass());
+//            System.out.println(outputDescriptor.getClass());
             System.out.println("-----------------------------------");
-            translationBuilder.append(inputDescriptorFactory(currentTask).getInputDescription());
-            translationBuilder.append(outputDescriptorFactory(currentTask).getOutputDescription());
         }
-        translationBuilder.append(DescriptionUtil.getShowPredPart(this._workFlow.getNetTasks().size() + 2, this._getPredicateCount()));
         return translationBuilder.toString();
+    }
+
+    public String generatePredDescription() {
+        return DescriptionUtil.getShowPredPart(this._workFlow.getNetTasks().size() + 2, this._getPredicateCount());
     }
 
     private String _generate_open_order() {
         return """
-                /* Impose an ordering on the State. */
-            open util/ordering[State]
-            """;
+                    /* Impose an ordering on the State. */
+                open util/ordering[State]
+                """;
     }
 
     private String _generateStateSignature() {
@@ -60,13 +73,13 @@ public class TranslationGenerator {
     private InputDescriptor inputDescriptorFactory(YTask task) {
         GatewayType joinType = DescriptionUtil.getGatewayType(task.getJoinType());
         if (task.getPresetFlows().size() > 1) {
-            return new NotNoneJoinInputDescriptor(task, this.getVariableNames());
+            return new NotNoneJoinInputDescriptor(task, this.getVariableNames(), _toReplaceOrJoinName);
         }
-        return new NoneJoinInputDescriptor(task, this.getVariableNames());
+        return new NoneJoinInputDescriptor(task, this.getVariableNames(), _toReplaceOrJoinName);
     }
 
-    private InputConditionOutputDescriptor inputConditionOutputDescriptorFactory(){
-        return new InputConditionOutputDescriptor(this._workFlow.getInputCondition());
+    private InputConditionOutputDescriptor inputConditionOutputDescriptorFactory() {
+        return new InputConditionOutputDescriptor(this._workFlow.getInputCondition(), this._toReplaceOrJoinName);
     }
 
     private ArrayList<String> getVariableNames() {
@@ -76,8 +89,8 @@ public class TranslationGenerator {
     private OutputDescriptor outputDescriptorFactory(YTask task) {
         GatewayType splitType = DescriptionUtil.getGatewayType(task.getSplitType());
         if (task.getPostsetFlows().size() > 1)
-            return new NotNoneSplitOutputDescriptor(task, this.getVariableNames());
-        return new NoneSplitOutputDescriptor(task, this.getVariableNames());
+            return new NotNoneSplitOutputDescriptor(task, this.getVariableNames(), this._toReplaceOrJoinName);
+        return new NoneSplitOutputDescriptor(task, this.getVariableNames(), this._toReplaceOrJoinName);
     }
 
     private int _getPredicateCount() {

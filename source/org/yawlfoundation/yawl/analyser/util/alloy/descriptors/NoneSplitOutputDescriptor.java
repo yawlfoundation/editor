@@ -1,5 +1,7 @@
 package org.yawlfoundation.yawl.analyser.util.alloy.descriptors;
 
+import org.apache.jena.base.Sys;
+import org.yawlfoundation.yawl.elements.YCondition;
 import org.yawlfoundation.yawl.elements.YExternalNetElement;
 import org.yawlfoundation.yawl.elements.YOutputCondition;
 import org.yawlfoundation.yawl.elements.YTask;
@@ -7,8 +9,8 @@ import org.yawlfoundation.yawl.elements.YTask;
 import java.util.List;
 
 public class NoneSplitOutputDescriptor extends OutputDescriptor {
-    public NoneSplitOutputDescriptor(YTask taskNode, List<String> variables) {
-        super(taskNode, variables);
+    public NoneSplitOutputDescriptor(YTask taskNode, List<String> variables, String toTransformOrJoin) {
+        super(taskNode, variables, toTransformOrJoin);
     }
 
     @Override
@@ -17,21 +19,26 @@ public class NoneSplitOutputDescriptor extends OutputDescriptor {
             return "";
         }
         YExternalNetElement outputElement = this.taskNode.getPostsetElements().iterator().next();
+        System.out.println(this.taskNode.getName());
+        System.out.println(outputElement.getName());
+        System.out.println(outputElement.getClass());
         if (outputElement instanceof YOutputCondition outputCondition) {
             getOutputConditionOutputDescription(outputCondition);
-        } else if (outputElement instanceof YTask outputTask) {
-            addOutputOfRegularTask(outputTask);
+        } else if (outputElement instanceof YCondition outputCondition) {
+            addOutputOfRegularTask(outputCondition);
         }
 
         return this.strBuilder.toString();
     }
 
-    private void addOutputOfRegularTask(YTask outputTask) {
+    private void addOutputOfRegularTask(YExternalNetElement outputElement) {
+        YTask outputTask = (YTask) outputElement.getPostsetElements().iterator().next();
         this.strBuilder.append(String.format("""
                                 
                 fact {
                 all t: task | t.label = "%s" => {
-                one t1: task | t1 = t.flowsInto.nextTask && t1%s}}""", this.taskNode.getName(), this.getOutputTaskDescription((YTask) this.taskNode.getPostsetFlows().toArray()[0])));
+                one t1: task | t1 = t.flowsInto.nextTask && t1%s}}""", this.taskNode.getName(),
+                this.getOutputTaskDescription(outputTask)));
     }
 
     private void getOutputConditionOutputDescription(YOutputCondition outputTask) {
@@ -40,24 +47,5 @@ public class NoneSplitOutputDescriptor extends OutputDescriptor {
                 fact {
                 all t: task | t.label = "%s" => {
                 one t1: Object1 | t1 = t.flowsInto.nextTask && t1= output_condition}}""", this.taskNode.getName()));
-    }
-
-    protected String getOutputTaskDescription(YTask outputTask) {
-        String output = String.format(".label = \"%s\" && t1.split = \"%s\" && t1.join = \"%s\"",
-                outputTask.getName(), this.getSplitGatewayTypeString(outputTask), this.getJoinGatewayTypeString(outputTask));
-        if (outputTask.getCancelledBySet().size() > 0) {
-            output = output + this._getCancellationRegionDescription(outputTask);
-        }
-        return output;
-    }
-
-    private String _getCancellationRegionDescription(YTask outputTask) {
-        Object[] cancellationTasks = outputTask.getCancelledBySet().toArray();
-        String[] cancelTasks = new String[cancellationTasks.length];
-        for (int i = 0; i < cancellationTasks.length; i++) {
-            cancelTasks[i] = String.format("c.label = %s", ((YExternalNetElement) cancellationTasks[i]).getName());
-        }
-        return String.format("\n && all c: task | (%s) => c in t.cancellation_region_objects",
-                String.join(" || ", cancelTasks));
     }
 }
