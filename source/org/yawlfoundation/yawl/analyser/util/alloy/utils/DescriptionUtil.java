@@ -11,7 +11,13 @@ public class DescriptionUtil {
     }
 
     public static String getShowPredPart(int objectCount, int predicateCount) {
-        return String.format("fact{#Boolean = %d}\nfact{#Object1 = %d}\n\n\n pred show{}\n run show for %d but %d " +
-                "State ", predicateCount, objectCount, objectCount, objectCount);
+        return String.format("""
+                fact{#Boolean = %d}
+                fact{#Object1 = %d}
+
+
+                 pred show{}
+                 run show for %d but %d State\s
+                """, predicateCount, objectCount, objectCount, objectCount);
     }
 }

@@ -18,6 +18,8 @@
 
 package org.yawlfoundation.yawl.analyser;
 
+import org.apache.jena.base.Sys;
+import org.yawlfoundation.yawl.analyser.util.YAWLAlloyAnalyser;
 import org.yawlfoundation.yawl.analyser.util.YAWLResetAnalyser;
 import org.yawlfoundation.yawl.analyser.wofyawl.WofYAWLInvoker;
 import org.yawlfoundation.yawl.elements.YSpecification;
@@ -34,6 +36,7 @@ import java.util.Set;
 public class YAnalyser {
 
     private YAWLResetAnalyser _resetAnalyser;
+    private YAWLAlloyAnalyser _alloyAnalyser;
     private Set<YAnalyserEventListener> _listeners;
     private boolean _cancelled;
     private String _specXML;
@@ -48,6 +51,12 @@ public class YAnalyser {
             throws YSyntaxException {
         _specXML = specXML;
         return analyse(YMarshal.unmarshalSpecifications(specXML).get(0), options, maxMarkings);
+    }
+
+    public String alloyAnalyse(String specXML, YAnalyserOptions options, int maxMarkings)
+            throws YSyntaxException {
+        _specXML = specXML;
+        return alloyAnalyse(YMarshal.unmarshalSpecifications(specXML).get(0), options, maxMarkings);
     }
 
 
@@ -74,12 +83,31 @@ public class YAnalyser {
         return results.toString();
     }
 
+    public String alloyAnalyse(YSpecification specification, YAnalyserOptions options,
+                          int maxMarkings) {
+        if (! options.hasSelection()) {
+            throw new IllegalArgumentException("No options selected");
+        }
+        StringBuilder results = new StringBuilder("<alloy_analysis_results>");
+        if (options.isAlloyAnalysis()) {
+            _alloyAnalyser = new YAWLAlloyAnalyser();
+            results.append(
+                    _alloyAnalyser.analyse(specification, options, _listeners, maxMarkings));
+        }
+        results.append("</alloy_analysis_results>");
+        return results.toString();
+    }
+
 
     public void cancelAnalysis() {
         _cancelled = true;
         if (_resetAnalyser != null) _resetAnalyser.cancel();
     }
 
+    public void cancelAlloyAnalysis() {
+        _cancelled = true;
+        if (_alloyAnalyser != null) _alloyAnalyser.cancel();
+    }
 
     public boolean addEventListener(YAnalyserEventListener listener) {
         if (_listeners == null) _listeners = new HashSet<YAnalyserEventListener>();

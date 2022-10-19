@@ -42,13 +42,16 @@ public class AnalysisResultsParser implements AnalysisCanceller {
     // triggered from menu or toolbar - do via swing worker
     public void showAnalysisResults() {
         final AnalysisWorker worker = new AnalysisWorker();
-
+        System.out.println("show analysis results");
         worker.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent event) {
                 if (event.getNewValue() == SwingWorker.StateValue.DONE) {
                     YAWLEditor.getInstance().showProblemList("Analysis Results",
                             new ValidationResultsParser().parse(
-                                    parseRawResultsIntoList(worker.getResult())));
+                                    parseRawResultsIntoList(worker.getResult(), "resetAnalysisResults", "Reset Net")));
+                    YAWLEditor.getInstance().showAlloyProblemList("ALLoy Analysis Results",
+                            new ValidationResultsParser().parse(
+                                    parseRawResultsIntoList(worker.getAlloyValidationResult(), "alloyAnalysisResults", "Alloy")));
                 }
             }
         });
@@ -62,7 +65,16 @@ public class AnalysisResultsParser implements AnalysisCanceller {
         AnalysisDialog messageDlg = AnalysisUtil.createDialog(this);
         _analyser = new YAnalyser();
         String result = AnalysisUtil.analyse(_analyser, messageDlg, specXML);
-        return parseRawResultsIntoList(result);
+        return parseRawResultsIntoList(result, "resetAnalysisResults", "Reset Net");
+    }
+
+    // triggered on file save with alloy analyse option - already in a swing worker
+    public List<String> getAlloyAnalysisResults(String specXML) {
+        AnalysisDialog messageDlg = AnalysisUtil.createDialog(this);
+        _analyser = new YAnalyser();
+        String result = AnalysisUtil.alloyAnalyse(_analyser, messageDlg, specXML);
+        System.out.printf("alloy analysis result: %s%n",result);
+        return parseRawResultsIntoList(result, "alloyAnalysisResults", "Alloy");
     }
 
 
@@ -71,58 +83,66 @@ public class AnalysisResultsParser implements AnalysisCanceller {
     }
 
 
-    protected List<String> parseRawResultsIntoList(String rawAnalysisXML) {
+    protected List<String> parseRawResultsIntoList(String rawAnalysisXML, String childNodeName, String messagePrefix) {
+        System.out.println("-----------------------------------------");
+        System.out.println(rawAnalysisXML);
+        System.out.println("-----------------------------------------");
         if (StringUtil.isNullOrEmpty(rawAnalysisXML)) {
             return Collections.emptyList();
         }
         if (rawAnalysisXML.startsWith("<error>") || rawAnalysisXML.startsWith("<cancelled>")) {
-            return Arrays.asList(StringUtil.unwrap(rawAnalysisXML));
+            return Collections.singletonList(StringUtil.unwrap(rawAnalysisXML));
         }
         List<String> resultList = new ArrayList<String>();
         XNode parentNode = new XNodeParser().parse(rawAnalysisXML);
         if (parentNode != null) {
-            parseResetNetResults(resultList, parentNode);
+            parseAnalysisResults(resultList, parentNode, messagePrefix, childNodeName);
             parseWofYawlResults(resultList, parentNode);
         }
         else {
             resultList.add("Analysis Error: Malformed analysis results.");
         }
+        System.out.println("-----------------------------------------");
+        for (String message: resultList) {
+            System.out.println(message);
+        }
+        System.out.println("-----------------------------------------");
         return resultList;
     }
 
 
-    protected void parseResetNetResults(List<String> resultsList, XNode parentNode) {
-        XNode resetNode = parentNode.getChild("resetAnalysisResults");
-        if (resetNode != null) {
-            String cancelMsg = resetNode.getChildText("cancelled");
+    protected void parseAnalysisResults(List<String> resultsList, XNode parentNode, String messagePrefix, String childNodeName) {
+        XNode analyseNode = parentNode.getChild(childNodeName);
+        if (analyseNode != null) {
+            String cancelMsg = analyseNode.getChildText("cancelled");
             if (cancelMsg != null) {
                 resultsList.add(cancelMsg);
             }
             else {
-                parseResetNetErrors(resultsList, resetNode);
-                parseResetNetWarnings(resultsList, resetNode);
+                parseAnalyseErrors(resultsList, analyseNode, messagePrefix);
+                parseAnalyseWarnings(resultsList, analyseNode, messagePrefix);
                 if (UserSettings.getShowObservations()) {
-                    parseResetNetObservations(resultsList, resetNode);
+                    parseAnalyseObservations(resultsList, analyseNode, messagePrefix);
                 }
             }
         }
     }
 
 
-    protected void parseResetNetErrors(List<String> resultsList, XNode resetNode) {
-        String prefix = "ResetNet Analysis Error: ";
+    protected void parseAnalyseErrors(List<String> resultsList, XNode resetNode, String messagePrefix) {
+        String prefix = String.format("%s Analysis Error: ", messagePrefix);
         parseResultsIntoList("error", prefix, resultsList, resetNode);
     }
 
 
-    protected void parseResetNetWarnings(List<String> resultsList, XNode resetNode) {
-        String prefix = "ResetNet Analysis Warning: ";
+    protected void parseAnalyseWarnings(List<String> resultsList, XNode resetNode, String messagePrefix) {
+        String prefix = String.format("%s Analysis Warning: ", messagePrefix);
         parseResultsIntoList("warning", prefix, resultsList, resetNode);
     }
 
 
-    protected void parseResetNetObservations(List<String> resultsList, XNode resetNode) {
-        String prefix = "ResetNet Analysis Observation: ";
+    protected void parseAnalyseObservations(List<String> resultsList, XNode resetNode, String messagePrefix) {
+        String prefix = String.format("%s Analysis Observation: ", messagePrefix);
         parseResultsIntoList("observation", prefix, resultsList, resetNode);
     }
 

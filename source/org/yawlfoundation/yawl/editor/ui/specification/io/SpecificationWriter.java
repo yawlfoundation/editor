@@ -44,9 +44,12 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
     private String _fileName;
     private boolean _successful;
 
-    public SpecificationWriter() { }
+    public SpecificationWriter() {
+    }
 
-    public SpecificationWriter(String fileName) { _fileName = fileName; }
+    public SpecificationWriter(String fileName) {
+        _fileName = fileName;
+    }
 
 
     public Boolean doInBackground() {
@@ -58,18 +61,17 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
                     YLayout layout = new LayoutExporter().parse();
                     cleanSpecification();
                     checkSpecification();
+                    checkAlloySpecification();
                     if (!_fileName.equals(_handler.getFileName())) {
                         _handler.saveAs(_fileName, layout, UserSettings.getFileSaveOptions());
                         firePropertyChange("Uri", _handler.getURI());
-                    }
-                    else {
+                    } else {
                         _handler.save(layout, UserSettings.getFileSaveOptions());
                     }
                     firePropertyChange("Version", _handler.getVersion());
                     _successful = true;
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 new FileSaveErrorNotifier().notify(e, _fileName);
                 _log.error("Error saving specification to file.", e);
             }
@@ -78,15 +80,16 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
     }
 
 
-    public boolean successful() { return _successful; }
+    public boolean successful() {
+        return _successful;
+    }
 
 
     public String getSpecificationXML() {
         cleanSpecification();
         try {
             return _handler.getSpecificationXML();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             _log.error("Error marshalling specification to XML.", e);
             return null;
         }
@@ -106,12 +109,12 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
 
     private boolean checkUserDefinedDataTypes() {
         List<String> results = new DataTypeValidator().validate();
-        if (! results.isEmpty()) {
+        if (!results.isEmpty()) {
             YAWLEditor.getInstance().showProblemList("Export Errors",
                     new ValidationResultsParser().parse(results));
             MessageDialog.error(
                     "Could not export Specification due to missing or invalid user-" +
-                    "defined data types.\nPlease see the problem list below for details.",
+                            "defined data types.\nPlease see the problem list below for details.",
                     "Data type Error");
         }
         return results.isEmpty();
@@ -128,10 +131,10 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
         if (UserSettings.getAnalyseOnSave()) {
             title = "Analysis";
             try {
-                results.addAll(new AnalysisResultsParser().getAnalysisResults(
-                    _handler.getSpecificationXML()));
-            }
-            catch (Exception e) {
+                System.out.println("specification writer");
+                AnalysisResultsParser parser = new AnalysisResultsParser();
+                results.addAll(parser.getAnalysisResults(_handler.getSpecificationXML()));
+            } catch (Exception e) {
                 // analysis failed
             }
         }
@@ -139,6 +142,22 @@ public class SpecificationWriter extends SwingWorker<Boolean, Void> {
                 new ValidationResultsParser().parse(results));
     }
 
+    private void checkAlloySpecification() {
+        List<String> results = new ArrayList<String>();
+        String title = "Validation";
+        if (UserSettings.getAnalyseOnSave()) {
+            title = "Alloy Analysis";
+            try {
+                System.out.println("alloy specification writer");
+                AnalysisResultsParser parser = new AnalysisResultsParser();
+                results.addAll(parser.getAlloyAnalysisResults(_handler.getSpecificationXML()));
+            } catch (Exception e) {
+                // analysis failed
+            }
+        }
+        YAWLEditor.getInstance().showAlloyProblemList(title + " Results",
+                new ValidationResultsParser().parse(results));
+    }
 
     private void firePropertyChange(String property, Object newValue) {
         YAWLEditor.getPropertySheet().firePropertyChange(property, newValue);

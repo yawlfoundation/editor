@@ -19,6 +19,7 @@
 package org.yawlfoundation.yawl.editor.ui;
 
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
+import org.apache.jena.base.Sys;
 import org.yawlfoundation.yawl.editor.core.YConnector;
 import org.yawlfoundation.yawl.editor.core.repository.YRepository;
 import org.yawlfoundation.yawl.editor.ui.plugin.YPluginHandler;
@@ -223,12 +224,20 @@ public class YAWLEditor extends JFrame implements FileStateListener {
         bottomPanel.setProblemList(title, problemList);
         splitPane.setDividerLocation(0.8);
     }
+
+    public void showAlloyProblemList(String title, List<ValidationMessage> problemList) {
+        bottomPanel.setAlloyProblemsList(title, problemList);
+        splitPane.setDividerLocation(0.8);
+    }
     
     public void showAlloyCode(String code) {
+        System.out.println(code);
         bottomPanel.setAlloyCode(code);
         bottomPanel.selectAlloyTab();
         splitPane.setDividerLocation(0.8);
     }
+
+
 
     public void specificationFileStateChange(FileState state) {
         switch (state) {
