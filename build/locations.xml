@@ -37,7 +37,7 @@
         <file name="lib/servlet-api.jar" path="A"/>
         <file name="lib/xercesImpl.jar" path="C"/>
         <file name="lib/xmleditorkit.jar" path="B"/>
-        <file name="lib/yawl-lib-4.5.jar" path="B"/>
+        <file name="lib/yawl-lib-4.5.1.jar" path="B"/>
         <file name="lib/YAWLEditor-analyser-4.5.1.jar" path="B"/>
         <file name="lib/YAWLEditor-core-4.5.1.jar" path="B"/>
         <file name="lib/YAWLEditor-icons.jar" path="B"/>

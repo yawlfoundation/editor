@@ -125,7 +125,6 @@ public class NetGraphModel extends DefaultGraphModel implements Comparable<NetGr
         cellsAndTheirEdges.addAll(getDescendants(this, cells.toArray()));
         cellsAndTheirEdges.addAll(getEdges(this, cells.toArray()));
         removeCellsFromCancellationSets(cellsAndTheirEdges);
-        YPluginHandler.getInstance().elementsRemoved(this, cellsAndTheirEdges);
 
         super.remove(cellsAndTheirEdges.toArray());
 //        NetGraphModelEdit edit = createRemoveEdit(cellsAndTheirEdges.toArray());
@@ -139,6 +138,8 @@ public class NetGraphModel extends DefaultGraphModel implements Comparable<NetGr
                         cellsAndTheirEdges
                 )
         );
+
+        YPluginHandler.getInstance().elementsRemoved(this, cellsAndTheirEdges);
         return cellsAndTheirEdges;
     }
 

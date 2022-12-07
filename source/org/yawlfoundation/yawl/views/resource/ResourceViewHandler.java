@@ -106,9 +106,9 @@ public class ResourceViewHandler implements ActionListener {
 
 
     private Map<String, Color> buildColorMap() {
-        PersistedRoleColors rcProps = new PersistedRoleColors();
-        Map<String, Color> colorMap = rcProps.load();
         Set<String> allRoles = getUniqueRoles();
+        PersistedRoleColors rcProps = new PersistedRoleColors();
+        Map<String, Color> colorMap = rcProps.load(allRoles);
         Set<String> uncoloredRoles = getUncoloredRoles(allRoles, colorMap.keySet());
         if (!uncoloredRoles.isEmpty()) {
             List<Color> takenColors = new ArrayList<>(colorMap.values());

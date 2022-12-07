@@ -6,9 +6,7 @@ import org.yawlfoundation.yawl.resourcing.resource.Role;
 
 import java.awt.*;
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @author Michael Adams
@@ -19,11 +17,11 @@ public class PersistedRoleColors {
     private static final String PROPS_FILENAME = "lib/rolecolors.properties";
     private static final String COMMENT = "Role-Color Pairs";
 
-    public Map<String, Color> load() {
+    public Map<String, Color> load(Set<String> filterBy) {
         Properties props = new Properties();
         try {
             props.load(new FileReader(getFilePath()));
-            return loadIntoMap(props);
+            return loadIntoMap(props, filterBy);
         }
         catch (IOException ioe) {
             return new HashMap<>();
@@ -32,9 +30,11 @@ public class PersistedRoleColors {
 
 
     public boolean save(Map<String, Color> map) {
+        Map<String, Color> colorMap = load(Collections.emptySet());
+        colorMap.putAll(map);
         Properties props = new Properties();
-        for (String key : map.keySet()) {
-            Color color = map.get(key);
+        for (String key : colorMap.keySet()) {
+            Color color = colorMap.get(key);
             String roleName = getRoleNameByID(key);
             props.put(roleName, encode(color));
         }
@@ -50,11 +50,11 @@ public class PersistedRoleColors {
     }
 
 
-    private  Map<String, Color> loadIntoMap(Properties props) {
+    private  Map<String, Color> loadIntoMap(Properties props, Set<String> filterBy) {
         Map<String, Color> map = new HashMap<>();
         for (String key : props.stringPropertyNames()) {
             String roleID = getRoleIDByName(key);
-            if (roleID != null) {
+            if (roleID != null && (filterBy.isEmpty() || filterBy.contains(roleID))) {
                 String value = props.getProperty(key);
                 map.put(roleID, decode(value));
             }

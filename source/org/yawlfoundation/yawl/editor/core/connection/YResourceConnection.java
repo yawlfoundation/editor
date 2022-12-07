@@ -146,7 +146,11 @@ public class YResourceConnection extends YConnection {
     public List<Role> getRoles() throws IOException {
         if (isConnected()) {
             try {
-                _roleCache = _adapter.getRoles(_handle);
+                List<Role> roles = new ArrayList<>();
+                for (AbstractResourceAttribute attr : _adapter.getRoles(_handle)) {
+                    roles.add((Role) attr);
+                }
+                _roleCache = roles;
             }
             catch (ResourceGatewayException rge) {
                 if (_roleCache.isEmpty()) throw new IOException(rge.getMessage());
@@ -171,7 +175,11 @@ public class YResourceConnection extends YConnection {
     public List<Capability> getCapabilities() throws IOException {
         if (isConnected()) {
             try {
-                _capabilityCache = _adapter.getCapabilities(_handle);
+                List<Capability> capabilities = new ArrayList<>();
+                for (AbstractResourceAttribute attr : _adapter.getCapabilities(_handle)) {
+                    capabilities.add((Capability) attr);
+                }
+                _capabilityCache = capabilities;
             }
             catch (ResourceGatewayException rge) {
                 if (_capabilityCache.isEmpty()) throw new IOException(rge.getMessage());
@@ -196,7 +204,11 @@ public class YResourceConnection extends YConnection {
     public List<Position> getPositions() throws IOException {
         if (isConnected()) {
             try {
-                _positionCache = _adapter.getPositions(_handle);
+                List<Position> positions = new ArrayList<>();
+                for (AbstractResourceAttribute attr : _adapter.getPositions(_handle)) {
+                    positions.add((Position) attr);
+                }
+                _positionCache = positions;
             }
             catch (ResourceGatewayException rge) {
                 if (_positionCache.isEmpty()) throw new IOException(rge.getMessage());
@@ -221,7 +233,11 @@ public class YResourceConnection extends YConnection {
     public List<OrgGroup> getOrgGroups() throws IOException {
         if (isConnected()) {
             try {
-                _orgGroupCache = _adapter.getOrgGroups(_handle);
+                List<OrgGroup> groups = new ArrayList<>();
+                for (AbstractResourceAttribute attr : _adapter.getOrgGroups(_handle)) {
+                    groups.add((OrgGroup) attr);
+                }
+                _orgGroupCache = groups;
             }
             catch (ResourceGatewayException rge) {
                 if (_orgGroupCache.isEmpty()) throw new IOException(rge.getMessage());
