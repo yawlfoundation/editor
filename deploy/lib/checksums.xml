@@ -2,8 +2,8 @@
 <!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
 <release>
   <version>4.5.1</version>
-  <build>795</build>
-  <timestamp>2022-12-07 11.54.57</timestamp>
+  <build>796</build>
+  <timestamp>2022-12-07 12.46.36</timestamp>
   <paths>
     <path id="host">https://raw.githubusercontent.com/</path>
     <path id="base">yawlfoundation/</path>
@@ -17,7 +17,7 @@
     <file name="plugins/YAWLEditor-configuration-4.5.1.jar" md5="df8a1c928ee128e4190535f082b75f7a" size="163570" timestamp="2022-02-07T13:22:19" path="B"/>
     <file name="plugins/YAWLEditor-worklet-4.5.1.jar" md5="bbbdf29757928b1ca7332810f7e1c017" size="227556" timestamp="2022-02-07T13:22:19" path="B"/>
     <file name="plugins/YAWLEditor-decobar-4.5.1.jar" md5="298a9f5f2b921a796c666dedc111519c" size="26222" timestamp="2022-02-07T13:22:18" path="B"/>
-    <file name="plugins/YAWLEditor-views-4.5.1.jar" md5="ab608381856251d9a934ae94810d3b60" size="170499" timestamp="2022-12-07T11:54:57" path="B"/>
+    <file name="plugins/YAWLEditor-views-4.5.1.jar" md5="9189c6e59b02d55d7b7834a200db92e6" size="170703" timestamp="2022-12-07T12:46:36" path="B"/>
     <file name="YAWLEditor4.5.1.jar" md5="dcda02ee6408e54991ce63cea47cd846" size="1932944" timestamp="2022-12-07T11:54:57" path="B"/>
     <file name="lib/slf4j-api-1.7.21.jar" md5="c9be56284a92dcb2576679282eff80bf" size="41071" timestamp="2016-11-19T01:23:18" path="D"/>
     <file name="lib/xmlbeans-2.6.0.jar" md5="6591c08682d613194dacb01e95c78c2c" size="2730866" timestamp="2016-11-22T23:25:14" path="D"/>
@@ -29,7 +29,6 @@
     <file name="lib/saxon9.jar" md5="cfb820253feef53ab606601b6435870c" size="5024396" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/log4j-api-2.17.1.jar" md5="7aae1e012aef802cbc2077f5267ac002" size="301873" timestamp="2022-02-07T13:22:09" path="C"/>
     <file name="lib/jena-arq-3.1.1.jar" md5="fa2a8f225a45042cad3abd00d9e07e01" size="2858398" timestamp="2016-11-18T23:00:42" path="D"/>
-    <file name="lib/yawl-lib-4.5.1.jar" md5="3b7bca21a9ec0a057348cd8e32181cea" size="2960778" timestamp="2021-12-20T12:16:48" path="B"/>
     <file name="lib/poi-3.15.jar" md5="180cd5f6f178cbedd00316d44a42a171" size="2579580" timestamp="2016-11-22T23:13:16" path="D"/>
     <file name="lib/log4j-1.2-api-2.17.1.jar" md5="937a348ff730ec6ed54ef28576808ad3" size="208005" timestamp="2022-02-07T13:22:09" path="C"/>
     <file name="lib/automaton.jar" md5="c51399ee94634d6590e1ddb6ae253238" size="176313" timestamp="2015-08-13T13:38:33" path="A"/>
@@ -46,6 +45,7 @@
     <file name="lib/jena-iri-3.1.1.jar" md5="04005b4ccffbbb061ef83c672cc29d83" size="137898" timestamp="2016-11-05T04:59:52" path="D"/>
     <file name="lib/poi-ooxml-3.15.jar" md5="6b95361cab76a22e60109010f22c6628" size="1338241" timestamp="2016-11-22T23:13:16" path="D"/>
     <file name="lib/jena-base-3.1.1.jar" md5="e1fdc413d8a4b95c1fabaae74daff866" size="220793" timestamp="2016-11-05T05:00:11" path="D"/>
+    <file name="lib/yawl-lib-4.5.1.jar" md5="03955b84f07194e45776cef390cc8995" size="3003354" timestamp="2022-12-07T11:53:27" path="B"/>
     <file name="lib/xercesImpl.jar" md5="da09b75b562ca9a8e9a535d2148be8e4" size="1229289" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/dom4j-1.6.1.jar" md5="4d8f51d3fe3900efc6e395be48030d6d" size="313898" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/macify-1.4.jar" md5="0e25f516b113033b2da4591161f1e117" size="11684" timestamp="2015-08-13T13:38:33" path="A"/>
