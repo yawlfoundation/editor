@@ -38,12 +38,14 @@ public class YAWLAlloyAnalyser {
             if (decomposition instanceof YNet yNet) {
                 if (options.isAlloyOrJoinCycle()) {
                     String result = checkOrJoinCycles(yNet);
-//                    System.out.println(result);
                     msgBuffer.append(result);
                 }
                 if (options.areAlloyAllTasksReachable()){
                     String result = areAllTasksReachable(yNet);
-//                    System.out.println(result);
+                    msgBuffer.append(result);
+                }
+                if (options.isAlloyCheckPendingOrJoinsOnEachOther()){
+                    String result = checkPendingOrJoinsOnEachOther(yNet);
                     msgBuffer.append(result);
                 }
             }
@@ -78,6 +80,14 @@ public class YAWLAlloyAnalyser {
     private String areAllTasksReachable(YNet yNet) {
         try {
             return new AlloyValidator(yNet).areAllTasksReachable();
+        } catch (Exception e) {
+            return formatXMLMessage(e.getMessage(), false);
+        }
+    }
+
+    private String checkPendingOrJoinsOnEachOther(YNet yNet){
+        try {
+            return new AlloyValidator(yNet).anyTwoTasksWithOrJoinArePendingOnEachOther();
         } catch (Exception e) {
             return formatXMLMessage(e.getMessage(), false);
         }

@@ -39,6 +39,7 @@ public class YAnalyserOptions {
     private boolean resetShowObservations;
     private boolean alloyOrJoinCycle;
     private boolean alloyAllTasksReachable;
+    private boolean alloyCheckPendingOrJoinsOnEachOther;
 
 
     public static YAnalyserOptions newAllDisabledOptions() {
@@ -189,7 +190,7 @@ public class YAnalyserOptions {
     }
 
     public boolean isAlloyAnalysis() {
-        return isAlloyOrJoinCycle() || areAlloyAllTasksReachable();
+        return isAlloyOrJoinCycle() || areAlloyAllTasksReachable() || isAlloyCheckPendingOrJoinsOnEachOther();
     }
 
     public boolean isAlloyOrJoinCycle() {
@@ -200,12 +201,20 @@ public class YAnalyserOptions {
         return alloyAllTasksReachable;
     }
 
+    public boolean isAlloyCheckPendingOrJoinsOnEachOther() {
+        return alloyCheckPendingOrJoinsOnEachOther;
+    }
+
     public void enableAlloyOrJoinCycle(boolean enable) {
         alloyOrJoinCycle = enable;
     }
 
     public void enableAlloyAllTasksReachable(boolean enable) {
         alloyAllTasksReachable = enable;
+    }
+
+    public void enableAlloyCheckPendingOrJoinsOnEachOther(boolean enable) {
+        alloyCheckPendingOrJoinsOnEachOther = enable;
     }
 
 }

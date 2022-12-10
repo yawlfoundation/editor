@@ -129,6 +129,7 @@ public class AnalysisUtil {
         if (UserSettings.getAlloyAnalysis()) {
             options.enableAlloyOrJoinCycle(UserSettings.getAlloyOrJoinCycleAnalysis());
             options.enableAlloyAllTasksReachable(UserSettings.getAlloyAreAllTasksReachableAnalysis());
+            options.enableAlloyCheckPendingOrJoinsOnEachOther(UserSettings.getAlloyCheckPendingOrJoinsOnEachOtherAnalysis());
         }
         if (UserSettings.getWofyawlAnalysis()) {
             options.enableWofBehavioural(UserSettings.getBehaviouralAnalysis());

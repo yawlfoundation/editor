@@ -53,6 +53,7 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
     private JCheckBox keepOpenCheckBox;
     private JCheckBox alloyOrJoinCycleCheckBox;
     private JCheckBox alloyAreAllTasksReachableCheckBox;
+    private JCheckBox alloyCheckPendingOrJoinsOnEachOtherCheckBox;
     private JFormattedTextField maxMarkingsField;
 
     public AnalysisPanel(ActionListener actionListener, CaretListener caretListener) {
@@ -84,6 +85,7 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
         UserSettings.setAlloyAnalysis(alloyAnalysisCheckbox.isSelected());
         UserSettings.setAlloyOrJoinCycleAnalysis(alloyOrJoinCycleCheckBox.isSelected());
         UserSettings.setAlloyAreAllTasksReachableAnalysis(alloyAreAllTasksReachableCheckBox.isSelected());
+        UserSettings.setAlloyCheckPendingOrJoinsOnEachOtherAnalysis(alloyCheckPendingOrJoinsOnEachOtherCheckBox.isSelected());
         UserSettings.setKeepAnalysisDialogOpen(keepOpenCheckBox.isSelected());
         UserSettings.setAnalyserMaxMarkings(
                 StringUtil.strToInt(maxMarkingsField.getText(),
@@ -115,6 +117,7 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
         content.add(getAlloyAnalysisCheckBox(listener));
         content.add(getAlloyOrJoinCycleCheckBox(listener));
         content.add(getAlloyAreAllTasksReachableCheckBox(listener));
+        content.add(getAlloyCheckPendingOrJoinsOnEachOtherAnalysisCheckBox(listener));
 
         content.add(getWofYawlAnalysisCheckBox(listener));
         content.add(getRelaxedSoundnessCheckBox(listener));
@@ -152,6 +155,7 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
     private void enableAlloyCheckBoxes(boolean enable) {
         alloyOrJoinCycleCheckBox.setEnabled(enable);
         alloyAreAllTasksReachableCheckBox.setEnabled(enable);
+        alloyCheckPendingOrJoinsOnEachOtherCheckBox.setEnabled(enable);
     }
 
     private JCheckBox getWeakSoundnessCheckBox(ActionListener listener) {
@@ -287,6 +291,13 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
                 "Check are all tasks reachable with ALLOY analysis",
                 KeyEvent.VK_S, UserSettings.getAlloyAreAllTasksReachableAnalysis(), true, listener);
         return alloyAreAllTasksReachableCheckBox;
+    }
+
+    private JCheckBox getAlloyCheckPendingOrJoinsOnEachOtherAnalysisCheckBox(ActionListener listener) {
+        alloyCheckPendingOrJoinsOnEachOtherCheckBox = makeCheckBox(
+                "Check are any two tasks with or-join pending on each other with ALLOY analysis",
+                KeyEvent.VK_S, UserSettings.getAlloyCheckPendingOrJoinsOnEachOtherAnalysis(), true, listener);
+        return alloyCheckPendingOrJoinsOnEachOtherCheckBox;
     }
 
 

@@ -24,7 +24,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class AlloyValidator {
@@ -55,6 +57,56 @@ public class AlloyValidator {
                     " all tasks are reachable .", true);
         }
         return msg;
+    }
+
+    public String anyTwoTasksWithOrJoinArePendingOnEachOther() throws Exception {
+        System.out.println("check whether any two tasks with or join are pending on each other or not!");
+        String msg = checkAnyTwoTasksWithOrJoinArePendingOnEachOther();
+        if (msg.length() == 0) {
+            msg = formatXMLMessage("In the net " + this._net.getID() +
+                    " there is no two depending or-joins.", true);
+        }
+        return msg;
+    }
+
+    private String checkAnyTwoTasksWithOrJoinArePendingOnEachOther() {
+        List<YTask> orJoins = getOrJoins();
+        StringBuilder resultBuilder = new StringBuilder();
+        if (orJoins.size() < 2) {
+            return this.formatXMLMessage("There are less than two or-joins in net", true);
+        }
+        for (int i = 0; i < orJoins.size() - 1; i++) {
+            YTask orJoin1 = orJoins.get(i);
+            for (int j = i + 1; j < orJoins.size(); j++) {
+                YTask orJoin2 = orJoins.get(j);
+                String spec1 = this._getPendingOrJoinsSpec(orJoin1, orJoin2);
+                String spec2 = this._getPendingOrJoinsSpec(orJoin2, orJoin1);
+                try {
+                    checkAlloySpec(spec1);
+                    checkAlloySpec(spec2);
+                    resultBuilder.append(formatXMLMessage(String.format("Tasks \"%s\" and \"%s\" are Or-Joins and they are" +
+                                    " depend on each other!",
+                            orJoin1.getName(), orJoin2.getName()), false));
+                } catch (ErrorAPI ex) {
+                    System.out.println(ex.msg);
+                } catch (Exception ex) {
+                    System.out.println(ex.toString());
+                }
+            }
+        }
+        return resultBuilder.toString();
+    }
+
+    private String _getPendingOrJoinsSpec(YTask orJoin1, YTask orJoin2) {
+        TranslationGenerator alloyGenerator = new TranslationGenerator(this._net, orJoin1.getName());
+        String alloySpecification = alloyGenerator.generateDescription();
+        return alloySpecification + String.format("""
+                        assert no_two_or_joins_pend_on_each_other {
+                        \tall t1, t2: task | t1.label = "%s" && t2.label = "%s" => t2 not in t1.^(flowsInto.nextTask)
+                        }
+                                        
+                        check no_two_or_joins_pend_on_each_other for %d
+                        """, orJoin1.getName(), orJoin2.getName(), this._getAssertionSize() + 1);
     }
 
     private String checkAreAllTasksReachable(String alloySpecification) throws Exception {
@@ -94,7 +146,7 @@ public class AlloyValidator {
     }
 
     public String checkForCycles() throws Exception {
-        Set<YTask> ORJoins = getOrJoins();
+        List<YTask> ORJoins = getOrJoins();
         StringBuilder resultBuilder = new StringBuilder();
         for (YTask task : ORJoins) {
             TranslationGenerator alloyGenerator = new TranslationGenerator(this._net, task.getName());
@@ -159,8 +211,8 @@ public class AlloyValidator {
         }
     }
 
-    private Set<YTask> getOrJoins() {
-        Set<YTask> ORJoins = new HashSet<YTask>();
+    private List<YTask> getOrJoins() {
+        List<YTask> ORJoins = new ArrayList<YTask>();
         for (YTask task : this._net.getNetTasks()) {
             if (task.getJoinType() == YTask._OR) ORJoins.add(task);
         }
