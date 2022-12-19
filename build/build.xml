@@ -216,7 +216,7 @@
             <attribute name="Main-Class" value="${root.launcher}" />
         	<attribute name="Class-Path" value="${manifest.cp}" />
             <attribute name="SplashScreen-Image"
-                       value="${package.dir}/ui/resources/yawlSplashScreen45.png" />
+                       value="${package.dir}/ui/resources/yawlSplashScreen5.png" />
             <attribute name="Implementation-Version"
                        value="${editor.release.version}.${this.build.number}" />
         </manifest>
