@@ -1,16 +1,15 @@
 package org.yawlfoundation.yawl.analyser.util.alloy.descriptors;
 
-import org.yawlfoundation.yawl.elements.YCondition;
 import org.yawlfoundation.yawl.elements.YExternalNetElement;
 import org.yawlfoundation.yawl.elements.YInputCondition;
 import org.yawlfoundation.yawl.elements.YTask;
 
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
 public class NotNoneJoinInputDescriptor extends InputDescriptor {
 
-    public NotNoneJoinInputDescriptor(YTask taskNode, List<String> variables, String toTransformOrJoin) {
+    public NotNoneJoinInputDescriptor(YTask taskNode, HashMap<String, String> variables, String toTransformOrJoin) {
         super(taskNode, variables, toTransformOrJoin);
     }
 
@@ -24,8 +23,7 @@ public class NotNoneJoinInputDescriptor extends InputDescriptor {
             YExternalNetElement nextTask = inputElementsIterator.next();
             if (nextTask instanceof YInputCondition) {
                 inputTasks[i] = (String.format("t = %s", "input_condition"));
-            }
-            else {
+            } else {
                 inputTasks[i] = (String.format("t.label = \"%s\"", nextTask.getPresetElements().iterator().next().getName()));
             }
         }

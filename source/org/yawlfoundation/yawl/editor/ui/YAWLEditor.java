@@ -100,24 +100,22 @@ public class YAWLEditor extends JFrame implements FileStateListener {
     /****************************************************************************/
 
     private static void showGUI(final String arg) {
-        SwingUtilities.invokeLater(new Runnable() {
-             public void run() {
-                 setLookAndFeel();
-                 startLoading();
-                 getInstance().setVisible(true);
-                 finishLoading();
-                 hideBottomOfSplitPane();
-                 if (arg != null && arg.equals("-updated")) {
-                     showUpdateSuccess();
-                     loadChosenSpecification(null);
-                 }
-                 else loadChosenSpecification(arg);
-                 if (! UserSettings.hasRunOnce()) {
-                     UserSettings.setHasRunOnce(true);
-                     new BackgroundUpdateChecker().execute();
-                 }
-              }
-        });
+        SwingUtilities.invokeLater(() -> {
+            setLookAndFeel();
+            startLoading();
+            getInstance().setVisible(true);
+            finishLoading();
+            hideBottomOfSplitPane();
+            if (arg != null && arg.equals("-updated")) {
+                showUpdateSuccess();
+                loadChosenSpecification(null);
+            }
+            else loadChosenSpecification(arg);
+            if (! UserSettings.hasRunOnce()) {
+                UserSettings.setHasRunOnce(true);
+                new BackgroundUpdateChecker().execute();
+            }
+         });
     }
 
     private static void hideBottomOfSplitPane() {
@@ -144,6 +142,7 @@ public class YAWLEditor extends JFrame implements FileStateListener {
             try {
                 String path = "/org/yawlfoundation/yawl/editor/ui/resources/yawlEditorLogo.png";
                 InputStream in = YAWLEditor.class.getResourceAsStream(path);
+                assert in != null;
                 Taskbar.getTaskbar().setIconImage(ImageIO.read(in));
             }
             catch (Exception e) {
@@ -237,19 +236,24 @@ public class YAWLEditor extends JFrame implements FileStateListener {
         splitPane.setDividerLocation(0.8);
     }
 
+    public void showAlloyRACCTestResults(String results) {
+//        System.out.println(code);
+        bottomPanel.setAlloyRACCTestResults(results);
+        bottomPanel.selectAlloyRACCTestResults();
+        splitPane.setDividerLocation(0.8);
+    }
+
 
 
     public void specificationFileStateChange(FileState state) {
         switch (state) {
-            case Open: {
+            case Open -> {
                 String title = SpecificationModel.getHandler().getFileName();
                 if (title != null) setTitle(title);
-                break;
             }
-            case Closed: {
+            case Closed -> {
                 setTitle("");
                 hideBottomOfSplitPane();
-                break;
             }
         }
     }

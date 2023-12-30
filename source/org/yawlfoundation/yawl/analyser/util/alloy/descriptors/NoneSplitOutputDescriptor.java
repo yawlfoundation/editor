@@ -1,15 +1,14 @@
 package org.yawlfoundation.yawl.analyser.util.alloy.descriptors;
 
-import org.apache.jena.base.Sys;
 import org.yawlfoundation.yawl.elements.YCondition;
 import org.yawlfoundation.yawl.elements.YExternalNetElement;
 import org.yawlfoundation.yawl.elements.YOutputCondition;
 import org.yawlfoundation.yawl.elements.YTask;
 
-import java.util.List;
+import java.util.HashMap;
 
 public class NoneSplitOutputDescriptor extends OutputDescriptor {
-    public NoneSplitOutputDescriptor(YTask taskNode, List<String> variables, String toTransformOrJoin) {
+    public NoneSplitOutputDescriptor(YTask taskNode, HashMap<String, String> variables, String toTransformOrJoin) {
         super(taskNode, variables, toTransformOrJoin);
     }
 
@@ -34,10 +33,10 @@ public class NoneSplitOutputDescriptor extends OutputDescriptor {
     private void addOutputOfRegularTask(YExternalNetElement outputElement) {
         YTask outputTask = (YTask) outputElement.getPostsetElements().iterator().next();
         this.strBuilder.append(String.format("""
-                                
-                fact {
-                all t: task | t.label = "%s" => {
-                one t1: task | t1 = t.flowsInto.nextTask && t1%s}}""", this.taskNode.getName(),
+                                        
+                        fact {
+                        all t: task | t.label = "%s" => {
+                        one t1: task | t1 = t.flowsInto.nextTask && t1%s}}""", this.taskNode.getName(),
                 this.getOutputTaskDescription(outputTask)));
     }
 

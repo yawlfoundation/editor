@@ -9,6 +9,7 @@ import org.yawlfoundation.yawl.elements.YTask;
 import org.yawlfoundation.yawl.elements.data.YVariable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class TranslationGenerator {
@@ -33,21 +34,18 @@ public class TranslationGenerator {
             System.out.println(currentTask.getName());
             InputDescriptor inputDescriptor = inputDescriptorFactory(currentTask);
             String inputDescription = inputDescriptor.getInputDescription();
-//            System.out.println(inputDescription);
             translationBuilder.append(inputDescription);
             OutputDescriptor outputDescriptor = outputDescriptorFactory(currentTask);
             String outputDescription = outputDescriptor.getOutputDescription();
-//            System.out.println(outputDescription);
             translationBuilder.append(outputDescription);
-//            System.out.println(inputDescriptor.getClass());
-//            System.out.println(outputDescriptor.getClass());
             System.out.println("-----------------------------------");
         }
         return translationBuilder.toString();
     }
 
     public String generatePredDescription() {
-        return DescriptionUtil.getShowPredPart(this._workFlow.getNetTasks().size() + 2, this._getPredicateCount());
+        return DescriptionUtil.getShowPredPart(this._workFlow.getNetTasks().size(),
+                this._workFlow.getNetTasks().size(), this._getPredicateCount());
     }
 
     private String _generate_open_order() {
@@ -62,7 +60,9 @@ public class TranslationGenerator {
         String[] variableDescriptions = new String[this._workFlow.getLocalVariables().size()];
         ArrayList<String> variableNames = new ArrayList<>(this._workFlow.getLocalVariables().keySet());
         Map<String, YVariable> variablesMap = this._workFlow.getLocalVariables();
+        System.out.println(this._workFlow.getLocalVariables().size());
         for (int i = 0; i < variableNames.size(); i++) {
+            System.out.println(variableNames.get(i));
             variableDescriptions[i] = String.format("\t%s: lone %s", variablesMap.get(variableNames.get(i)).getName(),
                     VariableDataTypeMapping.mapping.get(variablesMap.get(variableNames.get(i)).getDataTypeName()));
         }
@@ -70,7 +70,7 @@ public class TranslationGenerator {
         return stateSignature;
     }
 
-    private InputDescriptor inputDescriptorFactory(YTask task) {
+    public InputDescriptor inputDescriptorFactory(YTask task) {
         GatewayType joinType = DescriptionUtil.getGatewayType(task.getJoinType());
         if (task.getPresetFlows().size() > 1) {
             return new NotNoneJoinInputDescriptor(task, this.getVariableNames(), _toReplaceOrJoinName);
@@ -82,11 +82,15 @@ public class TranslationGenerator {
         return new InputConditionOutputDescriptor(this._workFlow.getInputCondition(), this._toReplaceOrJoinName);
     }
 
-    private ArrayList<String> getVariableNames() {
-        return new ArrayList<String>(this._workFlow.getLocalVariables().keySet());
+    public HashMap<String, String> getVariableNames() {
+        HashMap<String, String> variables = new HashMap<>();
+        for (Map.Entry<String, YVariable> entry : this._workFlow.getLocalVariables().entrySet()) {
+            variables.put(entry.getKey(), entry.getValue().getDataTypeName());
+        }
+        return variables;
     }
 
-    private OutputDescriptor outputDescriptorFactory(YTask task) {
+    public OutputDescriptor outputDescriptorFactory(YTask task) {
         GatewayType splitType = DescriptionUtil.getGatewayType(task.getSplitType());
         if (task.getPostsetFlows().size() > 1)
             return new NotNoneSplitOutputDescriptor(task, this.getVariableNames(), this._toReplaceOrJoinName);

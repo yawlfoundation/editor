@@ -2,16 +2,19 @@ package org.yawlfoundation.yawl.analyser.util.alloy.descriptors;
 
 import org.yawlfoundation.yawl.analyser.util.alloy.utils.DescriptionUtil;
 import org.yawlfoundation.yawl.analyser.util.alloy.utils.GatewayType;
-import org.yawlfoundation.yawl.elements.*;
+import org.yawlfoundation.yawl.elements.YExternalNetElement;
+import org.yawlfoundation.yawl.elements.YInputCondition;
+import org.yawlfoundation.yawl.elements.YOutputCondition;
+import org.yawlfoundation.yawl.elements.YTask;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
-public class InputConditionOutputDescriptor {
+public class InputConditionOutputDescriptor extends OutputDescriptor {
     private final YInputCondition inputCondition;
     private final String _toTransformOrJoin;
 
     public InputConditionOutputDescriptor(YInputCondition inputCondition, String toTransformOrJoin) {
+        super(null, null, toTransformOrJoin);
         this.inputCondition = inputCondition;
         this._toTransformOrJoin = toTransformOrJoin;
     }
@@ -44,8 +47,7 @@ public class InputConditionOutputDescriptor {
             return String.format(".label = \"%s\" && t.join = \"%s\" && t.split = \"%s\" && t in s.next.token",
                     outputTask.getName(), this.getJoinGatewayTypeString(outputTask),
                     this.getSplitGatewayTypeString(outputTask));
-        }
-        else {
+        } else {
             YTask outputTask = (YTask) outputElement.getPostsetElements().iterator().next();
             return String.format(".label = \"%s\" && t.join = \"%s\" && t.split = \"%s\" && t in s.next.token",
                     outputTask.getName(), this.getJoinGatewayTypeString(outputTask),

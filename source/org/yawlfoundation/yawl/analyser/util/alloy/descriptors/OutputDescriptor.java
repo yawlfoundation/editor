@@ -4,10 +4,11 @@ import org.yawlfoundation.yawl.elements.YCondition;
 import org.yawlfoundation.yawl.elements.YExternalNetElement;
 import org.yawlfoundation.yawl.elements.YTask;
 
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class OutputDescriptor extends TaskDescriptor{
-    public OutputDescriptor(YTask taskNode, List<String> variables, String toTransformOrJoin) {
+    public OutputDescriptor(YTask taskNode, HashMap<String, String> variables, String toTransformOrJoin) {
         super(taskNode, variables, toTransformOrJoin);
     }
 

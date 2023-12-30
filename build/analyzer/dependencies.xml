@@ -1,0 +1,2866 @@
+<?xml version="1.0"?>
+<JarAnalyzer>
+    <Jars>
+
+        <Jar name="alloy4.2_2015-02-22.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>1207</ClassCount>
+                    <AbstractClassCount>182</AbstractClassCount>
+                    <PackageCount>45</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.15</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.85</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>apple.awt</Package>
+                    <Package>com.sun.imageio.plugins.tiff</Package>
+                    <Package>com.apple.eio</Package>
+                    <Package>com.apple.eawt</Package>
+                    <Package>edu.mit.csail.sdg.alloy4compiler.sim</Package>
+                    <Package>edu.mit.csail.sdg.alloy4compiler.translator</Package>
+                    <Package>edu.mit.csail.sdg.alloy4compiler.ast</Package>
+                    <Package>edu.mit.csail.sdg.alloy4compiler.parser</Package>
+                    <Package>edu.mit.csail.sdg.alloy4viz</Package>
+                    <Package>edu.mit.csail.sdg.alloy4graph</Package>
+                    <Package>edu.mit.csail.sdg.alloy4whole</Package>
+                    <Package>edu.mit.csail.sdg.alloy4</Package>
+                    <Package>java.lang</Package>
+                    <Package>java_cup.runtime</Package>
+                    <Package>kodkod.ast</Package>
+                    <Package>kodkod.ast.operator</Package>
+                    <Package>kodkod.ast.visitor</Package>
+                    <Package>kodkod.engine</Package>
+                    <Package>kodkod.engine.satlab</Package>
+                    <Package>kodkod.engine.config</Package>
+                    <Package>kodkod.engine.bool</Package>
+                    <Package>kodkod.engine.fol2sat</Package>
+                    <Package>kodkod.engine.ucore</Package>
+                    <Package>kodkod.engine.hol</Package>
+                    <Package>kodkod.instance</Package>
+                    <Package>kodkod.util.taglet</Package>
+                    <Package>kodkod.util.ints</Package>
+                    <Package>kodkod.util.nodes</Package>
+                    <Package>kodkod.util.collections</Package>
+                    <Package>org.sat4j.reader</Package>
+                    <Package>org.sat4j.opt</Package>
+                    <Package>org.sat4j.core</Package>
+                    <Package>org.sat4j</Package>
+                    <Package>org.sat4j.minisat.core</Package>
+                    <Package>org.sat4j.minisat</Package>
+                    <Package>org.sat4j.minisat.orders</Package>
+                    <Package>org.sat4j.minisat.restarts</Package>
+                    <Package>org.sat4j.minisat.constraints.cnf</Package>
+                    <Package>org.sat4j.minisat.constraints</Package>
+                    <Package>org.sat4j.minisat.constraints.card</Package>
+                    <Package>org.sat4j.minisat.learning</Package>
+                    <Package>org.sat4j.tools</Package>
+                    <Package>org.sat4j.tools.xplain</Package>
+                    <Package>org.sat4j.tools.encoding</Package>
+                    <Package>org.sat4j.specs</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>YAWLEditor-analyser-4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>sun.awt.image</Package>
+                    <Package>sun.java2d</Package>
+                    <Package>sun.awt</Package>
+                    <Package>sun.awt.datatransfer</Package>
+                    <Package>sun.print</Package>
+                    <Package>sun.awt.print</Package>
+                    <Package>sun.java2d.pipe</Package>
+                    <Package>sun.java2d.loops</Package>
+                    <Package>sun.security.action</Package>
+                    <Package>sun.awt.im</Package>
+                    <Package>sun.awt.dnd</Package>
+                    <Package>sun.awt.font</Package>
+                    <Package>sun.applet</Package>
+                    <Package>com.sun.tools.doclets.internal.toolkit.taglets</Package>
+                    <Package>com.sun.tools.doclets.internal.toolkit.util</Package>
+                    <Package>com.sun.javadoc</Package>
+                    <Package>com.sun.tools.doclets.formats.html</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="automaton.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>25</ClassCount>
+                    <AbstractClassCount>1</AbstractClassCount>
+                    <PackageCount>1</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.04</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.96</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>dk.brics.automaton</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>YAWLEditor4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="commons-codec-1.9.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>85</ClassCount>
+                    <AbstractClassCount>13</AbstractClassCount>
+                    <PackageCount>6</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.15</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.85</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.commons.codec.binary</Package>
+                    <Package>org.apache.commons.codec</Package>
+                    <Package>org.apache.commons.codec.digest</Package>
+                    <Package>org.apache.commons.codec.language</Package>
+                    <Package>org.apache.commons.codec.language.bm</Package>
+                    <Package>org.apache.commons.codec.net</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>poi-3.15.jar</Jar>
+                    <Jar>yawl-lib-4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="commons-collections4-4.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>518</ClassCount>
+                    <AbstractClassCount>94</AbstractClassCount>
+                    <PackageCount>18</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.18</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.50</Instability>
+                    <Distance>0.32</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.commons.collections4.keyvalue</Package>
+                    <Package>org.apache.commons.collections4</Package>
+                    <Package>org.apache.commons.collections4.bag</Package>
+                    <Package>org.apache.commons.collections4.map</Package>
+                    <Package>org.apache.commons.collections4.multimap</Package>
+                    <Package>org.apache.commons.collections4.bidimap</Package>
+                    <Package>org.apache.commons.collections4.list</Package>
+                    <Package>org.apache.commons.collections4.comparators</Package>
+                    <Package>org.apache.commons.collections4.splitmap</Package>
+                    <Package>org.apache.commons.collections4.queue</Package>
+                    <Package>org.apache.commons.collections4.sequence</Package>
+                    <Package>org.apache.commons.collections4.trie</Package>
+                    <Package>org.apache.commons.collections4.trie.analyzer</Package>
+                    <Package>org.apache.commons.collections4.collection</Package>
+                    <Package>org.apache.commons.collections4.iterators</Package>
+                    <Package>org.apache.commons.collections4.multiset</Package>
+                    <Package>org.apache.commons.collections4.set</Package>
+                    <Package>org.apache.commons.collections4.functors</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jaxen-1.1.6.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>poi-ooxml-3.15.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="commons-lang-2.3.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>124</ClassCount>
+                    <AbstractClassCount>14</AbstractClassCount>
+                    <PackageCount>9</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.11</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.89</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.commons.lang</Package>
+                    <Package>org.apache.commons.lang.builder</Package>
+                    <Package>org.apache.commons.lang.enum</Package>
+                    <Package>org.apache.commons.lang.enums</Package>
+                    <Package>org.apache.commons.lang.exception</Package>
+                    <Package>org.apache.commons.lang.math</Package>
+                    <Package>org.apache.commons.lang.mutable</Package>
+                    <Package>org.apache.commons.lang.text</Package>
+                    <Package>org.apache.commons.lang.time</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>yawl-lib-4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="commons-lang3-3.3.2.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>217</ClassCount>
+                    <AbstractClassCount>28</AbstractClassCount>
+                    <PackageCount>12</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.13</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.87</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.commons.lang3</Package>
+                    <Package>org.apache.commons.lang3.builder</Package>
+                    <Package>org.apache.commons.lang3.concurrent</Package>
+                    <Package>org.apache.commons.lang3.event</Package>
+                    <Package>org.apache.commons.lang3.exception</Package>
+                    <Package>org.apache.commons.lang3.math</Package>
+                    <Package>org.apache.commons.lang3.mutable</Package>
+                    <Package>org.apache.commons.lang3.reflect</Package>
+                    <Package>org.apache.commons.lang3.text</Package>
+                    <Package>org.apache.commons.lang3.text.translate</Package>
+                    <Package>org.apache.commons.lang3.time</Package>
+                    <Package>org.apache.commons.lang3.tuple</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>jena-arq-3.1.1.jar</Jar>
+                    <Jar>jena-base-3.1.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="commons-lang3-3.6.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>267</ClassCount>
+                    <AbstractClassCount>39</AbstractClassCount>
+                    <PackageCount>13</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.15</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>-1.0</Instability>
+                    <Distance>-1.0</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.commons.lang3</Package>
+                    <Package>org.apache.commons.lang3.builder</Package>
+                    <Package>org.apache.commons.lang3.concurrent</Package>
+                    <Package>org.apache.commons.lang3.event</Package>
+                    <Package>org.apache.commons.lang3.exception</Package>
+                    <Package>org.apache.commons.lang3.math</Package>
+                    <Package>org.apache.commons.lang3.mutable</Package>
+                    <Package>org.apache.commons.lang3.reflect</Package>
+                    <Package>org.apache.commons.lang3.text.translate</Package>
+                    <Package>org.apache.commons.lang3.text</Package>
+                    <Package>org.apache.commons.lang3.time</Package>
+                    <Package>org.apache.commons.lang3.tuple</Package>
+                    <Package>org.apache.commons.lang3.arch</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="dom4j-1.6.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>190</ClassCount>
+                    <AbstractClassCount>39</AbstractClassCount>
+                    <PackageCount>14</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.21</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.50</Instability>
+                    <Distance>0.29</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.dom4j</Package>
+                    <Package>org.dom4j.bean</Package>
+                    <Package>org.dom4j.datatype</Package>
+                    <Package>org.dom4j.dom</Package>
+                    <Package>org.dom4j.dtd</Package>
+                    <Package>org.dom4j.io</Package>
+                    <Package>org.dom4j.jaxb</Package>
+                    <Package>org.dom4j.rule</Package>
+                    <Package>org.dom4j.rule.pattern</Package>
+                    <Package>org.dom4j.swing</Package>
+                    <Package>org.dom4j.tree</Package>
+                    <Package>org.dom4j.util</Package>
+                    <Package>org.dom4j.xpath</Package>
+                    <Package>org.dom4j.xpp</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jaxen-1.1.6.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>jaxen-1.1.6.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                    <Cycle>jaxen-1.1.6.jar</Cycle>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.xml.sax</Package>
+                    <Package>org.relaxng.datatype</Package>
+                    <Package>com.sun.msv.datatype</Package>
+                    <Package>com.sun.msv.datatype.xsd</Package>
+                    <Package>org.xml.sax.ext</Package>
+                    <Package>org.xml.sax.helpers</Package>
+                    <Package>org.xmlpull.v1</Package>
+                    <Package>org.gjt.xpp</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="forms_rt.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>105</ClassCount>
+                    <AbstractClassCount>16</AbstractClassCount>
+                    <PackageCount>5</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.15</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.85</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.intellij.uiDesigner.compiler</Package>
+                    <Package>com.intellij.uiDesigner.lw</Package>
+                    <Package>com.intellij.uiDesigner.shared</Package>
+                    <Package>com.intellij.uiDesigner</Package>
+                    <Package>com.intellij.uiDesigner.core</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>YAWLEditor4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.objectweb.asm.commons</Package>
+                    <Package>org.objectweb.asm</Package>
+                    <Package>com.jgoodies.forms.layout</Package>
+                    <Package>org.xml.sax</Package>
+                    <Package>org.xml.sax.helpers</Package>
+                    <Package>org.jdom.input</Package>
+                    <Package>org.jdom</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="imgscalr-lib-4.2.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>23</ClassCount>
+                    <AbstractClassCount>0</AbstractClassCount>
+                    <PackageCount>1</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.00</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>1.00</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.imgscalr</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>YAWLEditor4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jakarta.activation-1.2.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>42</ClassCount>
+                    <AbstractClassCount>6</AbstractClassCount>
+                    <PackageCount>3</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.14</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>-1.0</Instability>
+                    <Distance>-1.0</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.sun.activation.viewers</Package>
+                    <Package>com.sun.activation.registries</Package>
+                    <Package>javax.activation</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jaxen-1.1.6.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>214</ClassCount>
+                    <AbstractClassCount>57</AbstractClassCount>
+                    <PackageCount>17</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.27</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>15</Afferent>
+                    <Instability>0.06</Instability>
+                    <Distance>0.67</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.jaxen</Package>
+                    <Package>org.jaxen.dom</Package>
+                    <Package>org.jaxen.dom4j</Package>
+                    <Package>org.jaxen.expr</Package>
+                    <Package>org.jaxen.expr.iter</Package>
+                    <Package>org.jaxen.function</Package>
+                    <Package>org.jaxen.function.ext</Package>
+                    <Package>org.jaxen.function.xslt</Package>
+                    <Package>org.jaxen.javabean</Package>
+                    <Package>org.jaxen.jdom</Package>
+                    <Package>org.jaxen.pattern</Package>
+                    <Package>org.jaxen.saxpath</Package>
+                    <Package>org.jaxen.saxpath.base</Package>
+                    <Package>org.jaxen.saxpath.helpers</Package>
+                    <Package>org.jaxen.util</Package>
+                    <Package>org.jaxen.xom</Package>
+                    <Package>org.w3c.dom</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>dom4j-1.6.1.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>commons-collections4-4.1.jar</Jar>
+                    <Jar>dom4j-1.6.1.jar</Jar>
+                    <Jar>jdom-2.0.5.jar</Jar>
+                    <Jar>jena-core-3.1.1.jar</Jar>
+                    <Jar>log4j-1.2-api-2.17.1.jar</Jar>
+                    <Jar>log4j-core-2.17.1.jar</Jar>
+                    <Jar>poi-3.15.jar</Jar>
+                    <Jar>poi-ooxml-3.15.jar</Jar>
+                    <Jar>poi-ooxml-schemas-3.15.jar</Jar>
+                    <Jar>saxon9-dom.jar</Jar>
+                    <Jar>saxon9-s9api.jar</Jar>
+                    <Jar>saxon9.jar</Jar>
+                    <Jar>xercesImpl.jar</Jar>
+                    <Jar>xmlbeans-2.6.0.jar</Jar>
+                    <Jar>yawl-lib-4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                    <Cycle>dom4j-1.6.1.jar</Cycle>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.xml.sax</Package>
+                    <Package>org.jdom</Package>
+                    <Package>org.jdom.input</Package>
+                    <Package>nu.xom</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jcalendar-1.4.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>58</ClassCount>
+                    <AbstractClassCount>3</AbstractClassCount>
+                    <PackageCount>4</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.05</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.33</Instability>
+                    <Distance>0.62</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.toedter.calendar</Package>
+                    <Package>com.toedter.calendar.demo</Package>
+                    <Package>com.toedter.components</Package>
+                    <Package>com.toedter.plaf</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jgoodies-looks-2.7.0.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>l2fprod-common-all.jar</Jar>
+                    <Jar>YAWLEditor4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jdom-2.0.5.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>191</ClassCount>
+                    <AbstractClassCount>37</AbstractClassCount>
+                    <PackageCount>15</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.19</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>3</Afferent>
+                    <Instability>0.25</Instability>
+                    <Distance>0.56</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.jdom2</Package>
+                    <Package>org.jdom2.adapters</Package>
+                    <Package>org.jdom2.filter</Package>
+                    <Package>org.jdom2.input</Package>
+                    <Package>org.jdom2.input.sax</Package>
+                    <Package>org.jdom2.input.stax</Package>
+                    <Package>org.jdom2.internal</Package>
+                    <Package>org.jdom2.located</Package>
+                    <Package>org.jdom2.output</Package>
+                    <Package>org.jdom2.output.support</Package>
+                    <Package>org.jdom2.transform</Package>
+                    <Package>org.jdom2.util</Package>
+                    <Package>org.jdom2.xpath</Package>
+                    <Package>org.jdom2.xpath.jaxen</Package>
+                    <Package>org.jdom2.xpath.util</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jaxen-1.1.6.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>yawl-lib-4.5.1.jar</Jar>
+                    <Jar>YAWLEditor-core-4.5.1.jar</Jar>
+                    <Jar>YAWLEditor4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.xml.sax</Package>
+                    <Package>org.xml.sax.ext</Package>
+                    <Package>org.xml.sax.helpers</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jena-arq-3.1.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>1957</ClassCount>
+                    <AbstractClassCount>278</AbstractClassCount>
+                    <PackageCount>88</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.14</Abstractness>
+                    <Efferent>7</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>1.00</Instability>
+                    <Distance>0.14</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.jena.atlas.json.io.parser</Package>
+                    <Package>org.apache.jena.atlas.json.io</Package>
+                    <Package>org.apache.jena.atlas.json.io.parserjavacc.javacc</Package>
+                    <Package>org.apache.jena.atlas.json</Package>
+                    <Package>org.apache.jena.atlas.csv</Package>
+                    <Package>org.apache.jena.atlas.test</Package>
+                    <Package>org.apache.jena.atlas.data</Package>
+                    <Package>org.apache.jena.riot.lang</Package>
+                    <Package>org.apache.jena.riot.resultset</Package>
+                    <Package>org.apache.jena.riot.thrift.wire</Package>
+                    <Package>org.apache.jena.riot</Package>
+                    <Package>org.apache.jena.riot.writer</Package>
+                    <Package>org.apache.jena.riot.checker</Package>
+                    <Package>org.apache.jena.riot.out</Package>
+                    <Package>org.apache.jena.riot.out.quoted</Package>
+                    <Package>org.apache.jena.riot.web</Package>
+                    <Package>org.apache.jena.riot.process.inf</Package>
+                    <Package>org.apache.jena.riot.process.normalize</Package>
+                    <Package>org.apache.jena.riot.adapters</Package>
+                    <Package>org.apache.jena.riot.tokens</Package>
+                    <Package>org.apache.jena.sparql.lang.arq</Package>
+                    <Package>org.apache.jena.sparql.lang</Package>
+                    <Package>org.apache.jena.sparql.vocabulary</Package>
+                    <Package>org.apache.jena.sparql.engine.join</Package>
+                    <Package>org.apache.jena.sparql.algebra.optimize</Package>
+                    <Package>org.apache.jena.sparql.algebra</Package>
+                    <Package>org.apache.jena.sparql.sse.lang.parser</Package>
+                    <Package>org.apache.jena.sparql.sse.builders</Package>
+                    <Package>org.apache.jena.sparql.expr.aggregate.lib</Package>
+                    <Package>org.apache.jena.sparql.expr.aggregate</Package>
+                    <Package>org.apache.jena.sparql.expr</Package>
+                    <Package>org.apache.jena.sparql.mgt</Package>
+                    <Package>org.apache.jena.sparql.pfunction</Package>
+                    <Package>org.apache.jena.sparql.pfunction.library</Package>
+                    <Package>org.apache.jena.sparql.path.eval</Package>
+                    <Package>org.apache.jena.sparql.path</Package>
+                    <Package>org.apache.jena.query</Package>
+                    <Package>org.apache.jena.riot.other</Package>
+                    <Package>org.apache.jena.riot.system</Package>
+                    <Package>org.apache.jena.sparql.engine</Package>
+                    <Package>org.apache.jena.sparql.engine.optimizer</Package>
+                    <Package>org.apache.jena.sparql.engine.optimizer.reorder</Package>
+                    <Package>org.apache.jena.sparql.engine.iterator</Package>
+                    <Package>org.apache.jena.sparql.engine.http</Package>
+                    <Package>org.apache.jena.sparql.engine.main</Package>
+                    <Package>org.apache.jena.sparql.engine.main.iterator</Package>
+                    <Package>org.apache.jena.sparql.engine.binding</Package>
+                    <Package>org.apache.jena.sparql.serializer</Package>
+                    <Package>org.apache.jena.sparql.resultset</Package>
+                    <Package>org.apache.jena.sparql</Package>
+                    <Package>org.apache.jena.sparql.modify.request</Package>
+                    <Package>org.apache.jena.sparql.modify</Package>
+                    <Package>org.apache.jena.sparql.core</Package>
+                    <Package>org.apache.jena.sparql.core.mem</Package>
+                    <Package>org.apache.jena.sparql.core.assembler</Package>
+                    <Package>org.apache.jena.sparql.syntax</Package>
+                    <Package>org.apache.jena.sparql.syntax.syntaxtransform</Package>
+                    <Package>org.apache.jena.sparql.util</Package>
+                    <Package>org.apache.jena.sparql.util.graph</Package>
+                    <Package>org.apache.jena.sparql.graph</Package>
+                    <Package>org.apache.jena.sparql.algebra.table</Package>
+                    <Package>org.apache.jena.sparql.sse</Package>
+                    <Package>org.apache.jena.sparql.sse.writers</Package>
+                    <Package>org.apache.jena.sparql.procedure</Package>
+                    <Package>org.apache.jena.sparql.expr.nodevalue</Package>
+                    <Package>org.apache.jena.atlas.json.io.parserjavacc</Package>
+                    <Package>org.apache.jena.atlas.web</Package>
+                    <Package>org.apache.jena.system</Package>
+                    <Package>org.apache.jena.riot.system.stream</Package>
+                    <Package>org.apache.jena.riot.thrift</Package>
+                    <Package>org.apache.jena.update</Package>
+                    <Package>org.apache.jena.sparql.lang.sparql_11</Package>
+                    <Package>org.apache.jena.sparql.lang.sparql_10</Package>
+                    <Package>org.apache.jena.sparql.algebra.op</Package>
+                    <Package>org.apache.jena.sparql.algebra.walker</Package>
+                    <Package>org.apache.jena.sparql.engine.index</Package>
+                    <Package>org.apache.jena.sparql.engine.ref</Package>
+                    <Package>org.apache.jena.sparql.function</Package>
+                    <Package>org.apache.jena.sparql.function.library</Package>
+                    <Package>org.apache.jena.sparql.function.library.leviathan</Package>
+                    <Package>org.apache.jena.sparql.function.user</Package>
+                    <Package>org.apache.jena.sparql.sse.lang</Package>
+                    <Package>org.apache.jena.web</Package>
+                    <Package>org.apache.jena.atlas.event</Package>
+                    <Package>org.apache.jena.sparql.core.describe</Package>
+                    <Package>org.apache.jena.sparql.system</Package>
+                    <Package>org.apache.jena.sparql.lib</Package>
+                    <Package>org.apache.jena.sparql.procedure.library</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jena-base-3.1.1.jar</Jar>
+                    <Jar>jena-core-3.1.1.jar</Jar>
+                    <Jar>jena-iri-3.1.1.jar</Jar>
+                    <Jar>slf4j-api-1.7.21.jar</Jar>
+                    <Jar>xercesImpl.jar</Jar>
+                    <Jar>jena-shaded-guava-3.1.1.jar</Jar>
+                    <Jar>commons-lang3-3.3.2.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.apache.commons.csv</Package>
+                    <Package>org.xml.sax</Package>
+                    <Package>com.fasterxml.jackson.core</Package>
+                    <Package>com.github.jsonldjava.core</Package>
+                    <Package>com.github.jsonldjava.utils</Package>
+                    <Package>org.apache.thrift.scheme</Package>
+                    <Package>org.apache.thrift.protocol</Package>
+                    <Package>org.apache.thrift.transport</Package>
+                    <Package>org.apache.thrift</Package>
+                    <Package>org.apache.thrift.meta_data</Package>
+                    <Package>com.fasterxml.jackson.databind</Package>
+                    <Package>org.apache.http</Package>
+                    <Package>org.apache.http.entity</Package>
+                    <Package>org.apache.http.impl.client</Package>
+                    <Package>org.apache.http.util</Package>
+                    <Package>org.apache.http.client.methods</Package>
+                    <Package>org.apache.http.message</Package>
+                    <Package>org.apache.http.client.entity</Package>
+                    <Package>org.apache.http.client</Package>
+                    <Package>org.apache.http.protocol</Package>
+                    <Package>org.apache.http.impl.client.cache</Package>
+                    <Package>org.apache.http.client.utils</Package>
+                    <Package>org.apache.http.client.protocol</Package>
+                    <Package>org.apache.http.client.config</Package>
+                    <Package>org.xml.sax.helpers</Package>
+                    <Package>com.github.andrewoma.dexx.collection</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jena-base-3.1.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>171</ClassCount>
+                    <AbstractClassCount>35</AbstractClassCount>
+                    <PackageCount>10</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.20</Abstractness>
+                    <Efferent>4</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.67</Instability>
+                    <Distance>0.13</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.jena.atlas.lib</Package>
+                    <Package>org.apache.jena.atlas.lib.tuple</Package>
+                    <Package>org.apache.jena.atlas.lib.persistent</Package>
+                    <Package>org.apache.jena.atlas.lib.cache</Package>
+                    <Package>org.apache.jena.atlas.iterator</Package>
+                    <Package>org.apache.jena.atlas.io</Package>
+                    <Package>org.apache.jena.atlas.logging</Package>
+                    <Package>org.apache.jena.atlas.logging.java</Package>
+                    <Package>org.apache.jena.base</Package>
+                    <Package>org.apache.jena.atlas</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>slf4j-api-1.7.21.jar</Jar>
+                    <Jar>commons-lang3-3.3.2.jar</Jar>
+                    <Jar>jena-shaded-guava-3.1.1.jar</Jar>
+                    <Jar>log4j-1.2-api-2.17.1.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>jena-arq-3.1.1.jar</Jar>
+                    <Jar>jena-core-3.1.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>com.github.andrewoma.dexx.collection</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jena-core-3.1.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>981</ClassCount>
+                    <AbstractClassCount>196</AbstractClassCount>
+                    <PackageCount>38</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.20</Abstractness>
+                    <Efferent>6</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.86</Instability>
+                    <Distance>0.06</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.jena.reasoner.rulesys</Package>
+                    <Package>org.apache.jena.reasoner.rulesys.builtins</Package>
+                    <Package>org.apache.jena.reasoner.rulesys.impl</Package>
+                    <Package>org.apache.jena.shared.uuid</Package>
+                    <Package>org.apache.jena.shared.wg</Package>
+                    <Package>org.apache.jena.shared.impl</Package>
+                    <Package>org.apache.jena.vocabulary</Package>
+                    <Package>org.apache.jena.enhanced</Package>
+                    <Package>org.apache.jena.system</Package>
+                    <Package>org.apache.jena</Package>
+                    <Package>org.apache.jena.n3</Package>
+                    <Package>org.apache.jena.n3.turtle.parser</Package>
+                    <Package>org.apache.jena.n3.turtle</Package>
+                    <Package>org.apache.jena.mem</Package>
+                    <Package>org.apache.jena.util</Package>
+                    <Package>org.apache.jena.util.iterator</Package>
+                    <Package>org.apache.jena.rdfxml.xmloutput</Package>
+                    <Package>org.apache.jena.rdfxml.xmloutput.impl</Package>
+                    <Package>org.apache.jena.rdfxml.xmlinput</Package>
+                    <Package>org.apache.jena.rdfxml.xmlinput.states</Package>
+                    <Package>org.apache.jena.rdfxml.xmlinput.impl</Package>
+                    <Package>org.apache.jena.graph</Package>
+                    <Package>org.apache.jena.graph.compose</Package>
+                    <Package>org.apache.jena.graph.impl</Package>
+                    <Package>org.apache.jena.datatypes</Package>
+                    <Package>org.apache.jena.datatypes.xsd</Package>
+                    <Package>org.apache.jena.datatypes.xsd.impl</Package>
+                    <Package>org.apache.jena.assembler.assemblers</Package>
+                    <Package>org.apache.jena.assembler</Package>
+                    <Package>org.apache.jena.assembler.exceptions</Package>
+                    <Package>org.apache.jena.reasoner</Package>
+                    <Package>org.apache.jena.reasoner.transitiveReasoner</Package>
+                    <Package>org.apache.jena.ontology</Package>
+                    <Package>org.apache.jena.ontology.impl</Package>
+                    <Package>org.apache.jena.rdf.model</Package>
+                    <Package>org.apache.jena.rdf.model.impl</Package>
+                    <Package>org.apache.jena.rdf.listeners</Package>
+                    <Package>org.apache.jena.shared</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>slf4j-api-1.7.21.jar</Jar>
+                    <Jar>xercesImpl.jar</Jar>
+                    <Jar>jena-shaded-guava-3.1.1.jar</Jar>
+                    <Jar>jena-base-3.1.1.jar</Jar>
+                    <Jar>jena-iri-3.1.1.jar</Jar>
+                    <Jar>jaxen-1.1.6.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>jena-arq-3.1.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.xml.sax</Package>
+                    <Package>org.xml.sax.ext</Package>
+                    <Package>org.xml.sax.helpers</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jena-iri-3.1.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>59</ClassCount>
+                    <AbstractClassCount>16</AbstractClassCount>
+                    <PackageCount>2</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.27</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.73</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.jena.iri</Package>
+                    <Package>org.apache.jena.iri.impl</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>jena-arq-3.1.1.jar</Jar>
+                    <Jar>jena-core-3.1.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jena-shaded-guava-3.1.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>1690</ClassCount>
+                    <AbstractClassCount>303</AbstractClassCount>
+                    <PackageCount>17</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.18</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>3</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.82</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.jena.ext.com.google.common.annotations</Package>
+                    <Package>org.apache.jena.ext.com.google.common.base</Package>
+                    <Package>org.apache.jena.ext.com.google.common.base.internal</Package>
+                    <Package>org.apache.jena.ext.com.google.common.cache</Package>
+                    <Package>org.apache.jena.ext.com.google.common.collect</Package>
+                    <Package>org.apache.jena.ext.com.google.common.escape</Package>
+                    <Package>org.apache.jena.ext.com.google.common.eventbus</Package>
+                    <Package>org.apache.jena.ext.com.google.common.hash</Package>
+                    <Package>org.apache.jena.ext.com.google.common.html</Package>
+                    <Package>org.apache.jena.ext.com.google.common.io</Package>
+                    <Package>org.apache.jena.ext.com.google.common.math</Package>
+                    <Package>org.apache.jena.ext.com.google.common.net</Package>
+                    <Package>org.apache.jena.ext.com.google.common.primitives</Package>
+                    <Package>org.apache.jena.ext.com.google.common.reflect</Package>
+                    <Package>org.apache.jena.ext.com.google.common.util.concurrent</Package>
+                    <Package>org.apache.jena.ext.com.google.common.xml</Package>
+                    <Package>org.apache.jena.ext.com.google.thirdparty.publicsuffix</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>jena-arq-3.1.1.jar</Jar>
+                    <Jar>jena-base-3.1.1.jar</Jar>
+                    <Jar>jena-core-3.1.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>sun.misc</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jgoodies-common-1.8.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>39</ClassCount>
+                    <AbstractClassCount>21</AbstractClassCount>
+                    <PackageCount>7</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.54</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.46</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.jgoodies.common.base</Package>
+                    <Package>com.jgoodies.common.bean</Package>
+                    <Package>com.jgoodies.common.collect</Package>
+                    <Package>com.jgoodies.common.display</Package>
+                    <Package>com.jgoodies.common.format</Package>
+                    <Package>com.jgoodies.common.internal</Package>
+                    <Package>com.jgoodies.common.swing</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>jgoodies-looks-2.7.0.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jgoodies-looks-2.7.0.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>268</ClassCount>
+                    <AbstractClassCount>8</AbstractClassCount>
+                    <PackageCount>5</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.03</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.33</Instability>
+                    <Distance>0.64</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.jgoodies.looks</Package>
+                    <Package>com.jgoodies.looks.common</Package>
+                    <Package>com.jgoodies.looks.plastic</Package>
+                    <Package>com.jgoodies.looks.plastic.theme</Package>
+                    <Package>com.jgoodies.looks.windows</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jgoodies-common-1.8.1.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>jcalendar-1.4.jar</Jar>
+                    <Jar>YAWLEditor4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>com.sun.java.swing.plaf.windows</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jgraph4yawl-4.5.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>91</ClassCount>
+                    <AbstractClassCount>20</AbstractClassCount>
+                    <PackageCount>6</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.22</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.78</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.jgraph</Package>
+                    <Package>org.jgraph.event</Package>
+                    <Package>org.jgraph.graph</Package>
+                    <Package>org.jgraph.plaf</Package>
+                    <Package>org.jgraph.plaf.basic</Package>
+                    <Package>org.jgraph.util</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>YAWLEditor4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="l2fprod-common-all.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>320</ClassCount>
+                    <AbstractClassCount>27</AbstractClassCount>
+                    <PackageCount>23</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.08</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.50</Instability>
+                    <Distance>0.42</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.l2fprod.common</Package>
+                    <Package>com.l2fprod.common.beans</Package>
+                    <Package>com.l2fprod.common.beans.editor</Package>
+                    <Package>com.l2fprod.common.demo</Package>
+                    <Package>com.l2fprod.common.model</Package>
+                    <Package>com.l2fprod.common.propertysheet</Package>
+                    <Package>com.l2fprod.common.springrcp</Package>
+                    <Package>com.l2fprod.common.swing</Package>
+                    <Package>com.l2fprod.common.swing.border</Package>
+                    <Package>com.l2fprod.common.swing.icons</Package>
+                    <Package>com.l2fprod.common.swing.plaf</Package>
+                    <Package>com.l2fprod.common.swing.plaf.aqua</Package>
+                    <Package>com.l2fprod.common.swing.plaf.basic</Package>
+                    <Package>com.l2fprod.common.swing.plaf.blue</Package>
+                    <Package>com.l2fprod.common.swing.plaf.metal</Package>
+                    <Package>com.l2fprod.common.swing.plaf.misc</Package>
+                    <Package>com.l2fprod.common.swing.plaf.motif</Package>
+                    <Package>com.l2fprod.common.swing.plaf.windows</Package>
+                    <Package>com.l2fprod.common.swing.renderer</Package>
+                    <Package>com.l2fprod.common.swing.tips</Package>
+                    <Package>com.l2fprod.common.swing.tree</Package>
+                    <Package>com.l2fprod.common.util</Package>
+                    <Package>com.l2fprod.common.util.converter</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jcalendar-1.4.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>YAWLEditor4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>net.sf.nachocalendar.components</Package>
+                    <Package>net.sf.nachocalendar</Package>
+                    <Package>org.springframework.richclient.form.binding.support</Package>
+                    <Package>org.springframework.binding.form</Package>
+                    <Package>org.springframework.richclient.form.binding</Package>
+                    <Package>org.springframework.richclient.command</Package>
+                    <Package>org.springframework.richclient.command.config</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="log4j-1.2-api-2.17.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>117</ClassCount>
+                    <AbstractClassCount>23</AbstractClassCount>
+                    <PackageCount>17</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.20</Abstractness>
+                    <Efferent>3</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.60</Instability>
+                    <Distance>0.20</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.log4j</Package>
+                    <Package>org.apache.log4j.builders.appender</Package>
+                    <Package>org.apache.log4j.config</Package>
+                    <Package>org.apache.log4j.bridge</Package>
+                    <Package>org.apache.log4j.rewrite</Package>
+                    <Package>org.apache.log4j.or.jms</Package>
+                    <Package>org.apache.log4j.xml</Package>
+                    <Package>org.apache.log4j.spi</Package>
+                    <Package>org.apache.log4j.legacy.core</Package>
+                    <Package>org.apache.log4j.helpers</Package>
+                    <Package>org.apache.log4j.or</Package>
+                    <Package>org.apache.log4j.builders.layout</Package>
+                    <Package>org.apache.log4j.builders</Package>
+                    <Package>org.apache.log4j.builders.filter</Package>
+                    <Package>org.apache.log4j.layout</Package>
+                    <Package>org.apache.log4j.pattern</Package>
+                    <Package>org.apache.log4j.builders.rewrite</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>log4j-api-2.17.1.jar</Jar>
+                    <Jar>log4j-core-2.17.1.jar</Jar>
+                    <Jar>jaxen-1.1.6.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>jena-base-3.1.1.jar</Jar>
+                    <Jar>yawl-lib-4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.xml.sax</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="log4j-api-2.17.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>180</ClassCount>
+                    <AbstractClassCount>54</AbstractClassCount>
+                    <PackageCount>9</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.30</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>5</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.70</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.logging.log4j.util</Package>
+                    <Package>org.apache.logging.log4j.message</Package>
+                    <Package>org.apache.logging.log4j.simple</Package>
+                    <Package>org.apache.logging.log4j.spi</Package>
+                    <Package>org.apache.logging.log4j</Package>
+                    <Package>org.apache.logging.log4j.internal</Package>
+                    <Package>org.apache.logging.log4j.status</Package>
+                    <Package>org.apache.logging.log4j.util.internal</Package>
+                    <Package/>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>log4j-1.2-api-2.17.1.jar</Jar>
+                    <Jar>log4j-core-2.17.1.jar</Jar>
+                    <Jar>log4j-slf4j-impl-2.17.1.jar</Jar>
+                    <Jar>yawl-lib-4.5.1.jar</Jar>
+                    <Jar>YAWLEditor4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.osgi.framework</Package>
+                    <Package>org.osgi.framework.wiring</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="log4j-core-2.17.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>1128</ClassCount>
+                    <AbstractClassCount>211</AbstractClassCount>
+                    <PackageCount>52</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.19</Abstractness>
+                    <Efferent>2</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.50</Instability>
+                    <Distance>0.31</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.logging.log4j.core.appender.rewrite</Package>
+                    <Package>org.apache.logging.log4j.core.appender</Package>
+                    <Package>org.apache.logging.log4j.core.appender.rolling</Package>
+                    <Package>org.apache.logging.log4j.core.appender.rolling.action</Package>
+                    <Package>org.apache.logging.log4j.core.appender.db.jdbc</Package>
+                    <Package>org.apache.logging.log4j.core.appender.nosql</Package>
+                    <Package>org.apache.logging.log4j.core.impl</Package>
+                    <Package>org.apache.logging.log4j.core.selector</Package>
+                    <Package>org.apache.logging.log4j.core.tools</Package>
+                    <Package>org.apache.logging.log4j.core.tools.picocli</Package>
+                    <Package>org.apache.logging.log4j.core.net.ssl</Package>
+                    <Package>org.apache.logging.log4j.core.net</Package>
+                    <Package>org.apache.logging.log4j.core.util</Package>
+                    <Package>org.apache.logging.log4j.core.util.datetime</Package>
+                    <Package>org.apache.logging.log4j.core</Package>
+                    <Package>org.apache.logging.log4j.core.config.arbiters</Package>
+                    <Package>org.apache.logging.log4j.core.config.plugins.util</Package>
+                    <Package>org.apache.logging.log4j.core.config.plugins.processor</Package>
+                    <Package>org.apache.logging.log4j.core.config.plugins.convert</Package>
+                    <Package>org.apache.logging.log4j.core.config.composite</Package>
+                    <Package>org.apache.logging.log4j.core.config.json</Package>
+                    <Package>org.apache.logging.log4j.core.config</Package>
+                    <Package>org.apache.logging.log4j.core.config.builder.impl</Package>
+                    <Package>org.apache.logging.log4j.core.jmx</Package>
+                    <Package>org.apache.logging.log4j.core.layout</Package>
+                    <Package>org.apache.logging.log4j.core.async</Package>
+                    <Package>org.apache.logging.log4j.core.lookup</Package>
+                    <Package>org.apache.logging.log4j.core.filter</Package>
+                    <Package>org.apache.logging.log4j.core.pattern</Package>
+                    <Package>org.apache.logging.log4j.core.jackson</Package>
+                    <Package>org.apache.logging.log4j.core.appender.db</Package>
+                    <Package>org.apache.logging.log4j.core.appender.routing</Package>
+                    <Package>org.apache.logging.log4j.core.appender.mom.jeromq</Package>
+                    <Package>org.apache.logging.log4j.core.config.plugins.validation.constraints</Package>
+                    <Package>org.apache.logging.log4j.core.config.plugins.validation</Package>
+                    <Package>org.apache.logging.log4j.core.config.properties</Package>
+                    <Package>org.apache.logging.log4j.core.config.yaml</Package>
+                    <Package>org.apache.logging.log4j.core.script</Package>
+                    <Package>org.apache.logging.log4j.core.appender.mom</Package>
+                    <Package>org.apache.logging.log4j.core.appender.mom.kafka</Package>
+                    <Package>org.apache.logging.log4j.core.config.plugins.visitors</Package>
+                    <Package>org.apache.logging.log4j.core.config.plugins</Package>
+                    <Package>org.apache.logging.log4j.core.config.builder.api</Package>
+                    <Package>org.apache.logging.log4j.core.config.plugins.validation.validators</Package>
+                    <Package>org.apache.logging.log4j.core.config.status</Package>
+                    <Package>org.apache.logging.log4j.core.osgi</Package>
+                    <Package>org.apache.logging.log4j.core.layout.internal</Package>
+                    <Package>org.apache.logging.log4j.core.message</Package>
+                    <Package>org.apache.logging.log4j.core.time</Package>
+                    <Package>org.apache.logging.log4j.core.config.xml</Package>
+                    <Package>org.apache.logging.log4j.core.parser</Package>
+                    <Package>org.apache.logging.log4j.core.time.internal</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>log4j-api-2.17.1.jar</Jar>
+                    <Jar>jaxen-1.1.6.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>log4j-1.2-api-2.17.1.jar</Jar>
+                    <Jar>yawl-lib-4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.apache.commons.compress.compressors</Package>
+                    <Package>org.apache.commons.compress.utils</Package>
+                    <Package>org.osgi.framework.wiring</Package>
+                    <Package>org.osgi.framework</Package>
+                    <Package>com.fasterxml.jackson.databind</Package>
+                    <Package>com.fasterxml.jackson.core</Package>
+                    <Package>com.fasterxml.jackson.databind.node</Package>
+                    <Package>com.lmax.disruptor</Package>
+                    <Package>com.fasterxml.jackson.annotation</Package>
+                    <Package>com.fasterxml.jackson.dataformat.xml.util</Package>
+                    <Package>org.codehaus.stax2</Package>
+                    <Package>com.fasterxml.jackson.core.util</Package>
+                    <Package>org.apache.commons.csv</Package>
+                    <Package>com.fasterxml.jackson.databind.ser.impl</Package>
+                    <Package>com.fasterxml.jackson.databind.ser</Package>
+                    <Package>com.fasterxml.jackson.dataformat.xml.annotation</Package>
+                    <Package>com.lmax.disruptor.dsl</Package>
+                    <Package>com.conversantmedia.util.concurrent</Package>
+                    <Package>org.jctools.queues</Package>
+                    <Package>org.fusesource.jansi</Package>
+                    <Package>com.fasterxml.jackson.databind.deser.std</Package>
+                    <Package>com.fasterxml.jackson.databind.ser.std</Package>
+                    <Package>com.fasterxml.jackson.core.type</Package>
+                    <Package>com.fasterxml.jackson.databind.annotation</Package>
+                    <Package>com.fasterxml.jackson.databind.module</Package>
+                    <Package>com.fasterxml.jackson.dataformat.xml</Package>
+                    <Package>com.fasterxml.jackson.dataformat.yaml</Package>
+                    <Package>org.zeromq</Package>
+                    <Package>org.apache.kafka.clients.producer</Package>
+                    <Package>org.xml.sax</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="log4j-slf4j-impl-2.17.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>10</ClassCount>
+                    <AbstractClassCount>0</AbstractClassCount>
+                    <PackageCount>2</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.00</Abstractness>
+                    <Efferent>2</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.67</Instability>
+                    <Distance>0.33</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.slf4j.impl</Package>
+                    <Package>org.apache.logging.slf4j</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>slf4j-api-1.7.21.jar</Jar>
+                    <Jar>log4j-api-2.17.1.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>slf4j-api-1.7.21.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                    <Cycle>slf4j-api-1.7.21.jar</Cycle>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.slf4j.ext</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="macify-1.4.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>7</ClassCount>
+                    <AbstractClassCount>3</AbstractClassCount>
+                    <PackageCount>1</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.43</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>-1.0</Instability>
+                    <Distance>-1.0</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.simplericity.macify.eawt</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="poi-3.15.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>1677</ClassCount>
+                    <AbstractClassCount>284</AbstractClassCount>
+                    <PackageCount>61</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.17</Abstractness>
+                    <Efferent>2</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.50</Instability>
+                    <Distance>0.33</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.poi</Package>
+                    <Package>org.apache.poi.common.usermodel</Package>
+                    <Package>org.apache.poi.ddf</Package>
+                    <Package>org.apache.poi.dev</Package>
+                    <Package>org.apache.poi.extractor</Package>
+                    <Package>org.apache.poi.hpsf</Package>
+                    <Package>org.apache.poi.hpsf.extractor</Package>
+                    <Package>org.apache.poi.hpsf.wellknown</Package>
+                    <Package>org.apache.poi.hssf</Package>
+                    <Package>org.apache.poi.hssf.dev</Package>
+                    <Package>org.apache.poi.hssf.eventmodel</Package>
+                    <Package>org.apache.poi.hssf.eventusermodel</Package>
+                    <Package>org.apache.poi.hssf.eventusermodel.dummyrecord</Package>
+                    <Package>org.apache.poi.hssf.extractor</Package>
+                    <Package>org.apache.poi.hssf.model</Package>
+                    <Package>org.apache.poi.hssf.record</Package>
+                    <Package>org.apache.poi.hssf.record.aggregates</Package>
+                    <Package>org.apache.poi.hssf.record.cf</Package>
+                    <Package>org.apache.poi.hssf.record.chart</Package>
+                    <Package>org.apache.poi.hssf.record.common</Package>
+                    <Package>org.apache.poi.hssf.record.cont</Package>
+                    <Package>org.apache.poi.hssf.record.crypto</Package>
+                    <Package>org.apache.poi.hssf.record.pivottable</Package>
+                    <Package>org.apache.poi.hssf.usermodel</Package>
+                    <Package>org.apache.poi.hssf.usermodel.helpers</Package>
+                    <Package>org.apache.poi.hssf.util</Package>
+                    <Package>org.apache.poi.poifs.common</Package>
+                    <Package>org.apache.poi.poifs.crypt</Package>
+                    <Package>org.apache.poi.poifs.crypt.binaryrc4</Package>
+                    <Package>org.apache.poi.poifs.crypt.cryptoapi</Package>
+                    <Package>org.apache.poi.poifs.crypt.standard</Package>
+                    <Package>org.apache.poi.poifs.dev</Package>
+                    <Package>org.apache.poi.poifs.eventfilesystem</Package>
+                    <Package>org.apache.poi.poifs.filesystem</Package>
+                    <Package>org.apache.poi.poifs.macros</Package>
+                    <Package>org.apache.poi.poifs.nio</Package>
+                    <Package>org.apache.poi.poifs.property</Package>
+                    <Package>org.apache.poi.poifs.storage</Package>
+                    <Package>org.apache.poi.sl.draw</Package>
+                    <Package>org.apache.poi.sl.draw.binding</Package>
+                    <Package>org.apache.poi.sl.draw.geom</Package>
+                    <Package>org.apache.poi.sl.usermodel</Package>
+                    <Package>org.apache.poi.ss</Package>
+                    <Package>org.apache.poi.ss.extractor</Package>
+                    <Package>org.apache.poi.ss.format</Package>
+                    <Package>org.apache.poi.ss.formula</Package>
+                    <Package>org.apache.poi.ss.formula.atp</Package>
+                    <Package>org.apache.poi.ss.formula.constant</Package>
+                    <Package>org.apache.poi.ss.formula.eval</Package>
+                    <Package>org.apache.poi.ss.formula.eval.forked</Package>
+                    <Package>org.apache.poi.ss.formula.function</Package>
+                    <Package>org.apache.poi.ss.formula.functions</Package>
+                    <Package>org.apache.poi.ss.formula.ptg</Package>
+                    <Package>org.apache.poi.ss.formula.udf</Package>
+                    <Package>org.apache.poi.ss.usermodel</Package>
+                    <Package>org.apache.poi.ss.usermodel.charts</Package>
+                    <Package>org.apache.poi.ss.usermodel.helpers</Package>
+                    <Package>org.apache.poi.ss.util</Package>
+                    <Package>org.apache.poi.ss.util.cellwalk</Package>
+                    <Package>org.apache.poi.util</Package>
+                    <Package>org.apache.poi.wp.usermodel</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jaxen-1.1.6.jar</Jar>
+                    <Jar>commons-codec-1.9.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>poi-ooxml-3.15.jar</Jar>
+                    <Jar>poi-ooxml-schemas-3.15.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.apache.commons.logging</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="poi-ooxml-3.15.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>606</ClassCount>
+                    <AbstractClassCount>62</AbstractClassCount>
+                    <PackageCount>43</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.10</Abstractness>
+                    <Efferent>5</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>1.00</Instability>
+                    <Distance>0.10</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.poi</Package>
+                    <Package>org.apache.poi.dev</Package>
+                    <Package>org.apache.poi.extractor</Package>
+                    <Package>org.apache.poi.openxml4j.exceptions</Package>
+                    <Package>org.apache.poi.openxml4j.opc</Package>
+                    <Package>org.apache.poi.openxml4j.opc.internal</Package>
+                    <Package>org.apache.poi.openxml4j.opc.internal.marshallers</Package>
+                    <Package>org.apache.poi.openxml4j.opc.internal.unmarshallers</Package>
+                    <Package>org.apache.poi.openxml4j.util</Package>
+                    <Package>org.apache.poi.poifs.crypt.agile</Package>
+                    <Package>org.apache.poi.poifs.crypt.dsig</Package>
+                    <Package>org.apache.poi.poifs.crypt.dsig.facets</Package>
+                    <Package>org.apache.poi.poifs.crypt.dsig.services</Package>
+                    <Package>org.apache.poi.ss.usermodel</Package>
+                    <Package>org.apache.poi.util</Package>
+                    <Package>org.apache.poi.xdgf.exceptions</Package>
+                    <Package>org.apache.poi.xdgf.extractor</Package>
+                    <Package>org.apache.poi.xdgf.geom</Package>
+                    <Package>org.apache.poi.xdgf.usermodel</Package>
+                    <Package>org.apache.poi.xdgf.usermodel.section</Package>
+                    <Package>org.apache.poi.xdgf.usermodel.section.geometry</Package>
+                    <Package>org.apache.poi.xdgf.usermodel.shape</Package>
+                    <Package>org.apache.poi.xdgf.usermodel.shape.exceptions</Package>
+                    <Package>org.apache.poi.xdgf.util</Package>
+                    <Package>org.apache.poi.xdgf.xml</Package>
+                    <Package>org.apache.poi.xslf.extractor</Package>
+                    <Package>org.apache.poi.xslf.model</Package>
+                    <Package>org.apache.poi.xslf.usermodel</Package>
+                    <Package>org.apache.poi.xslf.util</Package>
+                    <Package>org.apache.poi.xssf</Package>
+                    <Package>org.apache.poi.xssf.dev</Package>
+                    <Package>org.apache.poi.xssf.eventusermodel</Package>
+                    <Package>org.apache.poi.xssf.extractor</Package>
+                    <Package>org.apache.poi.xssf.model</Package>
+                    <Package>org.apache.poi.xssf.streaming</Package>
+                    <Package>org.apache.poi.xssf.usermodel</Package>
+                    <Package>org.apache.poi.xssf.usermodel.charts</Package>
+                    <Package>org.apache.poi.xssf.usermodel.extensions</Package>
+                    <Package>org.apache.poi.xssf.usermodel.helpers</Package>
+                    <Package>org.apache.poi.xssf.util</Package>
+                    <Package>org.apache.poi.xwpf.extractor</Package>
+                    <Package>org.apache.poi.xwpf.model</Package>
+                    <Package>org.apache.poi.xwpf.usermodel</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>xmlbeans-2.6.0.jar</Jar>
+                    <Jar>poi-3.15.jar</Jar>
+                    <Jar>poi-ooxml-schemas-3.15.jar</Jar>
+                    <Jar>jaxen-1.1.6.jar</Jar>
+                    <Jar>commons-collections4-4.1.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.xml.sax</Package>
+                    <Package>org.apache.poi.hwpf.extractor</Package>
+                    <Package>org.apache.poi.hsmf.extractor</Package>
+                    <Package>org.apache.poi.hsmf.datatypes</Package>
+                    <Package>org.apache.poi.hsmf</Package>
+                    <Package>org.w3c.dom.events</Package>
+                    <Package>org.apache.jcp.xml.dsig.internal.dom</Package>
+                    <Package>org.apache.xml.security</Package>
+                    <Package>org.apache.xml.security.utils</Package>
+                    <Package>org.bouncycastle.cert.ocsp</Package>
+                    <Package>org.bouncycastle.asn1</Package>
+                    <Package>org.bouncycastle.asn1.x500</Package>
+                    <Package>org.bouncycastle.asn1.ocsp</Package>
+                    <Package>org.apache.xml.security.c14n</Package>
+                    <Package>org.bouncycastle.asn1.x509</Package>
+                    <Package>org.bouncycastle.tsp</Package>
+                    <Package>org.bouncycastle.cert</Package>
+                    <Package>org.bouncycastle.cert.jcajce</Package>
+                    <Package>org.bouncycastle.cms</Package>
+                    <Package>org.bouncycastle.operator</Package>
+                    <Package>org.bouncycastle.operator.bc</Package>
+                    <Package>org.bouncycastle.cms.bc</Package>
+                    <Package>org.bouncycastle.asn1.cmp</Package>
+                    <Package>org.bouncycastle.asn1.nist</Package>
+                    <Package>org.bouncycastle.util</Package>
+                    <Package>org.junit.runner</Package>
+                    <Package>org.junit.internal</Package>
+                    <Package>org.junit</Package>
+                    <Package>junit.framework</Package>
+                    <Package>org.junit.runner.notification</Package>
+                    <Package>com.graphbuilder.curve</Package>
+                    <Package>com.graphbuilder.geom</Package>
+                    <Package>org.apache.poi.hslf.blip</Package>
+                    <Package>org.xml.sax.helpers</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="poi-ooxml-schemas-3.15.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>2536</ClassCount>
+                    <AbstractClassCount>787</AbstractClassCount>
+                    <PackageCount>52</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.31</Abstractness>
+                    <Efferent>3</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.75</Instability>
+                    <Distance>0.06</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.microsoft.schemas.office.excel</Package>
+                    <Package>com.microsoft.schemas.office.excel.impl</Package>
+                    <Package>com.microsoft.schemas.office.office</Package>
+                    <Package>com.microsoft.schemas.office.office.impl</Package>
+                    <Package>com.microsoft.schemas.office.visio.x2012.main</Package>
+                    <Package>com.microsoft.schemas.office.visio.x2012.main.impl</Package>
+                    <Package>com.microsoft.schemas.office.x2006.digsig</Package>
+                    <Package>com.microsoft.schemas.office.x2006.digsig.impl</Package>
+                    <Package>com.microsoft.schemas.office.x2006.encryption</Package>
+                    <Package>com.microsoft.schemas.office.x2006.encryption.impl</Package>
+                    <Package>com.microsoft.schemas.office.x2006.keyEncryptor.certificate</Package>
+                    <Package>com.microsoft.schemas.office.x2006.keyEncryptor.certificate.impl</Package>
+                    <Package>com.microsoft.schemas.office.x2006.keyEncryptor.password</Package>
+                    <Package>com.microsoft.schemas.office.x2006.keyEncryptor.password.impl</Package>
+                    <Package>com.microsoft.schemas.vml</Package>
+                    <Package>com.microsoft.schemas.vml.impl</Package>
+                    <Package>org.etsi.uri.x01903.v13</Package>
+                    <Package>org.etsi.uri.x01903.v13.impl</Package>
+                    <Package>org.etsi.uri.x01903.v14</Package>
+                    <Package>org.etsi.uri.x01903.v14.impl</Package>
+                    <Package>org.openxmlformats.schemas.drawingml.x2006.chart</Package>
+                    <Package>org.openxmlformats.schemas.drawingml.x2006.chart.impl</Package>
+                    <Package>org.openxmlformats.schemas.drawingml.x2006.main</Package>
+                    <Package>org.openxmlformats.schemas.drawingml.x2006.main.impl</Package>
+                    <Package>org.openxmlformats.schemas.drawingml.x2006.picture</Package>
+                    <Package>org.openxmlformats.schemas.drawingml.x2006.picture.impl</Package>
+                    <Package>org.openxmlformats.schemas.drawingml.x2006.spreadsheetDrawing</Package>
+                    <Package>org.openxmlformats.schemas.drawingml.x2006.spreadsheetDrawing.impl</Package>
+                    <Package>org.openxmlformats.schemas.drawingml.x2006.wordprocessingDrawing</Package>
+                    <Package>org.openxmlformats.schemas.drawingml.x2006.wordprocessingDrawing.impl</Package>
+                    <Package>org.openxmlformats.schemas.officeDocument.x2006.customProperties</Package>
+                    <Package>org.openxmlformats.schemas.officeDocument.x2006.customProperties.impl</Package>
+                    <Package>org.openxmlformats.schemas.officeDocument.x2006.docPropsVTypes</Package>
+                    <Package>org.openxmlformats.schemas.officeDocument.x2006.docPropsVTypes.impl</Package>
+                    <Package>org.openxmlformats.schemas.officeDocument.x2006.extendedProperties</Package>
+                    <Package>org.openxmlformats.schemas.officeDocument.x2006.extendedProperties.impl</Package>
+                    <Package>org.openxmlformats.schemas.officeDocument.x2006.relationships</Package>
+                    <Package>org.openxmlformats.schemas.officeDocument.x2006.relationships.impl</Package>
+                    <Package>org.openxmlformats.schemas.presentationml.x2006.main</Package>
+                    <Package>org.openxmlformats.schemas.presentationml.x2006.main.impl</Package>
+                    <Package>org.openxmlformats.schemas.spreadsheetml.x2006.main</Package>
+                    <Package>org.openxmlformats.schemas.spreadsheetml.x2006.main.impl</Package>
+                    <Package>org.openxmlformats.schemas.wordprocessingml.x2006.main</Package>
+                    <Package>org.openxmlformats.schemas.wordprocessingml.x2006.main.impl</Package>
+                    <Package>org.openxmlformats.schemas.xpackage.x2006.digitalSignature</Package>
+                    <Package>org.openxmlformats.schemas.xpackage.x2006.digitalSignature.impl</Package>
+                    <Package>org.openxmlformats.schemas.xpackage.x2006.relationships</Package>
+                    <Package>org.openxmlformats.schemas.xpackage.x2006.relationships.impl</Package>
+                    <Package>org.w3.x2000.x09.xmldsig</Package>
+                    <Package>org.w3.x2000.x09.xmldsig.impl</Package>
+                    <Package>schemaorg_apache_xmlbeans.system.s8C3F193EE11A2F798ACF65489B9E6078</Package>
+                    <Package>schemaorg_apache_xmlbeans.system.sF1327CCA741569E70F9CA8C9AF9B44B2</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>xmlbeans-2.6.0.jar</Jar>
+                    <Jar>jaxen-1.1.6.jar</Jar>
+                    <Jar>poi-3.15.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>poi-ooxml-3.15.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>com.microsoft.schemas.office.word</Package>
+                    <Package>com.microsoft.schemas.office.powerpoint</Package>
+                    <Package>org.openxmlformats.schemas.officeDocument.x2006.math</Package>
+                    <Package>ibrary.x2006.main</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="prefuse.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>516</ClassCount>
+                    <AbstractClassCount>97</AbstractClassCount>
+                    <PackageCount>33</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.19</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>-1.0</Instability>
+                    <Distance>-1.0</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>prefuse</Package>
+                    <Package>prefuse.action</Package>
+                    <Package>prefuse.action.animate</Package>
+                    <Package>prefuse.action.assignment</Package>
+                    <Package>prefuse.action.distortion</Package>
+                    <Package>prefuse.action.filter</Package>
+                    <Package>prefuse.action.layout</Package>
+                    <Package>prefuse.action.layout.graph</Package>
+                    <Package>prefuse.activity</Package>
+                    <Package>prefuse.controls</Package>
+                    <Package>prefuse.data</Package>
+                    <Package>prefuse.data.column</Package>
+                    <Package>prefuse.data.event</Package>
+                    <Package>prefuse.data.expression</Package>
+                    <Package>prefuse.data.expression.parser</Package>
+                    <Package>prefuse.data.io</Package>
+                    <Package>prefuse.data.io.sql</Package>
+                    <Package>prefuse.data.parser</Package>
+                    <Package>prefuse.data.query</Package>
+                    <Package>prefuse.data.search</Package>
+                    <Package>prefuse.data.tuple</Package>
+                    <Package>prefuse.data.util</Package>
+                    <Package>prefuse.render</Package>
+                    <Package>prefuse.util</Package>
+                    <Package>prefuse.util.collections</Package>
+                    <Package>prefuse.util.display</Package>
+                    <Package>prefuse.util.force</Package>
+                    <Package>prefuse.util.io</Package>
+                    <Package>prefuse.util.ui</Package>
+                    <Package>prefuse.visual</Package>
+                    <Package>prefuse.visual.expression</Package>
+                    <Package>prefuse.visual.sort</Package>
+                    <Package>prefuse.visual.tuple</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.xml.sax</Package>
+                    <Package>org.xml.sax.helpers</Package>
+                    <Package>org.apache.lucene.queryParser</Package>
+                    <Package>org.apache.lucene.document</Package>
+                    <Package>org.apache.lucene.search</Package>
+                    <Package>org.apache.lucene.store</Package>
+                    <Package>org.apache.lucene.analysis.standard</Package>
+                    <Package>org.apache.lucene.index</Package>
+                    <Package>org.apache.lucene.analysis</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="saxon9-dom.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>31</ClassCount>
+                    <AbstractClassCount>1</AbstractClassCount>
+                    <PackageCount>1</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.03</Abstractness>
+                    <Efferent>2</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.67</Instability>
+                    <Distance>0.30</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>net.sf.saxon.dom</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>saxon9.jar</Jar>
+                    <Jar>jaxen-1.1.6.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>saxon9-s9api.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.xml.sax.helpers</Package>
+                    <Package>org.xml.sax</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="saxon9-s9api.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>40</ClassCount>
+                    <AbstractClassCount>3</AbstractClassCount>
+                    <PackageCount>1</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.08</Abstractness>
+                    <Efferent>3</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.60</Instability>
+                    <Distance>0.32</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>net.sf.saxon.s9api</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>saxon9-dom.jar</Jar>
+                    <Jar>jaxen-1.1.6.jar</Jar>
+                    <Jar>saxon9.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>yawl-lib-4.5.1.jar</Jar>
+                    <Jar>YAWLEditor4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.xml.sax</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="saxon9.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>1137</ClassCount>
+                    <AbstractClassCount>171</AbstractClassCount>
+                    <PackageCount>25</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.15</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>3</Afferent>
+                    <Instability>0.25</Instability>
+                    <Distance>0.60</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>net.sf.saxon</Package>
+                    <Package>net.sf.saxon.charcode</Package>
+                    <Package>net.sf.saxon.codenorm</Package>
+                    <Package>net.sf.saxon.event</Package>
+                    <Package>net.sf.saxon.evpull</Package>
+                    <Package>net.sf.saxon.expr</Package>
+                    <Package>net.sf.saxon.exslt</Package>
+                    <Package>net.sf.saxon.functions</Package>
+                    <Package>net.sf.saxon.instruct</Package>
+                    <Package>net.sf.saxon.java</Package>
+                    <Package>net.sf.saxon.number</Package>
+                    <Package>net.sf.saxon.om</Package>
+                    <Package>net.sf.saxon.pattern</Package>
+                    <Package>net.sf.saxon.pull</Package>
+                    <Package>net.sf.saxon.query</Package>
+                    <Package>net.sf.saxon.regex</Package>
+                    <Package>net.sf.saxon.sort</Package>
+                    <Package>net.sf.saxon.style</Package>
+                    <Package>net.sf.saxon.sxpath</Package>
+                    <Package>net.sf.saxon.tinytree</Package>
+                    <Package>net.sf.saxon.trace</Package>
+                    <Package>net.sf.saxon.trans</Package>
+                    <Package>net.sf.saxon.tree</Package>
+                    <Package>net.sf.saxon.type</Package>
+                    <Package>net.sf.saxon.value</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jaxen-1.1.6.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>saxon9-dom.jar</Jar>
+                    <Jar>saxon9-s9api.jar</Jar>
+                    <Jar>yawl-lib-4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.xml.sax</Package>
+                    <Package>org.xml.sax.ext</Package>
+                    <Package>org.xml.sax.helpers</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="servlet-api.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>42</ClassCount>
+                    <AbstractClassCount>26</AbstractClassCount>
+                    <PackageCount>2</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.62</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>-1.0</Instability>
+                    <Distance>-1.0</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>javax.servlet</Package>
+                    <Package>javax.servlet.http</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="slf4j-api-1.7.21.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>34</ClassCount>
+                    <AbstractClassCount>11</AbstractClassCount>
+                    <PackageCount>4</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.32</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>4</Afferent>
+                    <Instability>0.20</Instability>
+                    <Distance>0.48</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.slf4j.event</Package>
+                    <Package>org.slf4j.helpers</Package>
+                    <Package>org.slf4j</Package>
+                    <Package>org.slf4j.spi</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>log4j-slf4j-impl-2.17.1.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>jena-arq-3.1.1.jar</Jar>
+                    <Jar>jena-base-3.1.1.jar</Jar>
+                    <Jar>jena-core-3.1.1.jar</Jar>
+                    <Jar>log4j-slf4j-impl-2.17.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                    <Cycle>log4j-slf4j-impl-2.17.1.jar</Cycle>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="xercesImpl.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>894</ClassCount>
+                    <AbstractClassCount>181</AbstractClassCount>
+                    <PackageCount>38</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.20</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>4</Afferent>
+                    <Instability>0.20</Instability>
+                    <Distance>0.60</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.html.dom</Package>
+                    <Package>org.apache.wml</Package>
+                    <Package>org.apache.wml.dom</Package>
+                    <Package>org.apache.xerces.dom3.as</Package>
+                    <Package>org.apache.xerces.dom</Package>
+                    <Package>org.apache.xerces.dom.events</Package>
+                    <Package>org.apache.xerces.impl</Package>
+                    <Package>org.apache.xerces.impl.dtd</Package>
+                    <Package>org.apache.xerces.impl.dtd.models</Package>
+                    <Package>org.apache.xerces.impl.dv</Package>
+                    <Package>org.apache.xerces.impl.dv.dtd</Package>
+                    <Package>org.apache.xerces.impl.dv.util</Package>
+                    <Package>org.apache.xerces.impl.dv.xs</Package>
+                    <Package>org.apache.xerces.impl.io</Package>
+                    <Package>org.apache.xerces.impl.msg</Package>
+                    <Package>org.apache.xerces.impl.validation</Package>
+                    <Package>org.apache.xerces.impl.xpath</Package>
+                    <Package>org.apache.xerces.impl.xpath.regex</Package>
+                    <Package>org.apache.xerces.impl.xs</Package>
+                    <Package>org.apache.xerces.impl.xs.identity</Package>
+                    <Package>org.apache.xerces.impl.xs.models</Package>
+                    <Package>org.apache.xerces.impl.xs.opti</Package>
+                    <Package>org.apache.xerces.impl.xs.traversers</Package>
+                    <Package>org.apache.xerces.impl.xs.util</Package>
+                    <Package>org.apache.xerces.jaxp</Package>
+                    <Package>org.apache.xerces.jaxp.datatype</Package>
+                    <Package>org.apache.xerces.jaxp.validation</Package>
+                    <Package>org.apache.xerces.parsers</Package>
+                    <Package>org.apache.xerces.util</Package>
+                    <Package>org.apache.xerces.xinclude</Package>
+                    <Package>org.apache.xerces.xni</Package>
+                    <Package>org.apache.xerces.xni.grammars</Package>
+                    <Package>org.apache.xerces.xni.parser</Package>
+                    <Package>org.apache.xerces.xpointer</Package>
+                    <Package>org.apache.xerces.xs</Package>
+                    <Package>org.apache.xerces.xs.datatypes</Package>
+                    <Package>org.apache.xml.serialize</Package>
+                    <Package>org.w3c.dom.html</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jaxen-1.1.6.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>jena-arq-3.1.1.jar</Jar>
+                    <Jar>jena-core-3.1.1.jar</Jar>
+                    <Jar>YAWLEditor-core-4.5.1.jar</Jar>
+                    <Jar>YAWLEditor4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.xml.sax</Package>
+                    <Package>org.w3c.dom.ls</Package>
+                    <Package>org.w3c.dom.events</Package>
+                    <Package>org.w3c.dom.traversal</Package>
+                    <Package>org.w3c.dom.ranges</Package>
+                    <Package>org.w3c.dom.views</Package>
+                    <Package>org.xml.sax.helpers</Package>
+                    <Package>org.xml.sax.ext</Package>
+                    <Package>org.apache.xml.resolver</Package>
+                    <Package>org.apache.xml.resolver.readers</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="xmlbeans-2.6.0.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>1531</ClassCount>
+                    <AbstractClassCount>439</AbstractClassCount>
+                    <PackageCount>52</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.29</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.33</Instability>
+                    <Distance>0.38</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.xmlbeans</Package>
+                    <Package>org.apache.xmlbeans.xml.stream</Package>
+                    <Package>org.apache.xmlbeans.xml.stream.utils</Package>
+                    <Package>org.apache.xmlbeans.impl.values</Package>
+                    <Package>org.apache.xmlbeans.impl.common</Package>
+                    <Package>org.apache.xmlbeans.impl.config</Package>
+                    <Package>org.apache.xmlbeans.impl.regex</Package>
+                    <Package>org.apache.xmlbeans.impl.schema</Package>
+                    <Package>org.apache.xmlbeans.impl.util</Package>
+                    <Package>org.apache.xmlbeans.impl.validator</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.ltgfmt</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.ltgfmt.impl</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.substwsdl</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.substwsdl.impl</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.xmlconfig</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.xmlconfig.impl</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.xmlschema</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.xmlschema.impl</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.xsdownload</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.xsdownload.impl</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.xsdschema</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.xsdschema.impl</Package>
+                    <Package>org.apache.xmlbeans.soap</Package>
+                    <Package>org.apache.xmlbeans.impl.tool</Package>
+                    <Package>schemaorg_apache_xmlbeans.system.sXMLCONFIG</Package>
+                    <Package>schemaorg_apache_xmlbeans.system.sXMLTOOLS</Package>
+                    <Package>schemaorg_apache_xmlbeans.system.sXMLSCHEMA</Package>
+                    <Package>schemaorg_apache_xmlbeans.system.sXMLLANG</Package>
+                    <Package>org.apache.xmlbeans.impl.store</Package>
+                    <Package>org.apache.xmlbeans.impl.soap</Package>
+                    <Package>org.apache.xmlbeans.xml.stream.events</Package>
+                    <Package>org.apache.xmlbeans.impl.richParser</Package>
+                    <Package>repackage</Package>
+                    <Package>org.apache.xmlbeans.impl.jam</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.annotation</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.internal</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.internal.classrefs</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.internal.elements</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.internal.javadoc</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.internal.parser</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.internal.reflect</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.mutable</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.provider</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.visitor</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.xml</Package>
+                    <Package>org.apache.xmlbeans.impl.piccolo.io</Package>
+                    <Package>org.apache.xmlbeans.impl.piccolo.util</Package>
+                    <Package>org.apache.xmlbeans.impl.piccolo.xml</Package>
+                    <Package>org.apache.xmlbeans.impl.inst2xsd</Package>
+                    <Package>org.apache.xmlbeans.impl.inst2xsd.util</Package>
+                    <Package>org.apache.xmlbeans.impl.xpathgen</Package>
+                    <Package>org.apache.xmlbeans.impl.xsd2inst</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jaxen-1.1.6.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>poi-ooxml-3.15.jar</Jar>
+                    <Jar>poi-ooxml-schemas-3.15.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.xml.sax</Package>
+                    <Package>org.xml.sax.ext</Package>
+                    <Package>org.xml.sax.helpers</Package>
+                    <Package>org.apache.tools.ant</Package>
+                    <Package>org.apache.tools.ant.types</Package>
+                    <Package>org.apache.tools.ant.taskdefs</Package>
+                    <Package>CONFIG</Package>
+                    <Package>S</Package>
+                    <Package>SCHEMA</Package>
+                    <Package>ANG</Package>
+                    <Package>com.sun.javadoc</Package>
+                    <Package>com.sun.tools.javadoc</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="xmleditorkit.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>41</ClassCount>
+                    <AbstractClassCount>5</AbstractClassCount>
+                    <PackageCount>3</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.12</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.88</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.bounce.text</Package>
+                    <Package>org.bounce.text.xml</Package>
+                    <Package>org.bounce.xml</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>YAWLEditor4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="yawl-lib-4.5.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>1114</ClassCount>
+                    <AbstractClassCount>93</AbstractClassCount>
+                    <PackageCount>122</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.08</Abstractness>
+                    <Efferent>9</Efferent>
+                    <Afferent>3</Afferent>
+                    <Instability>0.75</Instability>
+                    <Distance>0.17</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.yawlfoundation.yawl.authentication</Package>
+                    <Package>org.yawlfoundation.yawl.balancer</Package>
+                    <Package>org.yawlfoundation.yawl.balancer.config</Package>
+                    <Package>org.yawlfoundation.yawl.balancer.instance</Package>
+                    <Package>org.yawlfoundation.yawl.balancer.jmx</Package>
+                    <Package>org.yawlfoundation.yawl.balancer.monitor</Package>
+                    <Package>org.yawlfoundation.yawl.balancer.output</Package>
+                    <Package>org.yawlfoundation.yawl.balancer.polling</Package>
+                    <Package>org.yawlfoundation.yawl.balancer.rule</Package>
+                    <Package>org.yawlfoundation.yawl.balancer.servlet</Package>
+                    <Package>org.yawlfoundation.yawl.cost</Package>
+                    <Package>org.yawlfoundation.yawl.cost.data</Package>
+                    <Package>org.yawlfoundation.yawl.cost.evaluate</Package>
+                    <Package>org.yawlfoundation.yawl.cost.interfce</Package>
+                    <Package>org.yawlfoundation.yawl.cost.log</Package>
+                    <Package>org.yawlfoundation.yawl.demoService</Package>
+                    <Package>org.yawlfoundation.yawl.digitalSignature</Package>
+                    <Package>org.yawlfoundation.yawl.documentStore</Package>
+                    <Package>org.yawlfoundation.yawl.elements</Package>
+                    <Package>org.yawlfoundation.yawl.elements.data</Package>
+                    <Package>org.yawlfoundation.yawl.elements.data.external</Package>
+                    <Package>org.yawlfoundation.yawl.elements.e2wfoj</Package>
+                    <Package>org.yawlfoundation.yawl.elements.predicate</Package>
+                    <Package>org.yawlfoundation.yawl.elements.state</Package>
+                    <Package>org.yawlfoundation.yawl.engine</Package>
+                    <Package>org.yawlfoundation.yawl.engine.announcement</Package>
+                    <Package>org.yawlfoundation.yawl.engine.instance</Package>
+                    <Package>org.yawlfoundation.yawl.engine.interfce</Package>
+                    <Package>org.yawlfoundation.yawl.engine.interfce.interfaceA</Package>
+                    <Package>org.yawlfoundation.yawl.engine.interfce.interfaceB</Package>
+                    <Package>org.yawlfoundation.yawl.engine.interfce.interfaceE</Package>
+                    <Package>org.yawlfoundation.yawl.engine.interfce.interfaceX</Package>
+                    <Package>org.yawlfoundation.yawl.engine.time</Package>
+                    <Package>org.yawlfoundation.yawl.engine.time.workdays</Package>
+                    <Package>org.yawlfoundation.yawl.exceptions</Package>
+                    <Package>org.yawlfoundation.yawl.logging</Package>
+                    <Package>org.yawlfoundation.yawl.logging.table</Package>
+                    <Package>org.yawlfoundation.yawl.mailSender</Package>
+                    <Package>org.yawlfoundation.yawl.mailService</Package>
+                    <Package>org.yawlfoundation.yawl.monitor</Package>
+                    <Package>org.yawlfoundation.yawl.monitor.jsf</Package>
+                    <Package>org.yawlfoundation.yawl.monitor.sort</Package>
+                    <Package>org.yawlfoundation.yawl.procletService</Package>
+                    <Package>org.yawlfoundation.yawl.procletService.blockType</Package>
+                    <Package>org.yawlfoundation.yawl.procletService.connect</Package>
+                    <Package>org.yawlfoundation.yawl.procletService.editor</Package>
+                    <Package>org.yawlfoundation.yawl.procletService.editor.block</Package>
+                    <Package>org.yawlfoundation.yawl.procletService.editor.blockchoiceexception</Package>
+                    <Package>org.yawlfoundation.yawl.procletService.editor.choiceexception</Package>
+                    <Package>org.yawlfoundation.yawl.procletService.editor.extra</Package>
+                    <Package>org.yawlfoundation.yawl.procletService.editor.model</Package>
+                    <Package>org.yawlfoundation.yawl.procletService.editor.pconns</Package>
+                    <Package>org.yawlfoundation.yawl.procletService.interactionGraph</Package>
+                    <Package>org.yawlfoundation.yawl.procletService.models.procletModel</Package>
+                    <Package>org.yawlfoundation.yawl.procletService.persistence</Package>
+                    <Package>org.yawlfoundation.yawl.procletService.selectionProcess</Package>
+                    <Package>org.yawlfoundation.yawl.procletService.state</Package>
+                    <Package>org.yawlfoundation.yawl.procletService.util</Package>
+                    <Package>org.yawlfoundation.yawl.reporter</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.allocators</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.calendar</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.calendar.utilisation</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.client</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.codelets</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.constraints</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.datastore</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.datastore.eventlog</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.datastore.orgdata</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.datastore.orgdata.util</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.datastore.persistence</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.filters</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.interactions</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.jsf</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.jsf.comparator</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.jsf.dynform</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.jsf.dynform.dynattributes</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.resource</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.resource.nonhuman</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.rsInterface</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.rsInterface.scheduling</Package>
+                    <Package>org.yawlfoundation.yawl.resourcing.util</Package>
+                    <Package>org.yawlfoundation.yawl.scheduling</Package>
+                    <Package>org.yawlfoundation.yawl.scheduling.lanes</Package>
+                    <Package>org.yawlfoundation.yawl.scheduling.persistence</Package>
+                    <Package>org.yawlfoundation.yawl.scheduling.resource</Package>
+                    <Package>org.yawlfoundation.yawl.scheduling.servlet</Package>
+                    <Package>org.yawlfoundation.yawl.scheduling.timer</Package>
+                    <Package>org.yawlfoundation.yawl.scheduling.util</Package>
+                    <Package>org.yawlfoundation.yawl.schema</Package>
+                    <Package>org.yawlfoundation.yawl.schema.internal</Package>
+                    <Package>org.yawlfoundation.yawl.simulation</Package>
+                    <Package>org.yawlfoundation.yawl.smsModule</Package>
+                    <Package>org.yawlfoundation.yawl.stateless</Package>
+                    <Package>org.yawlfoundation.yawl.stateless.elements</Package>
+                    <Package>org.yawlfoundation.yawl.stateless.elements.data</Package>
+                    <Package>org.yawlfoundation.yawl.stateless.elements.data.external</Package>
+                    <Package>org.yawlfoundation.yawl.stateless.elements.e2wfoj</Package>
+                    <Package>org.yawlfoundation.yawl.stateless.elements.marking</Package>
+                    <Package>org.yawlfoundation.yawl.stateless.elements.predicate</Package>
+                    <Package>org.yawlfoundation.yawl.stateless.engine</Package>
+                    <Package>org.yawlfoundation.yawl.stateless.engine.time</Package>
+                    <Package>org.yawlfoundation.yawl.stateless.listener</Package>
+                    <Package>org.yawlfoundation.yawl.stateless.listener.event</Package>
+                    <Package>org.yawlfoundation.yawl.stateless.listener.predicate</Package>
+                    <Package>org.yawlfoundation.yawl.stateless.schema</Package>
+                    <Package>org.yawlfoundation.yawl.stateless.unmarshal</Package>
+                    <Package>org.yawlfoundation.yawl.stateless.util</Package>
+                    <Package>org.yawlfoundation.yawl.swingWorklist</Package>
+                    <Package>org.yawlfoundation.yawl.swingWorklist.util</Package>
+                    <Package>org.yawlfoundation.yawl.twitterService</Package>
+                    <Package>org.yawlfoundation.yawl.unmarshal</Package>
+                    <Package>org.yawlfoundation.yawl.util</Package>
+                    <Package>org.yawlfoundation.yawl.worklet</Package>
+                    <Package>org.yawlfoundation.yawl.worklet.admin</Package>
+                    <Package>org.yawlfoundation.yawl.worklet.exception</Package>
+                    <Package>org.yawlfoundation.yawl.worklet.rdr</Package>
+                    <Package>org.yawlfoundation.yawl.worklet.rdr.xsd</Package>
+                    <Package>org.yawlfoundation.yawl.worklet.rdrutil</Package>
+                    <Package>org.yawlfoundation.yawl.worklet.selection</Package>
+                    <Package>org.yawlfoundation.yawl.worklet.support</Package>
+                    <Package>org.yawlfoundation.yawl.wsif</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jdom-2.0.5.jar</Jar>
+                    <Jar>log4j-api-2.17.1.jar</Jar>
+                    <Jar>commons-codec-1.9.jar</Jar>
+                    <Jar>jaxen-1.1.6.jar</Jar>
+                    <Jar>saxon9-s9api.jar</Jar>
+                    <Jar>commons-lang-2.3.jar</Jar>
+                    <Jar>log4j-core-2.17.1.jar</Jar>
+                    <Jar>log4j-1.2-api-2.17.1.jar</Jar>
+                    <Jar>saxon9.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>YAWLEditor-analyser-4.5.1.jar</Jar>
+                    <Jar>YAWLEditor-core-4.5.1.jar</Jar>
+                    <Jar>YAWLEditor4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.json</Package>
+                    <Package>org.apache.commons.vfs2.impl</Package>
+                    <Package>org.apache.commons.vfs2</Package>
+                    <Package>org.hawkular.datamining.forecast</Package>
+                    <Package>net.sourceforge.openforecast</Package>
+                    <Package>org.hibernate</Package>
+                    <Package>org.bouncycastle.jce.provider</Package>
+                    <Package>org.bouncycastle.cms</Package>
+                    <Package>org.xml.sax</Package>
+                    <Package>jakarta.xml.bind</Package>
+                    <Package>org.hibernate.cfg</Package>
+                    <Package>org.hibernate.tool.hbm2ddl</Package>
+                    <Package>org.hibernate.exception</Package>
+                    <Package>org.hibernate.internal</Package>
+                    <Package>org.hibernate.c3p0.internal</Package>
+                    <Package>org.hibernate.engine.jdbc.connections.spi</Package>
+                    <Package>org.hibernate.stat</Package>
+                    <Package>org.simplejavamail.mailer.config</Package>
+                    <Package>org.simplejavamail.mailer</Package>
+                    <Package>org.simplejavamail.email</Package>
+                    <Package>com.sun.rave.web.ui.component</Package>
+                    <Package>com.sun.rave.web.ui.appbase</Package>
+                    <Package>org.apache.commons.collections15</Package>
+                    <Package>edu.uci.ics.jung.graph</Package>
+                    <Package>edu.uci.ics.jung.visualization</Package>
+                    <Package>edu.uci.ics.jung.algorithms.layout</Package>
+                    <Package>edu.uci.ics.jung.visualization.decorators</Package>
+                    <Package>edu.uci.ics.jung.visualization.control</Package>
+                    <Package>edu.uci.ics.jung.visualization.picking</Package>
+                    <Package>ayout</Package>
+                    <Package>edu.uci.ics.jung.visualization.util</Package>
+                    <Package>edu.uci.ics.jung.visualization.transform</Package>
+                    <Package>org.apache.commons.collections15.functors</Package>
+                    <Package>edu.uci.ics.jung.algorithms.layout.util</Package>
+                    <Package>edu.uci.ics.jung.visualization.layout</Package>
+                    <Package>edu.uci.ics.jung.algorithms.util</Package>
+                    <Package>edu.uci.ics.jung.graph.util</Package>
+                    <Package>edu.uci.ics.jung.algorithms.generators.random</Package>
+                    <Package>edu.uci.ics.jung.visualization.renderers</Package>
+                    <Package>edu.uci.ics.jung.visualization.transform.shape</Package>
+                    <Package>com.sun.rave.web.ui.model</Package>
+                    <Package>org.apache.commons.io</Package>
+                    <Package>org.junit</Package>
+                    <Package>org.w3c.dom.ls</Package>
+                    <Package>org.custommonkey.xmlunit</Package>
+                    <Package>org.yawlfoundation.yawl.engine.gui</Package>
+                    <Package>twitter4j</Package>
+                    <Package>org.apache.tools.ant</Package>
+                    <Package>org.apache.commons.beanutils</Package>
+                    <Package>org.hibernate.boot.registry</Package>
+                    <Package>org.hibernate.service</Package>
+                    <Package>org.hibernate.criterion</Package>
+                    <Package>org.apache.wsif.providers.soap.apachesoap</Package>
+                    <Package>org.apache.wsif</Package>
+                    <Package>org.apache.wsif.util</Package>
+                    <Package>org.apache.wsif.providers</Package>
+                    <Package>org.apache.wsif.spi</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="YAWLEditor-analyser-4.5.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>73</ClassCount>
+                    <AbstractClassCount>6</AbstractClassCount>
+                    <PackageCount>11</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.08</Abstractness>
+                    <Efferent>2</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.67</Instability>
+                    <Distance>0.25</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.yawlfoundation.yawl.analyser</Package>
+                    <Package>org.yawlfoundation.yawl.analyser.elements</Package>
+                    <Package>org.yawlfoundation.yawl.analyser.reductionrules</Package>
+                    <Package>org.yawlfoundation.yawl.analyser.testgeneration.RACC.exceptions</Package>
+                    <Package>org.yawlfoundation.yawl.analyser.testgeneration.RACC.expressionValueAssigners</Package>
+                    <Package>org.yawlfoundation.yawl.analyser.testgeneration.RACC.testCase</Package>
+                    <Package>org.yawlfoundation.yawl.analyser.util</Package>
+                    <Package>org.yawlfoundation.yawl.analyser.util.alloy</Package>
+                    <Package>org.yawlfoundation.yawl.analyser.util.alloy.descriptors</Package>
+                    <Package>org.yawlfoundation.yawl.analyser.util.alloy.utils</Package>
+                    <Package>org.yawlfoundation.yawl.analyser.wofyawl</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>yawl-lib-4.5.1.jar</Jar>
+                    <Jar>alloy4.2_2015-02-22.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>YAWLEditor4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="YAWLEditor-core-4.5.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>80</ClassCount>
+                    <AbstractClassCount>6</AbstractClassCount>
+                    <PackageCount>13</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.08</Abstractness>
+                    <Efferent>4</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.80</Instability>
+                    <Distance>0.12</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.yawlfoundation.yawl.editor.core</Package>
+                    <Package>org.yawlfoundation.yawl.editor.core.connection</Package>
+                    <Package>org.yawlfoundation.yawl.editor.core.controlflow</Package>
+                    <Package>org.yawlfoundation.yawl.editor.core.data</Package>
+                    <Package>org.yawlfoundation.yawl.editor.core.exception</Package>
+                    <Package>org.yawlfoundation.yawl.editor.core.identity</Package>
+                    <Package>org.yawlfoundation.yawl.editor.core.layout</Package>
+                    <Package>org.yawlfoundation.yawl.editor.core.repository</Package>
+                    <Package>org.yawlfoundation.yawl.editor.core.resourcing</Package>
+                    <Package>org.yawlfoundation.yawl.editor.core.resourcing.entity</Package>
+                    <Package>org.yawlfoundation.yawl.editor.core.resourcing.validation</Package>
+                    <Package>org.yawlfoundation.yawl.editor.core.util</Package>
+                    <Package>org.yawlfoundation.yawl.editor.core.validation</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>yawl-lib-4.5.1.jar</Jar>
+                    <Jar>xercesImpl.jar</Jar>
+                    <Jar>jdom-2.0.5.jar</Jar>
+                    <Jar>YAWLEditor4.5.1.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>YAWLEditor4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                    <Cycle>YAWLEditor4.5.1.jar</Cycle>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="YAWLEditor4.5.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>677</ClassCount>
+                    <AbstractClassCount>53</AbstractClassCount>
+                    <PackageCount>52</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.08</Abstractness>
+                    <Efferent>15</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.94</Instability>
+                    <Distance>0.02</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.yawlfoundation.yawl.editor.ui</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.actions</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.actions.datatypedialog</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.actions.element</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.actions.element.align</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.actions.help</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.actions.net</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.actions.net.zoom</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.actions.palette</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.actions.specification</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.actions.view</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.data</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.data.document</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.data.editor</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.data.editorpane</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.elements.model</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.elements.view</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.net</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.net.utilities</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.plugin</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.preferences</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.properties</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.properties.data</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.properties.data.binding</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.properties.data.binding.references</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.properties.data.binding.view</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.properties.data.validation</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.properties.dialog</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.properties.dialog.component</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.properties.editor</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.properties.extended</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.properties.extended.editor</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.repository.action</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.repository.dialog</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.repository.listModel</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.resourcing</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.resourcing.listmodel</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.resourcing.panel</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.resourcing.subdialog</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.resourcing.tablemodel</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.specification</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.specification.io</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.specification.pubsub</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.specification.validation</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.swing</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.swing.element</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.swing.menu</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.swing.net</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.swing.specification</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.swing.undo</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.update</Package>
+                    <Package>org.yawlfoundation.yawl.editor.ui.util</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jgoodies-looks-2.7.0.jar</Jar>
+                    <Jar>YAWLEditor-core-4.5.1.jar</Jar>
+                    <Jar>l2fprod-common-all.jar</Jar>
+                    <Jar>jgraph4yawl-4.5.1.jar</Jar>
+                    <Jar>yawl-lib-4.5.1.jar</Jar>
+                    <Jar>forms_rt.jar</Jar>
+                    <Jar>xmleditorkit.jar</Jar>
+                    <Jar>imgscalr-lib-4.2.jar</Jar>
+                    <Jar>log4j-api-2.17.1.jar</Jar>
+                    <Jar>xercesImpl.jar</Jar>
+                    <Jar>jdom-2.0.5.jar</Jar>
+                    <Jar>saxon9-s9api.jar</Jar>
+                    <Jar>automaton.jar</Jar>
+                    <Jar>jcalendar-1.4.jar</Jar>
+                    <Jar>YAWLEditor-analyser-4.5.1.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>YAWLEditor-core-4.5.1.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                    <Cycle>YAWLEditor-core-4.5.1.jar</Cycle>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+    </Jars>
+</JarAnalyzer>

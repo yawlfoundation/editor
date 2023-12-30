@@ -6,16 +6,16 @@ import org.yawlfoundation.yawl.elements.YExternalNetElement;
 import org.yawlfoundation.yawl.elements.YOutputCondition;
 import org.yawlfoundation.yawl.elements.YTask;
 
-import java.util.List;
+import java.util.HashMap;
 
 public abstract class TaskDescriptor {
     protected final YTask taskNode;
     protected final PredicateParser _predicateParser;
-    protected StringBuilder strBuilder;
-    protected List<String> variables;
     private final String _toTransformOrJoin;
+    protected StringBuilder strBuilder;
+    protected HashMap<String, String> variables;
 
-    public TaskDescriptor(YTask taskNode, List<String> variables, String toTransformOrJoin) {
+    public TaskDescriptor(YTask taskNode, HashMap<String, String> variables, String toTransformOrJoin) {
         this._toTransformOrJoin = toTransformOrJoin;
         this.taskNode = taskNode;
         this.strBuilder = new StringBuilder();
@@ -53,11 +53,20 @@ public abstract class TaskDescriptor {
     }
 
     protected String getParsedPredicate(String predicate) {
-        if (predicate != null && predicate.equals("false()")){
+        if (predicate != null && predicate.equals("false()")) {
             return "1 = 2";
         }
         if (predicate != null && !predicate.equals("") && !predicate.equals("true()"))
             return String.format("&& %s", this._predicateParser.parse(predicate, this.variables));
+        return "";
+    }
+
+    protected String getPartialParsedPredicate(String predicate) {
+        if (predicate != null && predicate.equals("false()")) {
+            return "1 = 2";
+        }
+        if (predicate != null && !predicate.equals("") && !predicate.equals("true()"))
+            return this._predicateParser.partialParse(predicate, this.variables);
         return "";
     }
 
@@ -73,6 +82,7 @@ public abstract class TaskDescriptor {
         }
         return toCamelCase(GatewayType.None.toString());
     }
+
     protected String getJoinGatewayTypeString(YExternalNetElement netElement) {
         if (netElement instanceof YTask task) {
             if (task.getPresetElements().size() > 1) {

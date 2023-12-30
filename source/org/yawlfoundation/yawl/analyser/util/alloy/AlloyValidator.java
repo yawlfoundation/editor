@@ -12,7 +12,6 @@ import edu.mit.csail.sdg.alloy4compiler.translator.A4Options;
 import edu.mit.csail.sdg.alloy4compiler.translator.A4Solution;
 import edu.mit.csail.sdg.alloy4compiler.translator.A4SolutionReader;
 import edu.mit.csail.sdg.alloy4compiler.translator.TranslateAlloyToKodkod;
-import org.apache.jena.base.Sys;
 import org.yawlfoundation.yawl.analyser.util.alloy.descriptors.TranslationGenerator;
 import org.yawlfoundation.yawl.elements.YNet;
 import org.yawlfoundation.yawl.elements.YTask;
@@ -21,13 +20,8 @@ import org.yawlfoundation.yawl.util.StringUtil;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class AlloyValidator {
     private final TranslationGenerator alloyGenerator;
@@ -38,7 +32,7 @@ public class AlloyValidator {
         this.alloyGenerator = new TranslationGenerator(workflow, null);
     }
 
-    public String checkOrJoinInLoop() throws Exception {
+    public String checkOrJoinInLoop() {
         System.out.println("check for Or-Joins in loop");
         String msg = checkForCycles();
         if (msg.length() == 0) {
@@ -48,7 +42,7 @@ public class AlloyValidator {
         return msg;
     }
 
-    public String areAllTasksReachable() throws Exception {
+    public String areAllTasksReachable() {
         System.out.println("check whether all tasks are reachable or not!");
         String alloySpecification = this.alloyGenerator.generateDescription();
         String msg = checkAreAllTasksReachable(alloySpecification);
@@ -59,7 +53,7 @@ public class AlloyValidator {
         return msg;
     }
 
-    public String anyTwoTasksWithOrJoinArePendingOnEachOther() throws Exception {
+    public String anyTwoTasksWithOrJoinArePendingOnEachOther() {
         System.out.println("check whether any two tasks with or join are pending on each other or not!");
         String msg = checkAnyTwoTasksWithOrJoinArePendingOnEachOther();
         if (msg.length() == 0) {
@@ -90,7 +84,7 @@ public class AlloyValidator {
                 } catch (ErrorAPI ex) {
                     System.out.println(ex.msg);
                 } catch (Exception ex) {
-                    System.out.println(ex.toString());
+                    System.out.println(ex);
                 }
             }
         }
@@ -101,15 +95,15 @@ public class AlloyValidator {
         TranslationGenerator alloyGenerator = new TranslationGenerator(this._net, orJoin1.getName());
         String alloySpecification = alloyGenerator.generateDescription();
         return alloySpecification + String.format("""
-                        assert no_two_or_joins_pend_on_each_other {
-                        \tall t1, t2: task | t1.label = "%s" && t2.label = "%s" => t2 not in t1.^(flowsInto.nextTask)
-                        }
-                                        
-                        check no_two_or_joins_pend_on_each_other for %d
-                        """, orJoin1.getName(), orJoin2.getName(), this._getAssertionSize() + 1);
+                assert no_two_or_joins_pend_on_each_other {
+                \tall t1, t2: task | t1.label = "%s" && t2.label = "%s" => t2 not in t1.^(flowsInto.nextTask)
+                }
+                                
+                check no_two_or_joins_pend_on_each_other for %d
+                """, orJoin1.getName(), orJoin2.getName(), this._getAssertionSize() + 1);
     }
 
-    private String checkAreAllTasksReachable(String alloySpecification) throws Exception {
+    private String checkAreAllTasksReachable(String alloySpecification) {
         StringBuilder resultBuilder = new StringBuilder();
         System.out.println(alloySpecification);
         for (YTask task : this._net.getNetTasks()) {
@@ -124,9 +118,6 @@ public class AlloyValidator {
                     """, task.getName(), this._getAssertionSize());
             try {
                 checkAlloySpec(specBuilder);
-            } catch (ErrorAPI e) {
-                resultBuilder.append(formatXMLMessage(String.format("Task %s is not reachable!", task.getName()),
-                        false));
             } catch (Exception e) {
                 resultBuilder.append(formatXMLMessage(String.format("Task %s is not reachable!", task.getName()),
                         false));
@@ -142,10 +133,10 @@ public class AlloyValidator {
             count += task.getPostsetElements().size();
         }
         count += this._net.getInputCondition().getPostsetElements().size();
-        return count;
+        return count + 1;
     }
 
-    public String checkForCycles() throws Exception {
+    public String checkForCycles() {
         List<YTask> ORJoins = getOrJoins();
         StringBuilder resultBuilder = new StringBuilder();
         for (YTask task : ORJoins) {
@@ -155,6 +146,8 @@ public class AlloyValidator {
             System.out.println(alloySpecification);
             System.out.println("-------------------------------------");
             String specBuilder = alloySpecification + String.format("""
+                    
+                    
                     assert no_or_join_in_loop {
                     \tall t: task | t.label = "%s" => t not in t.^(flowsInto.nextTask)
                     }
@@ -168,7 +161,7 @@ public class AlloyValidator {
             } catch (ErrorAPI ex) {
                 System.out.println(ex.msg);
             } catch (Exception ex) {
-                System.out.println(ex.toString());
+                System.out.println(ex);
             }
 
         }
@@ -176,9 +169,17 @@ public class AlloyValidator {
     }
 
     private void checkAlloySpec(String alloySpec) throws IOException, Err {
-        String outputFilename = "H:/Projects/saj76/YAWL_editor/output.xml";
-        String outputFilename1 = "H:/Projects/saj76/YAWL_editor/output1.xml";
-        String tempFilename = "H:/Projects/saj76/YAWL_editor/temp.als";
+//        String outputFilename = "H:/Projects/saj76/YAWL_editor/output.xml";
+//        String tempFilename = "H:/Projects/saj76/YAWL_editor/temp.als";
+        String filePath = new File("").getAbsolutePath();
+        System.out.println(filePath);
+        String outputFilename = filePath.concat("/output.xml");
+        System.out.println(outputFilename);
+        String outputFilename1 = filePath.concat("/output1.xml");
+        System.out.println(outputFilename1);
+//        String outputFilename1 = "H:/Projects/saj76/YAWL_editor/output1_test.xml";
+        String tempFilename = filePath.concat("temp.als");
+        System.out.println(tempFilename);
         A4Reporter rep = new A4Reporter();
 //        System.out.println(alloySpec);
         File tmpAls = CompUtil.flushModelToFile(alloySpec, null);
@@ -212,7 +213,7 @@ public class AlloyValidator {
     }
 
     private List<YTask> getOrJoins() {
-        List<YTask> ORJoins = new ArrayList<YTask>();
+        List<YTask> ORJoins = new ArrayList<>();
         for (YTask task : this._net.getNetTasks()) {
             if (task.getJoinType() == YTask._OR) ORJoins.add(task);
         }
