@@ -1,0 +1,314 @@
+<alloy builddate="2015-02-22 18:21 EST">
+
+<instance bitwidth="4" maxseq="7" command="Run show for 7 but 7 task, 11 Flows" filename="C:\Users\SAJJAD~1\AppData\Local\Temp\alloy_heredoc13619181561981341080.als">
+
+<sig label="seq/Int" ID="0" parentID="1" builtin="yes">
+</sig>
+
+<sig label="Int" ID="1" parentID="2" builtin="yes">
+</sig>
+
+<sig label="String" ID="3" parentID="2" builtin="yes">
+   <atom label="&quot;Xor&quot;"/>
+   <atom label="&quot;And&quot;"/>
+   <atom label="&quot;stream_charge_handler&quot;"/>
+   <atom label="&quot;download_charge_handler&quot;"/>
+   <atom label="&quot;finish_process&quot;"/>
+   <atom label="&quot;download&quot;"/>
+   <atom label="&quot;choose_service&quot;"/>
+   <atom label="&quot;None&quot;"/>
+   <atom label="&quot;stream&quot;"/>
+   <atom label="&quot;Or&quot;"/>
+   <atom label="&quot;payment&quot;"/>
+</sig>
+
+<sig label="this/State" ID="4" parentID="2">
+   <atom label="State$0"/>
+   <atom label="State$1"/>
+   <atom label="State$2"/>
+   <atom label="State$3"/>
+   <atom label="State$4"/>
+   <atom label="State$5"/>
+   <atom label="State$6"/>
+</sig>
+
+<field label="token" ID="5" parentID="4">
+   <tuple> <atom label="State$0"/> <atom label="input_condition$0"/> </tuple>
+   <tuple> <atom label="State$1"/> <atom label="task$4"/> </tuple>
+   <tuple> <atom label="State$2"/> <atom label="task$4"/> </tuple>
+   <tuple> <atom label="State$3"/> <atom label="task$6"/> </tuple>
+   <tuple> <atom label="State$4"/> <atom label="task$5"/> </tuple>
+   <tuple> <atom label="State$5"/> <atom label="task$2"/> </tuple>
+   <tuple> <atom label="State$6"/> <atom label="output_condition$0"/> </tuple>
+   <types> <type ID="4"/> <type ID="6"/> </types>
+</field>
+
+<field label="n_token" ID="7" parentID="4">
+   <tuple> <atom label="State$0"/> <atom label="output_condition$0"/> </tuple>
+   <tuple> <atom label="State$0"/> <atom label="task$0"/> </tuple>
+   <tuple> <atom label="State$0"/> <atom label="task$1"/> </tuple>
+   <tuple> <atom label="State$0"/> <atom label="task$2"/> </tuple>
+   <tuple> <atom label="State$0"/> <atom label="task$3"/> </tuple>
+   <tuple> <atom label="State$0"/> <atom label="task$4"/> </tuple>
+   <tuple> <atom label="State$0"/> <atom label="task$5"/> </tuple>
+   <tuple> <atom label="State$0"/> <atom label="task$6"/> </tuple>
+   <tuple> <atom label="State$1"/> <atom label="input_condition$0"/> </tuple>
+   <tuple> <atom label="State$1"/> <atom label="output_condition$0"/> </tuple>
+   <tuple> <atom label="State$1"/> <atom label="task$0"/> </tuple>
+   <tuple> <atom label="State$1"/> <atom label="task$1"/> </tuple>
+   <tuple> <atom label="State$1"/> <atom label="task$2"/> </tuple>
+   <tuple> <atom label="State$1"/> <atom label="task$3"/> </tuple>
+   <tuple> <atom label="State$1"/> <atom label="task$5"/> </tuple>
+   <tuple> <atom label="State$1"/> <atom label="task$6"/> </tuple>
+   <tuple> <atom label="State$2"/> <atom label="input_condition$0"/> </tuple>
+   <tuple> <atom label="State$2"/> <atom label="output_condition$0"/> </tuple>
+   <tuple> <atom label="State$2"/> <atom label="task$0"/> </tuple>
+   <tuple> <atom label="State$2"/> <atom label="task$1"/> </tuple>
+   <tuple> <atom label="State$2"/> <atom label="task$2"/> </tuple>
+   <tuple> <atom label="State$2"/> <atom label="task$3"/> </tuple>
+   <tuple> <atom label="State$2"/> <atom label="task$5"/> </tuple>
+   <tuple> <atom label="State$2"/> <atom label="task$6"/> </tuple>
+   <tuple> <atom label="State$3"/> <atom label="input_condition$0"/> </tuple>
+   <tuple> <atom label="State$3"/> <atom label="output_condition$0"/> </tuple>
+   <tuple> <atom label="State$3"/> <atom label="task$0"/> </tuple>
+   <tuple> <atom label="State$3"/> <atom label="task$1"/> </tuple>
+   <tuple> <atom label="State$3"/> <atom label="task$2"/> </tuple>
+   <tuple> <atom label="State$3"/> <atom label="task$3"/> </tuple>
+   <tuple> <atom label="State$3"/> <atom label="task$4"/> </tuple>
+   <tuple> <atom label="State$3"/> <atom label="task$5"/> </tuple>
+   <tuple> <atom label="State$4"/> <atom label="input_condition$0"/> </tuple>
+   <tuple> <atom label="State$4"/> <atom label="output_condition$0"/> </tuple>
+   <tuple> <atom label="State$4"/> <atom label="task$0"/> </tuple>
+   <tuple> <atom label="State$4"/> <atom label="task$1"/> </tuple>
+   <tuple> <atom label="State$4"/> <atom label="task$2"/> </tuple>
+   <tuple> <atom label="State$4"/> <atom label="task$3"/> </tuple>
+   <tuple> <atom label="State$4"/> <atom label="task$4"/> </tuple>
+   <tuple> <atom label="State$4"/> <atom label="task$6"/> </tuple>
+   <tuple> <atom label="State$5"/> <atom label="input_condition$0"/> </tuple>
+   <tuple> <atom label="State$5"/> <atom label="output_condition$0"/> </tuple>
+   <tuple> <atom label="State$5"/> <atom label="task$0"/> </tuple>
+   <tuple> <atom label="State$5"/> <atom label="task$1"/> </tuple>
+   <tuple> <atom label="State$5"/> <atom label="task$3"/> </tuple>
+   <tuple> <atom label="State$5"/> <atom label="task$4"/> </tuple>
+   <tuple> <atom label="State$5"/> <atom label="task$5"/> </tuple>
+   <tuple> <atom label="State$5"/> <atom label="task$6"/> </tuple>
+   <tuple> <atom label="State$6"/> <atom label="input_condition$0"/> </tuple>
+   <tuple> <atom label="State$6"/> <atom label="task$0"/> </tuple>
+   <tuple> <atom label="State$6"/> <atom label="task$1"/> </tuple>
+   <tuple> <atom label="State$6"/> <atom label="task$2"/> </tuple>
+   <tuple> <atom label="State$6"/> <atom label="task$3"/> </tuple>
+   <tuple> <atom label="State$6"/> <atom label="task$4"/> </tuple>
+   <tuple> <atom label="State$6"/> <atom label="task$5"/> </tuple>
+   <tuple> <atom label="State$6"/> <atom label="task$6"/> </tuple>
+   <types> <type ID="4"/> <type ID="6"/> </types>
+</field>
+
+<field label="service_type" ID="8" parentID="4">
+   <tuple> <atom label="State$0"/> <atom label="&quot;payment&quot;"/> </tuple>
+   <tuple> <atom label="State$2"/> <atom label="&quot;stream&quot;"/> </tuple>
+   <tuple> <atom label="State$3"/> <atom label="&quot;payment&quot;"/> </tuple>
+   <tuple> <atom label="State$4"/> <atom label="&quot;payment&quot;"/> </tuple>
+   <tuple> <atom label="State$5"/> <atom label="&quot;payment&quot;"/> </tuple>
+   <types> <type ID="4"/> <type ID="3"/> </types>
+</field>
+
+<field label="customer_credit" ID="9" parentID="4">
+   <tuple> <atom label="State$0"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="State$1"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="State$2"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="State$3"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="State$4"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="State$5"/> <atom label="0"/> </tuple>
+   <types> <type ID="4"/> <type ID="1"/> </types>
+</field>
+
+<field label="fee" ID="10" parentID="4">
+   <types> <type ID="4"/> <type ID="1"/> </types>
+</field>
+
+<field label="is_free" ID="11" parentID="4">
+   <tuple> <atom label="State$0"/> <atom label="4"/> </tuple>
+   <tuple> <atom label="State$1"/> <atom label="5"/> </tuple>
+   <tuple> <atom label="State$2"/> <atom label="7"/> </tuple>
+   <tuple> <atom label="State$3"/> <atom label="7"/> </tuple>
+   <tuple> <atom label="State$4"/> <atom label="7"/> </tuple>
+   <tuple> <atom label="State$5"/> <atom label="5"/> </tuple>
+   <types> <type ID="4"/> <type ID="1"/> </types>
+</field>
+
+<sig label="this/input_condition" ID="12" parentID="6" one="yes">
+   <atom label="input_condition$0"/>
+</sig>
+
+<sig label="this/output_condition" ID="13" parentID="6" one="yes">
+   <atom label="output_condition$0"/>
+</sig>
+
+<sig label="this/task" ID="14" parentID="6">
+   <atom label="task$0"/>
+   <atom label="task$1"/>
+   <atom label="task$2"/>
+   <atom label="task$3"/>
+   <atom label="task$4"/>
+   <atom label="task$5"/>
+   <atom label="task$6"/>
+</sig>
+
+<field label="split" ID="15" parentID="14">
+   <tuple> <atom label="task$0"/> <atom label="&quot;Xor&quot;"/> </tuple>
+   <tuple> <atom label="task$1"/> <atom label="&quot;None&quot;"/> </tuple>
+   <tuple> <atom label="task$2"/> <atom label="&quot;None&quot;"/> </tuple>
+   <tuple> <atom label="task$3"/> <atom label="&quot;None&quot;"/> </tuple>
+   <tuple> <atom label="task$4"/> <atom label="&quot;Xor&quot;"/> </tuple>
+   <tuple> <atom label="task$5"/> <atom label="&quot;Xor&quot;"/> </tuple>
+   <tuple> <atom label="task$6"/> <atom label="&quot;None&quot;"/> </tuple>
+   <types> <type ID="14"/> <type ID="3"/> </types>
+</field>
+
+<field label="join" ID="16" parentID="14">
+   <tuple> <atom label="task$0"/> <atom label="&quot;None&quot;"/> </tuple>
+   <tuple> <atom label="task$1"/> <atom label="&quot;None&quot;"/> </tuple>
+   <tuple> <atom label="task$2"/> <atom label="&quot;Xor&quot;"/> </tuple>
+   <tuple> <atom label="task$3"/> <atom label="&quot;Xor&quot;"/> </tuple>
+   <tuple> <atom label="task$4"/> <atom label="&quot;None&quot;"/> </tuple>
+   <tuple> <atom label="task$5"/> <atom label="&quot;None&quot;"/> </tuple>
+   <tuple> <atom label="task$6"/> <atom label="&quot;None&quot;"/> </tuple>
+   <types> <type ID="14"/> <type ID="3"/> </types>
+</field>
+
+<field label="label" ID="17" parentID="14">
+   <tuple> <atom label="task$0"/> <atom label="&quot;download_charge_handler&quot;"/> </tuple>
+   <tuple> <atom label="task$1"/> <atom label="&quot;download&quot;"/> </tuple>
+   <tuple> <atom label="task$2"/> <atom label="&quot;finish_process&quot;"/> </tuple>
+   <tuple> <atom label="task$3"/> <atom label="&quot;payment&quot;"/> </tuple>
+   <tuple> <atom label="task$4"/> <atom label="&quot;choose_service&quot;"/> </tuple>
+   <tuple> <atom label="task$5"/> <atom label="&quot;stream_charge_handler&quot;"/> </tuple>
+   <tuple> <atom label="task$6"/> <atom label="&quot;stream&quot;"/> </tuple>
+   <types> <type ID="14"/> <type ID="3"/> </types>
+</field>
+
+<field label="last_deactive_task" ID="18" parentID="14">
+   <tuple> <atom label="task$0"/> <atom label="task$6"/> </tuple>
+   <tuple> <atom label="task$1"/> <atom label="task$4"/> </tuple>
+   <tuple> <atom label="task$2"/> <atom label="task$6"/> </tuple>
+   <tuple> <atom label="task$3"/> <atom label="task$3"/> </tuple>
+   <tuple> <atom label="task$4"/> <atom label="task$5"/> </tuple>
+   <tuple> <atom label="task$5"/> <atom label="task$6"/> </tuple>
+   <tuple> <atom label="task$6"/> <atom label="task$5"/> </tuple>
+   <types> <type ID="14"/> <type ID="6"/> </types>
+</field>
+
+<field label="cancellation_reigon_objects" ID="19" parentID="14">
+   <tuple> <atom label="task$0"/> <atom label="task$0"/> </tuple>
+   <tuple> <atom label="task$1"/> <atom label="task$0"/> </tuple>
+   <tuple> <atom label="task$2"/> <atom label="task$0"/> </tuple>
+   <tuple> <atom label="task$3"/> <atom label="task$0"/> </tuple>
+   <tuple> <atom label="task$4"/> <atom label="task$0"/> </tuple>
+   <tuple> <atom label="task$5"/> <atom label="task$1"/> </tuple>
+   <tuple> <atom label="task$6"/> <atom label="task$1"/> </tuple>
+   <types> <type ID="14"/> <type ID="6"/> </types>
+</field>
+
+<sig label="this/Object1" ID="6" parentID="2" abstract="yes">
+</sig>
+
+<field label="flowsInto" ID="20" parentID="6">
+   <tuple> <atom label="input_condition$0"/> <atom label="Flows$2"/> </tuple>
+   <tuple> <atom label="task$0"/> <atom label="Flows$4"/> </tuple>
+   <tuple> <atom label="task$0"/> <atom label="Flows$7"/> </tuple>
+   <tuple> <atom label="task$1"/> <atom label="Flows$9"/> </tuple>
+   <tuple> <atom label="task$2"/> <atom label="Flows$10"/> </tuple>
+   <tuple> <atom label="task$3"/> <atom label="Flows$5"/> </tuple>
+   <tuple> <atom label="task$4"/> <atom label="Flows$0"/> </tuple>
+   <tuple> <atom label="task$4"/> <atom label="Flows$8"/> </tuple>
+   <tuple> <atom label="task$5"/> <atom label="Flows$3"/> </tuple>
+   <tuple> <atom label="task$5"/> <atom label="Flows$6"/> </tuple>
+   <tuple> <atom label="task$6"/> <atom label="Flows$1"/> </tuple>
+   <types> <type ID="6"/> <type ID="21"/> </types>
+</field>
+
+<sig label="this/Flows" ID="21" parentID="2">
+   <atom label="Flows$0"/>
+   <atom label="Flows$1"/>
+   <atom label="Flows$2"/>
+   <atom label="Flows$3"/>
+   <atom label="Flows$4"/>
+   <atom label="Flows$5"/>
+   <atom label="Flows$6"/>
+   <atom label="Flows$7"/>
+   <atom label="Flows$8"/>
+   <atom label="Flows$9"/>
+   <atom label="Flows$10"/>
+</sig>
+
+<field label="predicate" ID="22" parentID="21">
+   <tuple> <atom label="Flows$0"/> <atom label="Boolean$1"/> </tuple>
+   <tuple> <atom label="Flows$3"/> <atom label="Boolean$6"/> </tuple>
+   <tuple> <atom label="Flows$4"/> <atom label="Boolean$0"/> </tuple>
+   <tuple> <atom label="Flows$6"/> <atom label="Boolean$0"/> </tuple>
+   <tuple> <atom label="Flows$7"/> <atom label="Boolean$0"/> </tuple>
+   <tuple> <atom label="Flows$8"/> <atom label="Boolean$6"/> </tuple>
+   <types> <type ID="21"/> <type ID="23"/> </types>
+</field>
+
+<field label="nextTask" ID="24" parentID="21">
+   <tuple> <atom label="Flows$0"/> <atom label="task$6"/> </tuple>
+   <tuple> <atom label="Flows$1"/> <atom label="task$5"/> </tuple>
+   <tuple> <atom label="Flows$2"/> <atom label="task$4"/> </tuple>
+   <tuple> <atom label="Flows$3"/> <atom label="task$3"/> </tuple>
+   <tuple> <atom label="Flows$4"/> <atom label="task$3"/> </tuple>
+   <tuple> <atom label="Flows$5"/> <atom label="task$2"/> </tuple>
+   <tuple> <atom label="Flows$6"/> <atom label="task$2"/> </tuple>
+   <tuple> <atom label="Flows$7"/> <atom label="task$2"/> </tuple>
+   <tuple> <atom label="Flows$8"/> <atom label="task$1"/> </tuple>
+   <tuple> <atom label="Flows$9"/> <atom label="task$0"/> </tuple>
+   <tuple> <atom label="Flows$10"/> <atom label="output_condition$0"/> </tuple>
+   <types> <type ID="21"/> <type ID="6"/> </types>
+</field>
+
+<sig label="this/Boolean" ID="23" parentID="2">
+   <atom label="Boolean$0"/>
+   <atom label="Boolean$1"/>
+   <atom label="Boolean$2"/>
+   <atom label="Boolean$3"/>
+   <atom label="Boolean$4"/>
+   <atom label="Boolean$5"/>
+   <atom label="Boolean$6"/>
+</sig>
+
+<field label="value" ID="25" parentID="23">
+   <tuple> <atom label="Boolean$0"/> <atom label="1"/> </tuple>
+   <tuple> <atom label="Boolean$1"/> <atom label="1"/> </tuple>
+   <tuple> <atom label="Boolean$2"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Boolean$3"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Boolean$4"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Boolean$5"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Boolean$6"/> <atom label="0"/> </tuple>
+   <types> <type ID="23"/> <type ID="1"/> </types>
+</field>
+
+<sig label="ordering/Ord" ID="26" parentID="2" one="yes" private="yes">
+   <atom label="ordering/Ord$0"/>
+</sig>
+
+<field label="First" ID="27" parentID="26" private="yes">
+   <tuple> <atom label="ordering/Ord$0"/> <atom label="State$0"/> </tuple>
+   <types> <type ID="26"/> <type ID="4"/> </types>
+</field>
+
+<field label="Next" ID="28" parentID="26" private="yes">
+   <tuple> <atom label="ordering/Ord$0"/> <atom label="State$0"/> <atom label="State$1"/> </tuple>
+   <tuple> <atom label="ordering/Ord$0"/> <atom label="State$1"/> <atom label="State$2"/> </tuple>
+   <tuple> <atom label="ordering/Ord$0"/> <atom label="State$2"/> <atom label="State$3"/> </tuple>
+   <tuple> <atom label="ordering/Ord$0"/> <atom label="State$3"/> <atom label="State$4"/> </tuple>
+   <tuple> <atom label="ordering/Ord$0"/> <atom label="State$4"/> <atom label="State$5"/> </tuple>
+   <tuple> <atom label="ordering/Ord$0"/> <atom label="State$5"/> <atom label="State$6"/> </tuple>
+   <types> <type ID="26"/> <type ID="4"/> <type ID="4"/> </types>
+</field>
+
+<sig label="univ" ID="2" builtin="yes">
+</sig>
+
+</instance>
+
+</alloy>

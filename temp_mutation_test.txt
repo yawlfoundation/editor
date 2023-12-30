@@ -1,0 +1,119 @@
+fact test {
+ 	all s: State | all t, t': task | t.label = "download_charge_handler" && t'.label = "finish_process" &&  t in s.token => {
+1 = 1  && t' in s.next.token 	}
+}
+----------
+fact test {
+            	all t, t': task | t.label = "download_charge_handler" && t'.label = "payment" => {
+                one s: State |  t in s.token &&
+
+s.service_type = "download" && s.is_free = 2 && s.fee = 1 && s.customer_credit = 3 && t' not in s.next.token
+ 	}
+}
+----------
+fact test {
+            	all t, t': task | t.label = "download_charge_handler" && t'.label = "payment" => {
+                one s: State |  t in s.token &&
+
+s.service_type = "download" && s.is_free = 2 && s.fee = 3 && s.customer_credit = 2 && t' in s.next.token
+ 	}
+}
+
+----------
+fact test {
+            	all t, t': task | t.label = "download_charge_handler" && t'.label = "payment" => {
+                one s: State |  t in s.token &&
+
+s.fee = 3 && s.customer_credit = 2 && s.is_free = 2 && s.service_type = "downloaA" && t' not in s.next.token
+ 	}
+}
+----------
+fact test {
+            	all t, t': task | t.label = "download_charge_handler" && t'.label = "payment" => {
+                one s: State |  t in s.token &&
+
+s.fee = 3 && s.customer_credit = 2 && s.is_free = 2 && s.service_type = "download" && t' in s.next.token
+ 	}
+}
+----------
+fact test {
+            	all t, t': task | t.label = "download_charge_handler" && t'.label = "payment" => {
+                one s: State |  t in s.token &&
+
+s.fee = 1 && s.customer_credit = 3 && s.service_type = "download" && s.is_free = 2 && t' not in s.next.token
+ 	}
+}
+----------
+fact test {
+            	all t, t': task | t.label = "download_charge_handler" && t'.label = "payment" => {
+                one s: State |  t in s.token &&
+
+s.fee = 1 && s.customer_credit = 3 && s.service_type = "download" && s.is_free = 1 && t' in s.next.token
+ 	}
+}
+----------
+fact test {
+	all t, t': task | t.label = "choose_service" && t'.label = "download" => {
+    one s: State |  t in s.token && t' in s.next.token && 1 = 1}
+}
+----------
+fact test {
+            	all t, t': task | t.label = "choose_service" && t'.label = "stream" => {
+                one s: State |  t in s.token &&
+
+s.service_type = "streaA" && t' not in s.next.token
+ 	}
+}
+----------
+fact test {
+            	all t, t': task | t.label = "stream_charge_handler" && t'.label = "payment" => {
+                one s: State |  t in s.token &&
+
+s.service_type = "stream" && s.is_free = 2 && s.fee = 1 && s.customer_credit = 3 && t' not in s.next.token
+ 	}
+}
+----------
+fact test {
+            	all t, t': task | t.label = "stream_charge_handler" && t'.label = "payment" => {
+                one s: State |  t in s.token &&
+
+s.service_type = "stream" && s.is_free = 2 && s.fee = 3 && s.customer_credit = 2 && t' in s.next.token
+ 	}
+}
+----------
+fact test {
+            	all t, t': task | t.label = "stream_charge_handler" && t'.label = "payment" => {
+                one s: State |  t in s.token &&
+
+s.fee = 3 && s.customer_credit = 2 && s.is_free = 2 && s.service_type = "streaA" && t' not in s.next.token
+ 	}
+}
+----------
+fact test {
+            	all t, t': task | t.label = "stream_charge_handler" && t'.label = "payment" => {
+                one s: State |  t in s.token &&
+
+s.fee = 3 && s.customer_credit = 2 && s.is_free = 2 && s.service_type = "stream" && t' in s.next.token
+ 	}
+}
+----------
+fact test {
+            	all t, t': task | t.label = "stream_charge_handler" && t'.label = "payment" => {
+                one s: State |  t in s.token &&
+
+s.fee = 1 && s.customer_credit = 3 && s.service_type = "stream" && s.is_free = 2 && t' not in s.next.token
+ 	}
+}
+----------
+fact test {
+            	all t, t': task | t.label = "stream_charge_handler" && t'.label = "payment" => {
+                one s: State |  t in s.token &&
+
+s.fee = 1 && s.customer_credit = 3 && s.service_type = "stream" && s.is_free = 1 && t' in s.next.token
+ 	}
+}
+----------
+fact test {
+	all t, t': task | t.label = "stream_charge_handler" && t'.label = "finish_process" => {
+    one s: State |  t in s.token && t' in s.next.token && 1 = 1}
+}

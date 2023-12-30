@@ -31,25 +31,6 @@ class NotesEditor extends JEditorPane {
 
     public NotesEditor() {
         super();
-        getDocument().addDocumentListener(
-                new DocumentListener() {
-                    public void insertUpdate(DocumentEvent e) {
-                        updateDesignNotes();
-                    }
-
-                    public void changedUpdate(DocumentEvent e) {
-                        updateDesignNotes();
-                    }
-
-                    public void removeUpdate(DocumentEvent e) {
-                        updateDesignNotes();
-                    }
-
-                    private void updateDesignNotes() {
-                        vertex.setDesignNotes(getText());
-                    }
-                }
-        );
     }
 
     public void setVertex(YAWLVertex vertex) {

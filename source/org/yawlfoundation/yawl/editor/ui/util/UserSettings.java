@@ -62,12 +62,16 @@ public class UserSettings {
     private static final String USE_YAWL_REDUCTION_RULES = "yawlReductionRules";
     private static final String USE_RESET_REDUCTION_RULES = "resetReductionRules";
     private static final String OR_JOIN_CYCLE_ANALYSIS = "resetOrjoinCycleCheck";
+    private static final String ALLOY_ANALYSIS = "alloyAnalysis";
     private static final String WOFYAWL_ANALYSIS = "wofYawlAnalysisCheck";
     private static final String STRUCTURAL_ANALYSIS = "wofYawlStructuralAnalysisCheck";
     private static final String BEHAVIOURAL_ANALYSIS = "wofYawlBehaviouralAnalysisCheck";
     private static final String EXTENDED_COVERABILITY = "wofYawlExtendedCoverabilityCheck";
     private static final String KEEP_ANALYSIS_DIALOG_OPEN = "keepAnalysisDialogOpenWhenDone";
     private static final String ANALYSER_MAX_MARKINGS = "analyserMaxMarkings";
+    private static final String ALLOY_OR_JOIN_CYCLE_ANALYSIS = "alloyOrjoinCycleCheck";
+    private static final String ALLOY_ARE_ALL_TASKS_REACHABLE_ANALYSIS = "alloyIsAllTasksReachableCheck";
+    private static final String ALLOY_CHECK_PENDING_OR_JOINS_ON_EACH_OTHER_ANALYSIS = "alloyCheckPendingOrJoinsOnEachOther";
     private static final int DEFAULT_ANALYSER_MAX_MARKINGS = 1000;
 
     // engine & resource service settings
@@ -246,6 +250,13 @@ public class UserSettings {
         return getBoolean(RESET_NET_ANALYSIS);
     }
 
+    public static void setAlloyAnalysis(boolean alloy) {
+        setBoolean(ALLOY_ANALYSIS, alloy);
+    }
+    public static boolean getAlloyAnalysis() {
+        return getBoolean(ALLOY_ANALYSIS);
+    }
+
     public static void setSoundnessAnalysis(boolean soundness) {
         setBoolean(SOUNDNESS_ANALYSIS, soundness);
     }
@@ -354,6 +365,28 @@ public class UserSettings {
         _prefs.putInt(ANALYSER_MAX_MARKINGS, maxMarkings);
     }
 
+    public static void setAlloyOrJoinCycleAnalysis(boolean cycle) {
+        setBoolean(ALLOY_OR_JOIN_CYCLE_ANALYSIS, cycle);
+    }
+
+    public static boolean getAlloyOrJoinCycleAnalysis() {
+        return getBoolean(ALLOY_OR_JOIN_CYCLE_ANALYSIS);
+    }
+
+    public static void setAlloyAreAllTasksReachableAnalysis(boolean cycle) {
+        setBoolean(ALLOY_ARE_ALL_TASKS_REACHABLE_ANALYSIS, cycle);
+    }
+
+    public static boolean getAlloyAreAllTasksReachableAnalysis() {
+        return getBoolean(ALLOY_ARE_ALL_TASKS_REACHABLE_ANALYSIS);
+    }
+
+    public static void setAlloyCheckPendingOrJoinsOnEachOtherAnalysis(boolean pendingOrJoins) {
+        setBoolean(ALLOY_CHECK_PENDING_OR_JOINS_ON_EACH_OTHER_ANALYSIS, pendingOrJoins);
+    }
+    public static boolean getAlloyCheckPendingOrJoinsOnEachOtherAnalysis() {
+        return getBoolean(ALLOY_CHECK_PENDING_OR_JOINS_ON_EACH_OTHER_ANALYSIS);
+    }
     public static int getAnalyserMaxMarkings() {
         return _prefs.getInt(ANALYSER_MAX_MARKINGS, DEFAULT_ANALYSER_MAX_MARKINGS);
     }

@@ -47,37 +47,71 @@ public class AnalysisUtil {
         String _result;
 
         try {
+            System.out.println("analyse");
             _result = analyser.analyse(specXML, getAnalyserOptions(),
                     UserSettings.getAnalyserMaxMarkings());
-        }
-        catch (YSyntaxException yse) {
+        } catch (YSyntaxException yse) {
             String msg = yse.getMessage().trim();
             msg = msg.substring(0, msg.indexOf(":")) + "." +
                     "\nAnalysis cannot proceed until these issues are resolved.\n" +
                     "Please validate the specification for more detailed information.";
             showError(messageDlg, msg);
             _result = "<error>Analysis aborted.</error>";
-        }
-        catch (IllegalArgumentException iae) {
+        } catch (IllegalArgumentException iae) {
             String msg = "\nNo analysis options selected. " +
                     "Please select at least one option\n" +
                     "in the analysis preferences list [File->Preferences->Analysis].";
             showError(messageDlg, msg);
             _result = "<error>Analysis aborted.</error>";
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             messageDlg.setVisible(false);
             messageDlg.dispose();
             LogManager.getLogger(AnalysisUtil.class).error("Error analysing specification.", e);
-            _result = "<error>"+ JDOMUtil.encodeEscapes(e.getMessage()) +"</error>";
-        }
-        finally {
+            _result = "<error>" + JDOMUtil.encodeEscapes(e.getMessage()) + "</error>";
+        } finally {
             if (messageDlg != null) {
                 messageDlg.finished();
             }
             analyser.removeEventListener(messageDlg);
         }
         return _result;
+    }
+
+    public static String alloyAnalyse(YAnalyser analyser, AnalysisDialog messageDlg,
+                                      String specXML) {
+
+        analyser.addEventListener(messageDlg);
+        String _alloyAnalysisResult;
+
+        try {
+            System.out.println("alloy analyse");
+            _alloyAnalysisResult = analyser.alloyAnalyse(specXML, getAnalyserOptions(),
+                    UserSettings.getAnalyserMaxMarkings());
+        } catch (YSyntaxException yse) {
+            String msg = yse.getMessage().trim();
+            msg = msg.substring(0, msg.indexOf(":")) + "." +
+                    "\nAnalysis cannot proceed until these issues are resolved.\n" +
+                    "Please validate the specification for more detailed information.";
+            showError(messageDlg, msg);
+            _alloyAnalysisResult = "<error>Analysis aborted.</error>";
+        } catch (IllegalArgumentException iae) {
+            String msg = "\nNo analysis options selected. " +
+                    "Please select at least one option\n" +
+                    "in the analysis preferences list [File->Preferences->Analysis].";
+            showError(messageDlg, msg);
+            _alloyAnalysisResult = "<error>Analysis aborted.</error>";
+        } catch (Exception e) {
+            messageDlg.setVisible(false);
+            messageDlg.dispose();
+            LogManager.getLogger(AnalysisUtil.class).error("Error analysing specification.", e);
+            _alloyAnalysisResult = "<error>" + JDOMUtil.encodeEscapes(e.getMessage()) + "</error>";
+        } finally {
+            if (messageDlg != null) {
+                messageDlg.finished();
+            }
+            analyser.removeEventListener(messageDlg);
+        }
+        return _alloyAnalysisResult;
     }
 
 
@@ -91,6 +125,11 @@ public class AnalysisUtil {
             options.enableResetOrjoinCycle(UserSettings.getOrJoinCycleAnalysis());
             options.enableResetReductionRules(UserSettings.getUseResetReductionRules());
             options.enableYawlReductionRules(UserSettings.getUseYawlReductionRules());
+        }
+        if (UserSettings.getAlloyAnalysis()) {
+            options.enableAlloyOrJoinCycle(UserSettings.getAlloyOrJoinCycleAnalysis());
+            options.enableAlloyAllTasksReachable(UserSettings.getAlloyAreAllTasksReachableAnalysis());
+            options.enableAlloyCheckPendingOrJoinsOnEachOther(UserSettings.getAlloyCheckPendingOrJoinsOnEachOtherAnalysis());
         }
         if (UserSettings.getWofyawlAnalysis()) {
             options.enableWofBehavioural(UserSettings.getBehaviouralAnalysis());

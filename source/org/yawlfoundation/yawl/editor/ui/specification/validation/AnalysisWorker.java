@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.specification.validation;
 
+import org.apache.jena.base.Sys;
 import org.yawlfoundation.yawl.analyser.YAnalyser;
 import org.yawlfoundation.yawl.editor.ui.specification.io.SpecificationWriter;
 import org.yawlfoundation.yawl.editor.ui.swing.AnalysisDialog;
@@ -33,13 +34,21 @@ import javax.swing.*;
 public class AnalysisWorker extends SwingWorker<Void, Void> implements AnalysisCanceller {
 
     private String _result;
+    private String _alloyResult;
     private YAnalyser _analyser;
 
 
-    protected AnalysisWorker() { }
+    protected AnalysisWorker() {
+    }
 
 
-    protected String getResult() { return _result; }
+    protected String getResult() {
+        return _result;
+    }
+
+    protected String getAlloyValidationResult() {
+        return _alloyResult;
+    }
 
 
     public void cancel() {
@@ -56,7 +65,9 @@ public class AnalysisWorker extends SwingWorker<Void, Void> implements AnalysisC
         String specXML = new SpecificationWriter().getSpecificationXML();
         AnalysisDialog messageDlg = AnalysisUtil.createDialog(this);
         _analyser = new YAnalyser();
+        System.out.println("background");
         _result = AnalysisUtil.analyse(_analyser, messageDlg, specXML);
+        _alloyResult = AnalysisUtil.alloyAnalyse(_analyser, messageDlg, specXML);
         return null;
     }
 
@@ -66,8 +77,7 @@ public class AnalysisWorker extends SwingWorker<Void, Void> implements AnalysisC
             if (!isCancelled()) {
                 get();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             String msg = e.getMessage();
             if (msg == null) {
                 msg = e.getClass().getName();

@@ -18,7 +18,10 @@
 
 package org.yawlfoundation.yawl.editor.ui.specification;
 
+import org.yawlfoundation.yawl.analyser.util.alloy.AlloyTranslator;
+import org.yawlfoundation.yawl.analyser.util.alloy.AlloyTestGenerator;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
+import org.yawlfoundation.yawl.editor.ui.specification.io.SpecificationWriter;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.FileState;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.FileStateListener;
 import org.yawlfoundation.yawl.editor.ui.specification.pubsub.Publisher;
@@ -26,6 +29,7 @@ import org.yawlfoundation.yawl.editor.ui.specification.validation.AnalysisResult
 import org.yawlfoundation.yawl.editor.ui.specification.validation.SpecificationValidator;
 import org.yawlfoundation.yawl.editor.ui.specification.validation.ValidationResultsParser;
 import org.yawlfoundation.yawl.editor.ui.util.CursorUtil;
+import org.yawlfoundation.yawl.elements.YNet;
 
 /**
  * @author Michael Adams
@@ -33,25 +37,48 @@ import org.yawlfoundation.yawl.editor.ui.util.CursorUtil;
  */
 public class FileOperations {
 
-    private enum Action { Open, OpenFile, Validate, Analyse, Save, SaveAs, Close, Exit }
+    public static void open() {
+        processAction(Action.Open);
+    }
 
+    public static void open(String fileName) {
+        processAction(Action.OpenFile, fileName);
+    }
 
-    public static void open()  { processAction(Action.Open); }
+    public static void convertToAlloy() {
+        processAction(Action.ConvertToAlloy);
+    }
 
-    public static void open(String fileName)  { processAction(Action.OpenFile, fileName); }
+    public static void testWithAlloy_RACC() {
+        processAction(Action.TestWithAlloy_RACC);
+    }
+    public static void mutateRACCTests() {
+        processAction(Action.MutateAlloyTests);
+    }
 
-    public static void validate()  { processAction(Action.Validate); }
+    public static void validate() {
+        processAction(Action.Validate);
+    }
 
-    public static void analyse()  { processAction(Action.Analyse); }
+    public static void analyse() {
+        processAction(Action.Analyse);
+    }
 
-    public static void save() { processAction(Action.Save); }
+    public static void save() {
+        processAction(Action.Save);
+    }
 
-    public static void saveAs()  { processAction(Action.SaveAs); }
+    public static void saveAs() {
+        processAction(Action.SaveAs);
+    }
 
-    public static void close()  { processAction(Action.Close); }
+    public static void close() {
+        processAction(Action.Close);
+    }
 
-    public static void exit()  { processAction(Action.Exit); }
-
+    public static void exit() {
+        processAction(Action.Exit);
+    }
 
     private static void processAction(Action action, String... args) {
         CursorUtil.showWaitCursor();
@@ -60,58 +87,65 @@ public class FileOperations {
         publisher.publishFileBusyEvent();
 
         switch (action) {
-            case Open: {
-                handler.openFile();
-                break;
-            }
-            case OpenFile: {
+            case Open -> handler.openFile();
+            case OpenFile -> {
                 handler.openFile(args[0]);
-                break;
             }
-            case Validate: {
+            case ConvertToAlloy -> {
+                YNet rootNet = new SpecificationWriter().cleanSpecification().getRootNet();
+                String code = new AlloyTranslator().translate(rootNet);
+//                System.out.println(code);
+                YAWLEditor.getInstance().showAlloyCode(code);
+            }
+            case TestWithAlloy_RACC -> {
+                YNet rootNet = new SpecificationWriter().cleanSpecification().getRootNet();
+                String code = new AlloyTestGenerator(rootNet).test(rootNet);
+                YAWLEditor.getInstance().showAlloyRACCTestResults(code);
+            }
+            case MutateAlloyTests -> {
+                YNet rootNet1 = new SpecificationWriter().cleanSpecification().getRootNet();
+                String code1 = new AlloyTestGenerator(rootNet1).testWithMutations(rootNet1);
+                YAWLEditor.getInstance().showAlloyRACCTestResults(code1);
+            }
+            case Validate -> {
                 YAWLEditor.getInstance().showProblemList("Validation Results",
                         new ValidationResultsParser().parse(
-                        new SpecificationValidator().getValidationResults()));
-                break;
+                                new SpecificationValidator().getValidationResults()));
             }
-            case Analyse: {
+            case Analyse -> {
                 new AnalysisResultsParser().showAnalysisResults();
-                break;
             }
-            case Save: {
+            case Save -> {
                 handler.saveFile();
-                break;
             }
-            case SaveAs: {
+            case SaveAs -> {
                 handler.saveFileAs();
-                break;
             }
-            case Close: {
+            case Close -> {
                 handler.closeFile();
-                break;
             }
-            case Exit: {
+            case Exit -> {
 
                 // need to listen for file save completion (or file close)
-                FileStateListener fsListener = new FileStateListener() {
-                    @Override
-                    public void specificationFileStateChange(FileState state) {
-                        if (state == FileState.Closed) {
-                            System.exit(0);
-                        }
+                FileStateListener fsListener = state -> {
+                    if (state == FileState.Closed) {
+                        System.exit(0);
                     }
                 };
                 publisher.subscribe(fsListener);
 
-                if (! handler.closeFileOnExit()) {
+                if (!handler.closeFileOnExit()) {
                     publisher.unsubscribe(fsListener);       // exit cancelled
                 }
-                break;
             }
         }
 
         publisher.publishFileUnbusyEvent();
         CursorUtil.showDefaultCursor();
     }
+
+
+    private enum Action {Open, OpenFile, Validate, Analyse, ConvertToAlloy, Save, SaveAs, Close, Exit,
+        TestWithAlloy_RACC, MutateAlloyTests}
 
 }

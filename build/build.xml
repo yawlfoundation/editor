@@ -95,6 +95,7 @@
     <property name="macify" value="macify-1.4.jar"/>
     <property name="servlet" value="servlet-api.jar"/>
 	<property name="junit" value="junit-4.4.jar"/>
+	<property name="alloy" value="alloy4.2_2015-02-22.jar"/>
 
     <!-- Libraries for views plugin-->
     <property name="commons-lang3" value="commons-lang3-3.3.2.jar"/>
@@ -150,16 +151,24 @@
 	</fail>
 
     <!--
+		Check Alloy Services dependencies are where we expect they are
+	-->
+    <fail message="Alloy API path ${alloy.lib.jar.path} not found">
+        <condition>
+            <not><available file="${alloy.lib.jar.path}" type="file" /></not>
+        </condition>
+    </fail>
+    <!--
         This custom task writes checksum data for all files in a release build,
         from where it is used for auto updating
     -->
-    <taskdef name="checkSums"
-             classname="org.yawlfoundation.yawl.editor.ui.util.CheckSumTask">
-        <classpath>
-            <pathelement path="${classes.dir}"/>
-            <pathelement path="${engine.lib.jar.path}"/>
-        </classpath>
-    </taskdef>
+<!--    <taskdef name="checkSums"-->
+<!--             classname="org.yawlfoundation.yawl.editor.ui.util.CheckSumTask">-->
+<!--        <classpath>-->
+<!--            <pathelement path="${classes.dir}"/>-->
+<!--            <pathelement path="${engine.lib.jar.path}"/>-->
+<!--        </classpath>-->
+<!--    </taskdef>-->
 
     <scriptdef name="adjust.build.version" language="javascript">
         <attribute name="last.build.version" />
@@ -202,8 +211,8 @@
         </copy>
         <copy file="${build.dir}/log4j2.xml" toDir="${output.dir}/lib/"/>
 
-        <adjust.build.version last.build.version="${build.number}"
-                              property="this.build.number"/>
+<!--        <adjust.build.version last.build.version="${build.number}"-->
+<!--                              property="this.build.number"/>-->
 
         <property name="manifestFile" value="${root.class.name}.mf" />
     	<manifestclasspath property="manifest.cp"
@@ -543,8 +552,10 @@
     		<fileset refid="editorOnlyDeps" />
     		<fileset refid="neededEngineDeps" />
     		<fileset file="${engine.lib.jar.path}" />
+    		<fileset file="${alloy.lib.jar.path}" />
     	</copy>
         <copy file="${engine.lib.jar.path}" todir="${deploy.dir}/lib"/>
+        <copy file="${alloy.lib.jar.path}" todir="${deploy.dir}/lib"/>
     </target>
 
 
@@ -614,6 +625,7 @@
         	<classpath>
 
         		<pathelement location="../${engine.lib.jar.path}" />
+        		<pathelement location="../${alloy.lib.jar.path}" />
         		<fileset refid="editorOnlyDeps" />
         		<fileset refid="neededEngineDeps" />
         	</classpath>
@@ -679,8 +691,9 @@
             <classpath>
             	<pathelement location="${engine.lib.jar.path}" />
         		<fileset refid="editorOnlyDeps" />
-            	<fileset refid="neededEngineDeps" />
+                <fileset refid="neededEngineDeps" />
                 <fileset refid="viewsPluginDeps"/>
+                <pathelement location="${alloy.lib.jar.path}" />
             </classpath>
         </javac>
         <!--<record name="${log.file}" action="stop"/>-->
@@ -702,6 +715,7 @@
             <include name="${configuration.base.file}" />
             <classpath>
             	<pathelement location="../${engine.lib.jar.path}" />
+            	<pathelement location="../${alloy.lib.jar.path}" />
         		<fileset refid="editorOnlyDeps" />
             	<fileset refid="neededEngineDeps" />
             </classpath>
@@ -724,6 +738,7 @@
             <include name="${decorator.base.file}" />
             <classpath>
             	<pathelement location="../${engine.lib.jar.path}" />
+            	<pathelement location="../${alloy.lib.jar.path}" />
         		<fileset refid="editorOnlyDeps" />
             	<fileset refid="neededEngineDeps" />
             </classpath>
@@ -736,8 +751,9 @@
                  classname="com.kirkk.analyzer.textui.JarAnalyzerTask">
             <classpath>
                 <pathelement path="${analyzer.dir}/jaranalyzer-1.2.jar"/>
-                <pathelement path="${analyzer.dir}/lib/bcel-5.2.jar"/>
+                <pathelement path="${analyzer.dir}/lib/bcel-6.5.0.jar"/>
                 <pathelement path="${analyzer.dir}/lib/jakarta-regexp-1.3.jar"/>
+                <pathelement path="${deploy.dir}/lib/alloy4.2_2015-02-22.jar" />
                 <pathelement path="${analyzer.dir}/lib"/>
             </classpath>
         </taskdef>
@@ -776,6 +792,7 @@
                 <fileset refid="junitDeps" />
             	<fileset refid="editorOnlyDeps" />
                 <pathelement location="../${engine.lib.jar.path}" />
+                <pathelement location="../${alloy.lib.jar.path}" />
             	<fileset refid="neededEngineDeps" />
            </classpath>
         </junit>

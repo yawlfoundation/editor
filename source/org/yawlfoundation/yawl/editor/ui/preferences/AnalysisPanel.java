@@ -38,6 +38,8 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
     private JCheckBox relaxedSoundnessCheckBox;
     private JCheckBox transitionInvariantCheckBox;
     private JCheckBox extendedCoverabilityCheckBox;
+    
+    private JCheckBox alloyAnalysisCheckbox;
 
     private JCheckBox resetNetAnalysisCheckBox;
     private JCheckBox weakSoundnessCheckBox;
@@ -49,6 +51,9 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
     private JCheckBox useYAWLReductionRulesCheckBox;
     private JCheckBox useResetReductionRulesCheckBox;
     private JCheckBox keepOpenCheckBox;
+    private JCheckBox alloyOrJoinCycleCheckBox;
+    private JCheckBox alloyAreAllTasksReachableCheckBox;
+    private JCheckBox alloyCheckPendingOrJoinsOnEachOtherCheckBox;
     private JFormattedTextField maxMarkingsField;
 
     public AnalysisPanel(ActionListener actionListener, CaretListener caretListener) {
@@ -77,6 +82,10 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
         UserSettings.setShowObservations(showObservationsCheckBox.isSelected());
         UserSettings.setUseYawlReductionRules(useYAWLReductionRulesCheckBox.isSelected());
         UserSettings.setUseResetReductionRules(useResetReductionRulesCheckBox.isSelected());
+        UserSettings.setAlloyAnalysis(alloyAnalysisCheckbox.isSelected());
+        UserSettings.setAlloyOrJoinCycleAnalysis(alloyOrJoinCycleCheckBox.isSelected());
+        UserSettings.setAlloyAreAllTasksReachableAnalysis(alloyAreAllTasksReachableCheckBox.isSelected());
+        UserSettings.setAlloyCheckPendingOrJoinsOnEachOtherAnalysis(alloyCheckPendingOrJoinsOnEachOtherCheckBox.isSelected());
         UserSettings.setKeepAnalysisDialogOpen(keepOpenCheckBox.isSelected());
         UserSettings.setAnalyserMaxMarkings(
                 StringUtil.strToInt(maxMarkingsField.getText(),
@@ -104,6 +113,11 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
         content.add(getShowObservationsCheckBox(listener));
         content.add(getKeepOpenCheckBox(listener));
         content.add(getMaxMarkingsField());
+        
+        content.add(getAlloyAnalysisCheckBox(listener));
+        content.add(getAlloyOrJoinCycleCheckBox(listener));
+        content.add(getAlloyAreAllTasksReachableCheckBox(listener));
+        content.add(getAlloyCheckPendingOrJoinsOnEachOtherAnalysisCheckBox(listener));
 
         content.add(getWofYawlAnalysisCheckBox(listener));
         content.add(getRelaxedSoundnessCheckBox(listener));
@@ -112,6 +126,7 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
 
         return content;
     }
+
 
     private JCheckBox getResetNetAnalysisCheckBox(ActionListener listener) {
         resetNetAnalysisCheckBox = makeCheckBox("Use the reset net analysis algorithm",
@@ -135,6 +150,12 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
             showObservationsCheckBox.setEnabled(enable);
             useYAWLReductionRulesCheckBox.setEnabled(enable);
             useResetReductionRulesCheckBox.setEnabled(enable);
+    }
+
+    private void enableAlloyCheckBoxes(boolean enable) {
+        alloyOrJoinCycleCheckBox.setEnabled(enable);
+        alloyAreAllTasksReachableCheckBox.setEnabled(enable);
+        alloyCheckPendingOrJoinsOnEachOtherCheckBox.setEnabled(enable);
     }
 
     private JCheckBox getWeakSoundnessCheckBox(ActionListener listener) {
@@ -242,6 +263,41 @@ public class AnalysisPanel extends JPanel implements PreferencePanel {
                 "Extend coverability graph of an unbounded analysis net (slow)",
                 KeyEvent.VK_E, UserSettings.getExtendedCoverability(), true, listener);
         return extendedCoverabilityCheckBox;
+    }
+
+    private JCheckBox getAlloyAnalysisCheckBox(ActionListener listener) {
+        alloyAnalysisCheckbox = makeCheckBox("Use Alloy analysis",
+                KeyEvent.VK_Z, UserSettings.getResetNetAnalysis(), false, listener);
+        alloyAnalysisCheckbox.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent event) {
+                        enableAlloyCheckBoxes(alloyAnalysisCheckbox.isSelected());
+                    }
+                }
+        );
+        alloyAnalysisCheckbox.setBorder(new EmptyBorder(25, 0, 5, 0));
+        return alloyAnalysisCheckbox;
+    }
+
+    private JCheckBox getAlloyOrJoinCycleCheckBox(ActionListener listener) {
+        alloyOrJoinCycleCheckBox = makeCheckBox(
+                "Check or-join in cycle with ALLOY analysis",
+                KeyEvent.VK_E, UserSettings.getAlloyOrJoinCycleAnalysis(), true, listener);
+        return alloyOrJoinCycleCheckBox;
+    }
+
+    private JCheckBox getAlloyAreAllTasksReachableCheckBox(ActionListener listener) {
+        alloyAreAllTasksReachableCheckBox = makeCheckBox(
+                "Check are all tasks reachable with ALLOY analysis",
+                KeyEvent.VK_S, UserSettings.getAlloyAreAllTasksReachableAnalysis(), true, listener);
+        return alloyAreAllTasksReachableCheckBox;
+    }
+
+    private JCheckBox getAlloyCheckPendingOrJoinsOnEachOtherAnalysisCheckBox(ActionListener listener) {
+        alloyCheckPendingOrJoinsOnEachOtherCheckBox = makeCheckBox(
+                "Check are any two tasks with or-join pending on each other with ALLOY analysis",
+                KeyEvent.VK_S, UserSettings.getAlloyCheckPendingOrJoinsOnEachOtherAnalysis(), true, listener);
+        return alloyCheckPendingOrJoinsOnEachOtherCheckBox;
     }
 
 

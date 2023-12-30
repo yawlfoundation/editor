@@ -1,0 +1,4273 @@
+<html>
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+        <title>JarAnalyzer Analysis</title>
+        <style type="text/css">
+      body {
+        font:normal 68% verdana,arial,helvetica;
+        color:#000000;
+      }
+      
+     table.gray {
+		  background:#eeeeee
+      }
+      table tr td, tr th {
+          font-size: 68%;
+      }
+      table.details tr th{
+        font-weight: bold;
+        text-align:left;
+        background:#a6caf0;
+      }
+      table.details tr td{
+        background:#eeeee0;
+      }
+      
+      p {
+        line-height:1.5em;
+        margin-top:0.5em; margin-bottom:1.0em;
+        margin-left:2em;
+        margin-right:2em;
+      }
+      h1 {
+        margin: 0px 0px 5px; font: 165% verdana,arial,helvetica
+      }
+      h2 {
+        margin-top: 1em; margin-bottom: 0.5em; font: bold 125% verdana,arial,helvetica
+      }
+      h3 {
+        margin-bottom: 0.5em; font: bold 115% verdana,arial,helvetica
+      }
+      h4 {
+        margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica
+      }
+      h5 {
+        margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica
+      }
+      h6 {
+        margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica
+      }
+      .Error {
+        font-weight:bold; color:red;
+      }
+      .Failure {
+        font-weight:bold; color:purple;
+      }
+      .Properties {
+        text-align:right;
+      }
+      </style>
+    </head>
+    <body>
+        <h1>
+            <a name="top">JarAnalyzer Analysis</a>
+        </h1>
+        <p align="right">
+            Run with <a href="http://www.kirkk.com/main/Main/JarAnalyzer">JarAnalyzer</a> on 
+        </p>
+        <hr size="2">
+        <table width="100%">
+            <tr>
+                <td><a name="NVsummary">
+                        <h2>Summary</h2>
+                    </a></td><td align="right">
+    [<a href="#NVsummary">summary</a>]
+    [<a href="#NVjars">jars</a>]
+    [<a href="#NVcycles">cycles</a>]
+    [<a href="#NVexplanations">explanations</a>]
+    </td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Jar Name</th><th>Total Classes</th><th><a href="#EXclassnumber">Abstract Classes</a></th><th><a href="#EXpackagenumber">Packages</a></th><th><a href="#EXabstractness">Abstractness</a></th><th><a href="#EXefferent">Efferent</a></th><th><a href="#EXafferent">Afferent</a></th><th><a href="#EXinstability">Instability</a></th><th><a href="#EXdistance">Distance</a></th>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKalloy4.2_2015-02-22.jar">alloy4.2_2015-02-22.jar</a></td><td align="right">1207</td><td align="right">182</td><td align="right">45</td><td align="right">0.15</td><td align="right">0</td><td align="right">1</td><td align="right">0.00</td><td align="right">0.85</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKautomaton.jar">automaton.jar</a></td><td align="right">25</td><td align="right">1</td><td align="right">1</td><td align="right">0.04</td><td align="right">0</td><td align="right">1</td><td align="right">0.00</td><td align="right">0.96</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKcommons-codec-1.9.jar">commons-codec-1.9.jar</a></td><td align="right">85</td><td align="right">13</td><td align="right">6</td><td align="right">0.15</td><td align="right">0</td><td align="right">2</td><td align="right">0.00</td><td align="right">0.85</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKcommons-collections4-4.1.jar">commons-collections4-4.1.jar</a></td><td align="right">518</td><td align="right">94</td><td align="right">18</td><td align="right">0.18</td><td align="right">1</td><td align="right">1</td><td align="right">0.50</td><td align="right">0.32</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKcommons-lang-2.3.jar">commons-lang-2.3.jar</a></td><td align="right">124</td><td align="right">14</td><td align="right">9</td><td align="right">0.11</td><td align="right">0</td><td align="right">1</td><td align="right">0.00</td><td align="right">0.89</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKcommons-lang3-3.3.2.jar">commons-lang3-3.3.2.jar</a></td><td align="right">217</td><td align="right">28</td><td align="right">12</td><td align="right">0.13</td><td align="right">0</td><td align="right">2</td><td align="right">0.00</td><td align="right">0.87</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKcommons-lang3-3.6.jar">commons-lang3-3.6.jar</a></td><td align="right">267</td><td align="right">39</td><td align="right">13</td><td align="right">0.15</td><td align="right">0</td><td align="right">0</td><td align="right">-1.0</td><td align="right">-1.0</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKdom4j-1.6.1.jar">dom4j-1.6.1.jar</a></td><td align="right">190</td><td align="right">39</td><td align="right">14</td><td align="right">0.21</td><td align="right">1</td><td align="right">1</td><td align="right">0.50</td><td align="right">0.29</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKforms_rt.jar">forms_rt.jar</a></td><td align="right">105</td><td align="right">16</td><td align="right">5</td><td align="right">0.15</td><td align="right">0</td><td align="right">1</td><td align="right">0.00</td><td align="right">0.85</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKimgscalr-lib-4.2.jar">imgscalr-lib-4.2.jar</a></td><td align="right">23</td><td align="right">0</td><td align="right">1</td><td align="right">0.00</td><td align="right">0</td><td align="right">1</td><td align="right">0.00</td><td align="right">1.00</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKjakarta.activation-1.2.1.jar">jakarta.activation-1.2.1.jar</a></td><td align="right">42</td><td align="right">6</td><td align="right">3</td><td align="right">0.14</td><td align="right">0</td><td align="right">0</td><td align="right">-1.0</td><td align="right">-1.0</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar</a></td><td align="right">214</td><td align="right">57</td><td align="right">17</td><td align="right">0.27</td><td align="right">1</td><td align="right">15</td><td align="right">0.06</td><td align="right">0.67</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKjcalendar-1.4.jar">jcalendar-1.4.jar</a></td><td align="right">58</td><td align="right">3</td><td align="right">4</td><td align="right">0.05</td><td align="right">1</td><td align="right">2</td><td align="right">0.33</td><td align="right">0.62</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKjdom-2.0.5.jar">jdom-2.0.5.jar</a></td><td align="right">191</td><td align="right">37</td><td align="right">15</td><td align="right">0.19</td><td align="right">1</td><td align="right">3</td><td align="right">0.25</td><td align="right">0.56</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKjena-arq-3.1.1.jar">jena-arq-3.1.1.jar</a></td><td align="right">1957</td><td align="right">278</td><td align="right">88</td><td align="right">0.14</td><td align="right">7</td><td align="right">0</td><td align="right">1.00</td><td align="right">0.14</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKjena-base-3.1.1.jar">jena-base-3.1.1.jar</a></td><td align="right">171</td><td align="right">35</td><td align="right">10</td><td align="right">0.20</td><td align="right">4</td><td align="right">2</td><td align="right">0.67</td><td align="right">0.13</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKjena-core-3.1.1.jar">jena-core-3.1.1.jar</a></td><td align="right">981</td><td align="right">196</td><td align="right">38</td><td align="right">0.20</td><td align="right">6</td><td align="right">1</td><td align="right">0.86</td><td align="right">0.06</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKjena-iri-3.1.1.jar">jena-iri-3.1.1.jar</a></td><td align="right">59</td><td align="right">16</td><td align="right">2</td><td align="right">0.27</td><td align="right">0</td><td align="right">2</td><td align="right">0.00</td><td align="right">0.73</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKjena-shaded-guava-3.1.1.jar">jena-shaded-guava-3.1.1.jar</a></td><td align="right">1690</td><td align="right">303</td><td align="right">17</td><td align="right">0.18</td><td align="right">0</td><td align="right">3</td><td align="right">0.00</td><td align="right">0.82</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKjgoodies-common-1.8.1.jar">jgoodies-common-1.8.1.jar</a></td><td align="right">39</td><td align="right">21</td><td align="right">7</td><td align="right">0.54</td><td align="right">0</td><td align="right">1</td><td align="right">0.00</td><td align="right">0.46</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKjgoodies-looks-2.7.0.jar">jgoodies-looks-2.7.0.jar</a></td><td align="right">268</td><td align="right">8</td><td align="right">5</td><td align="right">0.03</td><td align="right">1</td><td align="right">2</td><td align="right">0.33</td><td align="right">0.64</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKjgraph4yawl-4.5.1.jar">jgraph4yawl-4.5.1.jar</a></td><td align="right">91</td><td align="right">20</td><td align="right">6</td><td align="right">0.22</td><td align="right">0</td><td align="right">1</td><td align="right">0.00</td><td align="right">0.78</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKl2fprod-common-all.jar">l2fprod-common-all.jar</a></td><td align="right">320</td><td align="right">27</td><td align="right">23</td><td align="right">0.08</td><td align="right">1</td><td align="right">1</td><td align="right">0.50</td><td align="right">0.42</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKlog4j-1.2-api-2.17.1.jar">log4j-1.2-api-2.17.1.jar</a></td><td align="right">117</td><td align="right">23</td><td align="right">17</td><td align="right">0.20</td><td align="right">3</td><td align="right">2</td><td align="right">0.60</td><td align="right">0.20</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKlog4j-api-2.17.1.jar">log4j-api-2.17.1.jar</a></td><td align="right">180</td><td align="right">54</td><td align="right">9</td><td align="right">0.30</td><td align="right">0</td><td align="right">5</td><td align="right">0.00</td><td align="right">0.70</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKlog4j-core-2.17.1.jar">log4j-core-2.17.1.jar</a></td><td align="right">1128</td><td align="right">211</td><td align="right">52</td><td align="right">0.19</td><td align="right">2</td><td align="right">2</td><td align="right">0.50</td><td align="right">0.31</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKlog4j-slf4j-impl-2.17.1.jar">log4j-slf4j-impl-2.17.1.jar</a></td><td align="right">10</td><td align="right">0</td><td align="right">2</td><td align="right">0.00</td><td align="right">2</td><td align="right">1</td><td align="right">0.67</td><td align="right">0.33</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKmacify-1.4.jar">macify-1.4.jar</a></td><td align="right">7</td><td align="right">3</td><td align="right">1</td><td align="right">0.43</td><td align="right">0</td><td align="right">0</td><td align="right">-1.0</td><td align="right">-1.0</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKpoi-3.15.jar">poi-3.15.jar</a></td><td align="right">1677</td><td align="right">284</td><td align="right">61</td><td align="right">0.17</td><td align="right">2</td><td align="right">2</td><td align="right">0.50</td><td align="right">0.33</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKpoi-ooxml-3.15.jar">poi-ooxml-3.15.jar</a></td><td align="right">606</td><td align="right">62</td><td align="right">43</td><td align="right">0.10</td><td align="right">5</td><td align="right">0</td><td align="right">1.00</td><td align="right">0.10</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKpoi-ooxml-schemas-3.15.jar">poi-ooxml-schemas-3.15.jar</a></td><td align="right">2536</td><td align="right">787</td><td align="right">52</td><td align="right">0.31</td><td align="right">3</td><td align="right">1</td><td align="right">0.75</td><td align="right">0.06</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKprefuse.jar">prefuse.jar</a></td><td align="right">516</td><td align="right">97</td><td align="right">33</td><td align="right">0.19</td><td align="right">0</td><td align="right">0</td><td align="right">-1.0</td><td align="right">-1.0</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKsaxon9-dom.jar">saxon9-dom.jar</a></td><td align="right">31</td><td align="right">1</td><td align="right">1</td><td align="right">0.03</td><td align="right">2</td><td align="right">1</td><td align="right">0.67</td><td align="right">0.30</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKsaxon9-s9api.jar">saxon9-s9api.jar</a></td><td align="right">40</td><td align="right">3</td><td align="right">1</td><td align="right">0.08</td><td align="right">3</td><td align="right">2</td><td align="right">0.60</td><td align="right">0.32</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKsaxon9.jar">saxon9.jar</a></td><td align="right">1137</td><td align="right">171</td><td align="right">25</td><td align="right">0.15</td><td align="right">1</td><td align="right">3</td><td align="right">0.25</td><td align="right">0.60</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKservlet-api.jar">servlet-api.jar</a></td><td align="right">42</td><td align="right">26</td><td align="right">2</td><td align="right">0.62</td><td align="right">0</td><td align="right">0</td><td align="right">-1.0</td><td align="right">-1.0</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKslf4j-api-1.7.21.jar">slf4j-api-1.7.21.jar</a></td><td align="right">34</td><td align="right">11</td><td align="right">4</td><td align="right">0.32</td><td align="right">1</td><td align="right">4</td><td align="right">0.20</td><td align="right">0.48</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKxercesImpl.jar">xercesImpl.jar</a></td><td align="right">894</td><td align="right">181</td><td align="right">38</td><td align="right">0.20</td><td align="right">1</td><td align="right">4</td><td align="right">0.20</td><td align="right">0.60</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKxmlbeans-2.6.0.jar">xmlbeans-2.6.0.jar</a></td><td align="right">1531</td><td align="right">439</td><td align="right">52</td><td align="right">0.29</td><td align="right">1</td><td align="right">2</td><td align="right">0.33</td><td align="right">0.38</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKxmleditorkit.jar">xmleditorkit.jar</a></td><td align="right">41</td><td align="right">5</td><td align="right">3</td><td align="right">0.12</td><td align="right">0</td><td align="right">1</td><td align="right">0.00</td><td align="right">0.88</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKyawl-lib-4.5.1.jar">yawl-lib-4.5.1.jar</a></td><td align="right">1114</td><td align="right">93</td><td align="right">122</td><td align="right">0.08</td><td align="right">9</td><td align="right">3</td><td align="right">0.75</td><td align="right">0.17</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKYAWLEditor-analyser-4.5.1.jar">YAWLEditor-analyser-4.5.1.jar</a></td><td align="right">73</td><td align="right">6</td><td align="right">11</td><td align="right">0.08</td><td align="right">2</td><td align="right">1</td><td align="right">0.67</td><td align="right">0.25</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKYAWLEditor-core-4.5.1.jar">YAWLEditor-core-4.5.1.jar</a></td><td align="right">80</td><td align="right">6</td><td align="right">13</td><td align="right">0.08</td><td align="right">4</td><td align="right">1</td><td align="right">0.80</td><td align="right">0.12</td>
+            </tr>
+            <tr>
+                <td align="left"><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar</a></td><td align="right">677</td><td align="right">53</td><td align="right">52</td><td align="right">0.08</td><td align="right">15</td><td align="right">1</td><td align="right">0.94</td><td align="right">0.02</td>
+            </tr>
+        </table>
+        <table width="100%">
+            <tr>
+                <td><a name="NVjars">
+                        <h2>Jars</h2>
+                    </a></td><td align="right">
+    [<a href="#NVsummary">summary</a>]
+    [<a href="#NVjars">jars</a>]
+    [<a href="#NVcycles">cycles</a>]
+    [<a href="#NVexplanations">explanations</a>]
+    </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKalloy4.2_2015-02-22.jar">alloy4.2_2015-02-22.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.15</td><td><a href="#EXinstability">Instability</a>: 0.00</td><td><a href="#EXdistance">Distance</a>: 0.85</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><a href="#PKYAWLEditor-analyser-4.5.1.jar">YAWLEditor-analyser-4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">apple.awt
+                    <br>
+                    com.sun.imageio.plugins.tiff
+                    <br>
+                    com.apple.eio
+                    <br>
+                    com.apple.eawt
+                    <br>
+                    edu.mit.csail.sdg.alloy4compiler.sim
+                    <br>
+                    edu.mit.csail.sdg.alloy4compiler.translator
+                    <br>
+                    edu.mit.csail.sdg.alloy4compiler.ast
+                    <br>
+                    edu.mit.csail.sdg.alloy4compiler.parser
+                    <br>
+                    edu.mit.csail.sdg.alloy4viz
+                    <br>
+                    edu.mit.csail.sdg.alloy4graph
+                    <br>
+                    edu.mit.csail.sdg.alloy4whole
+                    <br>
+                    edu.mit.csail.sdg.alloy4
+                    <br>
+                    java.lang
+                    <br>
+                    java_cup.runtime
+                    <br>
+                    kodkod.ast
+                    <br>
+                    kodkod.ast.operator
+                    <br>
+                    kodkod.ast.visitor
+                    <br>
+                    kodkod.engine
+                    <br>
+                    kodkod.engine.satlab
+                    <br>
+                    kodkod.engine.config
+                    <br>
+                    kodkod.engine.bool
+                    <br>
+                    kodkod.engine.fol2sat
+                    <br>
+                    kodkod.engine.ucore
+                    <br>
+                    kodkod.engine.hol
+                    <br>
+                    kodkod.instance
+                    <br>
+                    kodkod.util.taglet
+                    <br>
+                    kodkod.util.ints
+                    <br>
+                    kodkod.util.nodes
+                    <br>
+                    kodkod.util.collections
+                    <br>
+                    org.sat4j.reader
+                    <br>
+                    org.sat4j.opt
+                    <br>
+                    org.sat4j.core
+                    <br>
+                    org.sat4j
+                    <br>
+                    org.sat4j.minisat.core
+                    <br>
+                    org.sat4j.minisat
+                    <br>
+                    org.sat4j.minisat.orders
+                    <br>
+                    org.sat4j.minisat.restarts
+                    <br>
+                    org.sat4j.minisat.constraints.cnf
+                    <br>
+                    org.sat4j.minisat.constraints
+                    <br>
+                    org.sat4j.minisat.constraints.card
+                    <br>
+                    org.sat4j.minisat.learning
+                    <br>
+                    org.sat4j.tools
+                    <br>
+                    org.sat4j.tools.xplain
+                    <br>
+                    org.sat4j.tools.encoding
+                    <br>
+                    org.sat4j.specs
+                    <br>
+                </td><td valign="top" width="26%"><a>sun.awt.image</a>
+                    <br>
+                    <a>sun.java2d</a>
+                    <br>
+                    <a>sun.awt</a>
+                    <br>
+                    <a>sun.awt.datatransfer</a>
+                    <br>
+                    <a>sun.print</a>
+                    <br>
+                    <a>sun.awt.print</a>
+                    <br>
+                    <a>sun.java2d.pipe</a>
+                    <br>
+                    <a>sun.java2d.loops</a>
+                    <br>
+                    <a>sun.security.action</a>
+                    <br>
+                    <a>sun.awt.im</a>
+                    <br>
+                    <a>sun.awt.dnd</a>
+                    <br>
+                    <a>sun.awt.font</a>
+                    <br>
+                    <a>sun.applet</a>
+                    <br>
+                    <a>com.sun.tools.doclets.internal.toolkit.taglets</a>
+                    <br>
+                    <a>com.sun.tools.doclets.internal.toolkit.util</a>
+                    <br>
+                    <a>com.sun.javadoc</a>
+                    <br>
+                    <a>com.sun.tools.doclets.formats.html</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKautomaton.jar">automaton.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.04</td><td><a href="#EXinstability">Instability</a>: 0.00</td><td><a href="#EXdistance">Distance</a>: 0.96</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">dk.brics.automaton
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKcommons-codec-1.9.jar">commons-codec-1.9.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 2</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.15</td><td><a href="#EXinstability">Instability</a>: 0.00</td><td><a href="#EXdistance">Distance</a>: 0.85</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><a href="#PKpoi-3.15.jar">poi-3.15.jar
+                        <br>
+                    </a><a href="#PKyawl-lib-4.5.1.jar">yawl-lib-4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.commons.codec.binary
+                    <br>
+                    org.apache.commons.codec
+                    <br>
+                    org.apache.commons.codec.digest
+                    <br>
+                    org.apache.commons.codec.language
+                    <br>
+                    org.apache.commons.codec.language.bm
+                    <br>
+                    org.apache.commons.codec.net
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKcommons-collections4-4.1.jar">commons-collections4-4.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0.18</td><td><a href="#EXinstability">Instability</a>: 0.50</td><td><a href="#EXdistance">Distance</a>: 0.32</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKpoi-ooxml-3.15.jar">poi-ooxml-3.15.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.commons.collections4.keyvalue
+                    <br>
+                    org.apache.commons.collections4
+                    <br>
+                    org.apache.commons.collections4.bag
+                    <br>
+                    org.apache.commons.collections4.map
+                    <br>
+                    org.apache.commons.collections4.multimap
+                    <br>
+                    org.apache.commons.collections4.bidimap
+                    <br>
+                    org.apache.commons.collections4.list
+                    <br>
+                    org.apache.commons.collections4.comparators
+                    <br>
+                    org.apache.commons.collections4.splitmap
+                    <br>
+                    org.apache.commons.collections4.queue
+                    <br>
+                    org.apache.commons.collections4.sequence
+                    <br>
+                    org.apache.commons.collections4.trie
+                    <br>
+                    org.apache.commons.collections4.trie.analyzer
+                    <br>
+                    org.apache.commons.collections4.collection
+                    <br>
+                    org.apache.commons.collections4.iterators
+                    <br>
+                    org.apache.commons.collections4.multiset
+                    <br>
+                    org.apache.commons.collections4.set
+                    <br>
+                    org.apache.commons.collections4.functors
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKcommons-lang-2.3.jar">commons-lang-2.3.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.11</td><td><a href="#EXinstability">Instability</a>: 0.00</td><td><a href="#EXdistance">Distance</a>: 0.89</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><a href="#PKyawl-lib-4.5.1.jar">yawl-lib-4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.commons.lang
+                    <br>
+                    org.apache.commons.lang.builder
+                    <br>
+                    org.apache.commons.lang.enum
+                    <br>
+                    org.apache.commons.lang.enums
+                    <br>
+                    org.apache.commons.lang.exception
+                    <br>
+                    org.apache.commons.lang.math
+                    <br>
+                    org.apache.commons.lang.mutable
+                    <br>
+                    org.apache.commons.lang.text
+                    <br>
+                    org.apache.commons.lang.time
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKcommons-lang3-3.3.2.jar">commons-lang3-3.3.2.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 2</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.13</td><td><a href="#EXinstability">Instability</a>: 0.00</td><td><a href="#EXdistance">Distance</a>: 0.87</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><a href="#PKjena-arq-3.1.1.jar">jena-arq-3.1.1.jar
+                        <br>
+                    </a><a href="#PKjena-base-3.1.1.jar">jena-base-3.1.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.commons.lang3
+                    <br>
+                    org.apache.commons.lang3.builder
+                    <br>
+                    org.apache.commons.lang3.concurrent
+                    <br>
+                    org.apache.commons.lang3.event
+                    <br>
+                    org.apache.commons.lang3.exception
+                    <br>
+                    org.apache.commons.lang3.math
+                    <br>
+                    org.apache.commons.lang3.mutable
+                    <br>
+                    org.apache.commons.lang3.reflect
+                    <br>
+                    org.apache.commons.lang3.text
+                    <br>
+                    org.apache.commons.lang3.text.translate
+                    <br>
+                    org.apache.commons.lang3.time
+                    <br>
+                    org.apache.commons.lang3.tuple
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKcommons-lang3-3.6.jar">commons-lang3-3.6.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.15</td><td><a href="#EXinstability">Instability</a>: -1.0</td><td><a href="#EXdistance">Distance</a>: -1.0</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.commons.lang3
+                    <br>
+                    org.apache.commons.lang3.builder
+                    <br>
+                    org.apache.commons.lang3.concurrent
+                    <br>
+                    org.apache.commons.lang3.event
+                    <br>
+                    org.apache.commons.lang3.exception
+                    <br>
+                    org.apache.commons.lang3.math
+                    <br>
+                    org.apache.commons.lang3.mutable
+                    <br>
+                    org.apache.commons.lang3.reflect
+                    <br>
+                    org.apache.commons.lang3.text.translate
+                    <br>
+                    org.apache.commons.lang3.text
+                    <br>
+                    org.apache.commons.lang3.time
+                    <br>
+                    org.apache.commons.lang3.tuple
+                    <br>
+                    org.apache.commons.lang3.arch
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKdom4j-1.6.1.jar">dom4j-1.6.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0.21</td><td><a href="#EXinstability">Instability</a>: 0.50</td><td><a href="#EXdistance">Distance</a>: 0.29</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.dom4j
+                    <br>
+                    org.dom4j.bean
+                    <br>
+                    org.dom4j.datatype
+                    <br>
+                    org.dom4j.dom
+                    <br>
+                    org.dom4j.dtd
+                    <br>
+                    org.dom4j.io
+                    <br>
+                    org.dom4j.jaxb
+                    <br>
+                    org.dom4j.rule
+                    <br>
+                    org.dom4j.rule.pattern
+                    <br>
+                    org.dom4j.swing
+                    <br>
+                    org.dom4j.tree
+                    <br>
+                    org.dom4j.util
+                    <br>
+                    org.dom4j.xpath
+                    <br>
+                    org.dom4j.xpp
+                    <br>
+                </td><td valign="top" width="26%"><a>org.xml.sax</a>
+                    <br>
+                    <a>org.relaxng.datatype</a>
+                    <br>
+                    <a>com.sun.msv.datatype</a>
+                    <br>
+                    <a>com.sun.msv.datatype.xsd</a>
+                    <br>
+                    <a>org.xml.sax.ext</a>
+                    <br>
+                    <a>org.xml.sax.helpers</a>
+                    <br>
+                    <a>org.xmlpull.v1</a>
+                    <br>
+                    <a>org.gjt.xpp</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKforms_rt.jar">forms_rt.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.15</td><td><a href="#EXinstability">Instability</a>: 0.00</td><td><a href="#EXdistance">Distance</a>: 0.85</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">com.intellij.uiDesigner.compiler
+                    <br>
+                    com.intellij.uiDesigner.lw
+                    <br>
+                    com.intellij.uiDesigner.shared
+                    <br>
+                    com.intellij.uiDesigner
+                    <br>
+                    com.intellij.uiDesigner.core
+                    <br>
+                </td><td valign="top" width="26%"><a>org.objectweb.asm.commons</a>
+                    <br>
+                    <a>org.objectweb.asm</a>
+                    <br>
+                    <a>com.jgoodies.forms.layout</a>
+                    <br>
+                    <a>org.xml.sax</a>
+                    <br>
+                    <a>org.xml.sax.helpers</a>
+                    <br>
+                    <a>org.jdom.input</a>
+                    <br>
+                    <a>org.jdom</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKimgscalr-lib-4.2.jar">imgscalr-lib-4.2.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.00</td><td><a href="#EXinstability">Instability</a>: 0.00</td><td><a href="#EXdistance">Distance</a>: 1.00</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.imgscalr
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKjakarta.activation-1.2.1.jar">jakarta.activation-1.2.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.14</td><td><a href="#EXinstability">Instability</a>: -1.0</td><td><a href="#EXdistance">Distance</a>: -1.0</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">com.sun.activation.viewers
+                    <br>
+                    com.sun.activation.registries
+                    <br>
+                    javax.activation
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKjaxen-1.1.6.jar">jaxen-1.1.6.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 15</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0.27</td><td><a href="#EXinstability">Instability</a>: 0.06</td><td><a href="#EXdistance">Distance</a>: 0.67</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKdom4j-1.6.1.jar">dom4j-1.6.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKcommons-collections4-4.1.jar">commons-collections4-4.1.jar
+                        <br>
+                    </a><a href="#PKdom4j-1.6.1.jar">dom4j-1.6.1.jar
+                        <br>
+                    </a><a href="#PKjdom-2.0.5.jar">jdom-2.0.5.jar
+                        <br>
+                    </a><a href="#PKjena-core-3.1.1.jar">jena-core-3.1.1.jar
+                        <br>
+                    </a><a href="#PKlog4j-1.2-api-2.17.1.jar">log4j-1.2-api-2.17.1.jar
+                        <br>
+                    </a><a href="#PKlog4j-core-2.17.1.jar">log4j-core-2.17.1.jar
+                        <br>
+                    </a><a href="#PKpoi-3.15.jar">poi-3.15.jar
+                        <br>
+                    </a><a href="#PKpoi-ooxml-3.15.jar">poi-ooxml-3.15.jar
+                        <br>
+                    </a><a href="#PKpoi-ooxml-schemas-3.15.jar">poi-ooxml-schemas-3.15.jar
+                        <br>
+                    </a><a href="#PKsaxon9-dom.jar">saxon9-dom.jar
+                        <br>
+                    </a><a href="#PKsaxon9-s9api.jar">saxon9-s9api.jar
+                        <br>
+                    </a><a href="#PKsaxon9.jar">saxon9.jar
+                        <br>
+                    </a><a href="#PKxercesImpl.jar">xercesImpl.jar
+                        <br>
+                    </a><a href="#PKxmlbeans-2.6.0.jar">xmlbeans-2.6.0.jar
+                        <br>
+                    </a><a href="#PKyawl-lib-4.5.1.jar">yawl-lib-4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKdom4j-1.6.1.jar">dom4j-1.6.1.jar
+                        <br>
+                    </a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.jaxen
+                    <br>
+                    org.jaxen.dom
+                    <br>
+                    org.jaxen.dom4j
+                    <br>
+                    org.jaxen.expr
+                    <br>
+                    org.jaxen.expr.iter
+                    <br>
+                    org.jaxen.function
+                    <br>
+                    org.jaxen.function.ext
+                    <br>
+                    org.jaxen.function.xslt
+                    <br>
+                    org.jaxen.javabean
+                    <br>
+                    org.jaxen.jdom
+                    <br>
+                    org.jaxen.pattern
+                    <br>
+                    org.jaxen.saxpath
+                    <br>
+                    org.jaxen.saxpath.base
+                    <br>
+                    org.jaxen.saxpath.helpers
+                    <br>
+                    org.jaxen.util
+                    <br>
+                    org.jaxen.xom
+                    <br>
+                    org.w3c.dom
+                    <br>
+                </td><td valign="top" width="26%"><a>org.xml.sax</a>
+                    <br>
+                    <a>org.jdom</a>
+                    <br>
+                    <a>org.jdom.input</a>
+                    <br>
+                    <a>nu.xom</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKjcalendar-1.4.jar">jcalendar-1.4.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 2</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0.05</td><td><a href="#EXinstability">Instability</a>: 0.33</td><td><a href="#EXdistance">Distance</a>: 0.62</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKjgoodies-looks-2.7.0.jar">jgoodies-looks-2.7.0.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKl2fprod-common-all.jar">l2fprod-common-all.jar
+                        <br>
+                    </a><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">com.toedter.calendar
+                    <br>
+                    com.toedter.calendar.demo
+                    <br>
+                    com.toedter.components
+                    <br>
+                    com.toedter.plaf
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKjdom-2.0.5.jar">jdom-2.0.5.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 3</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0.19</td><td><a href="#EXinstability">Instability</a>: 0.25</td><td><a href="#EXdistance">Distance</a>: 0.56</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKyawl-lib-4.5.1.jar">yawl-lib-4.5.1.jar
+                        <br>
+                    </a><a href="#PKYAWLEditor-core-4.5.1.jar">YAWLEditor-core-4.5.1.jar
+                        <br>
+                    </a><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.jdom2
+                    <br>
+                    org.jdom2.adapters
+                    <br>
+                    org.jdom2.filter
+                    <br>
+                    org.jdom2.input
+                    <br>
+                    org.jdom2.input.sax
+                    <br>
+                    org.jdom2.input.stax
+                    <br>
+                    org.jdom2.internal
+                    <br>
+                    org.jdom2.located
+                    <br>
+                    org.jdom2.output
+                    <br>
+                    org.jdom2.output.support
+                    <br>
+                    org.jdom2.transform
+                    <br>
+                    org.jdom2.util
+                    <br>
+                    org.jdom2.xpath
+                    <br>
+                    org.jdom2.xpath.jaxen
+                    <br>
+                    org.jdom2.xpath.util
+                    <br>
+                </td><td valign="top" width="26%"><a>org.xml.sax</a>
+                    <br>
+                    <a>org.xml.sax.ext</a>
+                    <br>
+                    <a>org.xml.sax.helpers</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKjena-arq-3.1.1.jar">jena-arq-3.1.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 7</td><td><a href="#EXabstractness">Abstractness</a>: 0.14</td><td><a href="#EXinstability">Instability</a>: 1.00</td><td><a href="#EXdistance">Distance</a>: 0.14</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKjena-base-3.1.1.jar">jena-base-3.1.1.jar
+                        <br>
+                    </a><a href="#PKjena-core-3.1.1.jar">jena-core-3.1.1.jar
+                        <br>
+                    </a><a href="#PKjena-iri-3.1.1.jar">jena-iri-3.1.1.jar
+                        <br>
+                    </a><a href="#PKslf4j-api-1.7.21.jar">slf4j-api-1.7.21.jar
+                        <br>
+                    </a><a href="#PKxercesImpl.jar">xercesImpl.jar
+                        <br>
+                    </a><a href="#PKjena-shaded-guava-3.1.1.jar">jena-shaded-guava-3.1.1.jar
+                        <br>
+                    </a><a href="#PKcommons-lang3-3.3.2.jar">commons-lang3-3.3.2.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.jena.atlas.json.io.parser
+                    <br>
+                    org.apache.jena.atlas.json.io
+                    <br>
+                    org.apache.jena.atlas.json.io.parserjavacc.javacc
+                    <br>
+                    org.apache.jena.atlas.json
+                    <br>
+                    org.apache.jena.atlas.csv
+                    <br>
+                    org.apache.jena.atlas.test
+                    <br>
+                    org.apache.jena.atlas.data
+                    <br>
+                    org.apache.jena.riot.lang
+                    <br>
+                    org.apache.jena.riot.resultset
+                    <br>
+                    org.apache.jena.riot.thrift.wire
+                    <br>
+                    org.apache.jena.riot
+                    <br>
+                    org.apache.jena.riot.writer
+                    <br>
+                    org.apache.jena.riot.checker
+                    <br>
+                    org.apache.jena.riot.out
+                    <br>
+                    org.apache.jena.riot.out.quoted
+                    <br>
+                    org.apache.jena.riot.web
+                    <br>
+                    org.apache.jena.riot.process.inf
+                    <br>
+                    org.apache.jena.riot.process.normalize
+                    <br>
+                    org.apache.jena.riot.adapters
+                    <br>
+                    org.apache.jena.riot.tokens
+                    <br>
+                    org.apache.jena.sparql.lang.arq
+                    <br>
+                    org.apache.jena.sparql.lang
+                    <br>
+                    org.apache.jena.sparql.vocabulary
+                    <br>
+                    org.apache.jena.sparql.engine.join
+                    <br>
+                    org.apache.jena.sparql.algebra.optimize
+                    <br>
+                    org.apache.jena.sparql.algebra
+                    <br>
+                    org.apache.jena.sparql.sse.lang.parser
+                    <br>
+                    org.apache.jena.sparql.sse.builders
+                    <br>
+                    org.apache.jena.sparql.expr.aggregate.lib
+                    <br>
+                    org.apache.jena.sparql.expr.aggregate
+                    <br>
+                    org.apache.jena.sparql.expr
+                    <br>
+                    org.apache.jena.sparql.mgt
+                    <br>
+                    org.apache.jena.sparql.pfunction
+                    <br>
+                    org.apache.jena.sparql.pfunction.library
+                    <br>
+                    org.apache.jena.sparql.path.eval
+                    <br>
+                    org.apache.jena.sparql.path
+                    <br>
+                    org.apache.jena.query
+                    <br>
+                    org.apache.jena.riot.other
+                    <br>
+                    org.apache.jena.riot.system
+                    <br>
+                    org.apache.jena.sparql.engine
+                    <br>
+                    org.apache.jena.sparql.engine.optimizer
+                    <br>
+                    org.apache.jena.sparql.engine.optimizer.reorder
+                    <br>
+                    org.apache.jena.sparql.engine.iterator
+                    <br>
+                    org.apache.jena.sparql.engine.http
+                    <br>
+                    org.apache.jena.sparql.engine.main
+                    <br>
+                    org.apache.jena.sparql.engine.main.iterator
+                    <br>
+                    org.apache.jena.sparql.engine.binding
+                    <br>
+                    org.apache.jena.sparql.serializer
+                    <br>
+                    org.apache.jena.sparql.resultset
+                    <br>
+                    org.apache.jena.sparql
+                    <br>
+                    org.apache.jena.sparql.modify.request
+                    <br>
+                    org.apache.jena.sparql.modify
+                    <br>
+                    org.apache.jena.sparql.core
+                    <br>
+                    org.apache.jena.sparql.core.mem
+                    <br>
+                    org.apache.jena.sparql.core.assembler
+                    <br>
+                    org.apache.jena.sparql.syntax
+                    <br>
+                    org.apache.jena.sparql.syntax.syntaxtransform
+                    <br>
+                    org.apache.jena.sparql.util
+                    <br>
+                    org.apache.jena.sparql.util.graph
+                    <br>
+                    org.apache.jena.sparql.graph
+                    <br>
+                    org.apache.jena.sparql.algebra.table
+                    <br>
+                    org.apache.jena.sparql.sse
+                    <br>
+                    org.apache.jena.sparql.sse.writers
+                    <br>
+                    org.apache.jena.sparql.procedure
+                    <br>
+                    org.apache.jena.sparql.expr.nodevalue
+                    <br>
+                    org.apache.jena.atlas.json.io.parserjavacc
+                    <br>
+                    org.apache.jena.atlas.web
+                    <br>
+                    org.apache.jena.system
+                    <br>
+                    org.apache.jena.riot.system.stream
+                    <br>
+                    org.apache.jena.riot.thrift
+                    <br>
+                    org.apache.jena.update
+                    <br>
+                    org.apache.jena.sparql.lang.sparql_11
+                    <br>
+                    org.apache.jena.sparql.lang.sparql_10
+                    <br>
+                    org.apache.jena.sparql.algebra.op
+                    <br>
+                    org.apache.jena.sparql.algebra.walker
+                    <br>
+                    org.apache.jena.sparql.engine.index
+                    <br>
+                    org.apache.jena.sparql.engine.ref
+                    <br>
+                    org.apache.jena.sparql.function
+                    <br>
+                    org.apache.jena.sparql.function.library
+                    <br>
+                    org.apache.jena.sparql.function.library.leviathan
+                    <br>
+                    org.apache.jena.sparql.function.user
+                    <br>
+                    org.apache.jena.sparql.sse.lang
+                    <br>
+                    org.apache.jena.web
+                    <br>
+                    org.apache.jena.atlas.event
+                    <br>
+                    org.apache.jena.sparql.core.describe
+                    <br>
+                    org.apache.jena.sparql.system
+                    <br>
+                    org.apache.jena.sparql.lib
+                    <br>
+                    org.apache.jena.sparql.procedure.library
+                    <br>
+                </td><td valign="top" width="26%"><a>org.apache.commons.csv</a>
+                    <br>
+                    <a>org.xml.sax</a>
+                    <br>
+                    <a>com.fasterxml.jackson.core</a>
+                    <br>
+                    <a>com.github.jsonldjava.core</a>
+                    <br>
+                    <a>com.github.jsonldjava.utils</a>
+                    <br>
+                    <a>org.apache.thrift.scheme</a>
+                    <br>
+                    <a>org.apache.thrift.protocol</a>
+                    <br>
+                    <a>org.apache.thrift.transport</a>
+                    <br>
+                    <a>org.apache.thrift</a>
+                    <br>
+                    <a>org.apache.thrift.meta_data</a>
+                    <br>
+                    <a>com.fasterxml.jackson.databind</a>
+                    <br>
+                    <a>org.apache.http</a>
+                    <br>
+                    <a>org.apache.http.entity</a>
+                    <br>
+                    <a>org.apache.http.impl.client</a>
+                    <br>
+                    <a>org.apache.http.util</a>
+                    <br>
+                    <a>org.apache.http.client.methods</a>
+                    <br>
+                    <a>org.apache.http.message</a>
+                    <br>
+                    <a>org.apache.http.client.entity</a>
+                    <br>
+                    <a>org.apache.http.client</a>
+                    <br>
+                    <a>org.apache.http.protocol</a>
+                    <br>
+                    <a>org.apache.http.impl.client.cache</a>
+                    <br>
+                    <a>org.apache.http.client.utils</a>
+                    <br>
+                    <a>org.apache.http.client.protocol</a>
+                    <br>
+                    <a>org.apache.http.client.config</a>
+                    <br>
+                    <a>org.xml.sax.helpers</a>
+                    <br>
+                    <a>com.github.andrewoma.dexx.collection</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKjena-base-3.1.1.jar">jena-base-3.1.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 2</td><td><a href="#EXefferent">Efferent Couplings</a>: 4</td><td><a href="#EXabstractness">Abstractness</a>: 0.20</td><td><a href="#EXinstability">Instability</a>: 0.67</td><td><a href="#EXdistance">Distance</a>: 0.13</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKslf4j-api-1.7.21.jar">slf4j-api-1.7.21.jar
+                        <br>
+                    </a><a href="#PKcommons-lang3-3.3.2.jar">commons-lang3-3.3.2.jar
+                        <br>
+                    </a><a href="#PKjena-shaded-guava-3.1.1.jar">jena-shaded-guava-3.1.1.jar
+                        <br>
+                    </a><a href="#PKlog4j-1.2-api-2.17.1.jar">log4j-1.2-api-2.17.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKjena-arq-3.1.1.jar">jena-arq-3.1.1.jar
+                        <br>
+                    </a><a href="#PKjena-core-3.1.1.jar">jena-core-3.1.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.jena.atlas.lib
+                    <br>
+                    org.apache.jena.atlas.lib.tuple
+                    <br>
+                    org.apache.jena.atlas.lib.persistent
+                    <br>
+                    org.apache.jena.atlas.lib.cache
+                    <br>
+                    org.apache.jena.atlas.iterator
+                    <br>
+                    org.apache.jena.atlas.io
+                    <br>
+                    org.apache.jena.atlas.logging
+                    <br>
+                    org.apache.jena.atlas.logging.java
+                    <br>
+                    org.apache.jena.base
+                    <br>
+                    org.apache.jena.atlas
+                    <br>
+                </td><td valign="top" width="26%"><a>com.github.andrewoma.dexx.collection</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKjena-core-3.1.1.jar">jena-core-3.1.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 6</td><td><a href="#EXabstractness">Abstractness</a>: 0.20</td><td><a href="#EXinstability">Instability</a>: 0.86</td><td><a href="#EXdistance">Distance</a>: 0.06</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKslf4j-api-1.7.21.jar">slf4j-api-1.7.21.jar
+                        <br>
+                    </a><a href="#PKxercesImpl.jar">xercesImpl.jar
+                        <br>
+                    </a><a href="#PKjena-shaded-guava-3.1.1.jar">jena-shaded-guava-3.1.1.jar
+                        <br>
+                    </a><a href="#PKjena-base-3.1.1.jar">jena-base-3.1.1.jar
+                        <br>
+                    </a><a href="#PKjena-iri-3.1.1.jar">jena-iri-3.1.1.jar
+                        <br>
+                    </a><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKjena-arq-3.1.1.jar">jena-arq-3.1.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.jena.reasoner.rulesys
+                    <br>
+                    org.apache.jena.reasoner.rulesys.builtins
+                    <br>
+                    org.apache.jena.reasoner.rulesys.impl
+                    <br>
+                    org.apache.jena.shared.uuid
+                    <br>
+                    org.apache.jena.shared.wg
+                    <br>
+                    org.apache.jena.shared.impl
+                    <br>
+                    org.apache.jena.vocabulary
+                    <br>
+                    org.apache.jena.enhanced
+                    <br>
+                    org.apache.jena.system
+                    <br>
+                    org.apache.jena
+                    <br>
+                    org.apache.jena.n3
+                    <br>
+                    org.apache.jena.n3.turtle.parser
+                    <br>
+                    org.apache.jena.n3.turtle
+                    <br>
+                    org.apache.jena.mem
+                    <br>
+                    org.apache.jena.util
+                    <br>
+                    org.apache.jena.util.iterator
+                    <br>
+                    org.apache.jena.rdfxml.xmloutput
+                    <br>
+                    org.apache.jena.rdfxml.xmloutput.impl
+                    <br>
+                    org.apache.jena.rdfxml.xmlinput
+                    <br>
+                    org.apache.jena.rdfxml.xmlinput.states
+                    <br>
+                    org.apache.jena.rdfxml.xmlinput.impl
+                    <br>
+                    org.apache.jena.graph
+                    <br>
+                    org.apache.jena.graph.compose
+                    <br>
+                    org.apache.jena.graph.impl
+                    <br>
+                    org.apache.jena.datatypes
+                    <br>
+                    org.apache.jena.datatypes.xsd
+                    <br>
+                    org.apache.jena.datatypes.xsd.impl
+                    <br>
+                    org.apache.jena.assembler.assemblers
+                    <br>
+                    org.apache.jena.assembler
+                    <br>
+                    org.apache.jena.assembler.exceptions
+                    <br>
+                    org.apache.jena.reasoner
+                    <br>
+                    org.apache.jena.reasoner.transitiveReasoner
+                    <br>
+                    org.apache.jena.ontology
+                    <br>
+                    org.apache.jena.ontology.impl
+                    <br>
+                    org.apache.jena.rdf.model
+                    <br>
+                    org.apache.jena.rdf.model.impl
+                    <br>
+                    org.apache.jena.rdf.listeners
+                    <br>
+                    org.apache.jena.shared
+                    <br>
+                </td><td valign="top" width="26%"><a>org.xml.sax</a>
+                    <br>
+                    <a>org.xml.sax.ext</a>
+                    <br>
+                    <a>org.xml.sax.helpers</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKjena-iri-3.1.1.jar">jena-iri-3.1.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 2</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.27</td><td><a href="#EXinstability">Instability</a>: 0.00</td><td><a href="#EXdistance">Distance</a>: 0.73</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><a href="#PKjena-arq-3.1.1.jar">jena-arq-3.1.1.jar
+                        <br>
+                    </a><a href="#PKjena-core-3.1.1.jar">jena-core-3.1.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.jena.iri
+                    <br>
+                    org.apache.jena.iri.impl
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKjena-shaded-guava-3.1.1.jar">jena-shaded-guava-3.1.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 3</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.18</td><td><a href="#EXinstability">Instability</a>: 0.00</td><td><a href="#EXdistance">Distance</a>: 0.82</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><a href="#PKjena-arq-3.1.1.jar">jena-arq-3.1.1.jar
+                        <br>
+                    </a><a href="#PKjena-base-3.1.1.jar">jena-base-3.1.1.jar
+                        <br>
+                    </a><a href="#PKjena-core-3.1.1.jar">jena-core-3.1.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.jena.ext.com.google.common.annotations
+                    <br>
+                    org.apache.jena.ext.com.google.common.base
+                    <br>
+                    org.apache.jena.ext.com.google.common.base.internal
+                    <br>
+                    org.apache.jena.ext.com.google.common.cache
+                    <br>
+                    org.apache.jena.ext.com.google.common.collect
+                    <br>
+                    org.apache.jena.ext.com.google.common.escape
+                    <br>
+                    org.apache.jena.ext.com.google.common.eventbus
+                    <br>
+                    org.apache.jena.ext.com.google.common.hash
+                    <br>
+                    org.apache.jena.ext.com.google.common.html
+                    <br>
+                    org.apache.jena.ext.com.google.common.io
+                    <br>
+                    org.apache.jena.ext.com.google.common.math
+                    <br>
+                    org.apache.jena.ext.com.google.common.net
+                    <br>
+                    org.apache.jena.ext.com.google.common.primitives
+                    <br>
+                    org.apache.jena.ext.com.google.common.reflect
+                    <br>
+                    org.apache.jena.ext.com.google.common.util.concurrent
+                    <br>
+                    org.apache.jena.ext.com.google.common.xml
+                    <br>
+                    org.apache.jena.ext.com.google.thirdparty.publicsuffix
+                    <br>
+                </td><td valign="top" width="26%"><a>sun.misc</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKjgoodies-common-1.8.1.jar">jgoodies-common-1.8.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.54</td><td><a href="#EXinstability">Instability</a>: 0.00</td><td><a href="#EXdistance">Distance</a>: 0.46</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><a href="#PKjgoodies-looks-2.7.0.jar">jgoodies-looks-2.7.0.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">com.jgoodies.common.base
+                    <br>
+                    com.jgoodies.common.bean
+                    <br>
+                    com.jgoodies.common.collect
+                    <br>
+                    com.jgoodies.common.display
+                    <br>
+                    com.jgoodies.common.format
+                    <br>
+                    com.jgoodies.common.internal
+                    <br>
+                    com.jgoodies.common.swing
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKjgoodies-looks-2.7.0.jar">jgoodies-looks-2.7.0.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 2</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0.03</td><td><a href="#EXinstability">Instability</a>: 0.33</td><td><a href="#EXdistance">Distance</a>: 0.64</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKjgoodies-common-1.8.1.jar">jgoodies-common-1.8.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKjcalendar-1.4.jar">jcalendar-1.4.jar
+                        <br>
+                    </a><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">com.jgoodies.looks
+                    <br>
+                    com.jgoodies.looks.common
+                    <br>
+                    com.jgoodies.looks.plastic
+                    <br>
+                    com.jgoodies.looks.plastic.theme
+                    <br>
+                    com.jgoodies.looks.windows
+                    <br>
+                </td><td valign="top" width="26%"><a>com.sun.java.swing.plaf.windows</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKjgraph4yawl-4.5.1.jar">jgraph4yawl-4.5.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.22</td><td><a href="#EXinstability">Instability</a>: 0.00</td><td><a href="#EXdistance">Distance</a>: 0.78</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.jgraph
+                    <br>
+                    org.jgraph.event
+                    <br>
+                    org.jgraph.graph
+                    <br>
+                    org.jgraph.plaf
+                    <br>
+                    org.jgraph.plaf.basic
+                    <br>
+                    org.jgraph.util
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKl2fprod-common-all.jar">l2fprod-common-all.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0.08</td><td><a href="#EXinstability">Instability</a>: 0.50</td><td><a href="#EXdistance">Distance</a>: 0.42</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKjcalendar-1.4.jar">jcalendar-1.4.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">com.l2fprod.common
+                    <br>
+                    com.l2fprod.common.beans
+                    <br>
+                    com.l2fprod.common.beans.editor
+                    <br>
+                    com.l2fprod.common.demo
+                    <br>
+                    com.l2fprod.common.model
+                    <br>
+                    com.l2fprod.common.propertysheet
+                    <br>
+                    com.l2fprod.common.springrcp
+                    <br>
+                    com.l2fprod.common.swing
+                    <br>
+                    com.l2fprod.common.swing.border
+                    <br>
+                    com.l2fprod.common.swing.icons
+                    <br>
+                    com.l2fprod.common.swing.plaf
+                    <br>
+                    com.l2fprod.common.swing.plaf.aqua
+                    <br>
+                    com.l2fprod.common.swing.plaf.basic
+                    <br>
+                    com.l2fprod.common.swing.plaf.blue
+                    <br>
+                    com.l2fprod.common.swing.plaf.metal
+                    <br>
+                    com.l2fprod.common.swing.plaf.misc
+                    <br>
+                    com.l2fprod.common.swing.plaf.motif
+                    <br>
+                    com.l2fprod.common.swing.plaf.windows
+                    <br>
+                    com.l2fprod.common.swing.renderer
+                    <br>
+                    com.l2fprod.common.swing.tips
+                    <br>
+                    com.l2fprod.common.swing.tree
+                    <br>
+                    com.l2fprod.common.util
+                    <br>
+                    com.l2fprod.common.util.converter
+                    <br>
+                </td><td valign="top" width="26%"><a>net.sf.nachocalendar.components</a>
+                    <br>
+                    <a>net.sf.nachocalendar</a>
+                    <br>
+                    <a>org.springframework.richclient.form.binding.support</a>
+                    <br>
+                    <a>org.springframework.binding.form</a>
+                    <br>
+                    <a>org.springframework.richclient.form.binding</a>
+                    <br>
+                    <a>org.springframework.richclient.command</a>
+                    <br>
+                    <a>org.springframework.richclient.command.config</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKlog4j-1.2-api-2.17.1.jar">log4j-1.2-api-2.17.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 2</td><td><a href="#EXefferent">Efferent Couplings</a>: 3</td><td><a href="#EXabstractness">Abstractness</a>: 0.20</td><td><a href="#EXinstability">Instability</a>: 0.60</td><td><a href="#EXdistance">Distance</a>: 0.20</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKlog4j-api-2.17.1.jar">log4j-api-2.17.1.jar
+                        <br>
+                    </a><a href="#PKlog4j-core-2.17.1.jar">log4j-core-2.17.1.jar
+                        <br>
+                    </a><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKjena-base-3.1.1.jar">jena-base-3.1.1.jar
+                        <br>
+                    </a><a href="#PKyawl-lib-4.5.1.jar">yawl-lib-4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.log4j
+                    <br>
+                    org.apache.log4j.builders.appender
+                    <br>
+                    org.apache.log4j.config
+                    <br>
+                    org.apache.log4j.bridge
+                    <br>
+                    org.apache.log4j.rewrite
+                    <br>
+                    org.apache.log4j.or.jms
+                    <br>
+                    org.apache.log4j.xml
+                    <br>
+                    org.apache.log4j.spi
+                    <br>
+                    org.apache.log4j.legacy.core
+                    <br>
+                    org.apache.log4j.helpers
+                    <br>
+                    org.apache.log4j.or
+                    <br>
+                    org.apache.log4j.builders.layout
+                    <br>
+                    org.apache.log4j.builders
+                    <br>
+                    org.apache.log4j.builders.filter
+                    <br>
+                    org.apache.log4j.layout
+                    <br>
+                    org.apache.log4j.pattern
+                    <br>
+                    org.apache.log4j.builders.rewrite
+                    <br>
+                </td><td valign="top" width="26%"><a>org.xml.sax</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKlog4j-api-2.17.1.jar">log4j-api-2.17.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 5</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.30</td><td><a href="#EXinstability">Instability</a>: 0.00</td><td><a href="#EXdistance">Distance</a>: 0.70</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><a href="#PKlog4j-1.2-api-2.17.1.jar">log4j-1.2-api-2.17.1.jar
+                        <br>
+                    </a><a href="#PKlog4j-core-2.17.1.jar">log4j-core-2.17.1.jar
+                        <br>
+                    </a><a href="#PKlog4j-slf4j-impl-2.17.1.jar">log4j-slf4j-impl-2.17.1.jar
+                        <br>
+                    </a><a href="#PKyawl-lib-4.5.1.jar">yawl-lib-4.5.1.jar
+                        <br>
+                    </a><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.logging.log4j.util
+                    <br>
+                    org.apache.logging.log4j.message
+                    <br>
+                    org.apache.logging.log4j.simple
+                    <br>
+                    org.apache.logging.log4j.spi
+                    <br>
+                    org.apache.logging.log4j
+                    <br>
+                    org.apache.logging.log4j.internal
+                    <br>
+                    org.apache.logging.log4j.status
+                    <br>
+                    org.apache.logging.log4j.util.internal
+                    <br>
+                    <br>
+                </td><td valign="top" width="26%"><a>org.osgi.framework</a>
+                    <br>
+                    <a>org.osgi.framework.wiring</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKlog4j-core-2.17.1.jar">log4j-core-2.17.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 2</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 0.19</td><td><a href="#EXinstability">Instability</a>: 0.50</td><td><a href="#EXdistance">Distance</a>: 0.31</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKlog4j-api-2.17.1.jar">log4j-api-2.17.1.jar
+                        <br>
+                    </a><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKlog4j-1.2-api-2.17.1.jar">log4j-1.2-api-2.17.1.jar
+                        <br>
+                    </a><a href="#PKyawl-lib-4.5.1.jar">yawl-lib-4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.logging.log4j.core.appender.rewrite
+                    <br>
+                    org.apache.logging.log4j.core.appender
+                    <br>
+                    org.apache.logging.log4j.core.appender.rolling
+                    <br>
+                    org.apache.logging.log4j.core.appender.rolling.action
+                    <br>
+                    org.apache.logging.log4j.core.appender.db.jdbc
+                    <br>
+                    org.apache.logging.log4j.core.appender.nosql
+                    <br>
+                    org.apache.logging.log4j.core.impl
+                    <br>
+                    org.apache.logging.log4j.core.selector
+                    <br>
+                    org.apache.logging.log4j.core.tools
+                    <br>
+                    org.apache.logging.log4j.core.tools.picocli
+                    <br>
+                    org.apache.logging.log4j.core.net.ssl
+                    <br>
+                    org.apache.logging.log4j.core.net
+                    <br>
+                    org.apache.logging.log4j.core.util
+                    <br>
+                    org.apache.logging.log4j.core.util.datetime
+                    <br>
+                    org.apache.logging.log4j.core
+                    <br>
+                    org.apache.logging.log4j.core.config.arbiters
+                    <br>
+                    org.apache.logging.log4j.core.config.plugins.util
+                    <br>
+                    org.apache.logging.log4j.core.config.plugins.processor
+                    <br>
+                    org.apache.logging.log4j.core.config.plugins.convert
+                    <br>
+                    org.apache.logging.log4j.core.config.composite
+                    <br>
+                    org.apache.logging.log4j.core.config.json
+                    <br>
+                    org.apache.logging.log4j.core.config
+                    <br>
+                    org.apache.logging.log4j.core.config.builder.impl
+                    <br>
+                    org.apache.logging.log4j.core.jmx
+                    <br>
+                    org.apache.logging.log4j.core.layout
+                    <br>
+                    org.apache.logging.log4j.core.async
+                    <br>
+                    org.apache.logging.log4j.core.lookup
+                    <br>
+                    org.apache.logging.log4j.core.filter
+                    <br>
+                    org.apache.logging.log4j.core.pattern
+                    <br>
+                    org.apache.logging.log4j.core.jackson
+                    <br>
+                    org.apache.logging.log4j.core.appender.db
+                    <br>
+                    org.apache.logging.log4j.core.appender.routing
+                    <br>
+                    org.apache.logging.log4j.core.appender.mom.jeromq
+                    <br>
+                    org.apache.logging.log4j.core.config.plugins.validation.constraints
+                    <br>
+                    org.apache.logging.log4j.core.config.plugins.validation
+                    <br>
+                    org.apache.logging.log4j.core.config.properties
+                    <br>
+                    org.apache.logging.log4j.core.config.yaml
+                    <br>
+                    org.apache.logging.log4j.core.script
+                    <br>
+                    org.apache.logging.log4j.core.appender.mom
+                    <br>
+                    org.apache.logging.log4j.core.appender.mom.kafka
+                    <br>
+                    org.apache.logging.log4j.core.config.plugins.visitors
+                    <br>
+                    org.apache.logging.log4j.core.config.plugins
+                    <br>
+                    org.apache.logging.log4j.core.config.builder.api
+                    <br>
+                    org.apache.logging.log4j.core.config.plugins.validation.validators
+                    <br>
+                    org.apache.logging.log4j.core.config.status
+                    <br>
+                    org.apache.logging.log4j.core.osgi
+                    <br>
+                    org.apache.logging.log4j.core.layout.internal
+                    <br>
+                    org.apache.logging.log4j.core.message
+                    <br>
+                    org.apache.logging.log4j.core.time
+                    <br>
+                    org.apache.logging.log4j.core.config.xml
+                    <br>
+                    org.apache.logging.log4j.core.parser
+                    <br>
+                    org.apache.logging.log4j.core.time.internal
+                    <br>
+                </td><td valign="top" width="26%"><a>org.apache.commons.compress.compressors</a>
+                    <br>
+                    <a>org.apache.commons.compress.utils</a>
+                    <br>
+                    <a>org.osgi.framework.wiring</a>
+                    <br>
+                    <a>org.osgi.framework</a>
+                    <br>
+                    <a>com.fasterxml.jackson.databind</a>
+                    <br>
+                    <a>com.fasterxml.jackson.core</a>
+                    <br>
+                    <a>com.fasterxml.jackson.databind.node</a>
+                    <br>
+                    <a>com.lmax.disruptor</a>
+                    <br>
+                    <a>com.fasterxml.jackson.annotation</a>
+                    <br>
+                    <a>com.fasterxml.jackson.dataformat.xml.util</a>
+                    <br>
+                    <a>org.codehaus.stax2</a>
+                    <br>
+                    <a>com.fasterxml.jackson.core.util</a>
+                    <br>
+                    <a>org.apache.commons.csv</a>
+                    <br>
+                    <a>com.fasterxml.jackson.databind.ser.impl</a>
+                    <br>
+                    <a>com.fasterxml.jackson.databind.ser</a>
+                    <br>
+                    <a>com.fasterxml.jackson.dataformat.xml.annotation</a>
+                    <br>
+                    <a>com.lmax.disruptor.dsl</a>
+                    <br>
+                    <a>com.conversantmedia.util.concurrent</a>
+                    <br>
+                    <a>org.jctools.queues</a>
+                    <br>
+                    <a>org.fusesource.jansi</a>
+                    <br>
+                    <a>com.fasterxml.jackson.databind.deser.std</a>
+                    <br>
+                    <a>com.fasterxml.jackson.databind.ser.std</a>
+                    <br>
+                    <a>com.fasterxml.jackson.core.type</a>
+                    <br>
+                    <a>com.fasterxml.jackson.databind.annotation</a>
+                    <br>
+                    <a>com.fasterxml.jackson.databind.module</a>
+                    <br>
+                    <a>com.fasterxml.jackson.dataformat.xml</a>
+                    <br>
+                    <a>com.fasterxml.jackson.dataformat.yaml</a>
+                    <br>
+                    <a>org.zeromq</a>
+                    <br>
+                    <a>org.apache.kafka.clients.producer</a>
+                    <br>
+                    <a>org.xml.sax</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKlog4j-slf4j-impl-2.17.1.jar">log4j-slf4j-impl-2.17.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 0.00</td><td><a href="#EXinstability">Instability</a>: 0.67</td><td><a href="#EXdistance">Distance</a>: 0.33</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKslf4j-api-1.7.21.jar">slf4j-api-1.7.21.jar
+                        <br>
+                    </a><a href="#PKlog4j-api-2.17.1.jar">log4j-api-2.17.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKslf4j-api-1.7.21.jar">slf4j-api-1.7.21.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKslf4j-api-1.7.21.jar">slf4j-api-1.7.21.jar
+                        <br>
+                    </a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.slf4j.impl
+                    <br>
+                    org.apache.logging.slf4j
+                    <br>
+                </td><td valign="top" width="26%"><a>org.slf4j.ext</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKmacify-1.4.jar">macify-1.4.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.43</td><td><a href="#EXinstability">Instability</a>: -1.0</td><td><a href="#EXdistance">Distance</a>: -1.0</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.simplericity.macify.eawt
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKpoi-3.15.jar">poi-3.15.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 2</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 0.17</td><td><a href="#EXinstability">Instability</a>: 0.50</td><td><a href="#EXdistance">Distance</a>: 0.33</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a><a href="#PKcommons-codec-1.9.jar">commons-codec-1.9.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKpoi-ooxml-3.15.jar">poi-ooxml-3.15.jar
+                        <br>
+                    </a><a href="#PKpoi-ooxml-schemas-3.15.jar">poi-ooxml-schemas-3.15.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.poi
+                    <br>
+                    org.apache.poi.common.usermodel
+                    <br>
+                    org.apache.poi.ddf
+                    <br>
+                    org.apache.poi.dev
+                    <br>
+                    org.apache.poi.extractor
+                    <br>
+                    org.apache.poi.hpsf
+                    <br>
+                    org.apache.poi.hpsf.extractor
+                    <br>
+                    org.apache.poi.hpsf.wellknown
+                    <br>
+                    org.apache.poi.hssf
+                    <br>
+                    org.apache.poi.hssf.dev
+                    <br>
+                    org.apache.poi.hssf.eventmodel
+                    <br>
+                    org.apache.poi.hssf.eventusermodel
+                    <br>
+                    org.apache.poi.hssf.eventusermodel.dummyrecord
+                    <br>
+                    org.apache.poi.hssf.extractor
+                    <br>
+                    org.apache.poi.hssf.model
+                    <br>
+                    org.apache.poi.hssf.record
+                    <br>
+                    org.apache.poi.hssf.record.aggregates
+                    <br>
+                    org.apache.poi.hssf.record.cf
+                    <br>
+                    org.apache.poi.hssf.record.chart
+                    <br>
+                    org.apache.poi.hssf.record.common
+                    <br>
+                    org.apache.poi.hssf.record.cont
+                    <br>
+                    org.apache.poi.hssf.record.crypto
+                    <br>
+                    org.apache.poi.hssf.record.pivottable
+                    <br>
+                    org.apache.poi.hssf.usermodel
+                    <br>
+                    org.apache.poi.hssf.usermodel.helpers
+                    <br>
+                    org.apache.poi.hssf.util
+                    <br>
+                    org.apache.poi.poifs.common
+                    <br>
+                    org.apache.poi.poifs.crypt
+                    <br>
+                    org.apache.poi.poifs.crypt.binaryrc4
+                    <br>
+                    org.apache.poi.poifs.crypt.cryptoapi
+                    <br>
+                    org.apache.poi.poifs.crypt.standard
+                    <br>
+                    org.apache.poi.poifs.dev
+                    <br>
+                    org.apache.poi.poifs.eventfilesystem
+                    <br>
+                    org.apache.poi.poifs.filesystem
+                    <br>
+                    org.apache.poi.poifs.macros
+                    <br>
+                    org.apache.poi.poifs.nio
+                    <br>
+                    org.apache.poi.poifs.property
+                    <br>
+                    org.apache.poi.poifs.storage
+                    <br>
+                    org.apache.poi.sl.draw
+                    <br>
+                    org.apache.poi.sl.draw.binding
+                    <br>
+                    org.apache.poi.sl.draw.geom
+                    <br>
+                    org.apache.poi.sl.usermodel
+                    <br>
+                    org.apache.poi.ss
+                    <br>
+                    org.apache.poi.ss.extractor
+                    <br>
+                    org.apache.poi.ss.format
+                    <br>
+                    org.apache.poi.ss.formula
+                    <br>
+                    org.apache.poi.ss.formula.atp
+                    <br>
+                    org.apache.poi.ss.formula.constant
+                    <br>
+                    org.apache.poi.ss.formula.eval
+                    <br>
+                    org.apache.poi.ss.formula.eval.forked
+                    <br>
+                    org.apache.poi.ss.formula.function
+                    <br>
+                    org.apache.poi.ss.formula.functions
+                    <br>
+                    org.apache.poi.ss.formula.ptg
+                    <br>
+                    org.apache.poi.ss.formula.udf
+                    <br>
+                    org.apache.poi.ss.usermodel
+                    <br>
+                    org.apache.poi.ss.usermodel.charts
+                    <br>
+                    org.apache.poi.ss.usermodel.helpers
+                    <br>
+                    org.apache.poi.ss.util
+                    <br>
+                    org.apache.poi.ss.util.cellwalk
+                    <br>
+                    org.apache.poi.util
+                    <br>
+                    org.apache.poi.wp.usermodel
+                    <br>
+                </td><td valign="top" width="26%"><a>org.apache.commons.logging</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKpoi-ooxml-3.15.jar">poi-ooxml-3.15.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 5</td><td><a href="#EXabstractness">Abstractness</a>: 0.10</td><td><a href="#EXinstability">Instability</a>: 1.00</td><td><a href="#EXdistance">Distance</a>: 0.10</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKxmlbeans-2.6.0.jar">xmlbeans-2.6.0.jar
+                        <br>
+                    </a><a href="#PKpoi-3.15.jar">poi-3.15.jar
+                        <br>
+                    </a><a href="#PKpoi-ooxml-schemas-3.15.jar">poi-ooxml-schemas-3.15.jar
+                        <br>
+                    </a><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a><a href="#PKcommons-collections4-4.1.jar">commons-collections4-4.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.poi
+                    <br>
+                    org.apache.poi.dev
+                    <br>
+                    org.apache.poi.extractor
+                    <br>
+                    org.apache.poi.openxml4j.exceptions
+                    <br>
+                    org.apache.poi.openxml4j.opc
+                    <br>
+                    org.apache.poi.openxml4j.opc.internal
+                    <br>
+                    org.apache.poi.openxml4j.opc.internal.marshallers
+                    <br>
+                    org.apache.poi.openxml4j.opc.internal.unmarshallers
+                    <br>
+                    org.apache.poi.openxml4j.util
+                    <br>
+                    org.apache.poi.poifs.crypt.agile
+                    <br>
+                    org.apache.poi.poifs.crypt.dsig
+                    <br>
+                    org.apache.poi.poifs.crypt.dsig.facets
+                    <br>
+                    org.apache.poi.poifs.crypt.dsig.services
+                    <br>
+                    org.apache.poi.ss.usermodel
+                    <br>
+                    org.apache.poi.util
+                    <br>
+                    org.apache.poi.xdgf.exceptions
+                    <br>
+                    org.apache.poi.xdgf.extractor
+                    <br>
+                    org.apache.poi.xdgf.geom
+                    <br>
+                    org.apache.poi.xdgf.usermodel
+                    <br>
+                    org.apache.poi.xdgf.usermodel.section
+                    <br>
+                    org.apache.poi.xdgf.usermodel.section.geometry
+                    <br>
+                    org.apache.poi.xdgf.usermodel.shape
+                    <br>
+                    org.apache.poi.xdgf.usermodel.shape.exceptions
+                    <br>
+                    org.apache.poi.xdgf.util
+                    <br>
+                    org.apache.poi.xdgf.xml
+                    <br>
+                    org.apache.poi.xslf.extractor
+                    <br>
+                    org.apache.poi.xslf.model
+                    <br>
+                    org.apache.poi.xslf.usermodel
+                    <br>
+                    org.apache.poi.xslf.util
+                    <br>
+                    org.apache.poi.xssf
+                    <br>
+                    org.apache.poi.xssf.dev
+                    <br>
+                    org.apache.poi.xssf.eventusermodel
+                    <br>
+                    org.apache.poi.xssf.extractor
+                    <br>
+                    org.apache.poi.xssf.model
+                    <br>
+                    org.apache.poi.xssf.streaming
+                    <br>
+                    org.apache.poi.xssf.usermodel
+                    <br>
+                    org.apache.poi.xssf.usermodel.charts
+                    <br>
+                    org.apache.poi.xssf.usermodel.extensions
+                    <br>
+                    org.apache.poi.xssf.usermodel.helpers
+                    <br>
+                    org.apache.poi.xssf.util
+                    <br>
+                    org.apache.poi.xwpf.extractor
+                    <br>
+                    org.apache.poi.xwpf.model
+                    <br>
+                    org.apache.poi.xwpf.usermodel
+                    <br>
+                </td><td valign="top" width="26%"><a>org.xml.sax</a>
+                    <br>
+                    <a>org.apache.poi.hwpf.extractor</a>
+                    <br>
+                    <a>org.apache.poi.hsmf.extractor</a>
+                    <br>
+                    <a>org.apache.poi.hsmf.datatypes</a>
+                    <br>
+                    <a>org.apache.poi.hsmf</a>
+                    <br>
+                    <a>org.w3c.dom.events</a>
+                    <br>
+                    <a>org.apache.jcp.xml.dsig.internal.dom</a>
+                    <br>
+                    <a>org.apache.xml.security</a>
+                    <br>
+                    <a>org.apache.xml.security.utils</a>
+                    <br>
+                    <a>org.bouncycastle.cert.ocsp</a>
+                    <br>
+                    <a>org.bouncycastle.asn1</a>
+                    <br>
+                    <a>org.bouncycastle.asn1.x500</a>
+                    <br>
+                    <a>org.bouncycastle.asn1.ocsp</a>
+                    <br>
+                    <a>org.apache.xml.security.c14n</a>
+                    <br>
+                    <a>org.bouncycastle.asn1.x509</a>
+                    <br>
+                    <a>org.bouncycastle.tsp</a>
+                    <br>
+                    <a>org.bouncycastle.cert</a>
+                    <br>
+                    <a>org.bouncycastle.cert.jcajce</a>
+                    <br>
+                    <a>org.bouncycastle.cms</a>
+                    <br>
+                    <a>org.bouncycastle.operator</a>
+                    <br>
+                    <a>org.bouncycastle.operator.bc</a>
+                    <br>
+                    <a>org.bouncycastle.cms.bc</a>
+                    <br>
+                    <a>org.bouncycastle.asn1.cmp</a>
+                    <br>
+                    <a>org.bouncycastle.asn1.nist</a>
+                    <br>
+                    <a>org.bouncycastle.util</a>
+                    <br>
+                    <a>org.junit.runner</a>
+                    <br>
+                    <a>org.junit.internal</a>
+                    <br>
+                    <a>org.junit</a>
+                    <br>
+                    <a>junit.framework</a>
+                    <br>
+                    <a>org.junit.runner.notification</a>
+                    <br>
+                    <a>com.graphbuilder.curve</a>
+                    <br>
+                    <a>com.graphbuilder.geom</a>
+                    <br>
+                    <a>org.apache.poi.hslf.blip</a>
+                    <br>
+                    <a>org.xml.sax.helpers</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKpoi-ooxml-schemas-3.15.jar">poi-ooxml-schemas-3.15.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 3</td><td><a href="#EXabstractness">Abstractness</a>: 0.31</td><td><a href="#EXinstability">Instability</a>: 0.75</td><td><a href="#EXdistance">Distance</a>: 0.06</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKxmlbeans-2.6.0.jar">xmlbeans-2.6.0.jar
+                        <br>
+                    </a><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a><a href="#PKpoi-3.15.jar">poi-3.15.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKpoi-ooxml-3.15.jar">poi-ooxml-3.15.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">com.microsoft.schemas.office.excel
+                    <br>
+                    com.microsoft.schemas.office.excel.impl
+                    <br>
+                    com.microsoft.schemas.office.office
+                    <br>
+                    com.microsoft.schemas.office.office.impl
+                    <br>
+                    com.microsoft.schemas.office.visio.x2012.main
+                    <br>
+                    com.microsoft.schemas.office.visio.x2012.main.impl
+                    <br>
+                    com.microsoft.schemas.office.x2006.digsig
+                    <br>
+                    com.microsoft.schemas.office.x2006.digsig.impl
+                    <br>
+                    com.microsoft.schemas.office.x2006.encryption
+                    <br>
+                    com.microsoft.schemas.office.x2006.encryption.impl
+                    <br>
+                    com.microsoft.schemas.office.x2006.keyEncryptor.certificate
+                    <br>
+                    com.microsoft.schemas.office.x2006.keyEncryptor.certificate.impl
+                    <br>
+                    com.microsoft.schemas.office.x2006.keyEncryptor.password
+                    <br>
+                    com.microsoft.schemas.office.x2006.keyEncryptor.password.impl
+                    <br>
+                    com.microsoft.schemas.vml
+                    <br>
+                    com.microsoft.schemas.vml.impl
+                    <br>
+                    org.etsi.uri.x01903.v13
+                    <br>
+                    org.etsi.uri.x01903.v13.impl
+                    <br>
+                    org.etsi.uri.x01903.v14
+                    <br>
+                    org.etsi.uri.x01903.v14.impl
+                    <br>
+                    org.openxmlformats.schemas.drawingml.x2006.chart
+                    <br>
+                    org.openxmlformats.schemas.drawingml.x2006.chart.impl
+                    <br>
+                    org.openxmlformats.schemas.drawingml.x2006.main
+                    <br>
+                    org.openxmlformats.schemas.drawingml.x2006.main.impl
+                    <br>
+                    org.openxmlformats.schemas.drawingml.x2006.picture
+                    <br>
+                    org.openxmlformats.schemas.drawingml.x2006.picture.impl
+                    <br>
+                    org.openxmlformats.schemas.drawingml.x2006.spreadsheetDrawing
+                    <br>
+                    org.openxmlformats.schemas.drawingml.x2006.spreadsheetDrawing.impl
+                    <br>
+                    org.openxmlformats.schemas.drawingml.x2006.wordprocessingDrawing
+                    <br>
+                    org.openxmlformats.schemas.drawingml.x2006.wordprocessingDrawing.impl
+                    <br>
+                    org.openxmlformats.schemas.officeDocument.x2006.customProperties
+                    <br>
+                    org.openxmlformats.schemas.officeDocument.x2006.customProperties.impl
+                    <br>
+                    org.openxmlformats.schemas.officeDocument.x2006.docPropsVTypes
+                    <br>
+                    org.openxmlformats.schemas.officeDocument.x2006.docPropsVTypes.impl
+                    <br>
+                    org.openxmlformats.schemas.officeDocument.x2006.extendedProperties
+                    <br>
+                    org.openxmlformats.schemas.officeDocument.x2006.extendedProperties.impl
+                    <br>
+                    org.openxmlformats.schemas.officeDocument.x2006.relationships
+                    <br>
+                    org.openxmlformats.schemas.officeDocument.x2006.relationships.impl
+                    <br>
+                    org.openxmlformats.schemas.presentationml.x2006.main
+                    <br>
+                    org.openxmlformats.schemas.presentationml.x2006.main.impl
+                    <br>
+                    org.openxmlformats.schemas.spreadsheetml.x2006.main
+                    <br>
+                    org.openxmlformats.schemas.spreadsheetml.x2006.main.impl
+                    <br>
+                    org.openxmlformats.schemas.wordprocessingml.x2006.main
+                    <br>
+                    org.openxmlformats.schemas.wordprocessingml.x2006.main.impl
+                    <br>
+                    org.openxmlformats.schemas.xpackage.x2006.digitalSignature
+                    <br>
+                    org.openxmlformats.schemas.xpackage.x2006.digitalSignature.impl
+                    <br>
+                    org.openxmlformats.schemas.xpackage.x2006.relationships
+                    <br>
+                    org.openxmlformats.schemas.xpackage.x2006.relationships.impl
+                    <br>
+                    org.w3.x2000.x09.xmldsig
+                    <br>
+                    org.w3.x2000.x09.xmldsig.impl
+                    <br>
+                    schemaorg_apache_xmlbeans.system.s8C3F193EE11A2F798ACF65489B9E6078
+                    <br>
+                    schemaorg_apache_xmlbeans.system.sF1327CCA741569E70F9CA8C9AF9B44B2
+                    <br>
+                </td><td valign="top" width="26%"><a>com.microsoft.schemas.office.word</a>
+                    <br>
+                    <a>com.microsoft.schemas.office.powerpoint</a>
+                    <br>
+                    <a>org.openxmlformats.schemas.officeDocument.x2006.math</a>
+                    <br>
+                    <a>ibrary.x2006.main</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKprefuse.jar">prefuse.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.19</td><td><a href="#EXinstability">Instability</a>: -1.0</td><td><a href="#EXdistance">Distance</a>: -1.0</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">prefuse
+                    <br>
+                    prefuse.action
+                    <br>
+                    prefuse.action.animate
+                    <br>
+                    prefuse.action.assignment
+                    <br>
+                    prefuse.action.distortion
+                    <br>
+                    prefuse.action.filter
+                    <br>
+                    prefuse.action.layout
+                    <br>
+                    prefuse.action.layout.graph
+                    <br>
+                    prefuse.activity
+                    <br>
+                    prefuse.controls
+                    <br>
+                    prefuse.data
+                    <br>
+                    prefuse.data.column
+                    <br>
+                    prefuse.data.event
+                    <br>
+                    prefuse.data.expression
+                    <br>
+                    prefuse.data.expression.parser
+                    <br>
+                    prefuse.data.io
+                    <br>
+                    prefuse.data.io.sql
+                    <br>
+                    prefuse.data.parser
+                    <br>
+                    prefuse.data.query
+                    <br>
+                    prefuse.data.search
+                    <br>
+                    prefuse.data.tuple
+                    <br>
+                    prefuse.data.util
+                    <br>
+                    prefuse.render
+                    <br>
+                    prefuse.util
+                    <br>
+                    prefuse.util.collections
+                    <br>
+                    prefuse.util.display
+                    <br>
+                    prefuse.util.force
+                    <br>
+                    prefuse.util.io
+                    <br>
+                    prefuse.util.ui
+                    <br>
+                    prefuse.visual
+                    <br>
+                    prefuse.visual.expression
+                    <br>
+                    prefuse.visual.sort
+                    <br>
+                    prefuse.visual.tuple
+                    <br>
+                </td><td valign="top" width="26%"><a>org.xml.sax</a>
+                    <br>
+                    <a>org.xml.sax.helpers</a>
+                    <br>
+                    <a>org.apache.lucene.queryParser</a>
+                    <br>
+                    <a>org.apache.lucene.document</a>
+                    <br>
+                    <a>org.apache.lucene.search</a>
+                    <br>
+                    <a>org.apache.lucene.store</a>
+                    <br>
+                    <a>org.apache.lucene.analysis.standard</a>
+                    <br>
+                    <a>org.apache.lucene.index</a>
+                    <br>
+                    <a>org.apache.lucene.analysis</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKsaxon9-dom.jar">saxon9-dom.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 0.03</td><td><a href="#EXinstability">Instability</a>: 0.67</td><td><a href="#EXdistance">Distance</a>: 0.30</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKsaxon9.jar">saxon9.jar
+                        <br>
+                    </a><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKsaxon9-s9api.jar">saxon9-s9api.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">net.sf.saxon.dom
+                    <br>
+                </td><td valign="top" width="26%"><a>org.xml.sax.helpers</a>
+                    <br>
+                    <a>org.xml.sax</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKsaxon9-s9api.jar">saxon9-s9api.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 2</td><td><a href="#EXefferent">Efferent Couplings</a>: 3</td><td><a href="#EXabstractness">Abstractness</a>: 0.08</td><td><a href="#EXinstability">Instability</a>: 0.60</td><td><a href="#EXdistance">Distance</a>: 0.32</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKsaxon9-dom.jar">saxon9-dom.jar
+                        <br>
+                    </a><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a><a href="#PKsaxon9.jar">saxon9.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKyawl-lib-4.5.1.jar">yawl-lib-4.5.1.jar
+                        <br>
+                    </a><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">net.sf.saxon.s9api
+                    <br>
+                </td><td valign="top" width="26%"><a>org.xml.sax</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKsaxon9.jar">saxon9.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 3</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0.15</td><td><a href="#EXinstability">Instability</a>: 0.25</td><td><a href="#EXdistance">Distance</a>: 0.60</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKsaxon9-dom.jar">saxon9-dom.jar
+                        <br>
+                    </a><a href="#PKsaxon9-s9api.jar">saxon9-s9api.jar
+                        <br>
+                    </a><a href="#PKyawl-lib-4.5.1.jar">yawl-lib-4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">net.sf.saxon
+                    <br>
+                    net.sf.saxon.charcode
+                    <br>
+                    net.sf.saxon.codenorm
+                    <br>
+                    net.sf.saxon.event
+                    <br>
+                    net.sf.saxon.evpull
+                    <br>
+                    net.sf.saxon.expr
+                    <br>
+                    net.sf.saxon.exslt
+                    <br>
+                    net.sf.saxon.functions
+                    <br>
+                    net.sf.saxon.instruct
+                    <br>
+                    net.sf.saxon.java
+                    <br>
+                    net.sf.saxon.number
+                    <br>
+                    net.sf.saxon.om
+                    <br>
+                    net.sf.saxon.pattern
+                    <br>
+                    net.sf.saxon.pull
+                    <br>
+                    net.sf.saxon.query
+                    <br>
+                    net.sf.saxon.regex
+                    <br>
+                    net.sf.saxon.sort
+                    <br>
+                    net.sf.saxon.style
+                    <br>
+                    net.sf.saxon.sxpath
+                    <br>
+                    net.sf.saxon.tinytree
+                    <br>
+                    net.sf.saxon.trace
+                    <br>
+                    net.sf.saxon.trans
+                    <br>
+                    net.sf.saxon.tree
+                    <br>
+                    net.sf.saxon.type
+                    <br>
+                    net.sf.saxon.value
+                    <br>
+                </td><td valign="top" width="26%"><a>org.xml.sax</a>
+                    <br>
+                    <a>org.xml.sax.ext</a>
+                    <br>
+                    <a>org.xml.sax.helpers</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKservlet-api.jar">servlet-api.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.62</td><td><a href="#EXinstability">Instability</a>: -1.0</td><td><a href="#EXdistance">Distance</a>: -1.0</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">javax.servlet
+                    <br>
+                    javax.servlet.http
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKslf4j-api-1.7.21.jar">slf4j-api-1.7.21.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 4</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0.32</td><td><a href="#EXinstability">Instability</a>: 0.20</td><td><a href="#EXdistance">Distance</a>: 0.48</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKlog4j-slf4j-impl-2.17.1.jar">log4j-slf4j-impl-2.17.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKjena-arq-3.1.1.jar">jena-arq-3.1.1.jar
+                        <br>
+                    </a><a href="#PKjena-base-3.1.1.jar">jena-base-3.1.1.jar
+                        <br>
+                    </a><a href="#PKjena-core-3.1.1.jar">jena-core-3.1.1.jar
+                        <br>
+                    </a><a href="#PKlog4j-slf4j-impl-2.17.1.jar">log4j-slf4j-impl-2.17.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKlog4j-slf4j-impl-2.17.1.jar">log4j-slf4j-impl-2.17.1.jar
+                        <br>
+                    </a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.slf4j.event
+                    <br>
+                    org.slf4j.helpers
+                    <br>
+                    org.slf4j
+                    <br>
+                    org.slf4j.spi
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKxercesImpl.jar">xercesImpl.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 4</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0.20</td><td><a href="#EXinstability">Instability</a>: 0.20</td><td><a href="#EXdistance">Distance</a>: 0.60</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKjena-arq-3.1.1.jar">jena-arq-3.1.1.jar
+                        <br>
+                    </a><a href="#PKjena-core-3.1.1.jar">jena-core-3.1.1.jar
+                        <br>
+                    </a><a href="#PKYAWLEditor-core-4.5.1.jar">YAWLEditor-core-4.5.1.jar
+                        <br>
+                    </a><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.html.dom
+                    <br>
+                    org.apache.wml
+                    <br>
+                    org.apache.wml.dom
+                    <br>
+                    org.apache.xerces.dom3.as
+                    <br>
+                    org.apache.xerces.dom
+                    <br>
+                    org.apache.xerces.dom.events
+                    <br>
+                    org.apache.xerces.impl
+                    <br>
+                    org.apache.xerces.impl.dtd
+                    <br>
+                    org.apache.xerces.impl.dtd.models
+                    <br>
+                    org.apache.xerces.impl.dv
+                    <br>
+                    org.apache.xerces.impl.dv.dtd
+                    <br>
+                    org.apache.xerces.impl.dv.util
+                    <br>
+                    org.apache.xerces.impl.dv.xs
+                    <br>
+                    org.apache.xerces.impl.io
+                    <br>
+                    org.apache.xerces.impl.msg
+                    <br>
+                    org.apache.xerces.impl.validation
+                    <br>
+                    org.apache.xerces.impl.xpath
+                    <br>
+                    org.apache.xerces.impl.xpath.regex
+                    <br>
+                    org.apache.xerces.impl.xs
+                    <br>
+                    org.apache.xerces.impl.xs.identity
+                    <br>
+                    org.apache.xerces.impl.xs.models
+                    <br>
+                    org.apache.xerces.impl.xs.opti
+                    <br>
+                    org.apache.xerces.impl.xs.traversers
+                    <br>
+                    org.apache.xerces.impl.xs.util
+                    <br>
+                    org.apache.xerces.jaxp
+                    <br>
+                    org.apache.xerces.jaxp.datatype
+                    <br>
+                    org.apache.xerces.jaxp.validation
+                    <br>
+                    org.apache.xerces.parsers
+                    <br>
+                    org.apache.xerces.util
+                    <br>
+                    org.apache.xerces.xinclude
+                    <br>
+                    org.apache.xerces.xni
+                    <br>
+                    org.apache.xerces.xni.grammars
+                    <br>
+                    org.apache.xerces.xni.parser
+                    <br>
+                    org.apache.xerces.xpointer
+                    <br>
+                    org.apache.xerces.xs
+                    <br>
+                    org.apache.xerces.xs.datatypes
+                    <br>
+                    org.apache.xml.serialize
+                    <br>
+                    org.w3c.dom.html
+                    <br>
+                </td><td valign="top" width="26%"><a>org.xml.sax</a>
+                    <br>
+                    <a>org.w3c.dom.ls</a>
+                    <br>
+                    <a>org.w3c.dom.events</a>
+                    <br>
+                    <a>org.w3c.dom.traversal</a>
+                    <br>
+                    <a>org.w3c.dom.ranges</a>
+                    <br>
+                    <a>org.w3c.dom.views</a>
+                    <br>
+                    <a>org.xml.sax.helpers</a>
+                    <br>
+                    <a>org.xml.sax.ext</a>
+                    <br>
+                    <a>org.apache.xml.resolver</a>
+                    <br>
+                    <a>org.apache.xml.resolver.readers</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKxmlbeans-2.6.0.jar">xmlbeans-2.6.0.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 2</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0.29</td><td><a href="#EXinstability">Instability</a>: 0.33</td><td><a href="#EXdistance">Distance</a>: 0.38</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKpoi-ooxml-3.15.jar">poi-ooxml-3.15.jar
+                        <br>
+                    </a><a href="#PKpoi-ooxml-schemas-3.15.jar">poi-ooxml-schemas-3.15.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.apache.xmlbeans
+                    <br>
+                    org.apache.xmlbeans.xml.stream
+                    <br>
+                    org.apache.xmlbeans.xml.stream.utils
+                    <br>
+                    org.apache.xmlbeans.impl.values
+                    <br>
+                    org.apache.xmlbeans.impl.common
+                    <br>
+                    org.apache.xmlbeans.impl.config
+                    <br>
+                    org.apache.xmlbeans.impl.regex
+                    <br>
+                    org.apache.xmlbeans.impl.schema
+                    <br>
+                    org.apache.xmlbeans.impl.util
+                    <br>
+                    org.apache.xmlbeans.impl.validator
+                    <br>
+                    org.apache.xmlbeans.impl.xb.ltgfmt
+                    <br>
+                    org.apache.xmlbeans.impl.xb.ltgfmt.impl
+                    <br>
+                    org.apache.xmlbeans.impl.xb.substwsdl
+                    <br>
+                    org.apache.xmlbeans.impl.xb.substwsdl.impl
+                    <br>
+                    org.apache.xmlbeans.impl.xb.xmlconfig
+                    <br>
+                    org.apache.xmlbeans.impl.xb.xmlconfig.impl
+                    <br>
+                    org.apache.xmlbeans.impl.xb.xmlschema
+                    <br>
+                    org.apache.xmlbeans.impl.xb.xmlschema.impl
+                    <br>
+                    org.apache.xmlbeans.impl.xb.xsdownload
+                    <br>
+                    org.apache.xmlbeans.impl.xb.xsdownload.impl
+                    <br>
+                    org.apache.xmlbeans.impl.xb.xsdschema
+                    <br>
+                    org.apache.xmlbeans.impl.xb.xsdschema.impl
+                    <br>
+                    org.apache.xmlbeans.soap
+                    <br>
+                    org.apache.xmlbeans.impl.tool
+                    <br>
+                    schemaorg_apache_xmlbeans.system.sXMLCONFIG
+                    <br>
+                    schemaorg_apache_xmlbeans.system.sXMLTOOLS
+                    <br>
+                    schemaorg_apache_xmlbeans.system.sXMLSCHEMA
+                    <br>
+                    schemaorg_apache_xmlbeans.system.sXMLLANG
+                    <br>
+                    org.apache.xmlbeans.impl.store
+                    <br>
+                    org.apache.xmlbeans.impl.soap
+                    <br>
+                    org.apache.xmlbeans.xml.stream.events
+                    <br>
+                    org.apache.xmlbeans.impl.richParser
+                    <br>
+                    repackage
+                    <br>
+                    org.apache.xmlbeans.impl.jam
+                    <br>
+                    org.apache.xmlbeans.impl.jam.annotation
+                    <br>
+                    org.apache.xmlbeans.impl.jam.internal
+                    <br>
+                    org.apache.xmlbeans.impl.jam.internal.classrefs
+                    <br>
+                    org.apache.xmlbeans.impl.jam.internal.elements
+                    <br>
+                    org.apache.xmlbeans.impl.jam.internal.javadoc
+                    <br>
+                    org.apache.xmlbeans.impl.jam.internal.parser
+                    <br>
+                    org.apache.xmlbeans.impl.jam.internal.reflect
+                    <br>
+                    org.apache.xmlbeans.impl.jam.mutable
+                    <br>
+                    org.apache.xmlbeans.impl.jam.provider
+                    <br>
+                    org.apache.xmlbeans.impl.jam.visitor
+                    <br>
+                    org.apache.xmlbeans.impl.jam.xml
+                    <br>
+                    org.apache.xmlbeans.impl.piccolo.io
+                    <br>
+                    org.apache.xmlbeans.impl.piccolo.util
+                    <br>
+                    org.apache.xmlbeans.impl.piccolo.xml
+                    <br>
+                    org.apache.xmlbeans.impl.inst2xsd
+                    <br>
+                    org.apache.xmlbeans.impl.inst2xsd.util
+                    <br>
+                    org.apache.xmlbeans.impl.xpathgen
+                    <br>
+                    org.apache.xmlbeans.impl.xsd2inst
+                    <br>
+                </td><td valign="top" width="26%"><a>org.xml.sax</a>
+                    <br>
+                    <a>org.xml.sax.ext</a>
+                    <br>
+                    <a>org.xml.sax.helpers</a>
+                    <br>
+                    <a>org.apache.tools.ant</a>
+                    <br>
+                    <a>org.apache.tools.ant.types</a>
+                    <br>
+                    <a>org.apache.tools.ant.taskdefs</a>
+                    <br>
+                    <a>CONFIG</a>
+                    <br>
+                    <a>S</a>
+                    <br>
+                    <a>SCHEMA</a>
+                    <br>
+                    <a>ANG</a>
+                    <br>
+                    <a>com.sun.javadoc</a>
+                    <br>
+                    <a>com.sun.tools.javadoc</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKxmleditorkit.jar">xmleditorkit.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 0</td><td><a href="#EXabstractness">Abstractness</a>: 0.12</td><td><a href="#EXinstability">Instability</a>: 0.00</td><td><a href="#EXdistance">Distance</a>: 0.88</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><i>None</i></td><td valign="top" width="33%"><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.bounce.text
+                    <br>
+                    org.bounce.text.xml
+                    <br>
+                    org.bounce.xml
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKyawl-lib-4.5.1.jar">yawl-lib-4.5.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 3</td><td><a href="#EXefferent">Efferent Couplings</a>: 9</td><td><a href="#EXabstractness">Abstractness</a>: 0.08</td><td><a href="#EXinstability">Instability</a>: 0.75</td><td><a href="#EXdistance">Distance</a>: 0.17</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKjdom-2.0.5.jar">jdom-2.0.5.jar
+                        <br>
+                    </a><a href="#PKlog4j-api-2.17.1.jar">log4j-api-2.17.1.jar
+                        <br>
+                    </a><a href="#PKcommons-codec-1.9.jar">commons-codec-1.9.jar
+                        <br>
+                    </a><a href="#PKjaxen-1.1.6.jar">jaxen-1.1.6.jar
+                        <br>
+                    </a><a href="#PKsaxon9-s9api.jar">saxon9-s9api.jar
+                        <br>
+                    </a><a href="#PKcommons-lang-2.3.jar">commons-lang-2.3.jar
+                        <br>
+                    </a><a href="#PKlog4j-core-2.17.1.jar">log4j-core-2.17.1.jar
+                        <br>
+                    </a><a href="#PKlog4j-1.2-api-2.17.1.jar">log4j-1.2-api-2.17.1.jar
+                        <br>
+                    </a><a href="#PKsaxon9.jar">saxon9.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKYAWLEditor-analyser-4.5.1.jar">YAWLEditor-analyser-4.5.1.jar
+                        <br>
+                    </a><a href="#PKYAWLEditor-core-4.5.1.jar">YAWLEditor-core-4.5.1.jar
+                        <br>
+                    </a><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.yawlfoundation.yawl.authentication
+                    <br>
+                    org.yawlfoundation.yawl.balancer
+                    <br>
+                    org.yawlfoundation.yawl.balancer.config
+                    <br>
+                    org.yawlfoundation.yawl.balancer.instance
+                    <br>
+                    org.yawlfoundation.yawl.balancer.jmx
+                    <br>
+                    org.yawlfoundation.yawl.balancer.monitor
+                    <br>
+                    org.yawlfoundation.yawl.balancer.output
+                    <br>
+                    org.yawlfoundation.yawl.balancer.polling
+                    <br>
+                    org.yawlfoundation.yawl.balancer.rule
+                    <br>
+                    org.yawlfoundation.yawl.balancer.servlet
+                    <br>
+                    org.yawlfoundation.yawl.cost
+                    <br>
+                    org.yawlfoundation.yawl.cost.data
+                    <br>
+                    org.yawlfoundation.yawl.cost.evaluate
+                    <br>
+                    org.yawlfoundation.yawl.cost.interfce
+                    <br>
+                    org.yawlfoundation.yawl.cost.log
+                    <br>
+                    org.yawlfoundation.yawl.demoService
+                    <br>
+                    org.yawlfoundation.yawl.digitalSignature
+                    <br>
+                    org.yawlfoundation.yawl.documentStore
+                    <br>
+                    org.yawlfoundation.yawl.elements
+                    <br>
+                    org.yawlfoundation.yawl.elements.data
+                    <br>
+                    org.yawlfoundation.yawl.elements.data.external
+                    <br>
+                    org.yawlfoundation.yawl.elements.e2wfoj
+                    <br>
+                    org.yawlfoundation.yawl.elements.predicate
+                    <br>
+                    org.yawlfoundation.yawl.elements.state
+                    <br>
+                    org.yawlfoundation.yawl.engine
+                    <br>
+                    org.yawlfoundation.yawl.engine.announcement
+                    <br>
+                    org.yawlfoundation.yawl.engine.instance
+                    <br>
+                    org.yawlfoundation.yawl.engine.interfce
+                    <br>
+                    org.yawlfoundation.yawl.engine.interfce.interfaceA
+                    <br>
+                    org.yawlfoundation.yawl.engine.interfce.interfaceB
+                    <br>
+                    org.yawlfoundation.yawl.engine.interfce.interfaceE
+                    <br>
+                    org.yawlfoundation.yawl.engine.interfce.interfaceX
+                    <br>
+                    org.yawlfoundation.yawl.engine.time
+                    <br>
+                    org.yawlfoundation.yawl.engine.time.workdays
+                    <br>
+                    org.yawlfoundation.yawl.exceptions
+                    <br>
+                    org.yawlfoundation.yawl.logging
+                    <br>
+                    org.yawlfoundation.yawl.logging.table
+                    <br>
+                    org.yawlfoundation.yawl.mailSender
+                    <br>
+                    org.yawlfoundation.yawl.mailService
+                    <br>
+                    org.yawlfoundation.yawl.monitor
+                    <br>
+                    org.yawlfoundation.yawl.monitor.jsf
+                    <br>
+                    org.yawlfoundation.yawl.monitor.sort
+                    <br>
+                    org.yawlfoundation.yawl.procletService
+                    <br>
+                    org.yawlfoundation.yawl.procletService.blockType
+                    <br>
+                    org.yawlfoundation.yawl.procletService.connect
+                    <br>
+                    org.yawlfoundation.yawl.procletService.editor
+                    <br>
+                    org.yawlfoundation.yawl.procletService.editor.block
+                    <br>
+                    org.yawlfoundation.yawl.procletService.editor.blockchoiceexception
+                    <br>
+                    org.yawlfoundation.yawl.procletService.editor.choiceexception
+                    <br>
+                    org.yawlfoundation.yawl.procletService.editor.extra
+                    <br>
+                    org.yawlfoundation.yawl.procletService.editor.model
+                    <br>
+                    org.yawlfoundation.yawl.procletService.editor.pconns
+                    <br>
+                    org.yawlfoundation.yawl.procletService.interactionGraph
+                    <br>
+                    org.yawlfoundation.yawl.procletService.models.procletModel
+                    <br>
+                    org.yawlfoundation.yawl.procletService.persistence
+                    <br>
+                    org.yawlfoundation.yawl.procletService.selectionProcess
+                    <br>
+                    org.yawlfoundation.yawl.procletService.state
+                    <br>
+                    org.yawlfoundation.yawl.procletService.util
+                    <br>
+                    org.yawlfoundation.yawl.reporter
+                    <br>
+                    org.yawlfoundation.yawl.resourcing
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.allocators
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.calendar
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.calendar.utilisation
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.client
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.codelets
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.constraints
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.datastore
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.datastore.eventlog
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.datastore.orgdata
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.datastore.orgdata.util
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.datastore.persistence
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.filters
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.interactions
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.jsf
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.jsf.comparator
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.jsf.dynform
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.jsf.dynform.dynattributes
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.resource
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.resource.nonhuman
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.rsInterface
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.rsInterface.scheduling
+                    <br>
+                    org.yawlfoundation.yawl.resourcing.util
+                    <br>
+                    org.yawlfoundation.yawl.scheduling
+                    <br>
+                    org.yawlfoundation.yawl.scheduling.lanes
+                    <br>
+                    org.yawlfoundation.yawl.scheduling.persistence
+                    <br>
+                    org.yawlfoundation.yawl.scheduling.resource
+                    <br>
+                    org.yawlfoundation.yawl.scheduling.servlet
+                    <br>
+                    org.yawlfoundation.yawl.scheduling.timer
+                    <br>
+                    org.yawlfoundation.yawl.scheduling.util
+                    <br>
+                    org.yawlfoundation.yawl.schema
+                    <br>
+                    org.yawlfoundation.yawl.schema.internal
+                    <br>
+                    org.yawlfoundation.yawl.simulation
+                    <br>
+                    org.yawlfoundation.yawl.smsModule
+                    <br>
+                    org.yawlfoundation.yawl.stateless
+                    <br>
+                    org.yawlfoundation.yawl.stateless.elements
+                    <br>
+                    org.yawlfoundation.yawl.stateless.elements.data
+                    <br>
+                    org.yawlfoundation.yawl.stateless.elements.data.external
+                    <br>
+                    org.yawlfoundation.yawl.stateless.elements.e2wfoj
+                    <br>
+                    org.yawlfoundation.yawl.stateless.elements.marking
+                    <br>
+                    org.yawlfoundation.yawl.stateless.elements.predicate
+                    <br>
+                    org.yawlfoundation.yawl.stateless.engine
+                    <br>
+                    org.yawlfoundation.yawl.stateless.engine.time
+                    <br>
+                    org.yawlfoundation.yawl.stateless.listener
+                    <br>
+                    org.yawlfoundation.yawl.stateless.listener.event
+                    <br>
+                    org.yawlfoundation.yawl.stateless.listener.predicate
+                    <br>
+                    org.yawlfoundation.yawl.stateless.schema
+                    <br>
+                    org.yawlfoundation.yawl.stateless.unmarshal
+                    <br>
+                    org.yawlfoundation.yawl.stateless.util
+                    <br>
+                    org.yawlfoundation.yawl.swingWorklist
+                    <br>
+                    org.yawlfoundation.yawl.swingWorklist.util
+                    <br>
+                    org.yawlfoundation.yawl.twitterService
+                    <br>
+                    org.yawlfoundation.yawl.unmarshal
+                    <br>
+                    org.yawlfoundation.yawl.util
+                    <br>
+                    org.yawlfoundation.yawl.worklet
+                    <br>
+                    org.yawlfoundation.yawl.worklet.admin
+                    <br>
+                    org.yawlfoundation.yawl.worklet.exception
+                    <br>
+                    org.yawlfoundation.yawl.worklet.rdr
+                    <br>
+                    org.yawlfoundation.yawl.worklet.rdr.xsd
+                    <br>
+                    org.yawlfoundation.yawl.worklet.rdrutil
+                    <br>
+                    org.yawlfoundation.yawl.worklet.selection
+                    <br>
+                    org.yawlfoundation.yawl.worklet.support
+                    <br>
+                    org.yawlfoundation.yawl.wsif
+                    <br>
+                </td><td valign="top" width="26%"><a>org.json</a>
+                    <br>
+                    <a>org.apache.commons.vfs2.impl</a>
+                    <br>
+                    <a>org.apache.commons.vfs2</a>
+                    <br>
+                    <a>org.hawkular.datamining.forecast</a>
+                    <br>
+                    <a>net.sourceforge.openforecast</a>
+                    <br>
+                    <a>org.hibernate</a>
+                    <br>
+                    <a>org.bouncycastle.jce.provider</a>
+                    <br>
+                    <a>org.bouncycastle.cms</a>
+                    <br>
+                    <a>org.xml.sax</a>
+                    <br>
+                    <a>jakarta.xml.bind</a>
+                    <br>
+                    <a>org.hibernate.cfg</a>
+                    <br>
+                    <a>org.hibernate.tool.hbm2ddl</a>
+                    <br>
+                    <a>org.hibernate.exception</a>
+                    <br>
+                    <a>org.hibernate.internal</a>
+                    <br>
+                    <a>org.hibernate.c3p0.internal</a>
+                    <br>
+                    <a>org.hibernate.engine.jdbc.connections.spi</a>
+                    <br>
+                    <a>org.hibernate.stat</a>
+                    <br>
+                    <a>org.simplejavamail.mailer.config</a>
+                    <br>
+                    <a>org.simplejavamail.mailer</a>
+                    <br>
+                    <a>org.simplejavamail.email</a>
+                    <br>
+                    <a>com.sun.rave.web.ui.component</a>
+                    <br>
+                    <a>com.sun.rave.web.ui.appbase</a>
+                    <br>
+                    <a>org.apache.commons.collections15</a>
+                    <br>
+                    <a>edu.uci.ics.jung.graph</a>
+                    <br>
+                    <a>edu.uci.ics.jung.visualization</a>
+                    <br>
+                    <a>edu.uci.ics.jung.algorithms.layout</a>
+                    <br>
+                    <a>edu.uci.ics.jung.visualization.decorators</a>
+                    <br>
+                    <a>edu.uci.ics.jung.visualization.control</a>
+                    <br>
+                    <a>edu.uci.ics.jung.visualization.picking</a>
+                    <br>
+                    <a>ayout</a>
+                    <br>
+                    <a>edu.uci.ics.jung.visualization.util</a>
+                    <br>
+                    <a>edu.uci.ics.jung.visualization.transform</a>
+                    <br>
+                    <a>org.apache.commons.collections15.functors</a>
+                    <br>
+                    <a>edu.uci.ics.jung.algorithms.layout.util</a>
+                    <br>
+                    <a>edu.uci.ics.jung.visualization.layout</a>
+                    <br>
+                    <a>edu.uci.ics.jung.algorithms.util</a>
+                    <br>
+                    <a>edu.uci.ics.jung.graph.util</a>
+                    <br>
+                    <a>edu.uci.ics.jung.algorithms.generators.random</a>
+                    <br>
+                    <a>edu.uci.ics.jung.visualization.renderers</a>
+                    <br>
+                    <a>edu.uci.ics.jung.visualization.transform.shape</a>
+                    <br>
+                    <a>com.sun.rave.web.ui.model</a>
+                    <br>
+                    <a>org.apache.commons.io</a>
+                    <br>
+                    <a>org.junit</a>
+                    <br>
+                    <a>org.w3c.dom.ls</a>
+                    <br>
+                    <a>org.custommonkey.xmlunit</a>
+                    <br>
+                    <a>org.yawlfoundation.yawl.engine.gui</a>
+                    <br>
+                    <a>twitter4j</a>
+                    <br>
+                    <a>org.apache.tools.ant</a>
+                    <br>
+                    <a>org.apache.commons.beanutils</a>
+                    <br>
+                    <a>org.hibernate.boot.registry</a>
+                    <br>
+                    <a>org.hibernate.service</a>
+                    <br>
+                    <a>org.hibernate.criterion</a>
+                    <br>
+                    <a>org.apache.wsif.providers.soap.apachesoap</a>
+                    <br>
+                    <a>org.apache.wsif</a>
+                    <br>
+                    <a>org.apache.wsif.util</a>
+                    <br>
+                    <a>org.apache.wsif.providers</a>
+                    <br>
+                    <a>org.apache.wsif.spi</a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKYAWLEditor-analyser-4.5.1.jar">YAWLEditor-analyser-4.5.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 0.08</td><td><a href="#EXinstability">Instability</a>: 0.67</td><td><a href="#EXdistance">Distance</a>: 0.25</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKyawl-lib-4.5.1.jar">yawl-lib-4.5.1.jar
+                        <br>
+                    </a><a href="#PKalloy4.2_2015-02-22.jar">alloy4.2_2015-02-22.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.yawlfoundation.yawl.analyser
+                    <br>
+                    org.yawlfoundation.yawl.analyser.elements
+                    <br>
+                    org.yawlfoundation.yawl.analyser.reductionrules
+                    <br>
+                    org.yawlfoundation.yawl.analyser.testgeneration.RACC.exceptions
+                    <br>
+                    org.yawlfoundation.yawl.analyser.testgeneration.RACC.expressionValueAssigners
+                    <br>
+                    org.yawlfoundation.yawl.analyser.testgeneration.RACC.testCase
+                    <br>
+                    org.yawlfoundation.yawl.analyser.util
+                    <br>
+                    org.yawlfoundation.yawl.analyser.util.alloy
+                    <br>
+                    org.yawlfoundation.yawl.analyser.util.alloy.descriptors
+                    <br>
+                    org.yawlfoundation.yawl.analyser.util.alloy.utils
+                    <br>
+                    org.yawlfoundation.yawl.analyser.wofyawl
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKYAWLEditor-core-4.5.1.jar">YAWLEditor-core-4.5.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 4</td><td><a href="#EXabstractness">Abstractness</a>: 0.08</td><td><a href="#EXinstability">Instability</a>: 0.80</td><td><a href="#EXdistance">Distance</a>: 0.12</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKyawl-lib-4.5.1.jar">yawl-lib-4.5.1.jar
+                        <br>
+                    </a><a href="#PKxercesImpl.jar">xercesImpl.jar
+                        <br>
+                    </a><a href="#PKjdom-2.0.5.jar">jdom-2.0.5.jar
+                        <br>
+                    </a><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar
+                        <br>
+                    </a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.yawlfoundation.yawl.editor.core
+                    <br>
+                    org.yawlfoundation.yawl.editor.core.connection
+                    <br>
+                    org.yawlfoundation.yawl.editor.core.controlflow
+                    <br>
+                    org.yawlfoundation.yawl.editor.core.data
+                    <br>
+                    org.yawlfoundation.yawl.editor.core.exception
+                    <br>
+                    org.yawlfoundation.yawl.editor.core.identity
+                    <br>
+                    org.yawlfoundation.yawl.editor.core.layout
+                    <br>
+                    org.yawlfoundation.yawl.editor.core.repository
+                    <br>
+                    org.yawlfoundation.yawl.editor.core.resourcing
+                    <br>
+                    org.yawlfoundation.yawl.editor.core.resourcing.entity
+                    <br>
+                    org.yawlfoundation.yawl.editor.core.resourcing.validation
+                    <br>
+                    org.yawlfoundation.yawl.editor.core.util
+                    <br>
+                    org.yawlfoundation.yawl.editor.core.validation
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <h3>
+            <a name="PKYAWLEditor4.5.1.jar">YAWLEditor4.5.1.jar</a>
+        </h3>
+        <table width="100%" class="gray">
+            <tr>
+                <td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 15</td><td><a href="#EXabstractness">Abstractness</a>: 0.08</td><td><a href="#EXinstability">Instability</a>: 0.94</td><td><a href="#EXdistance">Distance</a>: 0.02</td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Uses Jars</th><th>Used by Jars</th><th>Cycles With</th>
+            </tr>
+            <tr>
+                <td valign="top" width="33%"><a href="#PKjgoodies-looks-2.7.0.jar">jgoodies-looks-2.7.0.jar
+                        <br>
+                    </a><a href="#PKYAWLEditor-core-4.5.1.jar">YAWLEditor-core-4.5.1.jar
+                        <br>
+                    </a><a href="#PKl2fprod-common-all.jar">l2fprod-common-all.jar
+                        <br>
+                    </a><a href="#PKjgraph4yawl-4.5.1.jar">jgraph4yawl-4.5.1.jar
+                        <br>
+                    </a><a href="#PKyawl-lib-4.5.1.jar">yawl-lib-4.5.1.jar
+                        <br>
+                    </a><a href="#PKforms_rt.jar">forms_rt.jar
+                        <br>
+                    </a><a href="#PKxmleditorkit.jar">xmleditorkit.jar
+                        <br>
+                    </a><a href="#PKimgscalr-lib-4.2.jar">imgscalr-lib-4.2.jar
+                        <br>
+                    </a><a href="#PKlog4j-api-2.17.1.jar">log4j-api-2.17.1.jar
+                        <br>
+                    </a><a href="#PKxercesImpl.jar">xercesImpl.jar
+                        <br>
+                    </a><a href="#PKjdom-2.0.5.jar">jdom-2.0.5.jar
+                        <br>
+                    </a><a href="#PKsaxon9-s9api.jar">saxon9-s9api.jar
+                        <br>
+                    </a><a href="#PKautomaton.jar">automaton.jar
+                        <br>
+                    </a><a href="#PKjcalendar-1.4.jar">jcalendar-1.4.jar
+                        <br>
+                    </a><a href="#PKYAWLEditor-analyser-4.5.1.jar">YAWLEditor-analyser-4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKYAWLEditor-core-4.5.1.jar">YAWLEditor-core-4.5.1.jar
+                        <br>
+                    </a></td><td valign="top" width="33%"><a href="#PKYAWLEditor-core-4.5.1.jar">YAWLEditor-core-4.5.1.jar
+                        <br>
+                    </a>
+                    <br>
+                </td>
+            </tr>
+        </table>
+        <table width="100%" class="details">
+            <tr>
+                <th>Packages within jar</th><th><a href="#EXunresolved">Unresolved Packages</a></th>
+            </tr>
+            <tr>
+                <td valign="top" width="26%">org.yawlfoundation.yawl.editor.ui
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.actions
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.actions.datatypedialog
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.actions.element
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.actions.element.align
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.actions.help
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.actions.net
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.actions.net.zoom
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.actions.palette
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.actions.specification
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.actions.view
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.data
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.data.document
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.data.editor
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.data.editorpane
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.elements.model
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.elements.view
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.net
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.net.utilities
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.plugin
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.preferences
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.properties
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.properties.data
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.properties.data.binding
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.properties.data.binding.references
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.properties.data.binding.view
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.properties.data.validation
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.properties.dialog
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.properties.dialog.component
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.properties.editor
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.properties.extended
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.properties.extended.editor
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.repository.action
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.repository.dialog
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.repository.listModel
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.resourcing
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.resourcing.listmodel
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.resourcing.panel
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.resourcing.subdialog
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.resourcing.tablemodel
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.specification
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.specification.io
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.specification.pubsub
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.specification.validation
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.swing
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.swing.element
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.swing.menu
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.swing.net
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.swing.specification
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.swing.undo
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.update
+                    <br>
+                    org.yawlfoundation.yawl.editor.ui.util
+                    <br>
+                </td><td valign="top" width="26%"><i>None</i></td>
+            </tr>
+        </table>
+        <table width="100%">
+            <tr>
+                <td><a name="NVcycles">
+                        <h2>Cycles</h2>
+                    </a></td><td align="right">
+    [<a href="#NVsummary">summary</a>]
+    [<a href="#NVjars">jars</a>]
+    [<a href="#NVcycles">cycles</a>]
+    [<a href="#NVexplanations">explanations</a>]
+    </td>
+            </tr>
+        </table>
+        <h3>alloy4.2_2015-02-22.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>automaton.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>commons-codec-1.9.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>commons-collections4-4.1.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>commons-lang-2.3.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>commons-lang3-3.3.2.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>commons-lang3-3.6.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>dom4j-1.6.1.jar has cycles with</h3>
+        <p>
+            jaxen-1.1.6.jar
+            <br>
+        </p>
+        <h3>forms_rt.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>imgscalr-lib-4.2.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>jakarta.activation-1.2.1.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>jaxen-1.1.6.jar has cycles with</h3>
+        <p>
+            dom4j-1.6.1.jar
+            <br>
+        </p>
+        <h3>jcalendar-1.4.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>jdom-2.0.5.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>jena-arq-3.1.1.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>jena-base-3.1.1.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>jena-core-3.1.1.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>jena-iri-3.1.1.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>jena-shaded-guava-3.1.1.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>jgoodies-common-1.8.1.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>jgoodies-looks-2.7.0.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>jgraph4yawl-4.5.1.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>l2fprod-common-all.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>log4j-1.2-api-2.17.1.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>log4j-api-2.17.1.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>log4j-core-2.17.1.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>log4j-slf4j-impl-2.17.1.jar has cycles with</h3>
+        <p>
+            slf4j-api-1.7.21.jar
+            <br>
+        </p>
+        <h3>macify-1.4.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>poi-3.15.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>poi-ooxml-3.15.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>poi-ooxml-schemas-3.15.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>prefuse.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>saxon9-dom.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>saxon9-s9api.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>saxon9.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>servlet-api.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>slf4j-api-1.7.21.jar has cycles with</h3>
+        <p>
+            log4j-slf4j-impl-2.17.1.jar
+            <br>
+        </p>
+        <h3>xercesImpl.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>xmlbeans-2.6.0.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>xmleditorkit.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>yawl-lib-4.5.1.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>YAWLEditor-analyser-4.5.1.jar has cycles with</h3>
+        <p>
+            <i>None</i>
+        </p>
+        <h3>YAWLEditor-core-4.5.1.jar has cycles with</h3>
+        <p>
+            YAWLEditor4.5.1.jar
+            <br>
+        </p>
+        <h3>YAWLEditor4.5.1.jar has cycles with</h3>
+        <p>
+            YAWLEditor-core-4.5.1.jar
+            <br>
+        </p>
+        <hr size="2">
+        <table width="100%">
+            <tr>
+                <td><a name="NVexplanations">
+                        <h2>Explanations</h2>
+                    </a></td><td align="right">
+    [<a href="#NVsummary">summary</a>]
+    [<a href="#NVjars">jars</a>]
+    [<a href="#NVcycles">cycles</a>]
+    [<a href="#NVexplanations">explanations</a>]
+    </td>
+            </tr>
+        </table>
+        <p>
+            The following explanations are for quick reference. More detailed information can be found in the <a href="http://www.kirkk.com/main/Main/JarAnalyzer">JarAnalyzer documentation</a>.
+        </p>
+        <h3>
+            <a name="EXclassnumber">Number of Classes</a>
+        </h3>
+        <p>The number of concrete and abstract classes (and interfaces) in the jar is an indicator of the extensibility of the jar.</p>
+        <h3>
+            <a name="EXpackagenumber">Number of Packages</a>
+        </h3>
+        <p>The number of packages in the jar.</p>
+        <h3>
+            <a name="EXafferent">Afferent Couplings</a>
+        </h3>
+        <p>The number of other jars that depend upon classes within the jar is an indicator of the jar's responsibility. </p>
+        <h3>
+            <a name="EXefferent">Efferent Couplings</a>
+        </h3>
+        <p>The number of other jars that the classes in the jar depend upon is an indicator of the jar's independence. </p>
+        <h3>
+            <a name="EXabstractness">Abstractness</a>
+        </h3>
+        <p>The ratio of the number of abstract classes (and interfaces) in the analyzed jar to the total number of classes in the analyzed jar. </p>
+        <p>The range for this metric is 0 to 1, with A=0 indicating a completely concrete jar and A=1 indicating a completely abstract jar. </p>
+        <h3>
+            <a name="EXinstability">Instability</a>
+        </h3>
+        <p>The ratio of efferent coupling (Ce) to total coupling (Ce / (Ce + Ca)). This metric is an indicator of the jar's resilience to change. </p>
+        <p>The range for this metric is 0 to 1, with I=0 indicating a completely stable jar and I=1 indicating a completely instable jar. </p>
+        <h3>
+            <a name="EXdistance">Distance</a>
+        </h3>
+        <p>The perpendicular distance of a jar from the idealized line A + I = 1. This metric is an indicator of the jar's balance between abstractness and stability. </p>
+        <p>A jar squarely on the main sequence is optimally balanced with respect to its abstractness and stability. Ideal jars are either completely abstract and stable (x=0, y=1) or completely concrete and instable (x=1, y=0). </p>
+        <p>The range for this metric is 0 to 1, with D=0 indicating a jar that is coincident with the main sequence and D=1 indicating a jar that is as far from the main sequence as possible. </p>
+        <h3>
+            <a name="EXunresolved">Unresolved Packages</a>
+        </h3>
+        <p>Packages not found in any of the jars analyzed. These can be filtered from output by specifying the packages to exlude in the Filter.properties file. Conversely, you can include jars containing these packages in the directory being analyzed.</p>
+        <p>These packages are excluded from all calculations and adding the jars containing these packages will result in modified metrics.</p>
+    </body>
+</html>

@@ -37,6 +37,9 @@ public class YAnalyserOptions {
     private boolean resetReductionRules;
     private boolean yawlReductionRules;
     private boolean resetShowObservations;
+    private boolean alloyOrJoinCycle;
+    private boolean alloyAllTasksReachable;
+    private boolean alloyCheckPendingOrJoinsOnEachOther;
 
 
     public static YAnalyserOptions newAllDisabledOptions() {
@@ -67,7 +70,7 @@ public class YAnalyserOptions {
     }
 
     public boolean hasSelection() {
-        return isResetAnalysis() || isWofAnalysis();
+        return isResetAnalysis() || isWofAnalysis() || isAlloyAnalysis();
     }
 
     public boolean isWofAnalysis() {
@@ -75,17 +78,27 @@ public class YAnalyserOptions {
     }
 
 
-    public boolean isWofStructural() { return wofStructural; }
+    public boolean isWofStructural() {
+        return wofStructural;
+    }
 
-    public void enableWofStructural(boolean enable) { wofStructural = enable; }
+    public void enableWofStructural(boolean enable) {
+        wofStructural = enable;
+    }
 
 
-    public boolean isWofBehavioural() { return wofBehavioural; }
+    public boolean isWofBehavioural() {
+        return wofBehavioural;
+    }
 
-    public void enableWofBehavioural(boolean enable) { wofBehavioural = enable; }
+    public void enableWofBehavioural(boolean enable) {
+        wofBehavioural = enable;
+    }
 
 
-    public boolean isWofExtendedCoverabiity() { return wofExtendedCoverabiity; }
+    public boolean isWofExtendedCoverabiity() {
+        return wofExtendedCoverabiity;
+    }
 
     public void enableWofExtendedCoverabiity(boolean enable) {
         wofExtendedCoverabiity = enable;
@@ -101,51 +114,107 @@ public class YAnalyserOptions {
 
     public boolean isResetAnalysis() {
         return isResetSoundness() || isResetWeakSoundness() || isResetCancellation() ||
-               isResetOrJoin() || isResetOrjoinCycle(); }
+                isResetOrJoin() || isResetOrjoinCycle();
+    }
 
 
+    public boolean isResetSoundness() {
+        return resetSoundness;
+    }
 
-    public boolean isResetSoundness() { return resetSoundness; }
-
-    public void enableResetSoundness(boolean enable) {resetSoundness = enable; }
-
-
-    public boolean isResetWeakSoundness() { return resetWeakSoundness; }
-
-    public void enableResetWeakSoundness(boolean enable) { resetWeakSoundness = enable; }
+    public void enableResetSoundness(boolean enable) {
+        resetSoundness = enable;
+    }
 
 
-    public boolean isResetCancellation() { return resetCancellation; }
+    public boolean isResetWeakSoundness() {
+        return resetWeakSoundness;
+    }
 
-    public void enableResetCancellation(boolean enable) { resetCancellation = enable; }
+    public void enableResetWeakSoundness(boolean enable) {
+        resetWeakSoundness = enable;
+    }
 
 
-    public boolean isResetOrJoin() { return resetOrJoin; }
+    public boolean isResetCancellation() {
+        return resetCancellation;
+    }
 
-    public void enableResetOrJoin(boolean enable) { resetOrJoin = enable; }
+    public void enableResetCancellation(boolean enable) {
+        resetCancellation = enable;
+    }
 
 
-    public boolean isResetShowObservations() { return resetShowObservations; }
+    public boolean isResetOrJoin() {
+        return resetOrJoin;
+    }
+
+    public void enableResetOrJoin(boolean enable) {
+        resetOrJoin = enable;
+    }
+
+
+    public boolean isResetShowObservations() {
+        return resetShowObservations;
+    }
 
     public void enableResetShowObservations(boolean enable) {
         resetShowObservations = enable;
     }
 
 
-    public boolean isResetOrjoinCycle() { return resetOrjoinCycle; }
+    public boolean isResetOrjoinCycle() {
+        return resetOrjoinCycle;
+    }
 
-    public void enableResetOrjoinCycle(boolean enable) { resetOrjoinCycle = enable; }
+    public void enableResetOrjoinCycle(boolean enable) {
+        resetOrjoinCycle = enable;
+    }
 
 
-    public boolean isResetReductionRules() { return resetReductionRules; }
+    public boolean isResetReductionRules() {
+        return resetReductionRules;
+    }
 
-    public void enableResetReductionRules(boolean enable) { resetReductionRules = enable; }
+    public void enableResetReductionRules(boolean enable) {
+        resetReductionRules = enable;
+    }
 
 
-    public boolean isYawlReductionRules() { return yawlReductionRules; }
+    public boolean isYawlReductionRules() {
+        return yawlReductionRules;
+    }
 
     public void enableYawlReductionRules(boolean enable) {
         yawlReductionRules = enable;
+    }
+
+    public boolean isAlloyAnalysis() {
+        return isAlloyOrJoinCycle() || areAlloyAllTasksReachable() || isAlloyCheckPendingOrJoinsOnEachOther();
+    }
+
+    public boolean isAlloyOrJoinCycle() {
+        return alloyOrJoinCycle;
+    }
+
+    public boolean areAlloyAllTasksReachable() {
+        return alloyAllTasksReachable;
+    }
+
+    public boolean isAlloyCheckPendingOrJoinsOnEachOther() {
+        return alloyCheckPendingOrJoinsOnEachOther;
+    }
+
+    public void enableAlloyOrJoinCycle(boolean enable) {
+        alloyOrJoinCycle = enable;
+    }
+
+    public void enableAlloyAllTasksReachable(boolean enable) {
+        alloyAllTasksReachable = enable;
+    }
+
+    public void enableAlloyCheckPendingOrJoinsOnEachOther(boolean enable) {
+        alloyCheckPendingOrJoinsOnEachOther = enable;
     }
 
 }

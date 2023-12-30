@@ -18,6 +18,7 @@
 
 package org.yawlfoundation.yawl.editor.ui.util;
 
+import org.apache.jena.base.Sys;
 import org.apache.logging.log4j.LogManager;
 import org.imgscalr.Scalr;
 

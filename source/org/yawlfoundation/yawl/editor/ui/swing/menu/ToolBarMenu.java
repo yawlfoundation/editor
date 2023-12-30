@@ -43,8 +43,7 @@ public class ToolBarMenu extends YToolBar {
 
     public AbstractButton getButtonWithAction(Action action) {
         for (Component c : getComponents()) {
-            if (c instanceof AbstractButton) {
-                AbstractButton button = (AbstractButton) c;
+            if (c instanceof AbstractButton button) {
                 if (button.getAction().equals(action)) {
                     return button;
                 }
@@ -77,6 +76,9 @@ public class ToolBarMenu extends YToolBar {
         addSeparator();
         add(new YAWLToolBarButton(new ValidateSpecificationAction()));
         add(new YAWLToolBarButton(new AnalyseSpecificationAction()));
+        add(new YAWLToolBarButton(new ConvertToAlloyAction()));
+        add(new YAWLToolBarButton(new AlloyRACCTestAction()));
+        add(new YAWLToolBarButton(new AlloyApplyMutationTestingAction()));
 
         addSeparator();
         add(new YAWLToolBarButton(new CreateNetAction()));
