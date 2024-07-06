@@ -36,7 +36,7 @@ public class PostUpdateTasks {
 
     // change this method to suit
     public boolean go() {
-        fixSetEnvBat();
+//        fixSetEnvBat();
         return cleanup();
     }
 

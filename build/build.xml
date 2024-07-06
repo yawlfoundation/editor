@@ -157,6 +157,7 @@
              classname="org.yawlfoundation.yawl.editor.ui.util.CheckSumTask">
         <classpath>
             <pathelement path="${classes.dir}"/>
+            <pathelement path="compile/production/editor"/>
             <pathelement path="${engine.lib.jar.path}"/>
         </classpath>
     </taskdef>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
 <release>
-  <version>5.0</version>
-  <build>805</build>
-  <timestamp>2022-12-20 09.21.46</timestamp>
+  <version>5.1</version>
+  <build>810</build>
+  <timestamp>2024-07-06 12.41.34</timestamp>
   <paths>
     <path id="host">https://raw.githubusercontent.com/</path>
     <path id="base">yawlfoundation/</path>
@@ -14,11 +14,11 @@
     <path id="D">editor/master/lib/plugins/views/</path>
   </paths>
   <files>
-    <file name="YAWLEditor5.0.jar" md5="0d94c88a6d703647af7d362be19bad07" size="2025946" timestamp="2022-12-20T09:21:46" path="B"/>
-    <file name="plugins/YAWLEditor-views-5.0.jar" md5="b4a1d42e59478c868cad6483448ddb0a" size="170703" timestamp="2022-12-20T09:21:46" path="B"/>
-    <file name="plugins/YAWLEditor-worklet-5.0.jar" md5="12a3990cfbe1f014788456a1a22074fe" size="227584" timestamp="2022-12-20T07:22:53" path="B"/>
-    <file name="plugins/YAWLEditor-decobar-5.0.jar" md5="cf533d1ffb46a1e259f056938e998f04" size="26250" timestamp="2022-12-20T07:22:53" path="B"/>
-    <file name="plugins/YAWLEditor-configuration-5.0.jar" md5="ed5c9a0b26247a728da8c2f06f45f9bb" size="163598" timestamp="2022-12-20T07:22:53" path="B"/>
+    <file name="YAWLEditor5.1.jar" md5="45ede5b518e99f062ecf0bd882e43dcf" size="2024991" timestamp="2024-07-06T12:18:49" path="B"/>
+    <file name="plugins/YAWLEditor-views-5.1.jar" md5="4aa81e9a0a52fdd02fe0422f7edf1559" size="170703" timestamp="2024-07-06T12:41:34" path="B"/>
+    <file name="plugins/YAWLEditor-worklet-5.1.jar" md5="83ee25442545937bbd0653398bee4c9d" size="227556" timestamp="2024-07-06T12:18:49" path="B"/>
+    <file name="plugins/YAWLEditor-decobar-5.1.jar" md5="c260d6c2618506e60f0b1dd50773f2e9" size="26222" timestamp="2024-07-06T12:18:49" path="B"/>
+    <file name="plugins/YAWLEditor-configuration-5.1.jar" md5="c4e4c1d08a4ad1958c4baf714e54e487" size="163570" timestamp="2024-07-06T12:18:49" path="B"/>
     <file name="lib/slf4j-api-1.7.21.jar" md5="c9be56284a92dcb2576679282eff80bf" size="41071" timestamp="2016-11-19T01:23:18" path="D"/>
     <file name="lib/xmlbeans-2.6.0.jar" md5="6591c08682d613194dacb01e95c78c2c" size="2730866" timestamp="2016-11-22T23:25:14" path="D"/>
     <file name="lib/jgoodies-common-1.8.1.jar" md5="7e6bc1cd169e4f78d9529af34a876f00" size="37807" timestamp="2015-08-13T13:38:33" path="A"/>
@@ -26,15 +26,13 @@
     <file name="lib/xmleditorkit.jar" md5="3d08ad29e38824929c5101bc61ce8816" size="72326" timestamp="2015-08-18T18:45:08" path="B"/>
     <file name="lib/saxon9-s9api.jar" md5="a6547f2d9f839978cf4c9c92ed01cf9f" size="127765" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/saxon9.jar" md5="cfb820253feef53ab606601b6435870c" size="5024396" timestamp="2015-08-13T13:38:33" path="C"/>
-    <file name="lib/YAWLEditor-core-5.0.jar" md5="0ba92d39ae4377ef2edc6d55bb20567f" size="180771" timestamp="2022-12-20T07:22:52" path="B"/>
-    <file name="lib/yawl-lib-5.0.jar" md5="f66f7e75cf2142016ae9888585e4c089" size="3003319" timestamp="2022-12-20T08:48:17" path="B"/>
-    <file name="lib/log4j-api-2.17.1.jar" md5="7aae1e012aef802cbc2077f5267ac002" size="301873" timestamp="2022-02-07T13:22:09" path="C"/>
+    <file name="lib/yawl-lib-5.1.jar" md5="8880207d0dd0be03c5cec43127669e5d" size="3011190" timestamp="2024-07-06T12:18:41" path="B"/>
+    <file name="lib/YAWLEditor-core-5.1.jar" md5="762d5a5a7fa7353e0210c207be4df544" size="180771" timestamp="2024-07-06T12:18:48" path="B"/>
     <file name="lib/jena-arq-3.1.1.jar" md5="fa2a8f225a45042cad3abd00d9e07e01" size="2858398" timestamp="2016-11-18T23:00:42" path="D"/>
+    <file name="lib/jgraph4yawl-5.1.jar" md5="290464b77c237e227df26eb26636336f" size="240967" timestamp="2024-07-06T12:18:48" path="B"/>
     <file name="lib/poi-3.15.jar" md5="180cd5f6f178cbedd00316d44a42a171" size="2579580" timestamp="2016-11-22T23:13:16" path="D"/>
-    <file name="lib/jgraph4yawl-5.0.jar" md5="b56dac5040c1e14effe29b5f4e16adf3" size="240967" timestamp="2022-12-20T07:22:52" path="B"/>
     <file name="lib/log4j-1.2-api-2.17.1.jar" md5="937a348ff730ec6ed54ef28576808ad3" size="208005" timestamp="2022-02-07T13:22:09" path="C"/>
     <file name="lib/automaton.jar" md5="c51399ee94634d6590e1ddb6ae253238" size="176313" timestamp="2015-08-13T13:38:33" path="A"/>
-    <file name="lib/log4j-core-2.17.1.jar" md5="e9a107027346d3bbe9cbe61c5de692f0" size="1790452" timestamp="2022-02-07T13:22:09" path="C"/>
     <file name="lib/log4j-slf4j-impl-2.17.1.jar" md5="edbf8a5cea0bc0cd0ada9c3c2cb78d50" size="24276" timestamp="2022-02-07T13:22:09" path="C"/>
     <file name="lib/poi-ooxml-schemas-3.15.jar" md5="327a013becf0b826c134c42b252e7766" size="5859007" timestamp="2016-11-22T23:32:37" path="D"/>
     <file name="lib/commons-lang3-3.3.2.jar" md5="3128bf75a2549ebe38663401191bacab" size="412739" timestamp="2016-11-22T23:28:29" path="D"/>
@@ -43,6 +41,7 @@
     <file name="lib/jgoodies-looks-2.7.0.jar" md5="f6f746ee51c49a2d91e30bdfc8043443" size="400791" timestamp="2015-08-13T13:38:33" path="A"/>
     <file name="lib/commons-codec-1.9.jar" md5="75615356605c8128013da9e3ac62a249" size="263965" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/commons-collections4-4.1.jar" md5="45af6a8e5b51d5945de6c7411e290bd1" size="751238" timestamp="2016-11-22T23:28:29" path="D"/>
+    <file name="lib/log4j-api-2.18.0.jar" md5="38d29af13312d716f8d1d8fd79736f05" size="315115" timestamp="2024-07-06T12:18:41" path="C"/>
     <file name="lib/jena-iri-3.1.1.jar" md5="04005b4ccffbbb061ef83c672cc29d83" size="137898" timestamp="2016-11-05T04:59:52" path="D"/>
     <file name="lib/poi-ooxml-3.15.jar" md5="6b95361cab76a22e60109010f22c6628" size="1338241" timestamp="2016-11-22T23:13:16" path="D"/>
     <file name="lib/jena-base-3.1.1.jar" md5="e1fdc413d8a4b95c1fabaae74daff866" size="220793" timestamp="2016-11-05T05:00:11" path="D"/>
@@ -51,11 +50,12 @@
     <file name="lib/macify-1.4.jar" md5="0e25f516b113033b2da4591161f1e117" size="11684" timestamp="2015-08-13T13:38:33" path="A"/>
     <file name="lib/jaxen-1.1.6.jar" md5="a140517286b56eea981e188dcc3a13f6" size="231882" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/l2fprod-common-all.jar" md5="1be2480cc16abf1d26f2c8d8fe63e270" size="457525" timestamp="2015-08-13T13:38:33" path="A"/>
-    <file name="lib/YAWLEditor-analyser-5.0.jar" md5="5d3878f94e8273f597dd1a59039e35ac" size="81903" timestamp="2022-12-20T07:22:52" path="B"/>
     <file name="lib/servlet-api.jar" md5="8b0753b8fa779bc80c3f8db57b8b6372" size="88224" timestamp="2015-08-13T13:38:33" path="A"/>
     <file name="lib/jena-core-3.1.1.jar" md5="1e47d26db90640d83d6756f6b6960318" size="1409446" timestamp="2016-11-18T23:00:42" path="D"/>
+    <file name="lib/YAWLEditor-analyser-5.1.jar" md5="3f2db47d620d54a6d54538caf834681f" size="81903" timestamp="2024-07-06T12:18:48" path="B"/>
     <file name="lib/imgscalr-lib-4.2.jar" md5="9e6ea4327c2cb18de908255e3cb1cca6" size="226824" timestamp="2015-08-13T13:38:33" path="A"/>
     <file name="lib/jdom-2.0.5.jar" md5="302db3c65c38d3c10ef31bca76bd76b4" size="299658" timestamp="2015-08-13T13:38:33" path="C"/>
+    <file name="lib/log4j-core-2.18.0.jar" md5="8869945da3b66916542b9fdd2e2605f2" size="1861441" timestamp="2024-07-06T12:18:41" path="C"/>
     <file name="lib/jena-shaded-guava-3.1.1.jar" md5="0b700f6991d598339e1507948916b635" size="2363671" timestamp="2016-11-05T04:59:30" path="D"/>
     <file name="lib/forms_rt.jar" md5="51287d246b3465464180499e40f1dfee" size="328197" timestamp="2015-08-13T13:38:33" path="A"/>
     <file name="lib/commons-lang-2.3.jar" md5="dcdcbb47176603907c9f79a1349193eb" size="245274" timestamp="2015-08-13T13:38:33" path="C"/>
