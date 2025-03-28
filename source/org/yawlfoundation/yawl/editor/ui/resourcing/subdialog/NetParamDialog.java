@@ -42,18 +42,21 @@ import java.util.Comparator;
  */
 public class NetParamDialog extends JDialog implements ActionListener {
 
-    private DynParam _selected;
-    private JComboBox _varCombo;
     private JRadioButton _rbParticipant;
     private JRadioButton _rbRole;
     private JButton _btnOK;
 
+    protected JComboBox<String> _varCombo;
+    protected DynParam _selected;
+    protected Dimension _size = new Dimension(270, 200);
+
+    
     public NetParamDialog(ResourceDialog owner) {
         super(owner);
         setTitle("Add Net Parameter");
         initialise();
         add(getContent(owner.getTask()));
-        setPreferredSize(new Dimension(250, 200));
+        setPreferredSize(_size);
         pack();
         setLocationRelativeTo(YAWLEditor.getInstance());
     }
@@ -98,13 +101,15 @@ public class NetParamDialog extends JDialog implements ActionListener {
         return _selected;
     }
 
+    protected void setDimension(Dimension size) { _size = size; }
+
     private void initialise() {
         setModal(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
     }
 
-    private JPanel getContent(YAtomicTask task) {
+    protected JPanel getContent(YAtomicTask task) {
         JPanel content = new JPanel(new BorderLayout());
         content.setBorder(new EmptyBorder(5,5,5,5));
         content.add(createComboPanel(task), BorderLayout.NORTH);
@@ -115,14 +120,14 @@ public class NetParamDialog extends JDialog implements ActionListener {
     }
 
 
-    private JPanel createComboPanel(YAtomicTask task) {
+    protected JPanel createComboPanel(YAtomicTask task) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(new EmptyBorder(5, 5, 10, 5));
-        _varCombo = new JComboBox();
+        _varCombo = new JComboBox<>();
         _varCombo.setPreferredSize(new Dimension(175, 25));
         addItems(task);
         _varCombo.setEnabled(_varCombo.getItemCount() > 0);
-        panel.add(new JLabel("Variable: "), BorderLayout.WEST);
+        panel.add(new JLabel("Parameter: "), BorderLayout.WEST);
         panel.add(_varCombo, BorderLayout.CENTER);
         panel.setSize(410, 25);
         return panel;
@@ -143,7 +148,7 @@ public class NetParamDialog extends JDialog implements ActionListener {
     }
 
 
-    private JPanel createButtonBar() {
+    protected JPanel createButtonBar() {
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(10, 0, 10, 0));
         panel.add(ButtonUtil.createButton("Cancel", this));
@@ -184,7 +189,7 @@ public class NetParamDialog extends JDialog implements ActionListener {
     }
 
 
-    private void enableOK() {
+    protected void enableOK() {
         _btnOK.setEnabled(_varCombo.getItemCount() > 0);
     }
 

@@ -18,7 +18,10 @@
 
 package org.yawlfoundation.yawl.editor.ui.resourcing.panel;
 
+import org.yawlfoundation.yawl.editor.core.resourcing.DynParam;
 import org.yawlfoundation.yawl.editor.ui.properties.dialog.component.MiniToolBar;
+import org.yawlfoundation.yawl.editor.ui.resourcing.ResourceDialog;
+import org.yawlfoundation.yawl.editor.ui.resourcing.subdialog.NetParamSelectorDialog;
 import org.yawlfoundation.yawl.util.StringUtil;
 
 import javax.swing.*;
@@ -39,9 +42,11 @@ import java.util.Vector;
 public class FilterListPanel extends JPanel implements ActionListener {
 
     private JTextArea txtExpression;
+    private ResourceDialog _owner;
 
 
-    public FilterListPanel(String title, Vector<String> items) {
+    public FilterListPanel(String title, Vector<String> items, ResourceDialog owner) {
+        _owner = owner;
         setLayout(new BorderLayout());
         setBorder(new TitledBorder(title));
         setContent(items);
@@ -68,11 +73,25 @@ public class FilterListPanel extends JPanel implements ActionListener {
         else if (action.equals("Or")) {
             if (! endsWithOperator(txtExpression.getText())) txtExpression.append(" | ");
         }
+        else if (action.equals("Param")) {
+            insertNetParameter();
+        }
         else if (action.equals("Clear")) {
             txtExpression.setText("");
         }
         else if (action.equals("Undo")) {
             txtExpression.setText(undo(txtExpression.getText()));
+        }
+    }
+
+
+    private void insertNetParameter() {
+        NetParamSelectorDialog dialog = new NetParamSelectorDialog(_owner);
+        dialog.setVisible(true);
+        DynParam selection = dialog.getSelection();
+        if (selection != null) {
+            String wrappedParameter = "${" + selection.getName() + "}";
+            txtExpression.append(wrappedParameter);
         }
     }
 
@@ -130,6 +149,7 @@ public class FilterListPanel extends JPanel implements ActionListener {
         MiniToolBar toolBar = new MiniToolBar(this);
         toolBar.addButton("and", "And", " And ");
         toolBar.addButton("or", "Or", " Or ");
+        toolBar.addButton("param", "Param", "Add parameter");
         toolBar.addButton("undo", "Undo", " Undo ");
         toolBar.addButton("cross", "Clear", " Clear ");
         return toolBar;

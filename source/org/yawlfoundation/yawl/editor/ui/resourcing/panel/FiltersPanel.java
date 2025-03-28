@@ -178,7 +178,7 @@ public class FiltersPanel extends JPanel implements ActionListener {
                 }
                 value = filter.getParamValue("Position");
                 if (!StringUtil.isNullOrEmpty(value)) {
-                    if (text.length() > 0) text += "\n";
+                    if (!text.isEmpty()) text += "\n";
                     text += "Position=" + value;
                 }
                 updateTextArea(txtOrgStructure, text);

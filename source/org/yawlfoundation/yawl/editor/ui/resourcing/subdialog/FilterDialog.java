@@ -100,7 +100,7 @@ public class FilterDialog extends JDialog implements ActionListener {
     private JPanel createListPanel() {
         if (isCapabilityFilter()) {
             _leftPanel = new FilterListPanel("Capabilities",
-                   getResourceNames(getCapabilities()));
+                   getResourceNames(getCapabilities()), getOwner());
             _leftPanel.setExpression(_selected.getParamValue("Capability"));
             _leftPanel.setSize(190, 250);
             return _leftPanel;
@@ -108,11 +108,12 @@ public class FilterDialog extends JDialog implements ActionListener {
         else {
             JPanel panel = new JPanel(new GridLayout(1,2));
             _leftPanel = new FilterListPanel("Org Groups",
-                   getResourceNames(getOrgGroups()));
+                   getResourceNames(getOrgGroups()), getOwner());
             _leftPanel.setExpression(_selected.getParamValue("OrgGroup"));
             panel.add(_leftPanel);
 
-            _rightPanel = new FilterListPanel("Positions", getResourceNames(getPositions()));
+            _rightPanel = new FilterListPanel("Positions",
+                    getResourceNames(getPositions()), getOwner());
             _rightPanel.setExpression(_selected.getParamValue("Position"));
             panel.add(_rightPanel);
             panel.setSize(370, 250);
@@ -120,6 +121,10 @@ public class FilterDialog extends JDialog implements ActionListener {
         }
     }
 
+
+    public ResourceDialog getOwner() {
+        return (ResourceDialog) super.getOwner();
+    }
 
     private JPanel createButtonBar(ResourceDialog owner) {
         JPanel panel = new JPanel();
