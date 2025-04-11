@@ -91,6 +91,9 @@ public class FilterListPanel extends JPanel implements ActionListener {
         DynParam selection = dialog.getSelection();
         if (selection != null) {
             String wrappedParameter = "${" + selection.getName() + "}";
+            if (!canAppendItem()) {
+                txtExpression.append(" & ");
+            }
             txtExpression.append(wrappedParameter);
         }
     }

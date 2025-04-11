@@ -25,10 +25,7 @@ import org.yawlfoundation.yawl.schema.XSDType;
 import org.yawlfoundation.yawl.schema.internal.YInternalType;
 import org.yawlfoundation.yawl.util.JDOMUtil;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Michael Adams
@@ -115,6 +112,33 @@ public class DataUtil {
             }
         }
         return null;
+    }
+
+
+    public Map<String, String> getSimpleTypeBases() {
+        if (_schemaDoc == null) {
+            return Collections.emptyMap();
+        }
+        Map<String, String> nameToBaseMap = new HashMap<>();
+        Element root = _schemaDoc.getRootElement();
+        Namespace ns = root.getNamespace();
+        String prefix = ns.getPrefix() + ":";
+        for (Element child : root.getChildren()) {
+            String elemName = child.getName();
+            if ("simpleType".equals(elemName)) {
+                String name = child.getAttributeValue("name");
+                if (name != null) {
+                    Element restriction = child.getChild("restriction", ns);
+                    if (restriction != null) {
+                        String base = restriction.getAttributeValue("base");
+                        if (base != null) {
+                            nameToBaseMap.put(name, base.replace(prefix, ""));
+                        }
+                    }
+                }
+            }
+        }
+        return nameToBaseMap;
     }
 
 

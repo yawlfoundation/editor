@@ -1650,6 +1650,11 @@ public class YDataHandler {
     }
 
 
+    public Map<String, String> getSimpleTypeBases() throws YDataHandlerException  {
+        return getUtils().getSimpleTypeBases();
+    }
+
+
     /**
      * @return the namespace of the current data schema
      * @throws YDataHandlerException if no specification is currently loaded

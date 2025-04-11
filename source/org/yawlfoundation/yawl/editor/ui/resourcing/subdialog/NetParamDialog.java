@@ -18,9 +18,12 @@
 
 package org.yawlfoundation.yawl.editor.ui.resourcing.subdialog;
 
+import org.yawlfoundation.yawl.editor.core.data.YDataHandler;
+import org.yawlfoundation.yawl.editor.core.data.YDataHandlerException;
 import org.yawlfoundation.yawl.editor.core.resourcing.DynParam;
 import org.yawlfoundation.yawl.editor.ui.YAWLEditor;
 import org.yawlfoundation.yawl.editor.ui.resourcing.ResourceDialog;
+import org.yawlfoundation.yawl.editor.ui.specification.SpecificationModel;
 import org.yawlfoundation.yawl.editor.ui.util.ButtonUtil;
 import org.yawlfoundation.yawl.elements.YAtomicTask;
 import org.yawlfoundation.yawl.elements.data.YVariable;
@@ -35,6 +38,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Map;
 
 /**
  * @author Michael Adams
@@ -180,11 +184,28 @@ public class NetParamDialog extends JDialog implements ActionListener {
             }
         });
 
-        // add all those of 'string' type to the combo box
+        // add all those of string (or sub-) type to the combo box (incl. enumerations)
+        Map<String, String> simpleTypeBases = getSimpleTypeBases();
         for (YVariable variable : variables) {
-            if (variable.getDataTypeName().equals(XSDType.getString(XSDType.STRING))) {
+            String dataType = simpleTypeBases.get(variable.getDataTypeName());
+            if (dataType == null) {
+                dataType = variable.getDataTypeName();
+            }
+            if (XSDType.isStringType(dataType)) {
                 _varCombo.addItem(variable.getPreferredName());
             }
+        }
+    }
+
+
+    private Map<String, String> getSimpleTypeBases() {
+        YDataHandler handler = SpecificationModel.getHandler().getDataHandler();
+        try {
+            return handler.getSimpleTypeBases();
+        }
+        catch (YDataHandlerException e) {
+            // ignore;
+            return Collections.emptyMap();
         }
     }
 
