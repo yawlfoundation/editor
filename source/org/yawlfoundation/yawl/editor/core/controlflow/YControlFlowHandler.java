@@ -600,7 +600,10 @@ public class YControlFlowHandler {
 
     private void setMultiInstance(YTask task) {
         if (task != null) {
-            task.setUpMultipleInstanceAttributes("1", "2", "2",
+
+            // max and threshold initially set to 'infinity' (internally Integer.MAX_VALUE)
+            task.setUpMultipleInstanceAttributes("1", "2147483647",
+                    "2147483647",
                     YMultiInstanceAttributes.CREATION_MODE_STATIC);
         }
     }

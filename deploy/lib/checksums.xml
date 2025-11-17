@@ -2,8 +2,8 @@
 <!-- This file is used for auto-updating. PLEASE DO NOT MODIFY OR DELETE -->
 <release>
   <version>5.2</version>
-  <build>821</build>
-  <timestamp>2025-04-12 08.54.43</timestamp>
+  <build>824</build>
+  <timestamp>2025-11-17 15.56.35</timestamp>
   <paths>
     <path id="host">https://raw.githubusercontent.com/</path>
     <path id="base">yawlfoundation/</path>
@@ -14,8 +14,8 @@
     <path id="D">editor/master/lib/plugins/views/</path>
   </paths>
   <files>
-    <file name="YAWLEditor5.2.jar" md5="95c1dcf86ecf6beacbdbb3f69fd1d245" size="2029185" timestamp="2025-04-12T08:54:43" path="B"/>
-    <file name="plugins/YAWLEditor-views-5.2.jar" md5="5219c71c0c1c1d64e9b914ace2bebbdc" size="170703" timestamp="2025-04-12T08:54:43" path="B"/>
+    <file name="YAWLEditor5.2.jar" md5="c4b7ee796bdf2254994a97b393d067b1" size="2029177" timestamp="2025-10-22T14:29:07" path="B"/>
+    <file name="plugins/YAWLEditor-views-5.2.jar" md5="93268fc7a5e0ccd608b3420bcc86639e" size="170703" timestamp="2025-11-17T15:56:35" path="B"/>
     <file name="plugins/YAWLEditor-worklet-5.2.jar" md5="c49dfc0ac1e29fde73cf6c24b81d09e8" size="227550" timestamp="2025-03-28T09:17:10" path="B"/>
     <file name="plugins/YAWLEditor-decobar-5.2.jar" md5="9de5baba140fbd0a9e6834abcced7733" size="26216" timestamp="2025-03-28T09:17:10" path="B"/>
     <file name="plugins/YAWLEditor-configuration-5.2.jar" md5="a7e39e55515a5630ff9d742504361009" size="163564" timestamp="2025-03-28T09:17:10" path="B"/>
@@ -27,8 +27,8 @@
     <file name="lib/saxon9-s9api.jar" md5="a6547f2d9f839978cf4c9c92ed01cf9f" size="127765" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/saxon9.jar" md5="cfb820253feef53ab606601b6435870c" size="5024396" timestamp="2015-08-13T13:38:33" path="C"/>
     <file name="lib/jena-arq-3.1.1.jar" md5="fa2a8f225a45042cad3abd00d9e07e01" size="2858398" timestamp="2016-11-18T23:00:42" path="D"/>
-    <file name="lib/yawl-lib-5.2.jar" md5="3d02be8a89103553d4b16a59e5f3594f" size="3053236" timestamp="2025-04-12T08:54:34" path="B"/>
-    <file name="lib/YAWLEditor-core-5.2.jar" md5="f45493d57d06e9128483b5b230075f34" size="181425" timestamp="2025-04-12T08:54:42" path="B"/>
+    <file name="lib/yawl-lib-5.2.jar" md5="205bcee38464bdf69912d99056978368" size="3055629" timestamp="2025-11-17T15:56:26" path="B"/>
+    <file name="lib/YAWLEditor-core-5.2.jar" md5="a6b96b0937449150bdef9eee907053ee" size="181431" timestamp="2025-10-22T14:35:43" path="B"/>
     <file name="lib/poi-3.15.jar" md5="180cd5f6f178cbedd00316d44a42a171" size="2579580" timestamp="2016-11-22T23:13:16" path="D"/>
     <file name="lib/jgraph4yawl-5.2.jar" md5="147e22bfc08505802eb12f8ddefa595d" size="240967" timestamp="2025-03-28T09:17:09" path="B"/>
     <file name="lib/log4j-1.2-api-2.17.1.jar" md5="937a348ff730ec6ed54ef28576808ad3" size="208005" timestamp="2022-02-07T13:22:09" path="C"/>
