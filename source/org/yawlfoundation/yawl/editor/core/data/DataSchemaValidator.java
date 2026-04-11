@@ -23,7 +23,6 @@ import org.yawlfoundation.yawl.resourcing.util.DataSchemaBuilder;
 import org.yawlfoundation.yawl.schema.SchemaHandler;
 import org.yawlfoundation.yawl.schema.internal.YInternalType;
 import org.yawlfoundation.yawl.util.StringUtil;
-import org.yawlfoundation.yawl.util.XNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +35,6 @@ import java.util.Set;
  */
 public class DataSchemaValidator {
 
-    private static final String INTERNAL_TYPE_SCHEMA = getInternalTypeSchemas();
     private SchemaHandler schemaHandler;
 
     public enum DataTypeComplexity { Unknown, Simple, Complex }
@@ -46,13 +44,13 @@ public class DataSchemaValidator {
 
     public DataSchemaValidator(String schema) { setDataTypeSchema(schema); }
 
-
+    // from Data Def Dialog
     public List<String> validateSchema(String schema) {
         if (StringUtil.isNullOrEmpty(schema)) return Collections.emptyList();
         SchemaHandler validator = new SchemaHandler(schema);
         validator.compileSchema();
         List<String> messages = validator.getMessages();
-        if (messages.isEmpty()) messages.addAll(checkReservedTypeNames(validator));
+ //       if (messages.isEmpty()) messages.addAll(checkReservedTypeNames(validator));
         return messages;
     }
 
@@ -150,24 +148,5 @@ public class DataSchemaValidator {
         return lines + ":" + (pos - lastLineAt - 1);
     }
 
-
-    private static String getInternalTypeSchemas() {
-        XNode root = new XNode("schema");
-        for (YInternalType type : YInternalType.values()) {
-            root.addContent(type.getSchemaString(), "xs", "http://www.w3.org/2001/XMLSchema");
-        }
-        return root.toString();
-    }
-
-
-    private String appendInternalTypeSchemas(String schemaStr) {
-        if (! schemaStr.endsWith("</xs:schema>")) {
-            return schemaStr;
-        }
-        int insertPoint = schemaStr.indexOf('\n');
-        String header = schemaStr.substring(0, insertPoint);
-        String schema = schemaStr.substring(insertPoint + 1);
-        return header + StringUtil.unwrap(INTERNAL_TYPE_SCHEMA) + '\n' + schema;
-    }
 
 }
