@@ -76,6 +76,7 @@
               value="jgraph4yawl-${version}.jar" />
     <property name="bounce.jar.name"
               value="xmleditorkit.jar" />
+    <property name="mf.build.number" value="${build.number}"/>
 
 	<!--
 		Define all Editor code dependencies. The Editor makes use of many
@@ -93,7 +94,6 @@
     <property name="goodies-looks" value="jgoodies-looks-2.7.0.jar"/>
     <property name="l2fprod" value="l2fprod-common-all.jar"/>
     <property name="macify" value="macify-1.4.jar"/>
-    <property name="servlet" value="servlet-api.jar"/>
 	<property name="junit" value="junit-4.4.jar"/>
 
     <!-- Libraries for views plugin-->
@@ -111,28 +111,39 @@
     <property name="poi-ooxml-schemas" value="poi-ooxml-schemas-3.15.jar"/>
     <property name="xmlbeans" value="xmlbeans-2.6.0.jar"/>
 
+    <!-- these are declared early to avoid IDE complaints;
+    values are overwritten dynamically as required -->
+<!--    <property name="manifest.cp" value="" />-->
+<!--    <property name="config.manifest.cp" value="" />-->
+<!--    <property name="decobar.manifest.cp" value="" />-->
+<!--    <property name="worklet.manifest.cp" value="" />-->
+
 
     <fileset id="editorOnlyDeps" dir="${library.dir}/standard"
-             includes="${automaton} ${forms} ${imgscalr} ${jcal} ${activation}
-			           ${goodies-common} ${goodies-looks} ${l2fprod}
-			           ${macify} ${servlet}" />
+             includes="*.jar" excludes="jgraphx.jar" />
 
 	<fileset id="junitDeps" file="${tools.dir}/${junit}" />
 
     <fileset id="viewsPluginDeps" dir="${library.dir}/plugins/views"
-             includes="${commons-lang3} ${commons-collections4}
-                       ${jena-core} ${jena-arq} ${jena-iri} ${jena-base}
-                       ${jena-shaded-guava} ${prefuse} ${slf4j-api}
-                       ${poi} ${poi-ooxml} ${poi-ooxml-schemas} ${xmlbeans}"/>
-
-
+             includes="*.jar"/>
+    
     <!--
         This set ensures only those engine libraries required are included
     -->
-	<fileset id="neededEngineDeps" dir="${engine.lib.path}"
-	    	 includes="commons-codec*.jar commons-lang*.jar dom4j*.jar jaxen*.jar
-	    	           jdom*.jar log4j*.jar saxon9*.jar xercesImpl.jar"
-	    	 excludes="saxon9-jdom.jar" />
+<!--	<fileset id="neededEngineDeps" dir="${engine.lib.path}"-->
+<!--	    	 includes="commons-codec*.jar commons-lang*.jar dom4j*.jar jaxen*.jar-->
+<!--	    	           jdom*.jar log4j*.jar saxon9*.jar xercesImpl.jar"-->
+<!--	    	 excludes="saxon9-jdom.jar" />-->
+
+<!--    <path id="required.engine.libs">-->
+<!--        <fileset dir="${engine.lib.path}/commons"-->
+<!--                 includes="commons-codec*.jar commons-lang*.jar"/>-->
+<!--        <fileset dir="${engine.lib.path}/saxon" includes="*.jar"/>-->
+<!--        <fileset dir="${engine.lib.path}/logging" includes="*.jar"/>-->
+<!--        <fileset dir="${engine.lib.path}/misc"-->
+<!--                 includes="jdom*.jar jaxen*.jar xercesImpl.jar jakarta.servlet-api-*.jar"/>-->
+
+<!--    </path>-->
 
 	<!--
 		Check YAWL Services dependencies are where we expect they are
@@ -162,15 +173,12 @@
         </classpath>
     </taskdef>
 
-    <scriptdef name="adjust.build.version" language="javascript">
-        <attribute name="last.build.version" />
-        <attribute name="property" />
-        <![CDATA[
-               var initVal = attributes.get("last.build.version");
-               var finalVal = parseInt(initVal) + 1;
-               project.setProperty(attributes.get("property"), finalVal);
-        ]]>
-    </scriptdef>
+    <target name="adjust.build.version">
+        <propertyfile file="build.properties">
+            <entry key="build.version" type="int" operation="+" value="1"/>
+        </propertyfile>
+    </target>
+
 
 	<!-- ==================MAIN EDITOR BUILD TARGETS======================= -->
 
@@ -203,8 +211,7 @@
         </copy>
         <copy file="${build.dir}/log4j2.xml" toDir="${output.dir}/lib/"/>
 
-        <adjust.build.version last.build.version="${build.number}"
-                              property="this.build.number"/>
+        <antcall target="adjust.build.version"/>
 
         <property name="manifestFile" value="${root.class.name}.mf" />
     	<manifestclasspath property="manifest.cp"
@@ -217,9 +224,9 @@
             <attribute name="Main-Class" value="${root.launcher}" />
         	<attribute name="Class-Path" value="${manifest.cp}" />
             <attribute name="SplashScreen-Image"
-                       value="${package.dir}/ui/resources/yawlSplashScreen5.png" />
+                       value="${package.dir}/ui/resources/yawlSplashScreen6.png" />
             <attribute name="Implementation-Version"
-                       value="${editor.release.version}.${this.build.number}" />
+                       value="${editor.release.version}.${mf.build.number}" />
         </manifest>
 
         <jar jarfile="${output.dir}/${ui.jar.name}"
@@ -542,7 +549,7 @@
     	<copy todir="${output.dir}/lib">
             <fileset refid="viewsPluginDeps" />
     		<fileset refid="editorOnlyDeps" />
-    		<fileset refid="neededEngineDeps" />
+<!--    		<path refid="required.engine.libs" />-->
     		<fileset file="${engine.lib.jar.path}" />
     	</copy>
         <copy file="${engine.lib.jar.path}" todir="${deploy.dir}/lib"/>
@@ -616,7 +623,7 @@
 
         		<pathelement location="../${engine.lib.jar.path}" />
         		<fileset refid="editorOnlyDeps" />
-        		<fileset refid="neededEngineDeps" />
+<!--        		<path refid="required.engine.libs" />-->
         	</classpath>
 	        <doctitle>
 	            <![CDATA[<h1>YAWLEditor ${editor.release.number} API</h1>]]>
@@ -649,10 +656,11 @@
             <fileset dir="${classes.dir}" includes="**/*"/>
         </delete>
         <delete dir="${javadoc.dir}" />
+        <delete dir="${output.dir}"/>
     </target>
 
 
-    <target name="initialize">
+    <target name="initialize" depends="clean">
         <mkdir dir="${output.dir}" />
         <mkdir dir="${output.dir}/lib" />
         <mkdir dir="${deploy.dir}" />
@@ -663,10 +671,11 @@
 	<!--
 		Compile all UI and core code
 	-->
-    <target name="compile" depends="clean, copyLibs">
+    <target name="compile" depends="initialize, copyLibs">
         <echo message="Compiling: ${root.source.file.path}" />
         <!--<record name="${log.file}" action="start"/>-->
         <javac debug="yes"
+               release="21"
                srcdir="${source.dir}"
                destdir="${classes.dir}"
                verbose="true">
@@ -680,7 +689,7 @@
             <classpath>
             	<pathelement location="${engine.lib.jar.path}" />
         		<fileset refid="editorOnlyDeps" />
-            	<fileset refid="neededEngineDeps" />
+<!--            	<path refid="required.engine.libs" />-->
                 <fileset refid="viewsPluginDeps"/>
             </classpath>
         </javac>
@@ -704,7 +713,7 @@
             <classpath>
             	<pathelement location="../${engine.lib.jar.path}" />
         		<fileset refid="editorOnlyDeps" />
-            	<fileset refid="neededEngineDeps" />
+<!--            	<path refid="required.engine.libs" />-->
             </classpath>
         </javac>
     </target>
@@ -726,7 +735,7 @@
             <classpath>
             	<pathelement location="../${engine.lib.jar.path}" />
         		<fileset refid="editorOnlyDeps" />
-            	<fileset refid="neededEngineDeps" />
+<!--            	<path refid="required.engine.libs" />-->
             </classpath>
         </javac>
     </target>
@@ -777,7 +786,7 @@
                 <fileset refid="junitDeps" />
             	<fileset refid="editorOnlyDeps" />
                 <pathelement location="../${engine.lib.jar.path}" />
-            	<fileset refid="neededEngineDeps" />
+<!--            	<path refid="required.engine.libs" />-->
            </classpath>
         </junit>
     </target>
