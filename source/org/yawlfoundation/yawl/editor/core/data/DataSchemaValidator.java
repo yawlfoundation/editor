@@ -50,7 +50,7 @@ public class DataSchemaValidator {
         SchemaHandler validator = new SchemaHandler(schema);
         validator.compileSchema();
         List<String> messages = validator.getMessages();
- //       if (messages.isEmpty()) messages.addAll(checkReservedTypeNames(validator));
+ //      // if (messages.isEmpty()) messages.addAll(checkReservedTypeNames(validator));
         return messages;
     }
 
