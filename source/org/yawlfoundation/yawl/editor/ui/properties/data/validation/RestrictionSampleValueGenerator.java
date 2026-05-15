@@ -26,13 +26,13 @@ public class RestrictionSampleValueGenerator {
     public String generateValue() {
         if (_restriction.hasEnumeration()) {
             List<String> enums = _restriction.getEnumeration();
-            return enums.get(enums.size() -1);
+            return enums.getLast();
         }
         if (_restriction.hasMinInclusive()) {
-            return _restriction.getMinInclusive();
+            return generateMinInclusiveValue();
         }
         if (_restriction.hasMaxInclusive()) {
-            return _restriction.getMaxInclusive();
+            return generateMaxInclusiveValue();
         }
         if (_restriction.hasMinExclusive()) {
             return generateMinExclusiveValue(_restriction.getMinExclusive());
@@ -63,7 +63,7 @@ public class RestrictionSampleValueGenerator {
 
 
     private String generateMinExclusiveValue(String value) {
-        String type = _restriction.getBaseType();
+        String type = getBaseTypeUnprefixed();
         if (XSDType.isIntegralType(type)) {
             int intValue = StringUtil.strToInt(value, 0);
             return String.valueOf(++intValue);
@@ -124,7 +124,7 @@ public class RestrictionSampleValueGenerator {
 
 
     private String generateMaxExclusiveValue(String value) {
-        String type = _restriction.getBaseType();
+        String type = getBaseTypeUnprefixed();
         if (XSDType.isIntegralType(type)) {
             int intValue = StringUtil.strToInt(value, 0);
             return String.valueOf(--intValue);
@@ -183,6 +183,36 @@ public class RestrictionSampleValueGenerator {
     }
 
 
+    private String generateMinInclusiveValue() {
+        String midValue = generateInclusiveMidpointValue();
+        return midValue != null ? midValue : _restriction.getMinExclusive();
+    }
+
+
+    private String generateMaxInclusiveValue() {
+        String midValue = generateInclusiveMidpointValue();
+        return midValue != null ? midValue : _restriction.getMaxExclusive();
+    }
+
+
+    private String generateInclusiveMidpointValue() {
+        String type = getBaseTypeUnprefixed();
+        String min = _restriction.getMinInclusive();
+        String max = _restriction.getMaxInclusive();
+        if (XSDType.isIntegralType(type)) {
+            int intMinValue = StringUtil.strToInt(min, 0);
+            int intMaxValue = StringUtil.strToInt(max, 0);
+            return String.valueOf((intMinValue + intMaxValue) / 2);
+        }
+        if (XSDType.isFloatType(type)) {
+            double doubleMinValue = StringUtil.strToDouble(min, 0);
+            double doubleMaxValue = StringUtil.strToDouble(max, 0);
+            return String.valueOf((doubleMinValue + doubleMaxValue) / 2);
+        }
+        return null;
+    }
+
+
     private String generateTotalDigitsValue(int totalDigits) {
         char[] chars = new char[totalDigits];
         for (int i=0; i< totalDigits; i++) chars[i] = '1';
@@ -196,11 +226,11 @@ public class RestrictionSampleValueGenerator {
 
 
     private String generateLengthValue(int length) {
-        String type = _restriction.getBaseType();
+        String type = getBaseTypeUnprefixed();
         if (XSDType.isListType(type)) {
             StringBuilder s = new StringBuilder();
             for (int i=0; i< length; i++) {
-                if (s.length() > 0) s.append(" ");
+                if (!s.isEmpty()) s.append(" ");
                 s.append("name");
             }
             return s.toString();
@@ -249,6 +279,15 @@ public class RestrictionSampleValueGenerator {
         int dif = max - min;
         float number = random.nextFloat();              // 0 <= number < 1
         return min + Math.round(number * dif);
+    }
+
+
+    private String getBaseTypeUnprefixed() {
+        String baseType = _restriction.getBaseType();
+        if (baseType.indexOf(':') > -1)
+            return baseType.split(":")[1];
+        else
+            return baseType;
     }
 
 }
